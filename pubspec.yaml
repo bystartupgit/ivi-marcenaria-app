@@ -52,6 +52,9 @@ flutter:
     - family: Gotham Light
       fonts:
         - asset: assets/fonts/Gotham-Light.otf
+    - family: Gotham Regular
+      fonts:
+        - asset: assets/fonts/Gotham-Book.otf
     - family: LoginIcons
       fonts:
         - asset: assets/login/icons/LoginIcons.ttf

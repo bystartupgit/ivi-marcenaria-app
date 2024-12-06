@@ -21,6 +21,7 @@ class PasswordTextFieldWidget extends StatelessWidget {
       style: TextStyle(color: ColorTheme.gray,fontSize: 16,fontFamily: FamilyTheme.regular),
       onChanged: onChanged,
       obscureText: true,
+      obscuringCharacter: "*",
       keyboardType: keyboard,
       decoration: InputDecoration(labelText: title,
           suffixIcon: Icon(icon,size: 15,color: const Color.fromRGBO(59, 59, 59, 0.5)),

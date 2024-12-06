@@ -12,5 +12,6 @@ class ColorTheme {
 
 
   static Color gray = const Color(0xFFA09F9F);
+  static Color orange = const Color(0xFFECB157);
 
 }

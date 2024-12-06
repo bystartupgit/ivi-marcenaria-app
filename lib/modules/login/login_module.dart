@@ -1,5 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
 
+import 'presentation/login_page.dart';
+
 class LoginModule extends Module {
 
   @override
@@ -7,6 +9,6 @@ class LoginModule extends Module {
 
   @override
   void routes(r) {
-    r.module(Modular.initialRoute, module: LoginModule());
+    r.child(Modular.initialRoute, child: (context) => const LoginPage());
   }
 }

@@ -1,13 +1,16 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/modules/login/domain/mappers/router_mapper.dart';
 import 'package:marcenaria/modules/login/register/presentation/register_page.dart';
+import 'package:marcenaria/modules/login/register/presentation/stores/register_store.dart';
 
 import 'presentation/login_page.dart';
 
 class LoginModule extends Module {
 
   @override
-  void binds(i) {}
+  void binds(i) {
+    i.add(() => RegisterStore());
+  }
 
   @override
   void routes(r) {

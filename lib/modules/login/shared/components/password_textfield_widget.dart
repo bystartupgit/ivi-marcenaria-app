@@ -28,6 +28,8 @@ class PasswordTextFieldWidget extends StatelessWidget {
           floatingLabelBehavior: FloatingLabelBehavior.always,
           enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: ColorTheme.gray)),
           focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: ColorTheme.gray)),
+          hintText: "**********",
+          hintStyle: TextStyle(fontFamily: FamilyTheme.regular,fontSize: 16,color: ColorTheme.description),
           labelStyle: TextStyle(fontFamily: FamilyTheme.regular,fontSize: 14,color: ColorTheme.title)),
     );
   }

@@ -32,7 +32,7 @@ class _RegisterPageState extends State<RegisterPage> {
         backgroundColor: ColorTheme.background,
         appBar: AppBar(backgroundColor: ColorTheme.background),
         body: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
+          padding: const EdgeInsets.symmetric(horizontal: 15.0),
           child: Column(
               mainAxisSize: MainAxisSize.min,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -61,9 +61,9 @@ class _RegisterPageState extends State<RegisterPage> {
                 Expanded(
                   child: PageView(
                       controller: store.controller,
-                      children: const [
+                      children: [
                         CustomerPage(),
-                        EmployeePage()
+                        EmployeePage(store: store)
                       ]
                   ),
                 )

@@ -25,6 +25,22 @@ mixin _$RegisterStore on RegisterStoreBase, Store {
     });
   }
 
+  late final _$jobsAtom =
+      Atom(name: 'RegisterStoreBase.jobs', context: context);
+
+  @override
+  ObservableList<String> get jobs {
+    _$jobsAtom.reportRead();
+    return super.jobs;
+  }
+
+  @override
+  set jobs(ObservableList<String> value) {
+    _$jobsAtom.reportWrite(value, super.jobs, () {
+      super.jobs = value;
+    });
+  }
+
   late final _$RegisterStoreBaseActionController =
       ActionController(name: 'RegisterStoreBase', context: context);
 
@@ -40,9 +56,32 @@ mixin _$RegisterStore on RegisterStoreBase, Store {
   }
 
   @override
+  dynamic addJob(String value) {
+    final _$actionInfo = _$RegisterStoreBaseActionController.startAction(
+        name: 'RegisterStoreBase.addJob');
+    try {
+      return super.addJob(value);
+    } finally {
+      _$RegisterStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic removeJob(String value) {
+    final _$actionInfo = _$RegisterStoreBaseActionController.startAction(
+        name: 'RegisterStoreBase.removeJob');
+    try {
+      return super.removeJob(value);
+    } finally {
+      _$RegisterStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-index: ${index}
+index: ${index},
+jobs: ${jobs}
     ''';
   }
 }

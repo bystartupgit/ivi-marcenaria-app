@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/core/themes/color_theme.dart';
 import 'package:marcenaria/modules/login/domain/mappers/router_mapper.dart';
-import 'package:marcenaria/modules/login/presentation/components/login_icons.dart';
-import 'package:marcenaria/modules/login/presentation/components/email_textfield_widget.dart';
+import 'package:marcenaria/modules/login/shared/components/login_icons.dart';
+import 'package:marcenaria/modules/login/shared/components/email_textfield_widget.dart';
 import 'package:marcenaria/modules/login/presentation/components/login_navigation_text_widget.dart';
-import 'package:marcenaria/modules/login/presentation/components/password_textfield_widget.dart';
+import 'package:marcenaria/modules/login/shared/components/password_textfield_widget.dart';
 
 class LoginCardWidget extends StatelessWidget {
 

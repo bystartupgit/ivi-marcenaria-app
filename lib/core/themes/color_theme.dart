@@ -10,6 +10,7 @@ class ColorTheme {
 
   static Color background = const Color(0xFFD9D9D9);
   static Color title = const Color(0xFF3B3B3B);
+  static Color subtitle = const Color(0xFF000000);
   static Color description = const Color(0xFFA09F9F);
 
 

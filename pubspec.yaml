@@ -39,6 +39,7 @@ flutter:
   assets:
     - assets/fonts/
     - assets/login/icons/
+    - assets/login/svgs/
 
   fonts:
     - family: Gotham Black

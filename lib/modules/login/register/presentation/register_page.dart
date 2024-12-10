@@ -6,11 +6,9 @@ import 'package:marcenaria/core/themes/color_theme.dart';
 import 'package:marcenaria/core/themes/family_theme.dart';
 import 'package:marcenaria/modules/login/register/presentation/components/customer_page.dart';
 import 'package:marcenaria/modules/login/register/presentation/components/employee_page.dart';
-import 'package:marcenaria/modules/login/register/presentation/components/register_card_widget.dart';
 import 'package:marcenaria/modules/login/register/presentation/stores/register_store.dart';
 import 'package:marcenaria/modules/login/shared/components/login_title_widget.dart';
 
-import 'components/register_button_widget.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});

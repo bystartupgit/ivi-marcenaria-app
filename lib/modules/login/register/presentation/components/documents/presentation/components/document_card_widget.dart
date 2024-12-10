@@ -24,7 +24,7 @@ class DocumentCardWidget extends StatelessWidget {
         padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 10),
         decoration: BoxDecoration(
             boxShadow: [BoxShadow(color: ColorTheme.gray, blurRadius: 4.0, offset: const Offset(0.0, 5.0))],
-            color: const Color(0xFFECECEC),
+            color: ColorTheme.lightGray,
             borderRadius: BorderRadius.circular(10.0)),
         child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,

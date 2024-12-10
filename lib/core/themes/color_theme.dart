@@ -16,6 +16,7 @@ class ColorTheme {
 
   static Color black = const Color(0xFF545253);
   static Color gray = const Color(0xFFA09F9F);
+  static Color lightGray = const Color(0xFFECECEC);
   static Color orange = const Color(0xFFECB157);
 
 }

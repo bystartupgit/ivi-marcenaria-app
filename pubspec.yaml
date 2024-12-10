@@ -57,6 +57,9 @@ flutter:
     - family: Gotham Regular
       fonts:
         - asset: assets/fonts/Gotham-Book.otf
+    - family: Khula Regular
+      fonts:
+        - asset: assets/fonts/Khula-Regular.ttf
     - family: LoginIcons
       fonts:
         - asset: assets/login/icons/LoginIcons.ttf

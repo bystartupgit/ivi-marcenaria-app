@@ -10,4 +10,6 @@ class FamilyTheme {
   static String light = "Gotham Light";
   static String black = "Gotham Black";
 
+  static String khula = "Khula Regular";
+
 }

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/core/themes/color_theme.dart';
+import 'package:marcenaria/modules/login/domain/mappers/router_mapper.dart';
 import 'package:marcenaria/modules/login/register/presentation/components/contract/presentation/components/contract_check_widget.dart';
 
 import 'contract_button_widget.dart';
@@ -36,7 +38,7 @@ class ContractViewWidget extends StatelessWidget {
               const SizedBox(height: 30.0),
               ContractCheckWidget(value: false, onChanged: (value){}),
               const SizedBox(height: 20.0),
-              ContractButtonWidget(onPress: () {})
+              ContractButtonWidget(onPress: () => Modular.to.pushNamed(RouterMapper.successIntern))
             ]),
       ),
     );

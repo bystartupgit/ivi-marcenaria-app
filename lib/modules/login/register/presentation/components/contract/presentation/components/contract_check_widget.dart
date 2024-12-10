@@ -23,6 +23,8 @@ class ContractCheckWidget extends StatelessWidget {
             width: 20,
             height: 20,
             child: Checkbox(value: value, onChanged: onChanged,
+                side: const BorderSide(color: Color(0xFF898989)),
+                fillColor: const WidgetStatePropertyAll<Color>(Color(0xFFD9D9D9)),
                 shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5)))),
           const SizedBox(width: 5.0),
           Text(title,style: TextStyle(fontFamily: FamilyTheme.khula,

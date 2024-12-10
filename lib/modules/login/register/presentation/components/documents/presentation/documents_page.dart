@@ -52,7 +52,7 @@ class _DocumentsPageState extends State<DocumentsPage> {
                     image: "assets/login/svgs/imagens.svg",
                     title: titleOffice, subtitle: subtitleOffice),
                 const Expanded(child: SizedBox()),
-                RegisterButtonWidget(onPress: () => Modular.to.pushNamed(RouterMapper.contract)),
+                RegisterButtonWidget(onPress: () => Modular.to.pushNamed(RouterMapper.contractIntern)),
                 SizedBox(height: MediaQuery.of(context).padding.bottom + 40.0)
               ]),
         ),

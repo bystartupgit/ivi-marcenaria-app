@@ -41,6 +41,7 @@ flutter:
     - assets/login/icons/
     - assets/login/svgs/
     - assets/login/images/
+    - assets/home/icons/
 
   fonts:
     - family: Gotham Black
@@ -58,9 +59,15 @@ flutter:
     - family: Gotham Regular
       fonts:
         - asset: assets/fonts/Gotham-Book.otf
+    - family: Gotham Regular Italic
+      fonts:
+        - asset: assets/fonts/Gotham-BookItalic.otf
     - family: Khula Regular
       fonts:
         - asset: assets/fonts/Khula-Regular.ttf
     - family: LoginIcons
       fonts:
         - asset: assets/login/icons/LoginIcons.ttf
+    - family: NavigationIcons
+      fonts:
+        - asset: assets/home/icons/NavigationIcons.ttf

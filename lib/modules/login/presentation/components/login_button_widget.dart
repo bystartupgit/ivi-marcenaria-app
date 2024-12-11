@@ -13,7 +13,7 @@ class LoginButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(onPressed: () {},
+    return ElevatedButton(onPressed: onPress,
         style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
             backgroundColor: ColorTheme.orange),

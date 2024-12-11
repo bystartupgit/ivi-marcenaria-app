@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:marcenaria/core/data/router_global_mapper.dart';
 import 'package:marcenaria/core/themes/color_theme.dart';
 import 'package:marcenaria/modules/login/presentation/components/login_button_widget.dart';
 import 'package:marcenaria/modules/login/presentation/components/login_card_widget.dart';
@@ -32,7 +34,7 @@ class _LoginPageState extends State<LoginPage> {
                 const SizedBox(height: 25.0),
                 const LoginCardWidget(),
                 const SizedBox(height: 40.0),
-                LoginButtonWidget(onPress: () {})
+                LoginButtonWidget(onPress: () => Modular.to.navigate(RouterGlobalMapper.employee))
               ]
           )),
     );

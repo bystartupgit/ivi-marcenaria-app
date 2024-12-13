@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:marcenaria/core/themes/color_theme.dart';
 import 'package:marcenaria/modules/employee/navigation/components/navigation_icons.dart';
 import 'package:marcenaria/modules/employee/navigation/stores/navigation_store.dart';
 
@@ -23,6 +24,7 @@ class _NavigationPageState extends State<NavigationPage> {
     return Observer(
         builder: (_) => Scaffold(
             resizeToAvoidBottomInset: false,
+            appBar: AppBar(backgroundColor: ColorTheme.background),
             bottomNavigationBar: BottomNavigationBar(
                 type: BottomNavigationBarType.fixed,
                 items: [

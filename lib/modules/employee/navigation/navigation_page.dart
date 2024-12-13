@@ -4,6 +4,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/core/themes/color_theme.dart';
 import 'package:marcenaria/modules/employee/navigation/components/navigation_icons.dart';
 import 'package:marcenaria/modules/employee/navigation/stores/navigation_store.dart';
+import 'package:marcenaria/modules/employee/orders/presentation/order_page.dart';
 
 import 'components/navigation_button_widget.dart';
 
@@ -57,7 +58,7 @@ class _NavigationPageState extends State<NavigationPage> {
                       children: [
                         Container(color: Colors.orange),
                         Container(color: Colors.yellow),
-                        Container(color: Colors.green),
+                        const OrderPage(),
                         Container(color: Colors.blue)
                       ])),
                 ],

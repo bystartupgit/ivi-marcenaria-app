@@ -34,20 +34,18 @@ class OrderFilterWidget extends StatelessWidget {
             onChanged: onChanged,
             decoration: InputDecoration(
                 filled: true,
-                fillColor: ColorTheme.gray.withOpacity(0.25),
+                fillColor: ColorTheme.search,
                 border: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5.0),
-                    borderSide: BorderSide(color: ColorTheme.gray.withOpacity(0.25))) ,
+                    borderSide: BorderSide(color: ColorTheme.search)) ,
                 enabledBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5.0),
-                    borderSide: BorderSide(color: ColorTheme.gray.withOpacity(0.25))),
+                    borderSide: BorderSide(color: ColorTheme.search)),
                 focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(5.0),
-                    borderSide: BorderSide(color: ColorTheme.gray.withOpacity(0.25))),
+                    borderSide: BorderSide(color: ColorTheme.search)),
                 hintText: hint,
-                hintStyle: TextStyle(fontFamily: FamilyTheme.regular,fontSize: 16,color: ColorTheme.description))),
-        )
-
+                hintStyle: TextStyle(fontFamily: FamilyTheme.regular,fontSize: 16,color: ColorTheme.description))),)
             ]));
   }
 }

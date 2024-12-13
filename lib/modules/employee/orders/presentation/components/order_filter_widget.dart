@@ -18,6 +18,7 @@ class OrderFilterWidget extends StatelessWidget {
         width: MediaQuery.of(context).size.width,
         padding: const EdgeInsets.all(10.0),
         decoration: BoxDecoration(
+            boxShadow: [BoxShadow(color: ColorTheme.gray, blurRadius: 4.0, offset: const Offset(0.0, 5.0))],
             color: ColorTheme.lightGray,
             borderRadius: BorderRadius.circular(10.0)),
         child: Column(

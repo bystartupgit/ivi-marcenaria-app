@@ -27,7 +27,19 @@ class _OrderPageState extends State<OrderPage> {
             children: [
 
               OrderFilterWidget(onChanged: (value) {}),
-              OrderSlideWidget(store: store)
+              const SizedBox(height: 20),
+              OrderSlideWidget(store: store),
+              const SizedBox(height: 20),
+              Expanded(
+                child: PageView(
+                    controller: store.controller,
+                    children: [
+                      Container(color: Colors.orange),
+                      Container(color: Colors.black)
+                    ]
+                ),
+              )
+
 
 
             ]),

@@ -16,7 +16,7 @@ class OrderSlideWidget extends StatelessWidget {
     return SizedBox(
       height: 22,
       child: CustomSlidingSegmentedControl<int>(customSegmentSettings: CustomSegmentSettings(),
-        fixedWidth: MediaQuery.of(context).size.width * 0.3,
+        isStretch: true,
         thumbDecoration: BoxDecoration(
             boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.3), blurRadius: 4.0, offset: const Offset(0.0, 4.0))],
             borderRadius: BorderRadius.circular(30.0),color: const Color(0xFFFFFFFF)),

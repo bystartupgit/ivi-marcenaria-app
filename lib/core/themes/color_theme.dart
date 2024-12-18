@@ -15,7 +15,7 @@ class ColorTheme {
   static Color search = const Color(0xFFd9d9d9);
   static Color inactivate = const Color(0xFF9D9D9D);
 
-
+  static Color pureBlack = const Color(0xFF000000);
   static Color black = const Color(0xFF545253);
   static Color gray = const Color(0xFFA09F9F);
   static Color lightGray = const Color(0xFFECECEC);

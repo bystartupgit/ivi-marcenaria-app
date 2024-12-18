@@ -19,10 +19,11 @@ class OrderCardWidget extends StatelessWidget {
                 flex: 1,
                 child: Container(
                     decoration: const BoxDecoration(
-                    color: Colors.green,
+                      image: DecorationImage(image: AssetImage("assets/covers/cover_1.png"),fit: BoxFit.cover),
                     borderRadius: BorderRadius.only(
                         topRight: Radius.circular(10.0),
-                        bottomRight: Radius.circular(10.0)))),
+                        bottomRight: Radius.circular(10.0))),
+                    child: Image.asset("assets/covers/cover_1.png")),
               ),
               Expanded(
                   flex: 2,

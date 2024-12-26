@@ -36,7 +36,7 @@ class _OrderPageState extends State<OrderPage> {
                     controller: store.controller,
                     children: [
                       OrderListWidget(orders: store.orders),
-                      Container(color: Colors.black)
+                      OrderListWidget(orders: store.orders)
                     ]
                 ),
               )

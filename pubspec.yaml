@@ -20,6 +20,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   carousel_slider: ^5.0.0
   dots_indicator: ^3.0.0
+  another_stepper: ^1.2.2
   custom_sliding_segmented_control: ^1.8.4
 
 dev_dependencies:
@@ -63,6 +64,9 @@ flutter:
     - family: Gotham Regular Italic
       fonts:
         - asset: assets/fonts/Gotham-BookItalic.otf
+    - family: Gotham Medium Italic
+      fonts:
+        - asset: assets/fonts/Gotham-MediumItalic.otf
     - family: Khula Regular
       fonts:
         - asset: assets/fonts/Khula-Regular.ttf

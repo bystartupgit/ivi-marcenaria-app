@@ -23,9 +23,7 @@ class OrderListWidget extends StatelessWidget {
         Expanded(
           child: ListView.builder(
               itemCount: 1,
-              itemBuilder: (context,index) => OrderCardWidget()),
-        ),
-      ],
-    );
+              itemBuilder: (context,index) => const OrderCardWidget())),
+      ]);
   }
 }

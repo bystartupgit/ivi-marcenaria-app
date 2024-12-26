@@ -13,4 +13,12 @@ extension Type on OrderStatus {
     OrderStatus.completed => "Concluído"
   };
 
+  int get index => switch(this) {
+    OrderStatus.requested => 0,
+    OrderStatus.interested => 1,
+    OrderStatus.start => 2,
+    OrderStatus.production => 3,
+    OrderStatus.completed => 4
+  };
+
 }

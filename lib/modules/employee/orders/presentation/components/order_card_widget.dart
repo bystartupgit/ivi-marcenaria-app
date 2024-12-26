@@ -9,6 +9,8 @@ class OrderCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+        height: MediaQuery.of(context).size.height * 0.15,
+        width: MediaQuery.of(context).size.width * 0.2,
         decoration: BoxDecoration(
             boxShadow: [BoxShadow(color: ColorTheme.gray, blurRadius: 4.0, offset: const Offset(0.0, 5.0))],
             color: const Color(0xFFECECEC),
@@ -18,32 +20,27 @@ class OrderCardWidget extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: Container(
+                    width: MediaQuery.of(context).size.width * 0.2,
                     decoration: const BoxDecoration(
                       image: DecorationImage(image: AssetImage("assets/covers/cover_1.png"),fit: BoxFit.cover),
-                    borderRadius: BorderRadius.only(
-                        topRight: Radius.circular(10.0),
-                        bottomRight: Radius.circular(10.0))),
-                    child: Image.asset("assets/covers/cover_1.png")),
-              ),
+                    borderRadius: BorderRadius.all(Radius.circular(10.0))))),
               Expanded(
                   flex: 2,
                   child: Container(
                       padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 10),
-                      decoration: BoxDecoration(
-                          color: Colors.yellow,
+                      decoration: const BoxDecoration(
                           borderRadius: BorderRadius.only(
                               topRight: Radius.circular(10.0),
                               bottomRight: Radius.circular(10.0))
                       ),
                       child: Column(
-                        spacing: 10.0,
+                        spacing: MediaQuery.of(context).size.height * 0.012,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text("Titulo da Serviço",
                               maxLines: 2, style: TextStyle(
                                   fontFamily: FamilyTheme.medium,
                                   color: Colors.black, fontSize: 16)),
-                          const SizedBox(height: 5.0),
                           const EnvironmentTextWidget(environments: []),
                           Text("Orçamento nº", style: TextStyle(
                               fontFamily: FamilyTheme.regular, color: ColorTheme.pureBlack, fontSize: 10)),

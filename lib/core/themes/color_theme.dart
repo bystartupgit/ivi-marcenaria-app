@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 
 class ColorTheme {
 
-
   static Color background = const Color(0xFFD9D9D9);
   static Color title = const Color(0xFF3B3B3B);
   static Color subtitle = const Color(0xFF000000);
@@ -25,6 +24,7 @@ class ColorTheme {
   static Color orange = const Color(0xFFECB157);
   static Color darkYellow = const Color(0xFFECB157);
   static Color green = const Color(0xFF03CB3B);
+  static Color red = const Color(0xFFFF0000);
 
 
 }

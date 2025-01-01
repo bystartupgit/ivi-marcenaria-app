@@ -15,6 +15,6 @@ class DetailsSuportButtonWidget extends StatelessWidget {
         style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
             backgroundColor: ColorTheme.orange,elevation: 3),
-        child: Text(title,style: TextStyle(fontSize: 12,fontFamily: FamilyTheme.regular, color: Colors.white )));
+        child: Text(title,style: TextStyle(fontSize: 12,fontFamily: FamilyTheme.medium, color: Colors.white )));
   }
 }

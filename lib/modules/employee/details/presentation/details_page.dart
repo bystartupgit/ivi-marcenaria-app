@@ -6,6 +6,7 @@ import 'package:marcenaria/modules/employee/details/presentation/components/deta
 import 'package:marcenaria/modules/employee/details/presentation/components/indicator_step_widget.dart';
 
 import 'components/details_back_button_widget.dart';
+import 'components/details_progress_action_widget.dart';
 
 class DetailsPage extends StatefulWidget {
   const DetailsPage({super.key});
@@ -30,6 +31,7 @@ class _DetailsPageState extends State<DetailsPage> {
               children: [
                 DetailsCardWidget(),
                 IndicatorStepWidget(current: OrderStatus.start),
+                DetailsProgressActionWidget(action: () {}, cancel: () {}, title: "Iniciar Produção"),
                 if(OrderStatus.completed == OrderStatus.completed) DetailsHistoricButtonWidget()
               ]),
         ));

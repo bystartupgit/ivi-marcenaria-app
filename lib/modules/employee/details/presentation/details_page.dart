@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:marcenaria/core/data/enums/order_status_enum.dart';
 import 'package:marcenaria/core/themes/color_theme.dart';
 import 'package:marcenaria/modules/employee/details/presentation/components/details_card_widget.dart';
+import 'package:marcenaria/modules/employee/details/presentation/components/details_contract_widget.dart';
 import 'package:marcenaria/modules/employee/details/presentation/components/details_historic_button_widget.dart';
 import 'package:marcenaria/modules/employee/details/presentation/components/indicator_step_widget.dart';
 
@@ -29,10 +30,11 @@ class _DetailsPageState extends State<DetailsPage> {
               spacing: 20.0,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                DetailsCardWidget(),
-                IndicatorStepWidget(current: OrderStatus.start),
+                const DetailsCardWidget(),
+                const DetailsContractWidget(),
+                const IndicatorStepWidget(current: OrderStatus.start),
                 DetailsProgressActionWidget(action: () {}, cancel: () {}, title: "Iniciar Produção"),
-                if(OrderStatus.completed == OrderStatus.completed) DetailsHistoricButtonWidget()
+                if(OrderStatus.completed == OrderStatus.completed) const DetailsHistoricButtonWidget()
               ]),
         ));
   }

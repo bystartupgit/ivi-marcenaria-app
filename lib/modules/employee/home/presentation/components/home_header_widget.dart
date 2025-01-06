@@ -15,8 +15,8 @@ class HomeHeaderWidget extends StatelessWidget {
     return RichText(
         text: TextSpan(
         children: <TextSpan>[
-          TextSpan(text: name, style: TextStyle(color: ColorTheme.pureBlack,fontSize: 18,fontFamily: FamilyTheme.black)),
-          TextSpan(text: title, style: TextStyle(color: ColorTheme.pureBlack,fontSize: 18,fontFamily: FamilyTheme.regular)),
+          TextSpan(text: "Olá $name, \n", style: TextStyle(color: ColorTheme.pureBlack,fontSize: 18,fontFamily: FamilyTheme.black)),
+          TextSpan(text: title, style: TextStyle(color: ColorTheme.pureBlack,fontSize: 14,fontFamily: FamilyTheme.regular)),
         ]));
   }
 }

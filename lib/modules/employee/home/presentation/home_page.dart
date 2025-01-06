@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:marcenaria/core/themes/color_theme.dart';
+import 'package:marcenaria/modules/employee/home/presentation/components/home_carrousel_widget.dart';
 import 'package:marcenaria/modules/employee/home/presentation/components/home_header_widget.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,11 +15,17 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: ColorTheme.background,
-      body: const SingleChildScrollView(
-          child: Column(
-            children: [
-              HomeHeaderWidget(name: "[Nome prestador]")
-            ],
+      body: SingleChildScrollView(
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: const Column(
+              spacing: 20.0,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                HomeHeaderWidget(name: "[Nome prestador]"),
+                HomeCarrouselWidget()
+              ],
+            ),
           )),
     );
   }

@@ -30,7 +30,9 @@ class HomeCarrouselItemWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(title,style: TextStyle(fontFamily: FamilyTheme.medium, color: Colors.black, fontSize: 14)),
-                        Text(description,style: TextStyle(fontFamily: FamilyTheme.regular, color: Colors.black, fontSize: 9)),
+                        Text(description,
+                            textAlign: TextAlign.left,
+                            style: TextStyle(fontFamily: FamilyTheme.regular, color: Colors.black, fontSize: 9)),
                       ])),
             ),
             Expanded(

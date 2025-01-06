@@ -17,7 +17,6 @@ class DetailsDownloadContractButtonWidget extends StatelessWidget {
             backgroundColor: ColorTheme.orange,elevation: 3),
         child: Row(
           children: [
-
             Text(title,style: TextStyle(fontSize: 14,fontFamily: FamilyTheme.regular, color: Colors.white )),
           ],
         ));

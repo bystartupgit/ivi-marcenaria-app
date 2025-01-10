@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:marcenaria/core/data/router_global_mapper.dart';
 import 'package:marcenaria/core/themes/color_theme.dart';
 import 'package:marcenaria/modules/employee/domain/mappers/home_title_mapper.dart';
+import 'package:marcenaria/modules/employee/domain/mappers/router_mapper.dart';
 import 'package:marcenaria/modules/employee/navigation/components/drawer_icons.dart';
 import 'package:marcenaria/modules/employee/navigation/components/navigation_drawer_option_widget.dart';
+
 
 class NavigationDrawerWidget extends StatelessWidget {
   const NavigationDrawerWidget({super.key});
@@ -29,7 +33,8 @@ class NavigationDrawerWidget extends StatelessWidget {
             NavigationDrawerOptionWidget(icon: DrawerIcons.calculator, onPressed: () {}, title: HomeTitleMapper.orcamentos),
             NavigationDrawerOptionWidget(icon: DrawerIcons.document, onPressed: () {}, title: HomeTitleMapper.orders),
             Divider(color: Colors.black.withValues(alpha: 0.1)),
-            NavigationDrawerOptionWidget(icon: DrawerIcons.user, onPressed: () {}, title: HomeTitleMapper.profile),
+            NavigationDrawerOptionWidget(icon: DrawerIcons.user,
+                onPressed: () => Modular.to.pushNamed(RouterMapper.profileIntern), title: HomeTitleMapper.profile),
             NavigationDrawerOptionWidget(icon: DrawerIcons.comment, onPressed: () {}, title: HomeTitleMapper.messages),
             const Expanded(child: SizedBox(height: 10.0)),
             NavigationDrawerOptionWidget(icon: DrawerIcons.exit, onPressed: () {}, title: HomeTitleMapper.exit),

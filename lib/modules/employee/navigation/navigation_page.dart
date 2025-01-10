@@ -30,7 +30,7 @@ class _NavigationPageState extends State<NavigationPage> {
         builder: (_) => Scaffold(
             key: _scaffoldKey,
             resizeToAvoidBottomInset: false,
-            endDrawer: NavigationDrawerWidget(),
+            endDrawer: const NavigationDrawerWidget(),
             appBar: AppBar(backgroundColor: ColorTheme.background, 
                 actions: [
                   IconButton(onPressed: () => _scaffoldKey.currentState?.openEndDrawer(),

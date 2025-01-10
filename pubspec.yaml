@@ -46,6 +46,7 @@ flutter:
     - assets/home/icons/
     - assets/covers/
     - assets/onboarding/
+    - assets/profile/
 
   fonts:
     - family: Gotham Black
@@ -81,3 +82,6 @@ flutter:
     - family: DrawerIcons
       fonts:
         - asset: assets/home/icons/DrawerIcons.ttf
+    - family: ProfileIcons
+      fonts:
+        - asset: assets/profile/ProfileIcons.ttf

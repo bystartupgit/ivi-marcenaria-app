@@ -43,13 +43,14 @@ class HomeCardWidget extends StatelessWidget {
                                       width: 150,
                                       child: Text("Cadeira Ponto de Descanso",
                                           maxLines: 2, style: TextStyle(
+                                              height: 1.0,
                                               fontFamily: FamilyTheme.medium,
                                               color: Colors.black, fontSize: 16)),
                                     ),
                                     Text("Orçamento nº 4321",
                                         maxLines: 2, style: TextStyle(
                                             fontFamily: FamilyTheme.regular,
-                                            color: Colors.black, fontSize: 10)),
+                                            color: Colors.black, fontSize: 12)),
                                   ]),
                                   Icon(Icons.arrow_forward_ios_rounded,color: ColorTheme.black, size: 20)
                             ],

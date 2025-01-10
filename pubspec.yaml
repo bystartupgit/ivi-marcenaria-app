@@ -20,6 +20,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   carousel_slider: ^5.0.0
   dots_indicator: ^3.0.0
+  animated_text_kit: ^4.2.2
   another_stepper: ^1.2.2
   custom_sliding_segmented_control: ^1.8.4
 
@@ -44,6 +45,7 @@ flutter:
     - assets/login/images/
     - assets/home/icons/
     - assets/covers/
+    - assets/onboarding/
 
   fonts:
     - family: Gotham Black
@@ -76,3 +78,6 @@ flutter:
     - family: NavigationIcons
       fonts:
         - asset: assets/home/icons/NavigationIcons.ttf
+    - family: DrawerIcons
+      fonts:
+        - asset: assets/home/icons/DrawerIcons.ttf

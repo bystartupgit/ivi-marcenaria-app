@@ -6,6 +6,9 @@ import 'package:marcenaria/modules/employee/home/presentation/components/home_ca
 import 'package:marcenaria/modules/employee/home/presentation/components/home_header_widget.dart';
 import 'package:marcenaria/modules/employee/home/presentation/stores/home_store.dart';
 
+import '../../domain/mappers/home_title_mapper.dart';
+import 'components/home_list_card_widget.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -26,11 +29,15 @@ class _HomePageState extends State<HomePage> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 20.0),
               child: Column(
-                spacing: 20.0,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  HomeHeaderWidget(name: "[Nome prestador]"),
-                  HomeCarrouselWidget(onChanged: store.setIndex, index: store.index)
+                  const HomeHeaderWidget(name: "[Nome prestador]"),
+                  const SizedBox(height: 10.0),
+                  HomeCarrouselWidget(onChanged: store.setIndex, index: store.index),
+                  HomeListCardWidget(title: HomeTitleMapper.oportunities),
+                  HomeListCardWidget(title: HomeTitleMapper.pendentes),
+                  HomeListCardWidget(title: HomeTitleMapper.progress),
+                  const SizedBox(height: 20.0),
                 ],
               ),
             )),

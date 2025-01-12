@@ -3,6 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/core/themes/color_theme.dart';
 import 'package:marcenaria/modules/employee/home/presentation/home_page.dart';
+import 'package:marcenaria/modules/employee/navigation/components/navigation_drawer_widget.dart';
 import 'package:marcenaria/modules/employee/navigation/components/navigation_icons.dart';
 import 'package:marcenaria/modules/employee/navigation/stores/navigation_store.dart';
 import 'package:marcenaria/modules/employee/orders/presentation/order_page.dart';
@@ -18,6 +19,8 @@ class NavigationPage extends StatefulWidget {
 
 class _NavigationPageState extends State<NavigationPage> {
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   final NavigationStore store = Modular.get<NavigationStore>();
 
 
@@ -25,8 +28,13 @@ class _NavigationPageState extends State<NavigationPage> {
   Widget build(BuildContext context) {
     return Observer(
         builder: (_) => Scaffold(
+            key: _scaffoldKey,
             resizeToAvoidBottomInset: false,
-            appBar: AppBar(backgroundColor: ColorTheme.background),
+            endDrawer: const NavigationDrawerWidget(),
+            appBar: AppBar(backgroundColor: ColorTheme.background, 
+                actions: [
+                  IconButton(onPressed: () => _scaffoldKey.currentState?.openEndDrawer(),
+                    icon: Icon(Icons.menu_rounded, color: ColorTheme.black2,size: 30))]),
             bottomNavigationBar: BottomNavigationBar(
                 type: BottomNavigationBarType.fixed,
                 items: [
@@ -58,7 +66,7 @@ class _NavigationPageState extends State<NavigationPage> {
                       physics: const NeverScrollableScrollPhysics(),
                       children: [
                         const HomePage(),
-                        Container(color: Colors.yellow),
+                        const OrderPage(),
                         const OrderPage(),
                         Container(color: Colors.blue)
                       ])),

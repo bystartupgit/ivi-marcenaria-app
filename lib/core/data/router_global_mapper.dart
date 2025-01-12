@@ -2,7 +2,8 @@
 
 class RouterGlobalMapper {
 
-
+  static String login = "/Login/";
+  static String onboarding = "/OnBoarding/";
   static String employee = "/Employee/";
   static String customer = "/Customer/";
 

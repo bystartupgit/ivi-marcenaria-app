@@ -36,4 +36,7 @@ const Prestador = sequelize.define('Prestador', {
   timestamps: false,
 });
 
+// Definir a associação entre Prestador e Usuario
+Prestador.belongsTo(Usuario, { foreignKey: 'id_usuario' });
+
 module.exports = Prestador;

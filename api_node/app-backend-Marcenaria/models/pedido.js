@@ -13,18 +13,31 @@ const Pedido = sequelize.define('Pedido', {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
+    titulo: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
     descricao: {
         type: DataTypes.STRING,
         allowNull: false,
     },
+    ambientes: {
+      type: DataTypes.TEXT, 
+      allowNull: true, 
+    },
     data_pedido: {
         type: DataTypes.DATE,
         allowNull: false,
-        defaultValue: DataTypes.NOW, // Define a data padrão como a data atual
+        defaultValue: DataTypes.NOW, 
     },
     status: {
         type: DataTypes.STRING,
         allowNull: false,
+        defaultValue: 'em analise',
+    },
+    contato: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: false,
     },
 }, {
     tableName: 'pedidos', 

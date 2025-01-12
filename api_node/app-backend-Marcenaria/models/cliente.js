@@ -1,5 +1,3 @@
-// models/cliente.js
-
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const Usuario = require('./usuario');
@@ -25,5 +23,7 @@ const Cliente = sequelize.define('Cliente', {
   tableName: 'clientes',
   timestamps: false,
 });
+
+Cliente.belongsTo(Usuario, { foreignKey: 'id_usuario' });
 
 module.exports = Cliente;

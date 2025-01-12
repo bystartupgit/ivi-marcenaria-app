@@ -7,6 +7,7 @@ const PasswordRecovery = require('../models/passwordRecovery');
 const Cliente = require('../models/cliente');
 const Prestador = require('../models/prestador');
 const Administrador = require('../models/administrador');
+const PreferenciasNotificacoes = require('../models/preferenciasNotificacoes');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
@@ -74,6 +75,8 @@ async function sendRecoveryEmail(email, token) {
   }
 }
 
+// routes/usuarios.js
+
 // Rota para registrar um novo usuário (cliente, prestador ou administrador)
 router.post('/registrar', async (req, res) => {
   try {
@@ -126,6 +129,42 @@ router.post('/registrar', async (req, res) => {
         status: true,
       });
       idAdministrador = novoAdministrador.id_administrador;
+    }
+
+    // Definir preferências de notificação com base no tipo de usuário
+    let preferencias = [];
+    if (tipo_usuario === 'cliente') {
+      preferencias = [
+        { tipoNotificacao: "inicio_execucao", ativo: true },
+        { tipoNotificacao: "conclusao_execucao", ativo: true },
+        { tipoNotificacao: "nova_mensagem", ativo: true },
+        { tipoNotificacao: "nova_proposta", ativo: true }
+      ];
+    } else if (tipo_usuario === 'prestador') {
+      preferencias = [
+        { tipoNotificacao: "interesse_prestador", ativo: true },
+        { tipoNotificacao: "nova_mensagem", ativo: true },
+        { tipoNotificacao: "selecao_prestadores", ativo: true }
+      ];
+    } else if (tipo_usuario === 'administrador') {
+      preferencias = [
+        { tipoNotificacao: "novo_pedido", ativo: true },
+        { tipoNotificacao: "interesse", ativo: true },
+        { tipoNotificacao: "aprovacao_proposta", ativo: true },
+        { tipoNotificacao: "reprovacao_proposta", ativo: true },
+        { tipoNotificacao: "inicio_execucao", ativo: true },
+        { tipoNotificacao: "conclusao_execucao", ativo: true },
+        { tipoNotificacao: "nova_mensagem", ativo: true }
+      ];
+    }
+
+    // Inserir preferências de notificação diretamente no banco de dados
+    for (const pref of preferencias) {
+      await PreferenciasNotificacoes.create({
+        id_usuario: novoUsuario.id_usuario,
+        tipo: pref.tipoNotificacao,
+        ativo: pref.ativo
+      });
     }
 
     res.status(201).json({

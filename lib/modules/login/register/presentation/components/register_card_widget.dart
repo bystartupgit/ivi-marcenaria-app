@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:marcenaria/core/themes/color_theme.dart';
 import 'package:marcenaria/core/themes/family_theme.dart';
+import 'package:marcenaria/modules/login/register/presentation/stores/register_store.dart';
 import 'package:marcenaria/modules/login/shared/components/document_textfield_widget.dart';
 import 'package:marcenaria/modules/login/shared/components/email_textfield_widget.dart';
 import 'package:marcenaria/modules/login/shared/components/login_icons.dart';
@@ -10,9 +11,10 @@ import 'package:marcenaria/modules/login/shared/components/phone_textfield_widge
 
 class RegisterCardWidget extends StatelessWidget {
 
+  final RegisterStore store;
   final String description = "Informações para contato";
 
-  const RegisterCardWidget({super.key});
+  const RegisterCardWidget({super.key, required this.store});
 
   @override
   Widget build(BuildContext context) {
@@ -30,15 +32,15 @@ class RegisterCardWidget extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10.0)),
             child: Column(
                 children: [
-                  NameTextFieldWidget(title: "Nome", icon: LoginIcons.user ,onChanged: (String value) {},),
+                  NameTextFieldWidget(title: "Nome", icon: LoginIcons.user ,onChanged: store.setName),
                   const SizedBox(height: 15.0),
-                  EmailTextFieldWidget(title: "E-mail", icon: LoginIcons.email, onChanged: (String value) {}),
+                  EmailTextFieldWidget(title: "E-mail", icon: LoginIcons.email, onChanged: store.setEmail),
                   const SizedBox(height: 15.0),
-                  PasswordTextFieldWidget(title: "Senha",icon: LoginIcons.password, onChanged: (String value) {}),
+                  PasswordTextFieldWidget(title: "Senha",icon: LoginIcons.password, onChanged: store.setPassword),
                   const SizedBox(height: 15.0),
-                  DocumentTextFieldWidget(title: "Documento", icon: LoginIcons.cpf, onChanged: (String value) {}),
+                  DocumentTextFieldWidget(title: "Documento", icon: LoginIcons.cpf, onChanged: store.setCPF),
                   const SizedBox(height: 15.0),
-                  PhoneTextFieldWidget(title: "Telefone", icon: LoginIcons.whatsapp, onChanged: (String value) {}),
+                  PhoneTextFieldWidget(title: "Telefone", icon: LoginIcons.whatsapp, onChanged: store.setPhone),
                   const SizedBox(height: 10.0),
                 ])),
       ]);

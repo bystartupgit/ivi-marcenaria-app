@@ -3,18 +3,22 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/modules/login/domain/mappers/router_mapper.dart';
 import 'package:marcenaria/modules/login/register/presentation/components/register_button_widget.dart';
 import 'package:marcenaria/modules/login/register/presentation/components/register_card_widget.dart';
+import 'package:marcenaria/modules/login/register/presentation/stores/register_store.dart';
 
 class CustomerPage extends StatelessWidget {
-  const CustomerPage({super.key});
+
+  final RegisterStore store;
+
+  const CustomerPage({super.key, required this.store});
 
   @override
   Widget build(BuildContext context) {
     return Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const RegisterCardWidget(),
+          RegisterCardWidget(store: store),
           const SizedBox(height: 50.0),
-          RegisterButtonWidget(onPress: () => Modular.to.pushNamed(RouterMapper.documentIntern))
+          RegisterButtonWidget(onPress: () => store.register())
         ]);
   }
 }

@@ -17,7 +17,7 @@ class EmployeePage extends StatelessWidget {
     return SingleChildScrollView(
       child: Column(
           children: [
-            const RegisterCardWidget(),
+            RegisterCardWidget(store: store),
             const SizedBox(height: 15.0),
             RegisterCardOperationWidget(store: store),
             const SizedBox(height: 40.0),

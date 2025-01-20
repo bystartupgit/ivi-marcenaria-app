@@ -10,6 +10,7 @@ const Pedido = require('../models/pedido'); // Assumindo que este é o modelo pa
 const Prestador = require('../models/prestador'); // Assumindo que este é o modelo para prestadores
 const { registrarNotificacoes } = require('../utils/registrarNotificacoes');
 const { obterAdministradoresParaNotificacao } = require('../utils/registrarNotificacoes');
+const authenticateToken = require('../middleware/auth');
 
 // Helper para verificar a existência do registro
 async function verificarExistencia(model, id) {
@@ -21,7 +22,7 @@ async function verificarExistencia(model, id) {
 }
 
 // Endpoint para criar uma nova proposta
-router.post('/criar', async (req, res) => {
+router.post('/criar', authenticateToken, async (req, res) => {
   try {
     const {
       id_pedido,
@@ -84,7 +85,7 @@ router.post('/criar', async (req, res) => {
 });
 
 // Endpoint para selecionar prestadores potenciais
-router.post('/:idProposta/selecionar-potencial', async (req, res) => {
+router.post('/:idProposta/selecionar-potencial', authenticateToken, async (req, res) => {
   try {
     const { idProposta } = req.params;
     const { prestadores } = req.body; // Array de IDs de prestadores
@@ -130,7 +131,7 @@ router.post('/:idProposta/selecionar-potencial', async (req, res) => {
 });
 
 // Endpoint para prestadores demonstrarem interesse ou recusar
-router.post('/:idProposta/interesse', async (req, res) => {
+router.post('/:idProposta/interesse', authenticateToken, async (req, res) => {
   try {
     const { idProposta } = req.params;
     const { id_prestador, status_interesse } = req.body; // status_interesse: 'interessado' ou 'recusado'
@@ -175,7 +176,7 @@ router.post('/:idProposta/interesse', async (req, res) => {
 });
 
 // Endpoint para selecionar prestadores interessados para execução
-router.post('/:idProposta/selecionar-execucao', async (req, res) => {
+router.post('/:idProposta/selecionar-execucao', authenticateToken, async (req, res) => {
   try {
     const { idProposta } = req.params;
     const { prestadores } = req.body; // Array de IDs de prestadores
@@ -234,7 +235,7 @@ router.post('/:idProposta/selecionar-execucao', async (req, res) => {
 });
 
 // Endpoint para aprovar proposta
-router.post('/:id_proposta/aprovar', async (req, res) => {
+router.post('/:id_proposta/aprovar', authenticateToken, async (req, res) => {
   const { id_proposta } = req.params;
   const { id_cliente } = req.body;
 
@@ -295,7 +296,7 @@ router.post('/:id_proposta/aprovar', async (req, res) => {
 });
 
 // Endpoint para reprovar proposta
-router.post('/:id_proposta/reprovar', async (req, res) => {
+router.post('/:id_proposta/reprovar', authenticateToken, async (req, res) => {
   const { id_proposta } = req.params;
   const { id_cliente } = req.body;
 
@@ -356,7 +357,7 @@ router.post('/:id_proposta/reprovar', async (req, res) => {
 });
 
 // Endpoint para iniciar a execução de uma proposta
-router.post('/:idProposta/iniciar-execucao', async (req, res) => {
+router.post('/:idProposta/iniciar-execucao', authenticateToken, async (req, res) => {
   try {
     const { idProposta } = req.params;
     const { id_prestador } = req.body;
@@ -409,7 +410,7 @@ router.post('/:idProposta/iniciar-execucao', async (req, res) => {
 });
 
 // Endpoint para registrar o pagamento de uma proposta
-router.post('/:idProposta/pagamento', async (req, res) => {
+router.post('/:idProposta/pagamento', authenticateToken, async (req, res) => {
   try {
     const { idProposta } = req.params;
 
@@ -435,7 +436,7 @@ router.post('/:idProposta/pagamento', async (req, res) => {
 });
 
 // Endpoint para concluir a execução de uma proposta
-router.post('/:idProposta/conclusao-execucao', async (req, res) => {
+router.post('/:idProposta/conclusao-execucao', authenticateToken, async (req, res) => {
   try {
     const { idProposta } = req.params;
 

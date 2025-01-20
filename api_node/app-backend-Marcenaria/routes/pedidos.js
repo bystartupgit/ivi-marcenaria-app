@@ -7,6 +7,7 @@ const Usuario = require('../models/usuario'); // Modelo Usuario
 const {registrarNotificacoes} = require('../utils/registrarNotificacoes');
 const PrestadoresInteressados = require('../models/prestadoresInteressados');
 const PrestadoresSelecionados = require('../models/prestadoresSelecionados');
+const authenticateToken = require('../middleware/auth');
 const { Op } = require('sequelize'); // Operadores do Sequelize
 
 async function verificarExistencia(model, id) {
@@ -18,7 +19,7 @@ async function verificarExistencia(model, id) {
   }
 
 // Criar um novo Pedido
-router.post('/criar', async (req, res) => {
+router.post('/criar', authenticateToken, async (req, res) => {
   try {
     const { id_cliente, titulo, descricao, status, contato, ambientes } = req.body;
 
@@ -61,7 +62,7 @@ router.post('/criar', async (req, res) => {
 });
 
 // Listar Pedidos de Cliente Específico Aguardando Orçamento
-router.post('/cliente/:id/aguardando-orcamento', async (req, res) => {
+router.post('/cliente/:id/aguardando-orcamento', authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
     const { page = 1, limit = 10 } = req.body; // Usando o corpo da requisição para paginação
@@ -89,7 +90,7 @@ router.post('/cliente/:id/aguardando-orcamento', async (req, res) => {
 });
 
 // Listar Pedidos de Cliente Específico Aguardando Aprovação
-router.post('/cliente/:id/aguardando-aprovacao', async (req, res) => {
+router.post('/cliente/:id/aguardando-aprovacao', authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
     const { page = 1, limit = 10 } = req.body;
@@ -123,7 +124,7 @@ router.post('/cliente/:id/aguardando-aprovacao', async (req, res) => {
 });
 
 // Listar Pedidos de Cliente Específico em Produção
-router.post('/cliente/:id/em-producao', async (req, res) => {
+router.post('/cliente/:id/em-producao', authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
     const { page = 1, limit = 10 } = req.body;
@@ -152,7 +153,7 @@ router.post('/cliente/:id/em-producao', async (req, res) => {
 });
 
 // Listar Pedidos de Cliente Específico Concluídos
-router.post('/cliente/:id/concluidos', async (req, res) => {
+router.post('/cliente/:id/concluidos', authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
     const { page = 1, limit = 10 } = req.body;
@@ -181,7 +182,7 @@ router.post('/cliente/:id/concluidos', async (req, res) => {
 });
 
 // Listar Pedidos que o Prestador Precisa Demonstrar Interesse
-router.post('/prestador/:id/selecionado-aceitar', async (req, res) => {
+router.post('/prestador/:id/selecionado-aceitar', authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
     const { page = 1, limit = 10 } = req.body;
@@ -216,7 +217,7 @@ router.post('/prestador/:id/selecionado-aceitar', async (req, res) => {
 });
 
 // Listar Pedidos em Execução
-router.post('/prestador/:id/em-execucao', async (req, res) => {
+router.post('/prestador/:id/em-execucao', authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
     const { page = 1, limit = 10 } = req.body;
@@ -252,7 +253,7 @@ router.post('/prestador/:id/em-execucao', async (req, res) => {
 });
 
 // Listar Pedidos com Execução Pendente
-router.post('/prestador/:id/sem-execucao', async (req, res) => {
+router.post('/prestador/:id/sem-execucao', authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
     const { page = 1, limit = 10 } = req.body;
@@ -293,7 +294,7 @@ router.post('/prestador/:id/sem-execucao', async (req, res) => {
 });
 
 // Listar Pedidos Concluídos para um Prestador
-router.post('/prestador/:id/concluidos', async (req, res) => {
+router.post('/prestador/:id/concluidos', authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
     const { page = 1, limit = 10 } = req.body;
@@ -377,37 +378,37 @@ const listarPedidosPorStatus = async (req, res, status, verificarPropostas = nul
 };
 
 // Listar Pedidos Recusados
-router.post('/listar/recusados', async (req, res) => {
+router.post('/listar/recusados', authenticateToken, async (req, res) => {
   listarPedidosPorStatus(req, res, 'recusado');
 });
 
 // Listar Pedidos em Execução
-router.post('/listar/em-execucao', async (req, res) => {
+router.post('/listar/em-execucao', authenticateToken, async (req, res) => {
   listarPedidosPorStatus(req, res, 'em execucao');
 });
 
 // Listar Pedidos que ainda não estão em execução
-router.post('/listar/aceitos', async (req, res) => {
+router.post('/listar/aceitos', authenticateToken, async (req, res) => {
   listarPedidosPorStatus(req, res, 'aceito');
 });
 
 // Listar Pedidos Concluídos
-router.post('/listar/concluidos', async (req, res) => {
+router.post('/listar/concluidos', authenticateToken, async (req, res) => {
   listarPedidosPorStatus(req, res, 'concluido');
 });
 
 // Listar Pedidos Aguardando Orçamento
-router.post('/listar/aguardando-orcamento', async (req, res) => {
+router.post('/listar/aguardando-orcamento', authenticateToken, async (req, res) => {
   listarPedidosPorStatus(req, res, 'em analise', false);
 });
 
 // Listar Pedidos Aguardando Aprovação dos Clientes
-router.post('/listar/aguardando-aprovacao', async (req, res) => {
+router.post('/listar/aguardando-aprovacao', authenticateToken, async (req, res) => {
   listarPedidosPorStatus(req, res, 'em analise', true);
 });
 
 // Endpoint para obter quantitativos de pedidos
-router.post('/quantitativos', async (req, res) => {
+router.post('/quantitativos', authenticateToken, async (req, res) => {
   try {
     const propostasExistem = await Proposta.findAll({
       attributes: ['id_pedido'],

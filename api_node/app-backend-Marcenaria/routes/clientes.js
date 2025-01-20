@@ -5,9 +5,10 @@ const router = express.Router();
 const Cliente = require('../models/cliente'); // Importar o modelo Cliente
 const Usuario = require('../models/usuario'); // Modelo Usuario
 const { Op } = require('sequelize'); // Operadores do Sequelize
+const authenticateToken = require('../middleware/auth');
 
 // Endpoint para listar clientes com filtro por nome e incluir dados de usuários
-router.post('/', async (req, res) => {
+router.post('/', authenticateToken, async (req, res) => {
     try {
       const { nome, page = 1, limit = 10 } = req.body;
       const offset = (page - 1) * limit;

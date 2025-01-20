@@ -5,9 +5,10 @@ const router = express.Router();
 const Prestador = require('../models/prestador'); 
 const Usuario = require('../models/usuario'); 
 const { Op } = require('sequelize'); 
+const authenticateToken = require('../middleware/auth');
 
 // Endpoint para listar prestadores com filtro por nome e incluir dados de usuários
-router.post('/', async (req, res) => {
+router.post('/', authenticateToken, async (req, res) => {
   try {
     const { nome, page = 1, limit = 10 } = req.body;
     const offset = (page - 1) * limit;

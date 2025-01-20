@@ -8,6 +8,7 @@ const Prestador = require('../models/prestador');
 const Pedido = require('../models/pedido');
 const Proposta = require('../models/proposta');
 const Administrador = require('../models/administrador');
+const authenticateToken = require('../middleware/auth');
 
 // Helper para verificar a existência do registro
 async function verificarExistencia(model, id) {
@@ -19,7 +20,7 @@ async function verificarExistencia(model, id) {
 }
 
 // Rota para registrar metadados de mídia
-router.post('/', async (req, res) => {
+router.post('/', authenticateToken, async (req, res) => {
   try {
     const { nome_arquivo, tipo, caminho, id_cliente, id_prestador, id_pedido, id_proposta, descricao } = req.body;
 
@@ -75,7 +76,7 @@ router.post('/', async (req, res) => {
   }
 });
 
-router.post('/listar-todas-midias', async (req, res) => {
+router.post('/listar-todas-midias', authenticateToken, async (req, res) => {
   try {
     const { page = 1, limit = 10 } = req.body; // Paginação
 
@@ -103,7 +104,7 @@ router.post('/listar-todas-midias', async (req, res) => {
 });
 
 // Endpoint para listar mídias de um pedido específico
-router.post('/listar-midias-pedido', async (req, res) => {
+router.post('/listar-midias-pedido', authenticateToken, async (req, res) => {
   try {
     const { idPedido, page = 1, limit = 10 } = req.body;
 
@@ -129,7 +130,7 @@ router.post('/listar-midias-pedido', async (req, res) => {
 });
 
 // Endpoint para listar mídias de uma proposta específica
-router.post('/listar-midias-proposta', async (req, res) => {
+router.post('/listar-midias-proposta', authenticateToken, async (req, res) => {
   try {
     const { idProposta, page = 1, limit = 10 } = req.body;
 
@@ -155,7 +156,7 @@ router.post('/listar-midias-proposta', async (req, res) => {
 });
 
 // Endpoint para listar uma mídia específica
-router.post('/listar-midia', async (req, res) => {
+router.post('/listar-midia', authenticateToken, async (req, res) => {
   try {
     const { idMidia } = req.body;
 

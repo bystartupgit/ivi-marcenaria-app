@@ -2,11 +2,11 @@
 
 const express = require('express');
 const Notificacao = require('../models/notificacao');
-
+const authenticateToken = require('../middleware/auth');
 const router = express.Router();
 
 // Endpoint para alterar o status de uma notificação para lida
-router.post('/status', async (req, res) => {
+router.post('/status', authenticateToken, async (req, res) => {
   try {
     const { id_notificacao } = req.body;
 
@@ -32,7 +32,7 @@ router.post('/status', async (req, res) => {
 });
 
 // Endpoint para listar notificações de um usuário específico
-router.post('/listar-notificacoes', async (req, res) => {
+router.post('/listar-notificacoes', authenticateToken, async (req, res) => {
   try {
     const { idUsuario, page = 1, limit = 10 } = req.body; // Paginação
 

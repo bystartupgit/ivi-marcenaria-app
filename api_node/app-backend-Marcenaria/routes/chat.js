@@ -4,10 +4,10 @@ const express = require('express');
 const router = express.Router();
 const HistoricoSuporte = require('../models/historicoSuporte');
 const { verificarPermissoes, notificarParticipantes } = require('../utils/funcoesChat');
-
+const authenticateToken = require('../middleware/auth');
 
 // Endpoint para enviar uma mensagem no chat
-router.post('/', async (req, res) => {
+router.post('/', authenticateToken, async (req, res) => {
   try {
     const { id_usuario, id_pedido, mensagem } = req.body;
 
@@ -35,7 +35,7 @@ router.post('/', async (req, res) => {
 });
 
 // Endpoint para listar mensagens de um pedido
-router.post('/:id_pedido/listar', async (req, res) => {
+router.post('/:id_pedido/listar', authenticateToken, async (req, res) => {
     try {
       const { id_pedido } = req.params;
       const { page , limit } = req.body; // Valores padrão para paginação

@@ -2,8 +2,9 @@
 const express = require('express');
 const router = express.Router();
 const PreferenciasNotificacoes = require('../models/preferenciasNotificacoes');
+const authenticateToken = require('../middleware/auth');
 
-router.post('/registrar-preferencias', async (req, res) => {
+router.post('/registrar-preferencias', authenticateToken, async (req, res) => {
     try {
         const { id_usuario } = req.body; // Campo obrigatório
         

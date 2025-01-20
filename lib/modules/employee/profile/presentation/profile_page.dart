@@ -4,7 +4,9 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/core/themes/color_theme.dart';
 import 'package:marcenaria/core/themes/family_theme.dart';
 import 'package:marcenaria/modules/employee/profile/presentation/components/profile_back_button_widget.dart';
+import 'package:marcenaria/modules/employee/profile/presentation/components/profile_click_field_widget.dart';
 import 'package:marcenaria/modules/employee/profile/presentation/components/profile_icons.dart';
+import 'package:marcenaria/modules/employee/profile/presentation/components/profile_position_widget.dart';
 import 'package:marcenaria/modules/employee/profile/presentation/components/profile_read_field_widget.dart';
 import 'package:marcenaria/modules/employee/profile/presentation/stores/profile_store.dart';
 
@@ -19,6 +21,9 @@ class _ProfilePageState extends State<ProfilePage> {
 
   final ProfileStore store = Modular.get<ProfileStore>();
   final String title = "Perfil";
+
+  final String documentONE = "Carteira de trabalho";
+  final String documentTWO = "Contrato de serviços";
 
   @override
   Widget build(BuildContext context) {
@@ -37,9 +42,18 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                   spacing: 10.0,
                   children: [
-                    ProfileReadFieldWidget(keyboard: TextInputType.emailAddress, icon: ProfileIcons.email, controller: store.email),
-                    ProfileReadFieldWidget(keyboard: TextInputType.number, icon: ProfileIcons.phone, controller: store.phone),
-                    ProfileReadFieldWidget(keyboard: TextInputType.number, icon: ProfileIcons.cpf, controller: store.documentNumber)
+                    ProfileReadFieldWidget(
+                        hint: "exemplo@exemplo.com",
+                        keyboard: TextInputType.emailAddress, icon: ProfileIcons.email, controller: store.email),
+                    ProfileReadFieldWidget(
+                        hint: "(DDD) Numero",
+                        keyboard: TextInputType.number, icon: ProfileIcons.phone, controller: store.phone),
+                    ProfileReadFieldWidget(
+                        hint: "CPF ou RG",
+                        keyboard: TextInputType.number, icon: ProfileIcons.cpf, controller: store.documentNumber),
+                    ProfileClickFieldWidget(title: documentONE, icon: ProfileIcons.documents),
+                    ProfileClickFieldWidget(title: documentTWO, icon: ProfileIcons.file),
+                    const ProfilePositionWidget(jobs: [])
                   ]
               ),
             )),

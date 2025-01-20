@@ -1,3 +1,4 @@
+//config/database.js
 // Importa o módulo sequelize, referente ao banco de dados postgreSQL
 const { Sequelize } = require('sequelize');
 

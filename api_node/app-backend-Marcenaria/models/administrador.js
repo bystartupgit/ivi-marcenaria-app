@@ -1,10 +1,7 @@
-// models/administrador.js
-
 const { DataTypes } = require('sequelize');
 const sequelize = require('../config/database');
 const Usuario = require('./usuario');
 
-// Definição do modelo de Administrador
 const Administrador = sequelize.define('Administrador', {
   id_administrador: {
     type: DataTypes.INTEGER,
@@ -27,5 +24,7 @@ const Administrador = sequelize.define('Administrador', {
   tableName: 'administradores',
   timestamps: false,
 });
+
+Administrador.belongsTo(Usuario, { foreignKey: 'id_usuario' });
 
 module.exports = Administrador;

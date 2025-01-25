@@ -23,7 +23,6 @@ class _NavigationPageState extends State<NavigationPage> {
 
   final NavigationStore store = Modular.get<NavigationStore>();
 
-
   @override
   Widget build(BuildContext context) {
     return Observer(

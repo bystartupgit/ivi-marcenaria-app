@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/core/data/router_global_mapper.dart';
 import 'package:marcenaria/core/themes/color_theme.dart';
 import 'package:marcenaria/modules/login/presentation/components/login_button_widget.dart';
 import 'package:marcenaria/modules/login/presentation/components/login_card_widget.dart';
 import 'package:marcenaria/modules/login/presentation/components/login_greetings_widget.dart';
+import 'package:marcenaria/modules/login/presentation/stores/login_store.dart';
 import 'package:marcenaria/modules/login/shared/components/login_title_widget.dart';
+import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -18,25 +21,32 @@ class _LoginPageState extends State<LoginPage> {
 
   final String title = "Login";
 
+  final LoginStore store = Modular.get<LoginStore>();
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        resizeToAvoidBottomInset: true,
-        backgroundColor: ColorTheme.background,
-        body: Container(
-          padding: const EdgeInsets.symmetric(horizontal: 10.0),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const LoginGreetingsWidget(),
-                const SizedBox(height: 30.0),
-                LoginTitleWidget(title: title),
-                const SizedBox(height: 25.0),
-                const LoginCardWidget(),
-                const SizedBox(height: 40.0),
-                LoginButtonWidget(onPress: () => Modular.to.navigate(RouterGlobalMapper.employee))
-              ]
-          )),
+    return Observer(
+      builder: (context) => ModalProgressHUD(
+        inAsyncCall: store.loading,
+        child: Scaffold(
+            resizeToAvoidBottomInset: true,
+            backgroundColor: ColorTheme.background,
+            body: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 10.0),
+              child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const LoginGreetingsWidget(),
+                    const SizedBox(height: 30.0),
+                    LoginTitleWidget(title: title),
+                    const SizedBox(height: 25.0),
+                    LoginCardWidget(setEmail: store.setEmail, setPassword: store.setPassword),
+                    const SizedBox(height: 40.0),
+                    LoginButtonWidget(onPress: () => store.login(context: context))
+                  ]
+              )),
+        ),
+      ),
     );
   }
 }

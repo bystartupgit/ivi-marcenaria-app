@@ -1,11 +1,10 @@
 
 
-
 import 'package:flutter_modular/flutter_modular.dart';
 
-import 'navigation/presentation/navigation_page.dart';
+import 'navigation/navigation_page.dart';
 
-class CustomerModule extends Module {
+class AdminModule extends Module {
 
   @override
   void binds(i) {}

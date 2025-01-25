@@ -12,7 +12,10 @@ class LoginCardWidget extends StatelessWidget {
   final String resetText = "Esqueceu a senha?";
   final String registerText = "Novo por aqui? Inscreva-se";
 
-  const LoginCardWidget({super.key});
+  final Function(String value) setEmail;
+  final Function(String value) setPassword;
+
+  const LoginCardWidget({super.key, required this.setEmail, required this.setPassword});
 
   @override
   Widget build(BuildContext context) {
@@ -28,9 +31,9 @@ class LoginCardWidget extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10.0)),
               child: Column(
                   children: [
-                    EmailTextFieldWidget(title: "E-mail", icon: LoginIcons.email, onChanged: (String value) {}),
+                    EmailTextFieldWidget(title: "E-mail", icon: LoginIcons.email, onChanged: setEmail),
                     const SizedBox(height: 15.0),
-                    PasswordTextFieldWidget(title: "Senha",icon: LoginIcons.password, onChanged: (String value) {})
+                    PasswordTextFieldWidget(title: "Senha",icon: LoginIcons.password, onChanged: setPassword)
                   ])),
         const SizedBox(height: 10.0),
         Align(

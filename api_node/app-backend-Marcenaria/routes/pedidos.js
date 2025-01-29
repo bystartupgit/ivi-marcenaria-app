@@ -3,6 +3,7 @@ const router = express.Router();
 const Pedido = require('../models/pedido'); // Importando o modelo Pedido
 const Cliente = require('../models/cliente');
 const Proposta = require('../models/proposta'); // Modelo Proposta
+const Midia = require('../models/midia'); // Modelo Midia
 const Usuario = require('../models/usuario'); // Modelo Usuario
 const {registrarNotificacoes} = require('../utils/registrarNotificacoes');
 const PrestadoresInteressados = require('../models/prestadoresInteressados');
@@ -58,6 +59,38 @@ router.post('/criar', authenticateToken, async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Erro ao criar pedido.' });
+  }
+});
+
+// Endpoint para listar um pedido específico
+router.post('/unico', authenticateToken, async (req, res) => {
+  const { id } = req.body;
+
+  try {
+    // Buscar o pedido pelo ID
+    const pedido = await Pedido.findByPk(id);
+
+    if (!pedido) {
+      return res.status(404).json({ message: 'Pedido não encontrado.' });
+    }
+
+    // Buscar orçamento associado ao pedido
+    const proposta = await Proposta.findOne({ where: { id_pedido: id } });
+
+    // Buscar capa associada ao pedido
+    const capa = await Midia.findOne({ where: { id_pedido: id, in_cover: true } });
+
+    // Preparar a resposta
+    const resposta = {
+      pedido: pedido,
+      proposta: proposta || { message: 'Orçamento não existe para o pedido solicitado.' },
+      capa: capa || { message: 'Capa não existe para o pedido solicitado.' }
+    };
+
+    res.status(200).json(resposta);
+  } catch (error) {
+    console.error('Erro ao listar pedido específico:', error);
+    res.status(500).json({ error: 'Erro ao listar pedido específico.' });
   }
 });
 

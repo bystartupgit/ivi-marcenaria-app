@@ -20,9 +20,9 @@ async function verificarExistencia(model, id) {
 }
 
 // Rota para registrar metadados de mídia
-router.post('/', authenticateToken, async (req, res) => {
+router.post('/registrar', authenticateToken, async (req, res) => {
   try {
-    const { nome_arquivo, tipo, caminho, id_cliente, id_prestador, id_pedido, id_proposta, descricao } = req.body;
+    const { nome_arquivo, tipo, caminho, id_cliente, id_prestador, id_pedido, id_proposta, in_cover, descricao } = req.body;
 
     // Verificar se o nome do arquivo esta vazio
     if (!nome_arquivo) {
@@ -37,8 +37,8 @@ router.post('/', authenticateToken, async (req, res) => {
     // Verificar a existência dos registros nas tabelas correspondentes
     const clienteExiste = await verificarExistencia(Cliente, id_cliente);
     const prestadorExiste = await verificarExistencia(Prestador, id_prestador);
-    //const pedidoExiste = await verificarExistencia(Pedido, id_pedido);
-    //const propostaExiste = await verificarExistencia(Proposta, id_proposta);
+    const pedidoExiste = await verificarExistencia(Pedido, id_pedido);
+    const propostaExiste = await verificarExistencia(Proposta, id_proposta);
 
     if (!clienteExiste) {
       return res.status(400).json({ message: 'Cliente não encontrado.' });
@@ -46,14 +46,14 @@ router.post('/', authenticateToken, async (req, res) => {
     if (!prestadorExiste) {
       return res.status(400).json({ message: 'Prestador não encontrado.' });
     }
-    /*
+    
     if (!pedidoExiste) {
       return res.status(400).json({ message: 'Pedido não encontrado.' });
     }
     if (!propostaExiste) {
       return res.status(400).json({ message: 'Proposta não encontrada.' });
     }
-    */
+    
     // Criar novo registro de mídia
     const novaMidia = await Midia.create({
       nome_arquivo,
@@ -63,6 +63,7 @@ router.post('/', authenticateToken, async (req, res) => {
       id_prestador,
       id_pedido,
       id_proposta,
+      in_cover,
       descricao,
     });
 

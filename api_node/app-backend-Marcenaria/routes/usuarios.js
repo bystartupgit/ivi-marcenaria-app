@@ -292,4 +292,48 @@ router.post('/validateToken', async (req, res) => {
   }
 });
 
+// Endpoint para listar informações detalhadas de um usuário
+router.post('/detalhes', async (req, res) => {
+  const { id, tipo } = req.body;
+
+  try {
+    // Buscar informações de perfil com base no tipo
+    let perfil;
+    if (tipo === 'cliente') {
+      perfil = await Cliente.findOne({ where: { id_cliente: id } });
+    } else if (tipo === 'prestador') {
+      perfil = await Prestador.findOne({ where: { id_prestador: id } });
+    } else if (tipo === 'administrador') {
+      perfil = await Administrador.findOne({ where: { id_administrador: id } });
+    } else {
+      return res.status(400).json({ message: 'Tipo de perfil inválido.' });
+    }
+
+    if (!perfil) {
+      return res.status(404).json({ message: 'Perfil não encontrado.' });
+    }
+
+    // Buscar o usuário pelo ID do usuário obtido do perfil, excluindo o campo "senha"
+    const usuario = await Usuario.findOne({
+      where: { id_usuario: perfil.id_usuario },
+      attributes: { exclude: ['senha'] } // Excluir o campo "senha"
+    });
+
+    if (!usuario) {
+      return res.status(404).json({ message: 'Usuário não encontrado.' });
+    }
+
+    // Preparar a resposta
+    const resposta = {
+      usuario: usuario,
+      perfil: perfil
+    };
+
+    res.status(200).json(resposta);
+  } catch (error) {
+    console.error('Erro ao listar informações detalhadas do usuário:', error);
+    res.status(500).json({ error: 'Erro ao listar informações detalhadas do usuário.' });
+  }
+});
+
 module.exports = router;

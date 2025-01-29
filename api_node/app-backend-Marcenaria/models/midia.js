@@ -35,6 +35,10 @@ const Midia = sequelize.define('Midia', {
     type: DataTypes.INTEGER,
     allowNull: true,
   },
+  in_cover: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  },
   descricao: {
     type: DataTypes.TEXT,
     allowNull: true,

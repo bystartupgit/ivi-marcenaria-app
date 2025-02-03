@@ -1,6 +1,7 @@
 
 
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:marcenaria/core/data/store/core_store.dart';
 import 'package:marcenaria/modules/login/domain/entities/auth_entity.dart';
 import 'package:marcenaria/modules/login/domain/enums/user_type_enum.dart';
 import 'package:marcenaria/modules/login/domain/usecases/login_usecase.dart';
@@ -50,6 +51,9 @@ abstract class LoginStoreBase with Store {
       AuthEntity? auth = result.$2;
 
       if (auth != null) {
+
+        Modular.get<CoreStore>().setAuth(auth);
+
         return switch(auth.type) {
           UserType.cliente => Modular.to.navigate(RouterGlobalMapper.customer),
           UserType.prestador => Modular.to.navigate(RouterGlobalMapper.employee),

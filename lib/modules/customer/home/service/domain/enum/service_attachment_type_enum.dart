@@ -1,0 +1,3 @@
+
+
+enum ServiceAttachmentType { imagem, pdf }

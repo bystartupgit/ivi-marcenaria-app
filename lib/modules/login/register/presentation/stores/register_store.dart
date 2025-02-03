@@ -71,13 +71,11 @@ abstract class RegisterStoreBase with Store {
 
     try {
 
-      print("a");
       setLoading(true);
 
-      _registerUseCase.call(dto:
-      RegisterDTO(name: name, email: email,
+      _registerUseCase.call(dto: RegisterDTO(name: name, email: email,
           password: password, cpf: cpf, phone: phone,
-          type: index == 0 ? UserType.cliente : UserType.prestador));
+          type: index == 1 ? UserType.cliente : UserType.prestador));
 
     } catch(e) {}
     finally { setLoading(false); }

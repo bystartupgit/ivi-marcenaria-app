@@ -7,6 +7,7 @@ import '../../../../core/data/router_global_mapper.dart';
 import '../../../../core/themes/color_theme.dart';
 import '../../../../core/themes/family_theme.dart';
 import '../../domain/mappers/onboarding_mapper.dart';
+import 'onboarding_button_widget.dart';
 
 class OnboardingPageThreeWidget extends StatelessWidget {
   const OnboardingPageThreeWidget({super.key});
@@ -66,14 +67,7 @@ class OnboardingPageThreeWidget extends StatelessWidget {
                               activeSize: const Size(15.0, 15.0),
                               size: const Size(15.0, 15.0)))),
                       const SizedBox(height: 20.0),
-                      Center(
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 30.0,vertical: 2.0),
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(10.0),
-                                color: ColorTheme.orange),
-                            child: Text(description,style: TextStyle(color: Colors.white,fontFamily: FamilyTheme.medium,fontSize: 20)),
-                          ))
+                      Center(child: OnboardingButtonWidget(description: description))
                     ],
                   ),
                 ),

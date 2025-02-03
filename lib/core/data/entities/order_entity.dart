@@ -14,8 +14,8 @@ class OrderEntity {
   final DateTime date;
   final OrderStatus status;
 
-  OrderEntity({ this.id = 0, required this.title, this.cover = "",
-    this.amount = 0.0, required this.date,
+  OrderEntity({ this.id = 0, required this.title,
+    this.cover = "", this.amount = 0.0, required this.date,
     this.environments = const [], this.status = OrderStatus.requested
   });
 

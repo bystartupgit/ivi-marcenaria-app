@@ -1,0 +1,3 @@
+
+
+enum CoverType { file, asset }

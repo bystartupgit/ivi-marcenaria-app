@@ -16,8 +16,14 @@ dependencies:
   flutter_mobx: ^2.2.1+1
   mobx: ^2.3.3+2
   cupertino_icons: ^1.0.8
+  image_picker: ^1.1.2
+  file_picker: ^8.3.1
+  permission_handler: ^11.3.1
+  device_info_plus: ^11.2.2
+
 
   flutter_svg: ^2.0.10+1
+  flutter_secure_storage: ^9.2.4
   modal_progress_hud_nsn: ^0.5.1
   http: ^1.2.2
   carousel_slider: ^5.0.0
@@ -46,6 +52,10 @@ flutter:
     - assets/login/svgs/
     - assets/login/images/
     - assets/home/icons/
+    - assets/home/customer/
+    - assets/home/about/
+    - assets/home/service/
+    - assets/home/covers/
     - assets/covers/
     - assets/onboarding/
     - assets/profile/
@@ -87,3 +97,9 @@ flutter:
     - family: ProfileIcons
       fonts:
         - asset: assets/profile/ProfileIcons.ttf
+    - family: OnBoardingIcons
+      fonts:
+        - asset: assets/onboarding/icons/OnboardingIcons.ttf
+    - family: ServiceIcons
+      fonts:
+        - asset: assets/home/service/ServiceIcons.ttf

@@ -1,5 +1,6 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/core/data/router_global_mapper.dart';
+import 'package:marcenaria/core/data/store/core_store.dart';
 import 'package:marcenaria/modules/admin/admin_module.dart';
 import 'package:marcenaria/modules/customer/customer_module.dart';
 import 'package:marcenaria/modules/employee/employee_module.dart';
@@ -12,6 +13,9 @@ class AppModule extends Module {
 
   @override
   void binds(i) {
+
+    i.addSingleton(CoreStore.new);
+
     i.add(OnboardingStore.new);
   }
 

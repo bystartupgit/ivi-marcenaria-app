@@ -3,7 +3,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/core/themes/color_theme.dart';
 import 'package:marcenaria/modules/employee/home/presentation/components/home_carrousel_widget.dart';
-import 'package:marcenaria/modules/employee/home/presentation/components/home_header_widget.dart';
+import 'package:marcenaria/modules/customer/home/presentation/components/home_header_widget.dart';
 import 'package:marcenaria/modules/employee/home/presentation/stores/home_store.dart';
 
 import '../../domain/mappers/home_title_mapper.dart';

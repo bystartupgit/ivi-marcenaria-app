@@ -300,11 +300,11 @@ router.post('/detalhes', async (req, res) => {
     // Buscar informações de perfil com base no tipo
     let perfil;
     if (tipo === 'cliente') {
-      perfil = await Cliente.findOne({ where: { id_cliente: id } });
+      perfil = await Cliente.findOne({ where: { id_usuario: id } });
     } else if (tipo === 'prestador') {
-      perfil = await Prestador.findOne({ where: { id_prestador: id } });
+      perfil = await Prestador.findOne({ where: { id_usuario: id } });
     } else if (tipo === 'administrador') {
-      perfil = await Administrador.findOne({ where: { id_administrador: id } });
+      perfil = await Administrador.findOne({ where: { id_usuario: id } });
     } else {
       return res.status(400).json({ message: 'Tipo de perfil inválido.' });
     }

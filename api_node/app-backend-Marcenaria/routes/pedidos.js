@@ -483,4 +483,67 @@ router.post('/quantitativos', authenticateToken, async (req, res) => {
   }
 });
 
+// Endpoint para obter quantitativos de pedidos específicos de um cliente
+router.post('/quantitativos-cliente', authenticateToken, async (req, res) => {
+  const { id_cliente } = req.body;
+
+  try {
+    const clienteExiste = await verificarExistencia(Cliente, id_cliente);
+    if (!clienteExiste) {
+      return res.status(400).json({ message: 'Cliente não encontrado.' });
+    }
+    // Verificar se o cliente possui pedidos
+    const pedidosCliente = await Pedido.findAll({ where: { id_cliente } });
+    if (pedidosCliente.length === 0) {
+      return res.status(404).json({ message: 'Nenhum pedido encontrado para este cliente.' });
+    }
+
+    // Extrair IDs dos pedidos do cliente
+    const idsPedidosCliente = pedidosCliente.map(p => p.id_pedido);
+
+    // Buscar propostas existentes para os pedidos do cliente
+    const propostasExistem = await Proposta.findAll({
+      attributes: ['id_pedido'],
+      where: { id_pedido: { [Op.in]: idsPedidosCliente } }
+    });
+    const idsPedidosComPropostas = propostasExistem.map(p => p.id_pedido);
+
+    // Contar pedidos por status para o cliente específico
+    const [recusados, emExecucao, aceitos, concluidos, aguardandoAprovacao, aguardandoOrcamento] = await Promise.all([
+      Pedido.count({ where: { status: 'recusado', id_cliente } }),
+      Pedido.count({ where: { status: 'em execucao', id_cliente } }),
+      Pedido.count({ where: { status: 'aceito', id_cliente } }),
+      Pedido.count({ where: { status: 'concluido', id_cliente } }),
+      Pedido.count({
+        where: {
+          status: 'em analise',
+          id_cliente,
+          id_pedido: { [Op.in]: idsPedidosComPropostas },
+        },
+      }),
+      Pedido.count({
+        where: {
+          status: 'em analise',
+          id_cliente,
+          id_pedido: { [Op.notIn]: idsPedidosComPropostas },
+        },
+      }),
+    ]);
+
+    res.status(200).json({
+      Pedidos: {
+        recusados,
+        em_execucao: emExecucao,
+        aceitos,
+        concluidos,
+        aguardando_aprovacao: aguardandoAprovacao,
+        aguardando_orcamento: aguardandoOrcamento,
+      },
+    });
+  } catch (error) {
+    console.error('Erro ao obter quantitativos de pedidos do cliente:', error);
+    res.status(500).json({ error: 'Erro ao obter quantitativos de pedidos do cliente' });
+  }
+});
+
 module.exports = router;

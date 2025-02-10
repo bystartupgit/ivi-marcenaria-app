@@ -9,11 +9,19 @@ const HistoricoSuporte = sequelize.define('HistoricoSuporte', {
   },
   id_pedido: {
     type: DataTypes.INTEGER,
-    allowNull: false
+    allowNull: true
   },
   id_usuario: {
     type: DataTypes.INTEGER,
     allowNull: false
+  },
+  id_usuario_suporte: {
+    type: DataTypes.INTEGER,
+    allowNull: false
+  },
+  in_suporte: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
   },
   mensagem: {
     type: DataTypes.TEXT,

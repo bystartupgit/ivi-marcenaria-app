@@ -22,7 +22,7 @@ async function verificarExistencia(model, id) {
 // Rota para registrar metadados de mídia
 router.post('/registrar', authenticateToken, async (req, res) => {
   try {
-    const { nome_arquivo, tipo, caminho, id_cliente, id_prestador, id_pedido, id_proposta, in_cover, descricao } = req.body;
+    const { nome_arquivo, tipo, caminho, id_cliente, id_prestador, id_pedido, id_proposta, in_cover, in_image_perfil, in_doc_prestador, descricao } = req.body;
 
     // Verificar se o nome do arquivo esta vazio
     if (!nome_arquivo) {
@@ -64,6 +64,8 @@ router.post('/registrar', authenticateToken, async (req, res) => {
       id_pedido,
       id_proposta,
       in_cover,
+      in_image_perfil,
+      in_doc_prestador,
       descricao,
     });
 
@@ -180,5 +182,41 @@ router.post('/listar-midia', authenticateToken, async (req, res) => {
   }
 });
 
+// Endpoint para editar uma mídia específica
+router.post('/update/:id', authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { nome_arquivo, tipo, caminho, id_cliente, id_prestador, id_pedido, id_proposta, in_cover, in_image_perfil, in_doc_prestador, descricao } = req.body;
+
+    // Verificar se a mídia existe
+    const midiaExistente = await Midia.findByPk(id);
+    if (!midiaExistente) {
+      return res.status(404).json({ message: 'Mídia não encontrada.' });
+    }
+
+    // Atualizar a mídia com os novos dados
+    await midiaExistente.update({
+      nome_arquivo: nome_arquivo || midiaExistente.nome_arquivo,
+      tipo: tipo || midiaExistente.tipo,
+      caminho: caminho || midiaExistente.caminho,
+      id_cliente: id_cliente !== undefined ? id_cliente : midiaExistente.id_cliente,
+      id_prestador: id_prestador !== undefined ? id_prestador : midiaExistente.id_prestador,
+      id_pedido: id_pedido !== undefined ? id_pedido : midiaExistente.id_pedido,
+      id_proposta: id_proposta !== undefined ? id_proposta : midiaExistente.id_proposta,
+      in_cover: in_cover !== undefined ? in_cover : midiaExistente.in_cover,
+      in_image_perfil: in_image_perfil !== undefined ? in_image_perfil : midiaExistente.in_image_perfil,
+      in_doc_prestador: in_doc_prestador !== undefined ? in_doc_prestador : midiaExistente.in_doc_prestador,
+      descricao: descricao || midiaExistente.descricao,
+    });
+
+    res.status(200).json({
+      message: 'Mídia atualizada com sucesso',
+      midia: midiaExistente,
+    });
+  } catch (error) {
+    console.error('Erro ao atualizar a mídia:', error);
+    res.status(500).json({ message: 'Erro ao atualizar a mídia' });
+  }
+});
 
 module.exports = router;

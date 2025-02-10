@@ -27,6 +27,11 @@ const Prestador = sequelize.define('Prestador', {
     type: DataTypes.STRING,
     defaultValue: 'pendente',
   },
+  funcoes: {
+    type: DataTypes.ARRAY(DataTypes.STRING),
+    allowNull: false,
+    defaultValue: []
+  },
   status: {
     type: DataTypes.BOOLEAN,
     defaultValue: true,

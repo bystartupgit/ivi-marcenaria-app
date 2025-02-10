@@ -546,4 +546,33 @@ router.post('/quantitativos-cliente', authenticateToken, async (req, res) => {
   }
 });
 
+// Endpoint para cancelar um pedido
+router.post('/cancelar/:id', authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Verificar se o pedido existe
+    const pedido = await Pedido.findByPk(id);
+    if (!pedido) {
+      return res.status(404).json({ message: 'Pedido não encontrado.' });
+    }
+
+    // Atualizar o status do pedido para "Cancelado"
+    await pedido.update({ status: 'cancelado' });
+
+    // Verificar se há uma proposta associada e cancelar
+    if (pedido.id_proposta) {
+      const proposta = await Proposta.findByPk(pedido.id_proposta);
+      if (proposta) {
+        await proposta.update({ status: 'cancelada' });
+      }
+    }
+
+    res.status(200).json({ message: 'Pedido e proposta associados foram cancelados com sucesso.' });
+  } catch (error) {
+    console.error('Erro ao cancelar o pedido:', error);
+    res.status(500).json({ message: 'Erro ao cancelar o pedido.' });
+  }
+});
+
 module.exports = router;

@@ -39,6 +39,14 @@ const Midia = sequelize.define('Midia', {
     type: DataTypes.BOOLEAN,
     defaultValue: false
   },
+  in_doc_prestador: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  },
+  in_image_perfil: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  },
   descricao: {
     type: DataTypes.TEXT,
     allowNull: true,

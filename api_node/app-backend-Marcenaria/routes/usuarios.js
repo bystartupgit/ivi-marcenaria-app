@@ -8,6 +8,7 @@ const Cliente = require('../models/cliente');
 const Prestador = require('../models/prestador');
 const Administrador = require('../models/administrador');
 const PreferenciasNotificacoes = require('../models/preferenciasNotificacoes');
+const authenticateToken = require('../middleware/auth');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
@@ -294,7 +295,7 @@ router.post('/validateToken', async (req, res) => {
 });
 
 // Endpoint para listar informações detalhadas de um usuário
-router.post('/detalhes', async (req, res) => {
+router.post('/detalhes', authenticateToken, async (req, res) => {
   const { id, tipo } = req.body;
 
   try {
@@ -338,7 +339,7 @@ router.post('/detalhes', async (req, res) => {
 });
 
 // Endpont para realizar atualização de dados dos clientes
-router.post('/update/:id', async (req, res) => {
+router.post('/update/:id', authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
     const { nome, email, telefone, imagem_perfil, funcoes } = req.body;

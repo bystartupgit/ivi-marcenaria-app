@@ -140,8 +140,8 @@ mixin _$RegisterStore on RegisterStoreBase, Store {
       AsyncAction('RegisterStoreBase.register', context: context);
 
   @override
-  Future<void> register() {
-    return _$registerAsyncAction.run(() => super.register());
+  Future<void> register({required dynamic context}) {
+    return _$registerAsyncAction.run(() => super.register(context: context));
   }
 
   late final _$RegisterStoreBaseActionController =

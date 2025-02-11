@@ -24,6 +24,22 @@ mixin _$CoreStore on CoreStoreBase, Store {
     });
   }
 
+  late final _$profileAtom =
+      Atom(name: 'CoreStoreBase.profile', context: context);
+
+  @override
+  ProfileEntity? get profile {
+    _$profileAtom.reportRead();
+    return super.profile;
+  }
+
+  @override
+  set profile(ProfileEntity? value) {
+    _$profileAtom.reportWrite(value, super.profile, () {
+      super.profile = value;
+    });
+  }
+
   late final _$CoreStoreBaseActionController =
       ActionController(name: 'CoreStoreBase', context: context);
 
@@ -39,9 +55,21 @@ mixin _$CoreStore on CoreStoreBase, Store {
   }
 
   @override
+  dynamic setProfile(ProfileEntity? value) {
+    final _$actionInfo = _$CoreStoreBaseActionController.startAction(
+        name: 'CoreStoreBase.setProfile');
+    try {
+      return super.setProfile(value);
+    } finally {
+      _$CoreStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-auth: ${auth}
+auth: ${auth},
+profile: ${profile}
     ''';
   }
 }

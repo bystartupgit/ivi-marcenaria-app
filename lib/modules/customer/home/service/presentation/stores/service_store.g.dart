@@ -314,17 +314,6 @@ mixin _$ServiceStore on ServiceStoreBase, Store {
   }
 
   @override
-  ServiceAttachmentDTO coverDTO({required int orderID}) {
-    final _$actionInfo = _$ServiceStoreBaseActionController.startAction(
-        name: 'ServiceStoreBase.coverDTO');
-    try {
-      return super.coverDTO(orderID: orderID);
-    } finally {
-      _$ServiceStoreBaseActionController.endAction(_$actionInfo);
-    }
-  }
-
-  @override
   String toString() {
     return '''
 loading: ${loading},

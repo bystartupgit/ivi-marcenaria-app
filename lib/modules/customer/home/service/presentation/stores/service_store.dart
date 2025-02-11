@@ -7,7 +7,9 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:marcenaria/core/data/store/core_store.dart';
 import 'package:marcenaria/core/permissions/gallery_permission_utils.dart';
+import 'package:marcenaria/modules/customer/data/routers/customer_routers.dart';
 import 'package:marcenaria/modules/customer/home/orders/domain/entities/order_entity.dart';
+import 'package:marcenaria/modules/customer/home/orders/presentation/stores/order_store.dart';
 import 'package:marcenaria/modules/customer/home/service/domain/dto/service_attachment_dto.dart';
 import 'package:marcenaria/modules/customer/home/service/domain/dto/service_dto.dart';
 import 'package:marcenaria/modules/customer/home/service/domain/enum/cover_type.dart';
@@ -33,7 +35,7 @@ abstract class ServiceStoreBase with Store {
 
   final PageController controller = PageController(initialPage: 0);
 
-  int? customerID = Modular.get<CoreStore>().auth?.id;
+  int? customerID = Modular.get<CoreStore>().profile?.id;
 
   @observable
   bool loading = false;
@@ -96,8 +98,8 @@ abstract class ServiceStoreBase with Store {
 
     try {
 
-      (String, bool) containsFile = ServiceUtils.validateServiceDetails(serviceFile);
-
+      //TODO colocar aqui a validação do documento de referencia quando houver o upload
+      //(String, bool) containsFile = ServiceUtils.validateServiceDetails(serviceFile);
 
       setLoading(true);
 
@@ -111,6 +113,9 @@ abstract class ServiceStoreBase with Store {
 
         await _uploadMediaServiceUseCase.call(coverAttachmentDTO);
         await _uploadMediaServiceUseCase.call(documentAttachmentDTO);
+
+        Modular.get<OrderStore>().addWaigintOrders(result.$2!);
+        Modular.to.pushNamed(CustomerRouters.serviceSuccessIntern,arguments: result.$2);
 
       }
     } catch(e) { ShowErrorMessageUsecase(context: context).call(message: e.toString()); }

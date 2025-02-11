@@ -4,9 +4,11 @@ import 'package:marcenaria/core/data/store/core_store.dart';
 import 'package:marcenaria/modules/admin/admin_module.dart';
 import 'package:marcenaria/modules/customer/customer_module.dart';
 import 'package:marcenaria/modules/employee/employee_module.dart';
+import 'package:marcenaria/modules/notification/notification_module.dart';
 import 'package:marcenaria/modules/onboarding/presentation/onboarding_page.dart';
 import 'package:marcenaria/modules/onboarding/presentation/stores/onboarding_store.dart';
 
+import 'chat_support/chat_module.dart';
 import 'login/login_module.dart';
 
 class AppModule extends Module {
@@ -26,6 +28,8 @@ class AppModule extends Module {
     r.module(RouterGlobalMapper.employee, module: EmployeeModule());
     r.module(RouterGlobalMapper.customer, module: CustomerModule());
     r.module(RouterGlobalMapper.admin, module: AdminModule());
+    r.module(RouterGlobalMapper.notification, module: NotificationModule());
+    r.module(RouterGlobalMapper.chatSupport, module: ChatSuportModule());
   }
 
 }

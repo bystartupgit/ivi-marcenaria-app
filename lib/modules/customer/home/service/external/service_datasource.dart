@@ -16,9 +16,9 @@ class ServiceDataSource {
 
   final String enviroment = "http://92.112.177.245:5000";
 
-  Future<void> getServices({int page = 1, int limit = 10}) async {
+  Future<void> getServices({int page = 1, int limit = 10, required int customerID}) async {
 
-    Uri url = Uri.parse("$enviroment/api/pedidos/listar/aguardando-orcamento");
+    Uri url = Uri.parse("$enviroment/api/pedidos/cliente/$customerID/aguardando-orcamento");
 
     String? token = Modular.get<CoreStore>().auth?.token;
 
@@ -56,21 +56,17 @@ class ServiceDataSource {
 
     Map<String,dynamic> body = service.toMap();
 
-    try {
-
-      Response response = await post(
-          url, headers: headers, body: jsonEncode(body))
-          .timeout(const Duration(seconds: 8));
+    Response response = await post(
+        url, headers: headers, body: jsonEncode(body))
+        .timeout(const Duration(seconds: 8));
 
       dynamic data = jsonDecode(response.body);
 
       String message = data[OrderDTOMapper.message];
 
-      if(response.statusCode == 200) { return (message, OrderEntity.fromMap(data[OrderDTOMapper.order])); }
+      if(response.statusCode == 201) { return (message, OrderEntity.fromMap(data[OrderDTOMapper.order])); }
 
-      else {  return (message, null); }
-
-    } catch(e) { return (e.toString(), null ); }
+      else { return (message, null); }
 
   }
 

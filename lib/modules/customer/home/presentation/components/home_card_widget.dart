@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:marcenaria/core/themes/color_theme.dart';
+import 'package:marcenaria/modules/customer/home/orders/domain/entities/order_entity.dart';
 
 import '../../../../../core/themes/family_theme.dart';
 
 class HomeCardWidget extends StatelessWidget {
-  const HomeCardWidget({super.key});
+
+  final OrderEntity order;
+  final Function(OrderEntity onder) details;
+
+  const HomeCardWidget({super.key, required this.order, required this.details});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () => details(order),
       child: SizedBox(
           height: 100, width: 300,
           child: Card(
@@ -41,13 +46,13 @@ class HomeCardWidget extends StatelessWidget {
                                   children: [
                                     SizedBox(
                                       width: 150,
-                                      child: Text("Cadeira Ponto de Descanso",
+                                      child: Text(order.title,
                                           maxLines: 2, style: TextStyle(
                                               height: 1.0,
                                               fontFamily: FamilyTheme.medium,
                                               color: Colors.black, fontSize: 16)),
                                     ),
-                                    Text("Orçamento nº 4321",
+                                    Text("Orçamento nº ${order.id}",
                                         maxLines: 2, style: TextStyle(
                                             fontFamily: FamilyTheme.regular,
                                             color: Colors.black, fontSize: 12)),

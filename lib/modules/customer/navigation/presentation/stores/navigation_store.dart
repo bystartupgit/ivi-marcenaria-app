@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:marcenaria/core/data/entities/profile_entity.dart';
 import 'package:marcenaria/core/data/store/core_store.dart';
 import 'package:marcenaria/modules/customer/home/domain/usecases/get_user_usecase.dart';
 import 'package:marcenaria/modules/login/domain/entities/auth_entity.dart';
@@ -36,9 +37,13 @@ abstract class NavigationStoreBase with Store {
 
     setLoading(true);
 
-    print("a");
+    if(auth != null) {
 
-    if(auth != null) { _getUserUseCase.call(id: auth.id, type: auth.type); }
+      ProfileEntity? profile = await _getUserUseCase.call(id: auth.id, type: auth.type);
+
+      Modular.get<CoreStore>().setProfile(profile);
+
+    }
 
     setLoading(false);
 

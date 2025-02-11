@@ -2,11 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/core/themes/color_theme.dart';
+import 'package:marcenaria/modules/customer/home/conversations/presentation/conversation_page.dart';
+import 'package:marcenaria/modules/customer/home/orders/presentation/orders_page.dart';
+import 'package:marcenaria/modules/customer/home/orders/presentation/stores/order_store.dart';
 import 'package:marcenaria/modules/customer/home/presentation/home_page.dart';
+import 'package:marcenaria/modules/customer/home/proposal/presentation/proposal_page.dart';
 import 'package:marcenaria/modules/customer/navigation/presentation/components/navigation_button_widget.dart';
 import 'package:marcenaria/modules/customer/navigation/presentation/stores/navigation_store.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
+import '../../home/proposal/presentation/stores/proposal_store.dart';
 import 'components/navigation_drawer_widget.dart';
 import 'components/navigation_icons.dart';
 
@@ -22,10 +27,16 @@ class _NavigationPageState extends State<NavigationPage> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final NavigationStore store = Modular.get<NavigationStore>();
+  final OrderStore order = Modular.get<OrderStore>();
+  final ProposalStore proposal = Modular.get<ProposalStore>();
+
 
   @override
   void initState() {
-    store.init();
+    store.init().whenComplete(() {
+      order.init();
+      proposal.init();
+    });
     super.initState();
   }
 
@@ -38,7 +49,7 @@ class _NavigationPageState extends State<NavigationPage> {
             child: Scaffold(
                 key: _scaffoldKey,
                 resizeToAvoidBottomInset: false,
-                endDrawer: const NavigationDrawerWidget(),
+                endDrawer: NavigationDrawerWidget(store: store),
                 appBar: AppBar(backgroundColor: ColorTheme.background,
                     actions: [
                       IconButton(onPressed: () => _scaffoldKey.currentState?.openEndDrawer(),
@@ -82,11 +93,11 @@ class _NavigationPageState extends State<NavigationPage> {
                             child: PageView(
                                 controller: store.controller,
                                 physics: const NeverScrollableScrollPhysics(),
-                                children: [
+                                children: const [
                                   HomePage(),
-                                  Container(color: Colors.black),
-                                  Container(color: Colors.orange),
-                                  Container(color: Colors.blue)
+                                  OrdersPage(),
+                                  ProposalPage(),
+                                  ConversationPage()
                                 ])),
                       ],
                     ))),

@@ -6,6 +6,7 @@ import 'dart:convert';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:http/http.dart';
 import 'package:marcenaria/core/data/store/core_store.dart';
+import 'package:marcenaria/modules/customer/home/domain/entities/customer_entity.dart';
 
 import '../../../login/domain/enums/user_type_enum.dart';
 
@@ -13,7 +14,7 @@ class UserDataSource {
 
   final String enviroment = "http://92.112.177.245:5000";
 
-  Future<void> getUserDetails({required int id, required UserType type}) async {
+  Future<CustomerEntity?> getUserDetails({required int id, required UserType type}) async {
 
     Uri url = Uri.parse("$enviroment/api/usuarios/detalhes");
 
@@ -24,23 +25,19 @@ class UserDataSource {
       "Authorization": "Bearer $token"
     };
 
-    Map<String,dynamic> body = { "id": id, "tipo": type.name };
+    Map<String,dynamic> body = { "id": id, "tipo": "cliente" };
 
-    try {
 
-      print("value");
-      print(body);
-      print(Modular.get<CoreStore>().auth?.token);
 
       Response response = await post(
           url, headers: headers, body: jsonEncode(body))
           .timeout(const Duration(seconds: 8));
 
-      dynamic data = response.body;
+      Map<String,dynamic> data = jsonDecode(response.body);
 
-      print(data);
+      if(response.statusCode == 200) { return CustomerEntity.fromMap(data); }
 
-    } catch(e) { print(e); }
+      else { return null; }
 
   }
 

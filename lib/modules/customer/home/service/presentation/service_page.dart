@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:marcenaria/modules/customer/home/service/presentation/components/service_continue_button_widget.dart';
-import 'package:marcenaria/modules/customer/home/service/presentation/components/service_environment_widget.dart';
 import 'package:marcenaria/modules/customer/home/service/presentation/components/service_indicator_page_widget.dart';
-import 'package:marcenaria/modules/customer/home/service/presentation/components/service_name_widget.dart';
 import 'package:marcenaria/modules/customer/home/service/presentation/components/service_title_widget.dart';
 import 'package:marcenaria/modules/customer/home/service/presentation/pages/service_details_page.dart';
 import 'package:marcenaria/modules/customer/home/service/presentation/pages/service_information_page.dart';

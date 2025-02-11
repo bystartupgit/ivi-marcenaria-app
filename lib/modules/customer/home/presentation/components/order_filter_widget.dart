@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:marcenaria/core/themes/color_theme.dart';
 
-import '../../../../../../core/themes/family_theme.dart';
+import '../../../../../core/themes/family_theme.dart';
 
 class OrderFilterWidget extends StatelessWidget {
 
-  final String title = "Seu serviços concluídos com sucesso!";
-  final String description = "Você conferir todos os detalhes.";
+  final String title;
+  final String description;
 
   final String hint = "Pesquisar";
   final Function(String value) onChanged;
 
-  const OrderFilterWidget({ super.key, required this.onChanged });
+  const OrderFilterWidget({ super.key, required this.onChanged, required this.title, required this.description });
 
   @override
   Widget build(BuildContext context) {

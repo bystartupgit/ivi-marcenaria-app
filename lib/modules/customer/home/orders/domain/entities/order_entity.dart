@@ -15,6 +15,8 @@ class OrderEntity {
 
   final OrderStatus status;
 
+  List<String> get listEnviroment => environments.split(',');
+
   OrderEntity({
     required this.id,
     required this.customerID,
@@ -33,6 +35,16 @@ class OrderEntity {
           environments: map[OrderMapper.environments],
           whatsapp: map[OrderMapper.whatsapp],
           description: map[OrderMapper.description],
-          status: map[OrderMapper.status]
+          status: StatusExtension.fromString(map[OrderMapper.status])
       );
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is OrderEntity) { return id == other.id; }
+    return false;
+  }
+
+  @override
+  int get hashCode => id.hashCode;
 }

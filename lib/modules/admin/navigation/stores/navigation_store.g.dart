@@ -25,8 +25,43 @@ mixin _$NavigationStore on NavigationStoreBase, Store {
     });
   }
 
+  late final _$loadingAtom =
+      Atom(name: 'NavigationStoreBase.loading', context: context);
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
+  late final _$initAsyncAction =
+      AsyncAction('NavigationStoreBase.init', context: context);
+
+  @override
+  Future init() {
+    return _$initAsyncAction.run(() => super.init());
+  }
+
   late final _$NavigationStoreBaseActionController =
       ActionController(name: 'NavigationStoreBase', context: context);
+
+  @override
+  dynamic setLoading(bool value) {
+    final _$actionInfo = _$NavigationStoreBaseActionController.startAction(
+        name: 'NavigationStoreBase.setLoading');
+    try {
+      return super.setLoading(value);
+    } finally {
+      _$NavigationStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   dynamic setIndex(int value) {
@@ -42,7 +77,8 @@ mixin _$NavigationStore on NavigationStoreBase, Store {
   @override
   String toString() {
     return '''
-index: ${index}
+index: ${index},
+loading: ${loading}
     ''';
   }
 }

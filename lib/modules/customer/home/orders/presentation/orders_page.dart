@@ -57,8 +57,11 @@ class _OrdersPageState extends State<OrdersPage> with AutomaticKeepAliveClientMi
                       controller: store.controller,
                       children: [
                         OrderListWidget(orders: store.waitingOrdersFiltered,
+                            addNewOrders: () => store.loadingNewOrders(),
                             message: OrderEmptyMapper.waitingEmployee, details: (value) => Modular.to.pushNamed(CustomerRouters.orderWaitingDetailsIntern, arguments: value)),
-                        OrderListWidget(orders: store.waitingApprovalOrdersFiltered, message: OrderEmptyMapper.waitAproval,details: (value) {})
+                        OrderListWidget(
+                            addNewOrders: () {},
+                            orders: store.waitingApprovalOrdersFiltered, message: OrderEmptyMapper.waitAproval,details: (value) {})
                       ]
                   ))
               ]),

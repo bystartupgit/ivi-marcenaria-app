@@ -159,6 +159,14 @@ mixin _$OrderStore on OrderStoreBase, Store {
     });
   }
 
+  late final _$loadingNewOrdersAsyncAction =
+      AsyncAction('OrderStoreBase.loadingNewOrders', context: context);
+
+  @override
+  Future loadingNewOrders() {
+    return _$loadingNewOrdersAsyncAction.run(() => super.loadingNewOrders());
+  }
+
   late final _$initAsyncAction =
       AsyncAction('OrderStoreBase.init', context: context);
 

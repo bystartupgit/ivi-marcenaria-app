@@ -46,7 +46,7 @@ class _OrderWaitingDetailsPageState extends State<OrderWaitingDetailsPage> {
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                   children: [
-                    OrderDetailsCardWidget(order: order,moreDetails: store.showMore,
+                    OrderDetailsCardWidget(order: order, moreDetails: store.showMore,
                         changeMoreDetails: store.setShowMore),
                     const SizedBox(height: 20.0),
                     const DetailsWaitingMessageWidget(),

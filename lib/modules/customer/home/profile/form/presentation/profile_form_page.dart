@@ -47,7 +47,8 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
                   title: Text(title,style: TextStyle(color: ColorTheme.black3,
                       fontSize: 20,
                       fontFamily: FamilyTheme.regular)),
-                  leading: const ProfileBackButtonWidget()),
+                  leading: IconButton(onPressed: () => Modular.to.pop(store.profile),
+            icon: Icon(Icons.arrow_back_ios_new_rounded, color: ColorTheme.black2))),
               body: SingleChildScrollView(
                   child: Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20.0),

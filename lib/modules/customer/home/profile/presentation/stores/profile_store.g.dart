@@ -17,6 +17,20 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
     return _$initAsyncAction.run(() => super.init());
   }
 
+  late final _$ProfileStoreBaseActionController =
+      ActionController(name: 'ProfileStoreBase', context: context);
+
+  @override
+  dynamic update(ProfileDTO dto) {
+    final _$actionInfo = _$ProfileStoreBaseActionController.startAction(
+        name: 'ProfileStoreBase.update');
+    try {
+      return super.update(dto);
+    } finally {
+      _$ProfileStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''

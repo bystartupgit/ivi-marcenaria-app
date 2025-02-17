@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:marcenaria/modules/customer/home/orders/details/presentation/components/details_complete_widget.dart';
 import 'package:marcenaria/modules/customer/home/orders/details/presentation/components/details_incomplete_widget.dart';
 import 'package:marcenaria/modules/customer/home/orders/domain/entities/order_entity.dart';
 
 import '../../../../../../../core/themes/color_theme.dart';
 import '../../../../../../../core/themes/family_theme.dart';
-import 'order_details_rich_widget.dart';
 
 class OrderDetailsCardWidget extends StatelessWidget {
 

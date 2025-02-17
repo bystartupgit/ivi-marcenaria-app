@@ -56,7 +56,7 @@ abstract class LoginStoreBase with Store {
 
         return switch(auth.type) {
           UserType.cliente => Modular.to.navigate(RouterGlobalMapper.customer),
-          UserType.prestador => Modular.to.navigate(RouterGlobalMapper.employee),
+          UserType.prestador => Modular.to.navigate(RouterGlobalMapper.customer),
           UserType.administrador => Modular.to.navigate(RouterGlobalMapper.admin),
         };
       } else { ShowErrorMessageUsecase(context: context).call(message: result.$1); }

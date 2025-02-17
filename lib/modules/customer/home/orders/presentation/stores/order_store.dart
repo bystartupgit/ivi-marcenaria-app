@@ -76,6 +76,34 @@ abstract class OrderStoreBase with Store {
   addWaigintOrders(OrderEntity order) => waitingOrders.add(order);
 
   @action
+  loadingNewOrders() async {
+
+    try{
+
+      setLoading(true);
+
+      List<OrderEntity> orders = await _getWaitingOrdersUsecase.call(
+          customerID: Modular
+              .get<CoreStore>()
+              .profile
+              ?.id ?? 0,
+          page: 1, limit: limit);
+
+      for(OrderEntity value in orders) {
+
+        if(!waitingOrders.contains(value)) {
+          waitingOrders.add(value);
+        }
+
+      }
+
+
+
+    } catch(e) { print(e); } finally{  setLoading(false); }
+
+  }
+
+  @action
   init() async {
 
     if(waitingOrders.isEmpty && loading == false) {

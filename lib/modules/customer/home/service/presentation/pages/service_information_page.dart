@@ -1,6 +1,5 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:marcenaria/modules/customer/home/service/presentation/stores/service_store.dart';
 
 import '../components/service_continue_button_widget.dart';

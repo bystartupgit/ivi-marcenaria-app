@@ -47,7 +47,6 @@ abstract class NavigationStoreBase with Store {
 
     setLoading(false);
 
-
   }
 
 }

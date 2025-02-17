@@ -28,6 +28,7 @@ import 'package:marcenaria/modules/customer/home/service/external/service_dataso
 import 'package:marcenaria/modules/customer/home/service/presentation/service_page.dart';
 import 'package:marcenaria/modules/customer/home/service/presentation/stores/service_store.dart';
 import 'package:marcenaria/modules/customer/home/service/presentation/success/service_succes_page.dart';
+import 'package:marcenaria/modules/customer/home/service/presentation/success/stores/service_success_store.dart';
 import 'package:marcenaria/modules/customer/navigation/presentation/stores/navigation_store.dart';
 
 import 'navigation/presentation/navigation_page.dart';
@@ -44,6 +45,7 @@ class CustomerModule extends Module {
     i.add(() => ProfileStore());
     i.add(() => ProfileFormStore());
     i.addSingleton(() => ProposalStore());
+    i.add(() => ServiceSuccessStore());
 
     i.add(() => OrderWaitingDetailsStore());
 

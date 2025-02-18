@@ -8,10 +8,13 @@ import '../../../../../../core/themes/family_theme.dart';
 
 class CreateProposalDaysWidget extends StatelessWidget {
 
+  final String value;
+  final Function(String? value) onChanged;
+
   final String title = "Prazo para conclusão:";
   final List<String> items = ['30 dias uteis', '45 dias uteis', '60 dias uteis', '90 dias uteis'];
 
-  CreateProposalDaysWidget({super.key});
+  CreateProposalDaysWidget({super.key, required this.onChanged, required this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +33,12 @@ class CreateProposalDaysWidget extends StatelessWidget {
             alignment: AlignmentDirectional.center,
             iconSize: 0.0,
             icon: null,
-
             hint: Text('Escolha um item', style: TextStyle(color: ColorTheme.gray,
                 fontSize: 12, fontFamily: FamilyTheme.regular)), // Texto exibido quando nada for selecionado
-            value: '30 dias uteis',
+            value: value,
             style: TextStyle(color: ColorTheme.black3,
                 fontSize: 12, fontFamily: FamilyTheme.regular),
-            onChanged: (newValue) {},
+            onChanged: onChanged ,
             items: items.map((item) {
               return DropdownMenuItem<String>(
                 value: item,

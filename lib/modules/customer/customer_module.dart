@@ -6,6 +6,8 @@ import 'package:marcenaria/modules/customer/home/external/user_datasource.dart';
 import 'package:marcenaria/modules/customer/home/orders/details/presentation/order_waiting_details_page.dart';
 import 'package:marcenaria/modules/customer/home/orders/details/presentation/stores/order_waiting_details_store.dart';
 import 'package:marcenaria/modules/customer/home/orders/domain/usecases/cancel_order_usecase.dart';
+import 'package:marcenaria/modules/customer/home/orders/domain/usecases/download_media_usecase.dart';
+import 'package:marcenaria/modules/customer/home/orders/domain/usecases/get_order_details_usecase.dart';
 import 'package:marcenaria/modules/customer/home/orders/domain/usecases/get_waiting_approval_orders_usecase.dart';
 import 'package:marcenaria/modules/customer/home/orders/domain/usecases/get_waiting_orders_usecase.dart';
 import 'package:marcenaria/modules/customer/home/orders/external/order_datasource.dart';
@@ -65,6 +67,8 @@ class CustomerModule extends Module {
     i.add(() => GetWaitingOrdersUsecase(datasource: i.get<OrderDataSource>()));
     i.add(() => GetProductionOrdersUsecase(datasource: i.get<ProposalDataSource>()));
     i.add(() => GetFinishedOrdersUsecase(datasource: i.get<ProposalDataSource>()));
+    i.add(() => GetOrderDetailsUsecase(datasource: i.get<OrderDataSource>()));
+    i.add(() => DownloadMediaUsecase(datasource: i.get<OrderDataSource>()));
     i.add(() => UpdateProfileUsecase(datasource: i.get<ProfileDatasource>()));
 
   }
@@ -73,7 +77,10 @@ class CustomerModule extends Module {
   void routes(r) {
     r.child(Modular.initialRoute, child: (context) => const NavigationPage());
     r.child(CustomerRouters.service, child: (context) => const ServicePage());
-    r.child(CustomerRouters.serviceSuccess, child: (context) => ServiceSuccesPage(order: r.args.data));
+
+    r.child(CustomerRouters.serviceSuccess, child: (context) =>
+        ServiceSuccesPage(order: r.args.data[0], serviceFile: r.args.data[1],type: r.args.data[2]));
+
     r.child(CustomerRouters.profile, child: (context) => const ProfilePage());
     r.child(CustomerRouters.profileForm, child: (context) => const ProfileFormPage());
 

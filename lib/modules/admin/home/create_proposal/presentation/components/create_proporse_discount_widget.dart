@@ -20,6 +20,7 @@ class CreateProporseDiscountWidget extends StatelessWidget {
         children: [
           Text(title,style: TextStyle(color: ColorTheme.black3,fontFamily: FamilyTheme.medium,fontSize: 10)),
           TextField(
+              textAlign: TextAlign.end,
               style: TextStyle(color: ColorTheme.black3,
                   fontSize: 12,
                   fontFamily: FamilyTheme.regular),

@@ -31,6 +31,12 @@ class _OrderWaitingDetailsPageState extends State<OrderWaitingDetailsPage> {
   final OrderWaitingDetailsStore store = Modular.get<OrderWaitingDetailsStore>();
 
   @override
+  void initState() {
+    store.init(orderID: order.id);
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Observer(
       builder: (context) => ModalProgressHUD(
@@ -44,32 +50,37 @@ class _OrderWaitingDetailsPageState extends State<OrderWaitingDetailsPage> {
             ),
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                  children: [
-                    OrderDetailsCardWidget(order: order, moreDetails: store.showMore,
-                        changeMoreDetails: store.setShowMore),
-                    const SizedBox(height: 20.0),
-                    const DetailsWaitingMessageWidget(),
-                    const SizedBox(height: 10.0),
-                    const DetailsIndicatorStepWidget(),
-                    const SizedBox(height: 20.0),
-                    Row(
-                        crossAxisAlignment: CrossAxisAlignment.center,
-
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          DetailsCancelButtonWidget(
-                              iconSize: 10,
-                              size: 12,
-                              onPressed: () => showDialog(context: context,
-                                  builder: (context) => DetailsCancelPopUpWidget(order: order,
-                                    cancelOrder: () => store.cancelOrder(order: order, context: context)))),
-                          DetailsSuportButtonWidget(size: 12,onPressed: () =>
-                              Modular.to.pushNamed(RouterGlobalMapper.chatSupport,
-                                  arguments: order)
-                          )
-                    ])
-              ]),
+              child: SingleChildScrollView(
+                child: Column(
+                    children: [
+                      OrderDetailsCardWidget(
+                          store: store,
+                          order: order, moreDetails: store.showMore,
+                          changeMoreDetails: store.setShowMore),
+                      const SizedBox(height: 20.0),
+                      const DetailsWaitingMessageWidget(),
+                      const SizedBox(height: 10.0),
+                      const DetailsIndicatorStepWidget(),
+                      const SizedBox(height: 20.0),
+                      Row(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            DetailsCancelButtonWidget(
+                                iconSize: 10,
+                                size: 12,
+                                onPressed: () => showDialog(context: context,
+                                    builder: (context) => DetailsCancelPopUpWidget(order: order,
+                                      cancelOrder: () => store.cancelOrder(order: order, context: context)))),
+                            DetailsSuportButtonWidget(size: 12,onPressed: () =>
+                                Modular.to.pushNamed(RouterGlobalMapper.chatSupport,
+                                    arguments: order)
+                            )
+                      ]),
+                      const SizedBox(height: 40.0),
+                ]),
+              ),
             )),
       ),
     );

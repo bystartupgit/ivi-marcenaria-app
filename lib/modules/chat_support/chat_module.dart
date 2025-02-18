@@ -26,6 +26,5 @@ class ChatSuportModule extends Module {
   @override
   void routes(r) {
     r.child(Modular.initialRoute, child: (context) => ChatPage(order: r.args.data));
-
   }
 }

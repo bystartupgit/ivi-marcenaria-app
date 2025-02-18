@@ -1,6 +1,9 @@
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:marcenaria/modules/customer/home/orders/domain/entities/order_entity.dart';
+import 'package:marcenaria/modules/customer/home/service/presentation/success/stores/service_success_store.dart';
 
 import '../../../../../../../core/themes/color_theme.dart';
 import '../../../../../../../core/themes/family_theme.dart';
@@ -9,15 +12,24 @@ import '../../../../orders/details/presentation/components/details_incomplete_wi
 
 class SuccessDetailsCardWidget extends StatelessWidget {
 
+  final ServiceSuccessStore store;
+
   final bool moreDetails;
   final Function() changeMoreDetails;
+
+  final String type;
+  final File serviceFile;
 
   final OrderEntity order;
 
   final String title = "Orçamento Nº";
   final String image = "assets/home/covers/1.jpeg";
 
-  const SuccessDetailsCardWidget ({super.key, required this.order, required this.changeMoreDetails, required this.moreDetails});
+
+  const SuccessDetailsCardWidget ({super.key,
+    required this.store,
+    required this.serviceFile, required this.type,
+    required this.order, required this.changeMoreDetails, required this.moreDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +74,10 @@ class SuccessDetailsCardWidget extends StatelessWidget {
                                 bottomLeft: Radius.circular(10.0))),
                         padding: const EdgeInsets.symmetric(
                             horizontal: 10.0, vertical: 5.0),
-                        child: moreDetails ?  DetailsCompleteWidget(order: order, lessDetails: () => changeMoreDetails()) :
+                        child: moreDetails ?  DetailsCompleteWidget(
+                            openFile: () => store.openFile(serviceFile),
+                            file: serviceFile, type: type,
+                            order: order, lessDetails: () => changeMoreDetails()) :
                         DetailsIncompleteWidget(order: order, moreDetails: () => changeMoreDetails()) )
                   ])
 

@@ -43,6 +43,15 @@ class ServiceTypeWidget extends StatelessWidget {
                   onTap: () => store.addServiceFile(context: context),
                   child: Image.asset(image,width: MediaQuery.of(context).size.width * 0.4))),
 
+              if(store.serviceFile != null) Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text("Anexado: ${store.serviceFile?.path.split("/").last}", style: TextStyle(fontSize: 14,
+                      color: ColorTheme.title,
+                      fontFamily: FamilyTheme.regular)),
+                ),
+              ),
+
               const SizedBox(height: 15.0),
               Text(title2, style: TextStyle(fontSize: 18,
                   color: ColorTheme.title,

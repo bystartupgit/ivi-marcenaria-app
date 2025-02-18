@@ -2,6 +2,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/core/data/router_global_mapper.dart';
 import 'package:marcenaria/core/data/store/core_store.dart';
 import 'package:marcenaria/modules/admin/admin_module.dart';
+import 'package:marcenaria/modules/chat_private_support/chat_private_suport_module.dart';
 import 'package:marcenaria/modules/customer/customer_module.dart';
 import 'package:marcenaria/modules/employee/employee_module.dart';
 import 'package:marcenaria/modules/notification/notification_module.dart';
@@ -30,6 +31,7 @@ class AppModule extends Module {
     r.module(RouterGlobalMapper.admin, module: AdminModule());
     r.module(RouterGlobalMapper.notification, module: NotificationModule());
     r.module(RouterGlobalMapper.chatSupport, module: ChatSuportModule());
+    r.module(RouterGlobalMapper.chatPrivateSupport, module: ChatPrivateSuportModule());
   }
 
 }

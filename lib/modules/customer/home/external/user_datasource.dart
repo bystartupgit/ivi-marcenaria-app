@@ -27,8 +27,6 @@ class UserDataSource {
 
     Map<String,dynamic> body = { "id": id, "tipo": "cliente" };
 
-
-
       Response response = await post(
           url, headers: headers, body: jsonEncode(body))
           .timeout(const Duration(seconds: 8));

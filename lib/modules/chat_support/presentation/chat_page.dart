@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:marcenaria/core/data/store/core_store.dart';
 import 'package:marcenaria/core/themes/color_theme.dart';
 import 'package:marcenaria/modules/chat_support/presentation/components/chat_group_space_widget.dart';
 import 'package:marcenaria/modules/chat_support/presentation/components/chat_icons.dart';
@@ -23,6 +24,7 @@ class ChatPage extends StatefulWidget {
 class _ChatPageState extends State<ChatPage> {
 
   late final OrderEntity order = widget.order;
+  final CoreStore core = Modular.get<CoreStore>();
   final ChatStore store = Modular.get<ChatStore>();
 
   @override
@@ -46,7 +48,7 @@ class _ChatPageState extends State<ChatPage> {
                     icon: Icon(Icons.arrow_back_ios_new_rounded,color: ColorTheme.black2))),
             body: Column(
                 children: [
-                  ChatTileWidget(order: order),
+                  ChatTileWidget(order: order,name: core.profile?.name ?? ""),
                   const SizedBox(height: 10.0),
                   ChatGroupSpaceWidget(
                     scroll: store.scroll,

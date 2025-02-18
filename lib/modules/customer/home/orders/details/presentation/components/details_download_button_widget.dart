@@ -15,22 +15,25 @@ class DetailsDownloadButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(5.0),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(5.0),
-        color: ColorTheme.orange
+    return InkWell(
+      onTap: download,
+      child: Container(
+        padding: const EdgeInsets.all(5.0),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5.0),
+          color: ColorTheme.orange
+        ),
+        child: Row(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              SvgPicture.asset(image,colorFilter: const ColorFilter.mode( Colors.white, BlendMode.srcIn)),
+              const SizedBox(width: 5.0),
+              Text(title,style: TextStyle(fontFamily: FamilyTheme.regular,
+                  color: Colors.white, fontSize: 12))
+            ]),
       ),
-      child: Row(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            SvgPicture.asset(image,colorFilter: const ColorFilter.mode( Colors.white, BlendMode.srcIn)),
-            const SizedBox(width: 5.0),
-            Text(title,style: TextStyle(fontFamily: FamilyTheme.regular,
-                color: Colors.white, fontSize: 12))
-          ]),
     );
   }
 }

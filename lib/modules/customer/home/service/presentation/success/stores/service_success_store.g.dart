@@ -25,6 +25,30 @@ mixin _$ServiceSuccessStore on ServiceSuccessStoreBase, Store {
     });
   }
 
+  late final _$loadingAtom =
+      Atom(name: 'ServiceSuccessStoreBase.loading', context: context);
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
+  late final _$openFileAsyncAction =
+      AsyncAction('ServiceSuccessStoreBase.openFile', context: context);
+
+  @override
+  Future openFile(File file) {
+    return _$openFileAsyncAction.run(() => super.openFile(file));
+  }
+
   late final _$ServiceSuccessStoreBaseActionController =
       ActionController(name: 'ServiceSuccessStoreBase', context: context);
 
@@ -40,9 +64,21 @@ mixin _$ServiceSuccessStore on ServiceSuccessStoreBase, Store {
   }
 
   @override
+  dynamic setLoading(bool value) {
+    final _$actionInfo = _$ServiceSuccessStoreBaseActionController.startAction(
+        name: 'ServiceSuccessStoreBase.setLoading');
+    try {
+      return super.setLoading(value);
+    } finally {
+      _$ServiceSuccessStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-showMore: ${showMore}
+showMore: ${showMore},
+loading: ${loading}
     ''';
   }
 }

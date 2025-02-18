@@ -24,7 +24,7 @@ class CreateProporseCustomerButtonWidget extends StatelessWidget {
               color: ColorTheme.orange,
               borderRadius: BorderRadius.circular(5.0)
             ),
-            child: Text(title,style: TextStyle(fontSize: size,fontFamily: FamilyTheme.regular, color: Colors.white ))),
+            child: Center(child: Text(title,style: TextStyle(fontSize: size,fontFamily: FamilyTheme.regular, color: Colors.white )))),
       ),
     );
   }

@@ -1,7 +1,11 @@
 
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:marcenaria/modules/customer/home/orders/domain/entities/order_entity.dart';
 import 'package:marcenaria/modules/customer/home/orders/domain/enum/order_status_enum.dart';
+import 'package:open_file/open_file.dart';
 
 import '../../../../../../../core/themes/color_theme.dart';
 import '../../../../../../../core/themes/family_theme.dart';
@@ -11,9 +15,14 @@ import 'order_details_rich_widget.dart';
 class DetailsCompleteWidget extends StatelessWidget {
 
   final OrderEntity order;
+  final String type;
+  final File? file;
   final Function() lessDetails;
+  final Function() openFile;
 
-  const DetailsCompleteWidget({super.key, required this.order, required this.lessDetails});
+  const DetailsCompleteWidget({super.key, required this.order,
+    this.file, this.type = "", required this.openFile,
+    required this.lessDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +43,13 @@ class DetailsCompleteWidget extends StatelessWidget {
             ]),
           OrderDetailsRichWidget(title: "Ambientes:",
               description: order.environments),
-          OrderDetailsRichWidget(title: "Anexos:",
-              description: ""),
-          const SizedBox(height: 2.0),
-          DetailsDownloadButtonWidget(download: () {}),
+          OrderDetailsRichWidget(title: "Anexos:", description: type),
+          if(file != null) Column(
+            children: [
+              DetailsDownloadButtonWidget(download: openFile),
+              const SizedBox(height: 2.0),
+            ],
+          ),
           const SizedBox(height: 2.0),
           OrderDetailsRichWidget(title: "Observações:",
               description: order.description),

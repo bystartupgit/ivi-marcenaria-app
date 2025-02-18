@@ -29,15 +29,16 @@ class CreateProporseNumberParcelsWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               SizedBox(
-                width: 40,
+                width: 50,
                 child: TextField(
                     style: TextStyle(color: ColorTheme.black3,
                         fontSize: 12,
                         fontFamily: FamilyTheme.regular),
-                    onChanged: value,
+                    onChanged: numberParcel,
                     keyboardType: const TextInputType.numberWithOptions(decimal: true),
                     inputFormatters: [
-                      FilteringTextInputFormatter.digitsOnly,
+                      LengthLimitingTextInputFormatter(2), // Limita a entrada a 2 caracteres
+                      FilteringTextInputFormatter.digitsOnly, // Limita a entrada para números, se necessário
                     ],
                     decoration: InputDecoration(
                         filled: true,

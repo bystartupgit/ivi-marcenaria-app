@@ -67,7 +67,6 @@ class OrderDataSource {
 
       return OrderWithoutProposalEntity.fromMap(data[OrderMapper.order]);
     } else { return null; }
-
   }
 
 

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/core/data/entities/profile_entity.dart';
@@ -16,6 +18,12 @@ abstract class ProfileStoreBase with Store {
   final TextEditingController phone = TextEditingController();
   final TextEditingController documentNumber = TextEditingController();
 
+  @observable
+  File? image;
+
+  @action
+  setImage(File value) => image = value;
+
   @action
   init() async {
 
@@ -27,6 +35,12 @@ abstract class ProfileStoreBase with Store {
        phone.text = profile.phone;
        documentNumber.text = profile.cpf;
      }
+  }
+
+  @action
+  uploadImage() async {
+
+
   }
 
   @action

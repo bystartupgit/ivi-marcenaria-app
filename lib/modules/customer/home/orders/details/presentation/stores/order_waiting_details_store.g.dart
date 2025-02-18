@@ -41,6 +41,55 @@ mixin _$OrderWaitingDetailsStore on OrderWaitingDetailsStoreBase, Store {
     });
   }
 
+  late final _$mediaAtom =
+      Atom(name: 'OrderWaitingDetailsStoreBase.media', context: context);
+
+  @override
+  MediaEntity? get media {
+    _$mediaAtom.reportRead();
+    return super.media;
+  }
+
+  @override
+  set media(MediaEntity? value) {
+    _$mediaAtom.reportWrite(value, super.media, () {
+      super.media = value;
+    });
+  }
+
+  late final _$fileAtom =
+      Atom(name: 'OrderWaitingDetailsStoreBase.file', context: context);
+
+  @override
+  File? get file {
+    _$fileAtom.reportRead();
+    return super.file;
+  }
+
+  @override
+  set file(File? value) {
+    _$fileAtom.reportWrite(value, super.file, () {
+      super.file = value;
+    });
+  }
+
+  late final _$initAsyncAction =
+      AsyncAction('OrderWaitingDetailsStoreBase.init', context: context);
+
+  @override
+  Future init({required int orderID}) {
+    return _$initAsyncAction.run(() => super.init(orderID: orderID));
+  }
+
+  late final _$downloadMediaAsyncAction = AsyncAction(
+      'OrderWaitingDetailsStoreBase.downloadMedia',
+      context: context);
+
+  @override
+  Future downloadMedia() {
+    return _$downloadMediaAsyncAction.run(() => super.downloadMedia());
+  }
+
   late final _$cancelOrderAsyncAction =
       AsyncAction('OrderWaitingDetailsStoreBase.cancelOrder', context: context);
 
@@ -79,7 +128,9 @@ mixin _$OrderWaitingDetailsStore on OrderWaitingDetailsStoreBase, Store {
   String toString() {
     return '''
 showMore: ${showMore},
-loading: ${loading}
+loading: ${loading},
+media: ${media},
+file: ${file}
     ''';
   }
 }

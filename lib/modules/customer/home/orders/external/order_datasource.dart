@@ -179,7 +179,7 @@ class OrderDataSource {
       await result.writeAsBytes(content);
 
       return result;
-    }catch(e) { print(e); return null; }
+    } catch(e) { return null; }
 
   }
 

@@ -5,7 +5,7 @@ import 'package:marcenaria/core/themes/family_theme.dart';
 class ContractButtonWidget extends StatelessWidget {
 
   final String title = "Assinar";
-  final Function() onPress;
+  final Function()? onPress;
 
   const ContractButtonWidget({super.key, required this.onPress });
 

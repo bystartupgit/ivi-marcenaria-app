@@ -58,6 +58,22 @@ mixin _$ProposalStore on ProposalStoreBase, Store {
     });
   }
 
+  late final _$pageApprovalAtom =
+      Atom(name: 'ProposalStoreBase.pageApproval', context: context);
+
+  @override
+  int get pageApproval {
+    _$pageApprovalAtom.reportRead();
+    return super.pageApproval;
+  }
+
+  @override
+  set pageApproval(int value) {
+    _$pageApprovalAtom.reportWrite(value, super.pageApproval, () {
+      super.pageApproval = value;
+    });
+  }
+
   late final _$limitAtom =
       Atom(name: 'ProposalStoreBase.limit', context: context);
 
@@ -138,6 +154,14 @@ mixin _$ProposalStore on ProposalStoreBase, Store {
     });
   }
 
+  late final _$getAprovalsAsyncAction =
+      AsyncAction('ProposalStoreBase.getAprovals', context: context);
+
+  @override
+  Future getAprovals() {
+    return _$getAprovalsAsyncAction.run(() => super.getAprovals());
+  }
+
   late final _$initAsyncAction =
       AsyncAction('ProposalStoreBase.init', context: context);
 
@@ -187,6 +211,7 @@ mixin _$ProposalStore on ProposalStoreBase, Store {
     return '''
 index: ${index},
 pageWaiting: ${pageWaiting},
+pageApproval: ${pageApproval},
 limit: ${limit},
 filter: ${filter},
 loading: ${loading},

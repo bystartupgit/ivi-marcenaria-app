@@ -21,7 +21,7 @@ class EmployeePage extends StatelessWidget {
             const SizedBox(height: 15.0),
             RegisterCardOperationWidget(store: store),
             const SizedBox(height: 40.0),
-            RegisterButtonWidget(onPress: () => Modular.to.pushNamed(RouterMapper.documentIntern)),
+            RegisterButtonWidget(onPress: () => store.register(context: context)),
             const SizedBox(height: 40.0),
           ]),
     );

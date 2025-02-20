@@ -11,7 +11,7 @@ class CreateProposalUsecase {
 
   CreateProposalUsecase({required this.datasource});
 
-  Future<void> call ({required CreateProposalDTO dto}) async =>
+  Future<(String,bool)> call ({required CreateProposalDTO dto}) async =>
       datasource.createProposal(dto: dto);
 
 }

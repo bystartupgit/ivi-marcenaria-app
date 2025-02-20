@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:marcenaria/core/data/store/core_store.dart';
+
 import 'package:marcenaria/modules/admin/home/create_proposal/presentation/components/create_proporse_calculator_widget.dart';
 import 'package:marcenaria/modules/admin/home/create_proposal/presentation/components/create_proporse_customer_button_widget.dart';
 import 'package:marcenaria/modules/admin/home/create_proposal/presentation/components/create_proporse_details_card_widget.dart';
 import 'package:marcenaria/modules/admin/home/create_proposal/presentation/proporsal/proporsal_card_widget.dart';
 import 'package:marcenaria/modules/admin/home/create_proposal/presentation/stores/create_proposal_store.dart';
+import 'package:marcenaria/modules/customer/home/orders/domain/entities/order_entity.dart';
+import 'package:marcenaria/modules/customer/home/orders/domain/enum/order_status_enum.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../../../../../core/data/router_global_mapper.dart';
@@ -36,8 +40,7 @@ class _CreateProposalPageState extends State<CreateProposalPage> {
   Widget build(BuildContext context) {
     return Observer(
       builder: (context) => ModalProgressHUD(
-        inAsyncCall: store.loading,
-
+        inAsyncCall: store.loadingScreen,
         child: Scaffold(
             resizeToAvoidBottomInset: true,
             backgroundColor: ColorTheme.background,
@@ -46,7 +49,7 @@ class _CreateProposalPageState extends State<CreateProposalPage> {
                 leading: IconButton(onPressed: () => Modular.to.pop(),
                     icon: Icon(Icons.arrow_back_ios_new_rounded,color: ColorTheme.black2))
             ),
-            body: Padding(
+            body: store.loading? Center(child: CircularProgressIndicator(color: ColorTheme.orange)) : Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: SingleChildScrollView(
                 child: Column(
@@ -62,14 +65,17 @@ class _CreateProposalPageState extends State<CreateProposalPage> {
                           spacing: 10,
                           children: [
                             Expanded(
-                              child: CreateProporseCustomerButtonWidget(size: 12,onPressed: () =>
-                                  Modular.to.pushNamed(RouterGlobalMapper.chatSupport, arguments: store.order)
+                              child: CreateProporseCustomerButtonWidget(size: 12, onPressed: () =>
+                                  Modular.to.pushNamed(RouterGlobalMapper.chatSupport, arguments:
+                                  OrderEntity(id: store.order?.id ?? 0, customerID: Modular.get<CoreStore>().profile?.id ?? 0, title: store.order?.title ?? "",
+                                      environments: store.order?.environments ?? "", status: OrderStatus.appoval))
                               ),
                             ),
                             Expanded(child: CheckButtonWidget(size: 12,
                                 onPressed: () => showModalBottomSheet(context: context,
                                     backgroundColor: ColorTheme.background,
-                                    builder: (context) => ProporsalCardReviewWidget(dto: store.dto(), store: store, proposal: store.proporsalFile))))
+                                    builder: (context) => ProporsalCardReviewWidget(dto: store.dto(),
+                                        store: store, proposal: store.proporsalFile))))
                           ]),
                       const SizedBox(height: 40.0),
                     ]),

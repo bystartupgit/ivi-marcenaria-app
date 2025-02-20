@@ -40,6 +40,7 @@ class CreateProporseFromToWidget extends StatelessWidget {
                   fontSize: 12,
                   fontFamily: FamilyTheme.regular),
               onChanged: onChanged,
+              enabled: isCheck == true,
               keyboardType: const TextInputType.numberWithOptions(decimal: true),
               inputFormatters: [
                 FilteringTextInputFormatter.digitsOnly,

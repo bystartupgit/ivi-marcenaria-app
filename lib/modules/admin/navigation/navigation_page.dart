@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/core/themes/color_theme.dart';
+import 'package:marcenaria/modules/admin/home/presentation/home_page.dart';
 import 'package:marcenaria/modules/admin/home/proposal/presentation/proposal_page.dart';
 import 'package:marcenaria/modules/admin/navigation/stores/navigation_store.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
@@ -102,7 +103,7 @@ class _NavigationPageState extends State<NavigationPage> {
                                   controller: store.controller,
                                   physics: const NeverScrollableScrollPhysics(),
                                   children: [
-                                    Container(color: Colors.black),
+                                    const HomePage(),
                                     const ProposalPage(),
                                     Container(color: Colors.orange),
                                     Container(color: Colors.red),

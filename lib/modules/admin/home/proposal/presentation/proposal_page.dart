@@ -50,8 +50,14 @@ class _ProposalPageState extends State<ProposalPage> with AutomaticKeepAliveClie
                         controller: store.controller,
                         children: [
                           ProposalListWidget(orders: store.waitingProposalFiltered,
-                              message: OrderEmptyMapper.waitingProposal,onPressed: (value) => Modular.to.pushNamed(RouterMapper.createProposalIntern,arguments: value)),
-                          ProposalListWidget(orders: store.waitingAprovalFiltered, message: OrderEmptyMapper.waitAproval, onPressed: (value) {})
+                              message: OrderEmptyMapper.waitingProposal,onPressed: (value) =>
+                                  Modular.to.pushNamed(RouterMapper.createProposalIntern,arguments: value).then((value) {
+
+                                    if(value == true) { store.getAprovals(); }
+
+                                  })),
+                          ProposalListWidget(orders: store.waitingAprovalFiltered, message: OrderEmptyMapper.waitAproval,
+                              onPressed: (value) {})
                         ]
                     ))
               ]),

@@ -25,12 +25,14 @@ class ProporsalDownloadButtonWidget extends StatelessWidget {
                 color: ColorTheme.orange,
                 borderRadius: BorderRadius.circular(5.0)
             ),
-            child: Center(child: Row(
+            child: Row(
+              spacing: 10.0,
+              mainAxisSize: MainAxisSize.min,
               children: [
                 SvgPicture.asset(image, colorFilter: const ColorFilter.mode( Colors.white, BlendMode.srcIn)),
                 Text(title,style: TextStyle(fontSize: 12,fontFamily: FamilyTheme.regular, color: Colors.white )),
               ],
-            ))),
+            )),
       ),
     );
   }

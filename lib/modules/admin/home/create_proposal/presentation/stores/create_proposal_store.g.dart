@@ -57,6 +57,22 @@ mixin _$CreateProposalStore on CreateProposalStoreBase, Store {
     });
   }
 
+  late final _$loadingScreenAtom =
+      Atom(name: 'CreateProposalStoreBase.loadingScreen', context: context);
+
+  @override
+  bool get loadingScreen {
+    _$loadingScreenAtom.reportRead();
+    return super.loadingScreen;
+  }
+
+  @override
+  set loadingScreen(bool value) {
+    _$loadingScreenAtom.reportWrite(value, super.loadingScreen, () {
+      super.loadingScreen = value;
+    });
+  }
+
   late final _$showMoreAtom =
       Atom(name: 'CreateProposalStoreBase.showMore', context: context);
 
@@ -281,6 +297,23 @@ mixin _$CreateProposalStore on CreateProposalStoreBase, Store {
     return _$getFileAsyncAction.run(() => super.getFile());
   }
 
+  late final _$downloadAsyncAction =
+      AsyncAction('CreateProposalStoreBase.download', context: context);
+
+  @override
+  Future download() {
+    return _$downloadAsyncAction.run(() => super.download());
+  }
+
+  late final _$createProporsalAsyncAction =
+      AsyncAction('CreateProposalStoreBase.createProporsal', context: context);
+
+  @override
+  Future createProporsal({required dynamic context}) {
+    return _$createProporsalAsyncAction
+        .run(() => super.createProporsal(context: context));
+  }
+
   late final _$CreateProposalStoreBaseActionController =
       ActionController(name: 'CreateProposalStoreBase', context: context);
 
@@ -290,6 +323,17 @@ mixin _$CreateProposalStore on CreateProposalStoreBase, Store {
         name: 'CreateProposalStoreBase.changeMoreDetails');
     try {
       return super.changeMoreDetails();
+    } finally {
+      _$CreateProposalStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setLoadingScreen(bool value) {
+    final _$actionInfo = _$CreateProposalStoreBaseActionController.startAction(
+        name: 'CreateProposalStoreBase.setLoadingScreen');
+    try {
+      return super.setLoadingScreen(value);
     } finally {
       _$CreateProposalStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -444,6 +488,7 @@ mixin _$CreateProposalStore on CreateProposalStoreBase, Store {
 order: ${order},
 moreDetails: ${moreDetails},
 loading: ${loading},
+loadingScreen: ${loadingScreen},
 showMore: ${showMore},
 environments: ${environments},
 total: ${total},

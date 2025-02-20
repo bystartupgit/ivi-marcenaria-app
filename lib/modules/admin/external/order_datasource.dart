@@ -41,7 +41,6 @@ class OrderDataSource {
       } else {
         return [];
       }
-
   }
 
   Future<OrderWithoutProposalEntity?> getOrderWithoutProposal({required int orderID}) async {
@@ -67,6 +66,35 @@ class OrderDataSource {
 
       return OrderWithoutProposalEntity.fromMap(data[OrderMapper.order]);
     } else { return null; }
+  }
+
+  Future<List<OrderEntity>> getWaitingApproval({ required int page, required int limit }) async {
+
+    Uri url = Uri.parse("$enviroment/api/pedidos/listar/aceitos");
+
+    String? token = Modular.get<CoreStore>().auth?.token;
+
+    Map<String,String> headers = {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token"
+    };
+
+    Map<String,dynamic> body = { "page" : page, "limit" : limit };
+
+    Response response = await post(
+        url, headers: headers, body: jsonEncode(body))
+        .timeout(const Duration(seconds: 8));
+
+    Map<String, dynamic> data = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      List<dynamic> orders = data[OrderMapper.orders];
+
+      if (orders.isNotEmpty) { return orders.map((e) => OrderEntity.fromMap(e)).toList(); }
+      else { return []; }
+    } else {
+      return [];
+    }
   }
 
 

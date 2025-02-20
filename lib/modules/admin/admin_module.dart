@@ -1,6 +1,3 @@
-
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/modules/admin/domain/mappers/router_mapper.dart';
 import 'package:marcenaria/modules/admin/domain/usecases/create_proposal_usecase.dart';
@@ -14,6 +11,7 @@ import 'package:marcenaria/modules/admin/home/create_proposal/presentation/creat
 import 'package:marcenaria/modules/admin/home/create_proposal/presentation/stores/create_proposal_store.dart';
 import 'package:marcenaria/modules/admin/home/proposal/presentation/stores/proposal_store.dart';
 
+import 'domain/usecases/get_order_waiting_proposal_usecase.dart';
 import 'navigation/navigation_page.dart';
 import 'navigation/stores/navigation_store.dart';
 
@@ -34,6 +32,7 @@ class AdminModule extends Module {
     i.add(() => GetWaitingProposalUsecase(datasource: i.get<OrderDataSource>()));
     i.add(() => GetUserUseCase(datasource: i.get<UserDataSource>()));
     i.add(() => CreateProposalUsecase(datasource: i.get<ProposalDataSource>()));
+    i.add(() => GetOrderWaitingAppovalUsecase(datasource: i.get<OrderDataSource>()));
   }
 
   @override

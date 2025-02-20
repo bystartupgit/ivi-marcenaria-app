@@ -73,7 +73,7 @@ class CreateProporseCalculatorWidget extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Expanded(child: CreateProporseTemporalWidget(group: store.temporal, onChanged: store.setTemporal)),
-                      Expanded(child: CreateProposalDaysWidget(onChanged: store.setDateLimit,value: store.dateLimit)),
+                      if(store.temporal == "Sim") Expanded(child: CreateProposalDaysWidget(onChanged: store.setDateLimit,value: store.dateLimit)),
                     ],
                   ),
                   Align(

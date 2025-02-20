@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/modules/admin/domain/entities/order_entity.dart';
+import 'package:marcenaria/modules/admin/domain/usecases/get_order_waiting_proposal_usecase.dart';
 import 'package:marcenaria/modules/admin/domain/usecases/get_waiting_proposal_usecase.dart';
 import 'package:mobx/mobx.dart';
 
@@ -10,6 +11,7 @@ class ProposalStore = ProposalStoreBase with _$ProposalStore;
 
 abstract class ProposalStoreBase with Store {
 
+  final GetOrderWaitingAppovalUsecase _getOrderWaitingAppovalUsecase = Modular.get<GetOrderWaitingAppovalUsecase>();
   final GetWaitingProposalUsecase _getWaitingProposalUsecase = Modular.get<GetWaitingProposalUsecase>();
 
   final PageController controller = PageController(initialPage: 0);
@@ -19,6 +21,9 @@ abstract class ProposalStoreBase with Store {
 
   @observable
   int pageWaiting = 1;
+
+  @observable
+  int pageApproval = 1;
 
   @observable
   int limit = 10;
@@ -40,6 +45,16 @@ abstract class ProposalStoreBase with Store {
     if(filter.isEmpty) { return waitingProposal; }
     else { return waitingProposal.where((e) => e.title.toLowerCase().contains(filter.toLowerCase())).toList(); }
   }
+
+  @action
+  getAprovals() async {
+
+    List<OrderEntity> orders = await _getOrderWaitingAppovalUsecase.call(page: pageApproval, limit: limit);
+
+    waitingAproval = orders.asObservable();
+
+  }
+
 
   @computed
   List<OrderEntity> get waitingAprovalFiltered {
@@ -68,6 +83,10 @@ abstract class ProposalStoreBase with Store {
           page: pageWaiting, limit: limit);
 
       waitingProposal = orders.asObservable();
+
+      orders = await _getOrderWaitingAppovalUsecase.call(page: pageApproval, limit: limit);
+
+      waitingAproval = orders.asObservable();
 
       setLoading(false);
     }

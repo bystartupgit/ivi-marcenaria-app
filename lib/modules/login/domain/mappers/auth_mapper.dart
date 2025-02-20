@@ -10,4 +10,6 @@ class AuthMapper {
   static String type = "tipo_usuario";
   static String message = "message";
 
+  static String success = "Usuário registrado com sucesso";
+
 }

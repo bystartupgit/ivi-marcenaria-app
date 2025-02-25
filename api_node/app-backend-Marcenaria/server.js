@@ -16,6 +16,7 @@ const clientesRoutes = require('./routes/clientes');
 const prestadoresRoutes = require('./routes/prestadores');
 const administradoresRoutes = require('./routes/administradores');
 const notificacoesRoutes = require('./routes/notificacoes');
+const avaliacoesRoutes = require('./routes/avaliacoes');
 
 const validaRotas = 0;
 
@@ -45,6 +46,7 @@ app.use('/api/clientes', clientesRoutes);
 app.use('/api/prestadores', prestadoresRoutes);
 app.use('/api/administradores', administradoresRoutes);
 app.use('/api/notificacoes', notificacoesRoutes);
+app.use('/api/avaliacoes', avaliacoesRoutes);
 
 // Middleware para listar as rotas
 if(validaRotas==1){

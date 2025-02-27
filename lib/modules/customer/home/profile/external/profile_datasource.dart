@@ -45,6 +45,4 @@ class ProfileDatasource {
     } catch(e) { return false; }
 
   }
-
-
 }

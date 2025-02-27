@@ -22,6 +22,7 @@ import 'package:marcenaria/modules/login/domain/usecases/show_error_message_usec
 import 'package:mobx/mobx.dart';
 import 'package:permission_handler/permission_handler.dart';
 
+import '../../domain/mappers/service_type_mapper.dart';
 import '../utils/cover_utils.dart';
 
 part 'service_store.g.dart';
@@ -98,8 +99,9 @@ abstract class ServiceStoreBase with Store {
 
     try {
 
-      //TODO colocar aqui a validação do documento de referencia quando houver o upload
-      //(String, bool) containsFile = ServiceUtils.validateServiceDetails(serviceFile);
+      (String, bool) containsFile = ServiceUtils.validateServiceDetails(serviceFile);
+
+      if(containsFile.$2 == false) { ShowErrorMessageUsecase(context: context).call(message: containsFile.$1); return; }
 
       setLoading(true);
 
@@ -108,14 +110,12 @@ abstract class ServiceStoreBase with Store {
       if(result.$2 == null) { ShowErrorMessageUsecase(context: context).call(message: result.$1); }
       else {
 
-        ServiceAttachmentDTO coverAttachmentDTO = coverDTO(orderID: result.$2?.id ?? 0);
         ServiceAttachmentDTO documentAttachmentDTO = attachmentDTO(orderID: result.$2?.id ?? 0);
 
-        await _uploadMediaServiceUseCase.call(coverAttachmentDTO);
-        await _uploadMediaServiceUseCase.call(documentAttachmentDTO);
+        await _uploadMediaServiceUseCase.call(documentAttachmentDTO, serviceFile!);
 
         Modular.get<OrderStore>().addWaigintOrders(result.$2!);
-        Modular.to.pushNamed(CustomerRouters.serviceSuccessIntern,arguments: result.$2);
+        Modular.to.pushNamed(CustomerRouters.serviceSuccessIntern,arguments: [result.$2, serviceFile, documentAttachmentDTO.description]);
 
       }
     } catch(e) { ShowErrorMessageUsecase(context: context).call(message: e.toString()); }
@@ -168,7 +168,7 @@ abstract class ServiceStoreBase with Store {
 
     setLoading(true);
 
-    FilePickerResult? result = await FilePicker.platform.pickFiles();
+    FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.custom, allowMultiple: false, allowedExtensions: ['png', 'pdf']);
 
     if (result != null) {
 
@@ -203,13 +203,13 @@ abstract class ServiceStoreBase with Store {
 
   ServiceAttachmentDTO attachmentDTO({required int orderID}) =>
       ServiceAttachmentDTO(
-          name: CoverUtils.convertNameFile(cover.$1),
-          type: cover.$1.endsWith("pdf") ? ServiceAttachmentType.pdf.name : ServiceAttachmentType.imagem.name ,
+          name: CoverUtils.convertNameFile(serviceFile!.path),
+          type: serviceFile!.path.endsWith("pdf") ? ServiceAttachmentType.pdf.name : ServiceAttachmentType.imagem.name ,
           path: "/uploads/documents/",
           customerID: customerID ?? 0,
           orderID: orderID,
           isCover: false,
-          description: "service document"
+          description: type == 1? ServiceTypeMapper.inspiration : ServiceTypeMapper.archtectonic
       );
 
 

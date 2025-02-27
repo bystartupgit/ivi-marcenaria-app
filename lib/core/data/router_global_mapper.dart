@@ -9,5 +9,6 @@ class RouterGlobalMapper {
   static String admin = "/Admin/";
   static String notification = "/Notification/";
   static String chatSupport = "/ChatSupport/";
+  static String chatPrivateSupport = "/ChatPrivateSupport/";
 
 }

@@ -5,6 +5,7 @@ import 'package:marcenaria/modules/login/domain/usecases/register_usecase.dart';
 import 'package:marcenaria/modules/login/external/login_datasource.dart';
 import 'package:marcenaria/modules/login/presentation/stores/login_store.dart';
 import 'package:marcenaria/modules/login/register/presentation/components/contract/presentation/contract_page.dart';
+import 'package:marcenaria/modules/login/register/presentation/components/contract/presentation/store/contract_store.dart';
 import 'package:marcenaria/modules/login/register/presentation/components/documents/presentation/documents_page.dart';
 import 'package:marcenaria/modules/login/register/presentation/components/success/register_success_page.dart';
 import 'package:marcenaria/modules/login/register/presentation/register_page.dart';
@@ -17,6 +18,7 @@ class LoginModule extends Module {
   @override
   void binds(i) {
     i.add(() => LoginStore());
+    i.add(() => ContractStore());
     i.add(() => RegisterStore());
 
     i.add(() => LoginDataSource());

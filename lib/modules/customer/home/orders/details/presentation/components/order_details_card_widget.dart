@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:marcenaria/modules/customer/home/orders/details/presentation/components/details_complete_widget.dart';
 import 'package:marcenaria/modules/customer/home/orders/details/presentation/components/details_incomplete_widget.dart';
+import 'package:marcenaria/modules/customer/home/orders/details/presentation/stores/order_waiting_details_store.dart';
 import 'package:marcenaria/modules/customer/home/orders/domain/entities/order_entity.dart';
 
 import '../../../../../../../core/themes/color_theme.dart';
 import '../../../../../../../core/themes/family_theme.dart';
-import 'order_details_rich_widget.dart';
 
 class OrderDetailsCardWidget extends StatelessWidget {
+
+  final OrderWaitingDetailsStore store;
 
   final bool moreDetails;
   final Function() changeMoreDetails;
@@ -18,7 +19,9 @@ class OrderDetailsCardWidget extends StatelessWidget {
   final String title = "Orçamento Nº";
   final String image = "assets/home/covers/1.jpeg";
 
-  const OrderDetailsCardWidget({super.key, required this.order, required this.changeMoreDetails, required this.moreDetails});
+  const OrderDetailsCardWidget({super.key,
+    required this.store,
+    required this.order, required this.changeMoreDetails, required this.moreDetails});
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +66,11 @@ class OrderDetailsCardWidget extends StatelessWidget {
                                   bottomLeft: Radius.circular(10.0))),
                           padding: const EdgeInsets.symmetric(
                               horizontal: 10.0, vertical: 5.0),
-                          child: moreDetails ?  DetailsCompleteWidget(order: order, lessDetails: () => changeMoreDetails()) : DetailsIncompleteWidget(order: order, moreDetails: () => changeMoreDetails()) )
+                          child: moreDetails ?  DetailsCompleteWidget(
+                              openFile: store.downloadMedia,
+                              file: store.file,
+                              type: store.media?.description ?? "",
+                              order: order, lessDetails: () => changeMoreDetails()) : DetailsIncompleteWidget(order: order, moreDetails: () => changeMoreDetails()) )
                     ])
 
             )]);

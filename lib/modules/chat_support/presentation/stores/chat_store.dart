@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/core/data/store/core_store.dart';
 import 'package:marcenaria/modules/chat_support/domain/dto/message_support_dto.dart';
-import 'package:marcenaria/modules/chat_support/domain/usecases/get_messages_support_usecase.dart';
 import 'package:marcenaria/modules/chat_support/domain/usecases/get_messages_usecase.dart';
-import 'package:marcenaria/modules/chat_support/domain/usecases/send_message_support_usecase.dart';
+import 'package:marcenaria/modules/chat_support/domain/usecases/send_message_usecase.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../domain/dto/message_dto.dart';
 import '../../domain/entities/message_entity.dart';
 
 part 'chat_store.g.dart';
@@ -15,8 +15,8 @@ class ChatStore = ChatStoreBase with _$ChatStore;
 
 abstract class ChatStoreBase with Store {
 
-  final SendMessagesSupportUseCase _sendMessagesUseCase = Modular.get<SendMessagesSupportUseCase>();
-  final GetMessagesSupportUseCase _getMessagesUseCase = Modular.get<GetMessagesSupportUseCase>();
+  final SendMessagesUseCase _sendMessagesUseCase = Modular.get<SendMessagesUseCase>();
+  final GetMessagesUseCase _getMessagesUseCase = Modular.get<GetMessagesUseCase>();
 
 
   final TextEditingController controller = TextEditingController();
@@ -51,7 +51,7 @@ abstract class ChatStoreBase with Store {
 
     if(value.trim().isEmpty) { return; }
 
-    _sendMessagesUseCase.call(dto: MessageSupportDTO(userID: userID, suportID: 6, message: value));
+    _sendMessagesUseCase.call(dto: MessageDTO(userID: userID, orderID: orderID, message: value));
 
     messages.add(MessageEntity(id: 0, senderID: userID, message: value, date: DateTime.now()));
 
@@ -66,9 +66,8 @@ abstract class ChatStoreBase with Store {
       setLoading(true);
 
       List<MessageEntity> list = await _getMessagesUseCase.call(
-          supportID: 6, page: page, limit: limit);
-
-
+          orderID: orderID,
+          page: page, limit: limit);
 
       if (list.isNotEmpty) {
         messages = list.asObservable();

@@ -2,7 +2,7 @@ name: marcenaria
 description: "A new Flutter project."
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
-version: 1.0.0+1
+version: 1.0.1+1
 
 environment:
   sdk: ^3.5.4
@@ -13,34 +13,42 @@ dependencies:
 
   flutter_modular: ^6.3.4
 
-  intl: ^0.20.2
+  intl: ^0.19.0
+  open_file: ^3.5.10
+  flutter_pdfview: ^1.4.0
   flutter_mobx: ^2.2.1+1
   mobx: ^2.3.3+2
   cupertino_icons: ^1.0.8
   image_picker: ^1.1.2
   file_picker: ^8.3.1
   permission_handler: ^11.3.1
-  device_info_plus: ^11.2.2
-
-
+  device_info_plus: ^11.3.0
+  path_provider: ^2.1.5
   flutter_svg: ^2.0.10+1
   flutter_secure_storage: ^9.2.4
   modal_progress_hud_nsn: ^0.5.1
   http: ^1.2.2
   carousel_slider: ^5.0.0
+  dartssh2: ^2.11.0
+
   dots_indicator: ^3.0.0
   animated_text_kit: ^4.2.2
   another_stepper: ^1.2.2
   custom_sliding_segmented_control: ^1.8.4
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
 
+  flutter_launcher_icons: 0.13.1
   flutter_lints: ^4.0.0
   mobx_codegen: ^2.6.1
   analyzer: ^6.2.0
   build_runner:
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon/icon.jpg"
+  remove_alpha_ios: true
 
 flutter:
 
@@ -52,6 +60,7 @@ flutter:
     - assets/fonts/
     - assets/login/icons/
     - assets/login/svgs/
+    - assets/login/pdf/
     - assets/login/images/
     - assets/home/icons/
     - assets/home/customer/
@@ -61,6 +70,7 @@ flutter:
     - assets/covers/
     - assets/onboarding/
     - assets/profile/
+    - assets/admin/navigation/
 
   fonts:
     - family: Gotham Black
@@ -93,6 +103,9 @@ flutter:
     - family: NavigationIcons
       fonts:
         - asset: assets/home/icons/NavigationIcons.ttf
+    - family: AdminNavigationIcons
+      fonts:
+        - asset: assets/admin/navigation/AdminNavigationIcons.ttf
     - family: DrawerIcons
       fonts:
         - asset: assets/home/icons/DrawerIcons.ttf

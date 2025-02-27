@@ -2,7 +2,9 @@
 
 
 import 'dart:convert';
+import 'dart:io';
 
+import 'package:dartssh2/dartssh2.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:http/http.dart';
 import 'package:marcenaria/modules/customer/home/orders/domain/entities/order_entity.dart';
@@ -15,6 +17,7 @@ import '../../../../../core/data/store/core_store.dart';
 class ServiceDataSource {
 
   final String enviroment = "http://92.112.177.245:5000";
+  final String ftp = "92.112.177.245";
 
   Future<void> getServices({int page = 1, int limit = 10, required int customerID}) async {
 
@@ -70,34 +73,50 @@ class ServiceDataSource {
 
   }
 
-  Future<(String,bool)> uploadMedia(ServiceAttachmentDTO attachment) async {
+  Future<(String,bool)> uploadMedia(ServiceAttachmentDTO attachment, File media) async {
+
+    final client = SSHClient(
+      await SSHSocket.connect(ftp, 22),
+      username: 'marc-access-app',
+      onPasswordRequest: () => 'BySt@rtup@appFront',
+    );
+
+    String path = '/uploads/${attachment.orderID}-${attachment.name}';
+
+    SftpClient sftp = await client.sftp();
+    final file = await sftp.open(path, mode: SftpFileOpenMode.create | SftpFileOpenMode.write);
+    await file.write(media.openRead().cast());
 
     Uri url = Uri.parse("$enviroment/api/midia/registrar");
 
-    String? token = Modular.get<CoreStore>().auth?.token;
+      String? token = Modular.get<CoreStore>().auth?.token;
 
-    Map<String,String> headers = {
-      "Content-Type": "application/json",
-      "Authorization": "Bearer $token"
-    };
+      Map<String, String> headers = {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer $token"
+      };
 
-    Map<String,dynamic> body = attachment.toMap();
+      Map<String, dynamic> body = attachment.copyWith(path).toMap();
 
-    try {
+      try {
+        Response response = await post(
+            url, headers: headers, body: jsonEncode(body))
+            .timeout(const Duration(seconds: 8));
 
-      Response response = await post(url, headers: headers, body: jsonEncode(body))
-          .timeout(const Duration(seconds: 8));
+        dynamic data = jsonDecode(response.body);
 
-      dynamic data = jsonDecode(response.body);
+        String message = data[OrderDTOMapper.message];
 
-      String message = data[OrderDTOMapper.message];
+        if (response.statusCode == 200) {
+          return (message, true);
+        }
 
-      if(response.statusCode == 200) { return (message, true); }
-
-      else {  return (message, false); }
-
-    } catch(e) { return (e.toString(), false); }
-
+        else {
+          return (message, false);
+        }
+      } catch (e) {
+        return (e.toString(), false);
+      }
   }
 
 

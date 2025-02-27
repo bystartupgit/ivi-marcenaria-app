@@ -6,6 +6,7 @@ extension StatusExtension on OrderStatus {
 
   static OrderStatus fromString(String value) => switch(value) {
     "em analise" => OrderStatus.analysis,
+    "em negociacao" => OrderStatus.appoval,
     _ => OrderStatus.analysis
   };
 
@@ -15,5 +16,13 @@ extension StatusExtension on OrderStatus {
     OrderStatus.payment => "Pagamento",
     OrderStatus.production => "Em produção",
     OrderStatus.finished => "Concluído"
+  };
+
+  static int fromStep(OrderStatus value) => switch(value) {
+    OrderStatus.analysis => 0,
+    OrderStatus.appoval => 1,
+    OrderStatus.payment => 2,
+    OrderStatus.production => 3,
+    OrderStatus.finished => 4
   };
 }

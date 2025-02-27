@@ -9,6 +9,22 @@ part of 'profile_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$ProfileStore on ProfileStoreBase, Store {
+  late final _$imageAtom =
+      Atom(name: 'ProfileStoreBase.image', context: context);
+
+  @override
+  File? get image {
+    _$imageAtom.reportRead();
+    return super.image;
+  }
+
+  @override
+  set image(File? value) {
+    _$imageAtom.reportWrite(value, super.image, () {
+      super.image = value;
+    });
+  }
+
   late final _$initAsyncAction =
       AsyncAction('ProfileStoreBase.init', context: context);
 
@@ -17,10 +33,43 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
     return _$initAsyncAction.run(() => super.init());
   }
 
+  late final _$uploadImageAsyncAction =
+      AsyncAction('ProfileStoreBase.uploadImage', context: context);
+
+  @override
+  Future uploadImage() {
+    return _$uploadImageAsyncAction.run(() => super.uploadImage());
+  }
+
+  late final _$ProfileStoreBaseActionController =
+      ActionController(name: 'ProfileStoreBase', context: context);
+
+  @override
+  dynamic setImage(File value) {
+    final _$actionInfo = _$ProfileStoreBaseActionController.startAction(
+        name: 'ProfileStoreBase.setImage');
+    try {
+      return super.setImage(value);
+    } finally {
+      _$ProfileStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic update(ProfileDTO dto) {
+    final _$actionInfo = _$ProfileStoreBaseActionController.startAction(
+        name: 'ProfileStoreBase.update');
+    try {
+      return super.update(dto);
+    } finally {
+      _$ProfileStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
   @override
   String toString() {
     return '''
-
+image: ${image}
     ''';
   }
 }

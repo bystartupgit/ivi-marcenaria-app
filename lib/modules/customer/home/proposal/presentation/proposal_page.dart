@@ -56,8 +56,6 @@ class _ProposalPageState extends State<ProposalPage> with AutomaticKeepAliveClie
                           ProposalListWidget(orders: store.finishedOrdersFiltered, message: OrderEmptyMapper.finished)
                         ]
                     ))
-
-
               ]),
         ),
       ),

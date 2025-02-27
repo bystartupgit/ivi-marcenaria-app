@@ -13,9 +13,11 @@ class RegisterDTO {
   final String phone;
   final UserType type;
 
+  final List<String> functions;
+
   RegisterDTO({required this.name,
     required this.email, required this.password, required this.cpf,
-    required this.phone, required this.type});
+    required this.phone, required this.type, this.functions = const []});
 
 
   toMap() => {
@@ -24,7 +26,8 @@ class RegisterDTO {
     RegisterParamsMapper.password: password,
     RegisterParamsMapper.cpf: cpf.replaceAll(".", "").replaceAll("-", ""),
     RegisterParamsMapper.phone: phone,
-    RegisterParamsMapper.type: type.name
+    RegisterParamsMapper.type: type.name,
+    RegisterParamsMapper.functions: functions
   };
 
 }

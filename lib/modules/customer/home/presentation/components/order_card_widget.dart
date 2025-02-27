@@ -1,12 +1,10 @@
 
 
 import 'package:flutter/material.dart';
-import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/modules/customer/home/orders/domain/entities/order_entity.dart';
 
 import '../../../../../core/themes/color_theme.dart';
 import '../../../../../core/themes/family_theme.dart';
-import '../../../../employee/domain/mappers/router_mapper.dart';
 import '../../../../employee/orders/presentation/components/environment_text_widget.dart';
 import '../../orders/domain/enum/order_status_enum.dart';
 

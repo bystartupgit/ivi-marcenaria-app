@@ -4,8 +4,12 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/core/data/store/core_store.dart';
 import 'package:marcenaria/modules/customer/home/conversations/presentation/components/conversation_empty_widget.dart';
 import 'package:marcenaria/modules/customer/home/conversations/presentation/components/conversation_loading_widget.dart';
+import 'package:marcenaria/modules/customer/home/conversations/presentation/components/conversation_suport_tile_widget.dart';
+import 'package:marcenaria/modules/customer/home/conversations/presentation/components/conversation_tile_widget.dart';
 import 'package:marcenaria/modules/customer/home/conversations/presentation/stores/conversation_store.dart';
+import 'package:marcenaria/modules/customer/home/orders/presentation/stores/order_store.dart';
 
+import '../../../../../core/data/router_global_mapper.dart';
 import '../../../../../core/themes/color_theme.dart';
 import 'components/conversation_filter_widget.dart';
 
@@ -19,6 +23,7 @@ class ConversationPage extends StatefulWidget {
 class _ConversationPageState extends State<ConversationPage> with AutomaticKeepAliveClientMixin {
 
   final CoreStore core = Modular.get<CoreStore>();
+  final OrderStore orders = Modular.get<OrderStore>();
   final ConversationStore store = Modular.get<ConversationStore>();
 
   @override
@@ -37,12 +42,32 @@ class _ConversationPageState extends State<ConversationPage> with AutomaticKeepA
         backgroundColor: ColorTheme.background,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: store.loading ? ConversationLoadingWidget() : Column(
-              children: [
-                ConversationFilterWidget(onChanged: store.setFilter,name: core.profile?.name ?? "Olá, "),
-                const SizedBox(height: 20),
-                store.conversations.isEmpty ? const ConversationEmptyWidget() : Container()
-              ]),
+          child: store.loading ? ConversationLoadingWidget() : SingleChildScrollView(
+            child: Column(
+                children: [
+                  ConversationFilterWidget(onChanged: store.setFilter,name: core.profile?.name ?? "Olá, "),
+                  const SizedBox(height: 20),
+                  false ? const ConversationEmptyWidget() :
+                  Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      ConversationSuportTileWidget(colaborations: "Suporte e você",
+                        onPressed: () => Modular.to.pushNamed(RouterGlobalMapper.chatPrivateSupport),
+                        name: core.profile?.name ?? "",),
+                      const SizedBox(height: 10),
+                      ListView.separated(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context,index) => ConversationTileWidget(
+                              onPressed: () => Modular.to.pushNamed(RouterGlobalMapper.chatSupport, arguments: orders.waitingOrders[index]),
+                              name: core.profile?.name ?? "",
+                              order: orders.waitingOrders[index],colaborations: "Suporte e você",),
+                          separatorBuilder: (context,index) => const SizedBox(height: 10),
+                          itemCount: orders.waitingOrders.length ),
+                    ],
+                  )
+                ]),
+          ),
         ),
       ),
     );

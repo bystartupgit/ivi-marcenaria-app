@@ -14,15 +14,18 @@ class ContractDownloadWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(image),
-          const SizedBox(width: 5.0),
-          Text(title,style: TextStyle(fontFamily: FamilyTheme.regular,
-              color: ColorTheme.title, fontSize: 12))
-        ]);
+    return InkWell(
+      onTap: download,
+      child: Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(image),
+            const SizedBox(width: 5.0),
+            Text(title,style: TextStyle(fontFamily: FamilyTheme.regular,
+                color: ColorTheme.title, fontSize: 12))
+          ]),
+    );
   }
 }

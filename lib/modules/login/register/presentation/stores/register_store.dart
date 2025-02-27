@@ -78,9 +78,10 @@ abstract class RegisterStoreBase with Store {
 
       (String, bool) result = await _registerUseCase.call(dto: RegisterDTO(name: name, email: email,
           password: password, cpf: cpf, phone: phone,
+          functions: jobs,
           type: index == 1 ? UserType.cliente : UserType.prestador));
 
-      if(result.$2) { Modular.to.pushNamed(RouterMapper.successIntern);  }
+      if(result.$2) { Modular.to.pushNamed(RouterMapper.contractIntern);  }
       else { ShowErrorMessageUsecase(context: context).call(message: result.$1); }
 
     } catch(e) { ShowErrorMessageUsecase(context: context).call(message: e.toString()); }

@@ -12,4 +12,6 @@ class RegisterParamsMapper {
   static String phone = "telefone";
   static String type = "tipo_usuario";
 
+  static String functions = "funcoes";
+
 }

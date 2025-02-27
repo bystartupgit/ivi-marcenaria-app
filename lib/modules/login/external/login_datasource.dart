@@ -21,15 +21,24 @@ class LoginDataSource {
 
       Map<String,dynamic> body = dto.toMap();
 
-      print(body);
+      try{
 
       Response response = await post(url, headers: headers, body: jsonEncode(body))
           .timeout(const Duration(seconds: 8));
 
-      print(response.body);
+      final String message = jsonDecode(response.body)["message"];
 
-      return ("",true);
+      if(response.statusCode == 201) {
 
+        final data = jsonDecode(response.body);
+
+        if(message == AuthMapper.success) { return ("", true); }
+
+        else { return (message, false); }
+
+      } else { return (message, false); }
+
+      }catch(e) { return ("Não foi possível realizar o cadastro. Tente novamente mais tarde", false); }
     }
 
     Future<(String, AuthEntity?)> login({required String email, required String password}) async {

@@ -32,4 +32,13 @@ class ServiceAttachmentDTO {
     ServiceAttachmentMapper.isCover: isCover,
     ServiceAttachmentMapper.description: description,
   };
+
+  ServiceAttachmentDTO copyWith(String? path) =>
+      ServiceAttachmentDTO(name: name,
+          type: type, path: path ?? this.path,
+          customerID: customerID,
+          orderID: orderID,
+          description: description
+      );
+
 }

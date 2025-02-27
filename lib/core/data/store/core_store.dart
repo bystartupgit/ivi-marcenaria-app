@@ -1,6 +1,3 @@
-
-
-
 import 'package:marcenaria/core/data/entities/profile_entity.dart';
 import 'package:mobx/mobx.dart';
 

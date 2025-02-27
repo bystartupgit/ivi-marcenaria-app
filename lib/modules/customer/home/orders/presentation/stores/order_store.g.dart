@@ -23,13 +23,14 @@ mixin _$OrderStore on OrderStoreBase, Store {
               () => super.waitingOrdersFiltered,
               name: 'OrderStoreBase.waitingOrdersFiltered'))
           .value;
-  Computed<List<OrderEntity>>? _$waitingApprovalOrdersFilteredComputed;
+  Computed<List<ProposalEntity>>? _$waitingApprovalOrdersFilteredComputed;
 
   @override
-  List<OrderEntity> get waitingApprovalOrdersFiltered =>
-      (_$waitingApprovalOrdersFilteredComputed ??= Computed<List<OrderEntity>>(
-              () => super.waitingApprovalOrdersFiltered,
-              name: 'OrderStoreBase.waitingApprovalOrdersFiltered'))
+  List<ProposalEntity> get waitingApprovalOrdersFiltered =>
+      (_$waitingApprovalOrdersFilteredComputed ??=
+              Computed<List<ProposalEntity>>(
+                  () => super.waitingApprovalOrdersFiltered,
+                  name: 'OrderStoreBase.waitingApprovalOrdersFiltered'))
           .value;
 
   late final _$indexAtom = Atom(name: 'OrderStoreBase.index', context: context);
@@ -146,17 +147,25 @@ mixin _$OrderStore on OrderStoreBase, Store {
       Atom(name: 'OrderStoreBase.waitingApprovalOrders', context: context);
 
   @override
-  ObservableList<OrderEntity> get waitingApprovalOrders {
+  ObservableList<ProposalEntity> get waitingApprovalOrders {
     _$waitingApprovalOrdersAtom.reportRead();
     return super.waitingApprovalOrders;
   }
 
   @override
-  set waitingApprovalOrders(ObservableList<OrderEntity> value) {
+  set waitingApprovalOrders(ObservableList<ProposalEntity> value) {
     _$waitingApprovalOrdersAtom.reportWrite(value, super.waitingApprovalOrders,
         () {
       super.waitingApprovalOrders = value;
     });
+  }
+
+  late final _$loadingNewOrdersAsyncAction =
+      AsyncAction('OrderStoreBase.loadingNewOrders', context: context);
+
+  @override
+  Future loadingNewOrders() {
+    return _$loadingNewOrdersAsyncAction.run(() => super.loadingNewOrders());
   }
 
   late final _$initAsyncAction =
@@ -220,6 +229,28 @@ mixin _$OrderStore on OrderStoreBase, Store {
         name: 'OrderStoreBase.addWaigintOrders');
     try {
       return super.addWaigintOrders(order);
+    } finally {
+      _$OrderStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic removeProposalOrders(ProposalEntity order) {
+    final _$actionInfo = _$OrderStoreBaseActionController.startAction(
+        name: 'OrderStoreBase.removeProposalOrders');
+    try {
+      return super.removeProposalOrders(order);
+    } finally {
+      _$OrderStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic addProposalOrders(ProposalEntity order) {
+    final _$actionInfo = _$OrderStoreBaseActionController.startAction(
+        name: 'OrderStoreBase.addProposalOrders');
+    try {
+      return super.addProposalOrders(order);
     } finally {
       _$OrderStoreBaseActionController.endAction(_$actionInfo);
     }

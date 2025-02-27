@@ -17,6 +17,7 @@ import 'package:marcenaria/modules/customer/home/orders/domain/mappers/order_map
 import 'package:path_provider/path_provider.dart';
 
 import '../../../../../core/data/store/core_store.dart';
+import '../domain/entities/proposal_entity.dart';
 
 class OrderDataSource {
 
@@ -90,7 +91,7 @@ class OrderDataSource {
 
   }
 
-  Future<List<OrderEntity>> getWaitingApprovalOrders({required int customerID, required int page, required int limit }) async {
+  Future<List<ProposalEntity>> getWaitingApprovalOrders({required int customerID, required int page, required int limit }) async {
 
     String? token = Modular.get<CoreStore>().auth?.token;
 
@@ -103,20 +104,20 @@ class OrderDataSource {
 
     Map<String,dynamic> body = { "page" : page, "limit" : limit };
 
-
-
     try {
       Response response = await post(
           url, headers: headers, body: jsonEncode(body))
           .timeout(const Duration(seconds: 8));
 
+      print(response.body);
+
       Map<String, dynamic> data = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
-        List<dynamic> orders = data[OrderMapper.orders];
+        List<dynamic> proposal = data[OrderMapper.proposal];
 
-        if (orders.isNotEmpty) {
-          return orders.map((e) => OrderEntity.fromMap(e)).toList();
+        if (proposal.isNotEmpty) {
+          return proposal.map((e) => ProposalEntity.fromJson(e)).toList();
         }
         else {
           return [];
@@ -144,8 +145,6 @@ class OrderDataSource {
     Response response = await post(
         url, headers: headers, body: jsonEncode(body))
         .timeout(const Duration(seconds: 8));
-
-    log(response.body.toString());
 
     if(response.statusCode == 200) {
 

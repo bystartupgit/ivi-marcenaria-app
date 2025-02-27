@@ -6,29 +6,31 @@ import 'package:marcenaria/modules/admin/home/proposal/presentation/stores/propo
 import 'package:marcenaria/modules/admin/navigation/stores/navigation_store.dart';
 import 'package:marcenaria/modules/customer/navigation/presentation/components/navigation_icons.dart';
 
+import 'home_card_svg_widget.dart';
 import 'home_card_widget.dart';
 
-class HomeProposalWidget extends StatelessWidget {
+class HomeOrderWidget extends StatelessWidget {
 
   final NavigationStore store = Modular.get<NavigationStore>();
   final ProposalStore proposal = Modular.get<ProposalStore>();
 
-  final String title = "Orçamentos";
+  final String title = "Pedidos";
 
-  final String waitingApproval = "Aguardando Aprovação";
-  final String waitingProporsal = "Aguardando Orçamento";
+  final String waitingApproval = "Aguardando Prestador ";
+  final String waitingProporsal = "Recusados";
 
-  HomeProposalWidget({super.key});
+  HomeOrderWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text(title,textAlign: TextAlign.center,style: TextStyle(fontSize: 14,color: ColorTheme.black3,fontFamily: FamilyTheme.medium)),
+          Text(title,style: TextStyle(fontSize: 14,color: ColorTheme.black3,fontFamily: FamilyTheme.medium)),
           const SizedBox(height: 5.0),
-          HomeCardWidget(title: waitingProporsal,onPressed: () { store.setIndex(1);  },icon: NavigationIcons.calculator),
-          HomeCardWidget(title: waitingApproval,onPressed: () { store.setIndex(1); },icon: NavigationIcons.orders),
-    ]);
+          HomeCardSVGWidget(title: waitingProporsal,onPressed: () { store.setIndex(2);  },icon: "assets/admin/navigation/aguardando.svg"),
+          HomeCardSVGWidget(title: waitingApproval,onPressed: () { store.setIndex(2); },icon: "assets/admin/navigation/recusado.svg"),
+        ]);
   }
 }

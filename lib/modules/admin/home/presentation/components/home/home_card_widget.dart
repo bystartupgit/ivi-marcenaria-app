@@ -19,15 +19,17 @@ class HomeCardWidget extends StatelessWidget {
       child: Card(
         color: ColorTheme.lightGray,
         child: Container(
+          height: 105,
           padding: const EdgeInsets.all(16.0),
           decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
           child: Column(
             spacing: 10.0,
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Icon(icon,size: 25),
-              Text(title,
+              Text(title,textAlign: TextAlign.center,
                   style: TextStyle(fontFamily: FamilyTheme.medium,
                       color: ColorTheme.black3, fontSize: 12))
             ],

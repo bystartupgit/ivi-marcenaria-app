@@ -9,6 +9,8 @@ import 'package:marcenaria/modules/admin/external/proposal_datasource.dart';
 import 'package:marcenaria/modules/admin/external/user_datasource.dart';
 import 'package:marcenaria/modules/admin/home/create_proposal/presentation/create_proposal_page.dart';
 import 'package:marcenaria/modules/admin/home/create_proposal/presentation/stores/create_proposal_store.dart';
+import 'package:marcenaria/modules/admin/home/payment/payment_page.dart';
+import 'package:marcenaria/modules/admin/home/payment/stores/payment_store.dart';
 import 'package:marcenaria/modules/admin/home/proposal/presentation/stores/proposal_store.dart';
 
 import 'domain/usecases/get_order_waiting_proposal_usecase.dart';
@@ -21,6 +23,7 @@ class AdminModule extends Module {
   void binds(i) {
     i.addSingleton(() => NavigationStore());
     i.addSingleton(() => ProposalStore());
+    i.add(() =>PaymentStore());
     i.add(() => CreateProposalStore());
 
 
@@ -39,5 +42,6 @@ class AdminModule extends Module {
   void routes(r) {
     r.child(Modular.initialRoute, child: (context) => const NavigationPage());
     r.child(RouterMapper.createProposal, child: (context) => CreateProposalPage(orderID: r.args.data));
+    r.child(RouterMapper.paymentProposal, child: (context) => PaymentPage(orderID: r.args.data));
   }
 }

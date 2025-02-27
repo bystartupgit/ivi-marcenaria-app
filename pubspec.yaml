@@ -70,6 +70,7 @@ flutter:
     - assets/covers/
     - assets/onboarding/
     - assets/profile/
+    - assets/admin/navigation/
 
   fonts:
     - family: Gotham Black

@@ -1,21 +1,24 @@
+
 import 'dart:io';
 
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:marcenaria/modules/customer/home/orders/domain/entities/media_entity.dart';
-import 'package:marcenaria/modules/customer/home/orders/domain/entities/order_entity.dart';
-import 'package:marcenaria/modules/customer/home/orders/domain/usecases/cancel_order_usecase.dart';
-import 'package:marcenaria/modules/customer/home/orders/domain/usecases/download_media_usecase.dart';
-import 'package:marcenaria/modules/customer/home/orders/domain/usecases/get_order_details_usecase.dart';
+import 'package:intl/intl.dart';
+import 'package:marcenaria/modules/customer/home/orders/domain/entities/proposal_entity.dart';
 import 'package:marcenaria/modules/customer/home/orders/presentation/stores/order_store.dart';
-import 'package:marcenaria/modules/login/domain/usecases/show_error_message_usecase.dart';
 import 'package:mobx/mobx.dart';
 import 'package:open_file/open_file.dart';
 
-part 'order_waiting_details_store.g.dart';
+import '../../../../../login/domain/usecases/show_error_message_usecase.dart';
+import '../../domain/entities/media_entity.dart';
+import '../../domain/usecases/cancel_order_usecase.dart';
+import '../../domain/usecases/download_media_usecase.dart';
+import '../../domain/usecases/get_order_details_usecase.dart';
 
-class OrderWaitingDetailsStore = OrderWaitingDetailsStoreBase with _$OrderWaitingDetailsStore;
+part 'order_proposal_details_store.g.dart';
 
-abstract class OrderWaitingDetailsStoreBase with Store {
+class OrderProposalDetailsStore = OrderProposalDetailsStoreBase with _$OrderProposalDetailsStore;
+
+abstract class OrderProposalDetailsStoreBase with Store {
 
   final DownloadMediaUsecase _downloadMediaUsecase = Modular.get<DownloadMediaUsecase>();
   final GetOrderDetailsUsecase _getOrderDetailsUsecase = Modular.get<GetOrderDetailsUsecase>();
@@ -52,6 +55,8 @@ abstract class OrderWaitingDetailsStoreBase with Store {
     } catch(e) { print(e); } finally {(setLoading(false)); }
   }
 
+  String formatValues(double value) => NumberFormat.currency(locale: "pt_BR", symbol: "",decimalDigits: 2).format(value).trim();
+
   @action
   downloadMedia() async {
 
@@ -67,18 +72,17 @@ abstract class OrderWaitingDetailsStoreBase with Store {
   }
 
   @action
-  cancelOrder({required OrderEntity order, required context}) async {
+  cancelOrder({required ProposalEntity order, required context}) async {
 
     try {
 
       setLoading(true);
 
-      bool result = await _cancelOrderUsecase.call(orderID: order.id);
+      bool result = await _cancelOrderUsecase.call(orderID: order.idPedido);
 
-      if(result) { Modular.get<OrderStore>().removeWaitingOrders(order); Modular.to.pop(); }
+      if(result) { Modular.get<OrderStore>().removeProposalOrders(order); Modular.to.pop(); }
       else {
-        ShowErrorMessageUsecase(context: context)
-          .call(message: "Não foi possível cancelar a proposta"); }
+        ShowErrorMessageUsecase(context: context).call(message: "Não foi possível cancelar a proposta"); }
     } catch (e) { ShowErrorMessageUsecase(context: context)
         .call(message: "Não foi possível cancelar a proposta. Tente novamente mais tarde"); }
     finally { setLoading(false); }

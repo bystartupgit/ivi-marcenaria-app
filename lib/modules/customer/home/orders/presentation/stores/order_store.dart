@@ -8,6 +8,8 @@ import 'package:marcenaria/modules/customer/home/orders/domain/usecases/get_wait
 import 'package:marcenaria/modules/customer/home/orders/domain/usecases/get_waiting_orders_usecase.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../domain/entities/proposal_entity.dart';
+
 
 part 'order_store.g.dart';
 
@@ -45,7 +47,7 @@ abstract class OrderStoreBase with Store {
   ObservableList<OrderEntity> waitingOrders = <OrderEntity>[].asObservable();
 
   @observable
-  ObservableList<OrderEntity> waitingApprovalOrders = <OrderEntity>[].asObservable();
+  ObservableList<ProposalEntity> waitingApprovalOrders = <ProposalEntity>[].asObservable();
   
   @computed
   List<OrderEntity> get waitingOrdersFiltered {
@@ -54,10 +56,10 @@ abstract class OrderStoreBase with Store {
   }
 
   @computed
-  List<OrderEntity> get waitingApprovalOrdersFiltered {
+  List<ProposalEntity> get waitingApprovalOrdersFiltered {
 
     if(filter.isEmpty) { return waitingApprovalOrders; }
-    else { return waitingApprovalOrders.where((e) => e.title.toLowerCase().contains(filter.toLowerCase())).toList(); }
+    else { return waitingApprovalOrders.where((e) => e.pedido.titulo.toLowerCase().contains(filter.toLowerCase())).toList(); }
   }
 
   @action
@@ -74,6 +76,12 @@ abstract class OrderStoreBase with Store {
 
   @action
   addWaigintOrders(OrderEntity order) => waitingOrders.add(order);
+
+  @action
+  removeProposalOrders(ProposalEntity order) => waitingApprovalOrders.remove(order);
+
+  @action
+  addProposalOrders(ProposalEntity order) => waitingApprovalOrders.add(order);
 
   @action
   loadingNewOrders() async {
@@ -119,13 +127,13 @@ abstract class OrderStoreBase with Store {
 
       waitingOrders = orders.asObservable();
 
-      orders = await _getWaitingApprovalOrdersUsecase.call(customerID: Modular
+      List<ProposalEntity> proposal = await _getWaitingApprovalOrdersUsecase.call(customerID: Modular
           .get<CoreStore>()
           .profile
           ?.id ?? 0,
           page: pageWaiting, limit: limit);
 
-      waitingApprovalOrders = orders.asObservable();
+      waitingApprovalOrders = proposal.asObservable();
 
       setLoading(false);
     }

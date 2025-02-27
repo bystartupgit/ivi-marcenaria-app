@@ -1,19 +1,17 @@
-
-
+import 'package:marcenaria/modules/customer/home/orders/domain/entities/proposal_entity.dart';
 import 'package:flutter/material.dart';
-import 'package:marcenaria/modules/customer/home/orders/domain/entities/order_entity.dart';
+import 'package:marcenaria/modules/customer/home/orders/domain/enum/order_status_enum.dart';
+import 'package:marcenaria/modules/employee/orders/presentation/components/environment_text_widget.dart';
 
 import '../../../../../core/themes/color_theme.dart';
 import '../../../../../core/themes/family_theme.dart';
-import '../../../../employee/orders/presentation/components/environment_text_widget.dart';
-import '../../orders/domain/enum/order_status_enum.dart';
 
-class OrderCardWidget extends StatelessWidget {
+class OrderProposalCardWidget extends StatelessWidget {
 
-  final OrderEntity order;
-  final Function(OrderEntity value) details;
+  final ProposalEntity order;
+  final Function(ProposalEntity value) details;
 
-  const OrderCardWidget({super.key, required this.order, required this.details});
+  const OrderProposalCardWidget({super.key, required this.order, required this.details});
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +46,7 @@ class OrderCardWidget extends StatelessWidget {
                             mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(order.title,
+                              Text(order.pedido.titulo,
                                   overflow: TextOverflow.ellipsis,
                                   maxLines: 1, style: TextStyle(
                                       fontFamily: FamilyTheme.medium,
@@ -58,9 +56,7 @@ class OrderCardWidget extends StatelessWidget {
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  EnvironmentTextWidget(environments: order.listEnviroment),
-                                  const SizedBox(height: 5.0),
-                                  Text("Orçamento nº ${order.id}", style: TextStyle(
+                                  Text("Proposta nº ${order.idProposta}", style: TextStyle(
                                       fontFamily: FamilyTheme.regular, color: ColorTheme.pureBlack, fontSize: 10)),
                                   const SizedBox(height: 3.0),
                                   Text(StatusExtension.fromTitle(order.status),style: TextStyle(

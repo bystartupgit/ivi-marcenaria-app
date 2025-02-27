@@ -12,6 +12,7 @@ import 'package:marcenaria/modules/customer/home/presentation/components/order_s
 import '../../../../../core/themes/color_theme.dart';
 import '../../../data/routers/customer_routers.dart';
 import '../../presentation/components/order_header_greetings_widget.dart';
+import '../../presentation/components/order_proposal_list_widget.dart';
 
 
 
@@ -59,9 +60,9 @@ class _OrdersPageState extends State<OrdersPage> with AutomaticKeepAliveClientMi
                         OrderListWidget(orders: store.waitingOrdersFiltered,
                             addNewOrders: () => store.loadingNewOrders(),
                             message: OrderEmptyMapper.waitingEmployee, details: (value) => Modular.to.pushNamed(CustomerRouters.orderWaitingDetailsIntern, arguments: value)),
-                        OrderListWidget(
+                        OrderProposalListWidget(
                             addNewOrders: () {},
-                            orders: store.waitingApprovalOrdersFiltered, message: OrderEmptyMapper.waitAproval,details: (value) {})
+                            orders: store.waitingApprovalOrdersFiltered, message: OrderEmptyMapper.waitAproval,details: (value) => Modular.to.pushNamed(CustomerRouters.orderProposalDetailsIntern, arguments: value))
                       ]
                   ))
               ]),

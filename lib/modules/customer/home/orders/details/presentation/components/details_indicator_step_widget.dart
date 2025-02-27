@@ -8,9 +8,9 @@ import '../../../../../../../core/themes/family_theme.dart';
 
 class DetailsIndicatorStepWidget extends StatelessWidget {
 
-  final index = 0;
+  final int index;
 
-  const DetailsIndicatorStepWidget({super.key });
+  const DetailsIndicatorStepWidget({super.key, this.index = 0 });
 
   @override
   Widget build(BuildContext context) {

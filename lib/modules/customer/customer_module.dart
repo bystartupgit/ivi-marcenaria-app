@@ -33,6 +33,8 @@ import 'package:marcenaria/modules/customer/home/service/presentation/success/se
 import 'package:marcenaria/modules/customer/home/service/presentation/success/stores/service_success_store.dart';
 import 'package:marcenaria/modules/customer/navigation/presentation/stores/navigation_store.dart';
 
+import 'home/orders/proposal_details/proposal_details_page.dart';
+import 'home/orders/proposal_details/stores/order_proposal_details_store.dart';
 import 'navigation/presentation/navigation_page.dart';
 
 class CustomerModule extends Module {
@@ -50,6 +52,7 @@ class CustomerModule extends Module {
     i.add(() => ServiceSuccessStore());
 
     i.add(() => OrderWaitingDetailsStore());
+    i.add(() => OrderProposalDetailsStore());
 
     i.add(() => ServiceDataSource());
     i.add(() => UserDataSource());
@@ -85,5 +88,6 @@ class CustomerModule extends Module {
     r.child(CustomerRouters.profileForm, child: (context) => const ProfileFormPage());
 
     r.child(CustomerRouters.orderWaitingDetails, child: (context) => OrderWaitingDetailsPage(order: r.args.data));
+    r.child(CustomerRouters.orderProposalDetails, child: (context) => OrderProposalDetailsPage(order: r.args.data));
   }
 }

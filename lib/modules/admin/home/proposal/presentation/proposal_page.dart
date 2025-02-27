@@ -57,7 +57,7 @@ class _ProposalPageState extends State<ProposalPage> with AutomaticKeepAliveClie
 
                                   })),
                           ProposalListWidget(orders: store.waitingAprovalFiltered, message: OrderEmptyMapper.waitAproval,
-                              onPressed: (value) {})
+                              onPressed: (value) => Modular.to.pushNamed(RouterMapper.paymentProposalIntern,arguments: value))
                         ]
                     ))
               ]),

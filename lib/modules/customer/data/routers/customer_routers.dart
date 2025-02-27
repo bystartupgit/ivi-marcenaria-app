@@ -9,12 +9,14 @@ class CustomerRouters {
   static String profileForm = "/Profile/Form/";
 
   static String orderWaitingDetails = "/orderWaitingDetails/";
+  static String orderProposalDetails = "/orderProposalDetails/";
 
   static String serviceIntern = "service/";
   static String serviceSuccessIntern = "success/";
   static String profileIntern = "Profile/";
   static String profileFormIntern = "Form/";
   static String orderWaitingDetailsIntern = "orderWaitingDetails/";
+  static String orderProposalDetailsIntern = "orderProposalDetails/";
 
 
 }

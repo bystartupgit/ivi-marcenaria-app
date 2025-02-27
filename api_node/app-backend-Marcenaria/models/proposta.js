@@ -62,7 +62,7 @@ const Proposta = sequelize.define('Proposta', {
     allowNull: false,
     defaultValue: 'em negociação',
     validate: {
-      isIn: [['aceita', 'recusada', 'em negociacao', 'aprovada', 'paga']]
+      isIn: [['aceita', 'recusada', 'em negociacao', 'aprovada', 'paga', 'cancelada']]
     }
   },
   data_criacao: {

@@ -8,6 +8,7 @@ const Cliente = require('../models/cliente');
 const Prestador = require('../models/prestador');
 const Administrador = require('../models/administrador');
 const PreferenciasNotificacoes = require('../models/preferenciasNotificacoes');
+const authenticateToken = require('../middleware/auth');
 const jwt = require('jsonwebtoken');
 const nodemailer = require('nodemailer');
 const bcrypt = require('bcrypt');
@@ -80,7 +81,7 @@ async function sendRecoveryEmail(email, token) {
 // Rota para registrar um novo usuário (cliente, prestador ou administrador)
 router.post('/registrar', async (req, res) => {
   try {
-    const { nome, email, senha, tipo_usuario, cpf, telefone, imagem_perfil } = req.body;
+    const { nome, email, senha, tipo_usuario, cpf, telefone, imagem_perfil, funcoes } = req.body;
 
     // Validação básica dos dados
     if (!nome || !email || !senha || !tipo_usuario || !cpf || !telefone) {
@@ -121,6 +122,7 @@ router.post('/registrar', async (req, res) => {
         id_usuario: novoUsuario.id_usuario,
         status_contrato: 'pendente',
         status: true,
+        funcoes,
       });
       idPrestador = novoPrestador.id_prestador;
     } else if (tipo_usuario === 'administrador') {
@@ -289,6 +291,84 @@ router.post('/validateToken', async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Erro ao validar token' });
+  }
+});
+
+// Endpoint para listar informações detalhadas de um usuário
+router.post('/detalhes', authenticateToken, async (req, res) => {
+  const { id, tipo } = req.body;
+
+  try {
+    // Buscar informações de perfil com base no tipo
+    let perfil;
+    if (tipo === 'cliente') {
+      perfil = await Cliente.findOne({ where: { id_usuario: id } });
+    } else if (tipo === 'prestador') {
+      perfil = await Prestador.findOne({ where: { id_usuario: id } });
+    } else if (tipo === 'administrador') {
+      perfil = await Administrador.findOne({ where: { id_usuario: id } });
+    } else {
+      return res.status(400).json({ message: 'Tipo de perfil inválido.' });
+    }
+
+    if (!perfil) {
+      return res.status(404).json({ message: 'Perfil não encontrado.' });
+    }
+
+    // Buscar o usuário pelo ID do usuário obtido do perfil, excluindo o campo "senha"
+    const usuario = await Usuario.findOne({
+      where: { id_usuario: perfil.id_usuario },
+      attributes: { exclude: ['senha'] } // Excluir o campo "senha"
+    });
+
+    if (!usuario) {
+      return res.status(404).json({ message: 'Usuário não encontrado.' });
+    }
+
+    // Preparar a resposta
+    const resposta = {
+      usuario: usuario,
+      perfil: perfil
+    };
+
+    res.status(200).json(resposta);
+  } catch (error) {
+    console.error('Erro ao listar informações detalhadas do usuário:', error);
+    res.status(500).json({ error: 'Erro ao listar informações detalhadas do usuário.' });
+  }
+});
+
+// Endpont para realizar atualização de dados dos clientes
+router.post('/update/:id', authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { nome, email, telefone, imagem_perfil, funcoes } = req.body;
+    
+    // Verificar se o Usuario existe
+    const usuario = await Usuario.findByPk(id);
+    if (!usuario) {
+      return res.status(404).json({ error: 'Usuário nao encontrado' });
+    }
+    const id_usuario = usuario.id_usuario;
+    // Atualizar apenas os dados enviados no corpo da solicitação referentes ao usuário associado
+    await Usuario.update({ nome, email, telefone, imagem_perfil }, { where: { id_usuario } });
+
+    // Mensagem de sucesso para o tipo de perfil do usuário
+    const tipo = usuario.tipo_usuario;
+    if (tipo === 'cliente') {
+      res.status(200).json({ message: 'Dados do cliente atualizados com sucesso' });
+    } else if (tipo === 'prestador') {
+      await Prestador.update({ funcoes }, { where: { id_usuario } });
+      res.status(200).json({ message: 'Dados do prestador atualizados com sucesso' });
+    } else if (tipo === 'administrador') {
+      res.status(200).json({ message: 'Dados do administrador atualizados com sucesso' });
+    } else {
+      return res.status(400).json({ message: 'Tipo de perfil inválido.' });
+    }
+
+  } catch (erro) {
+    console.error('Erro ao atualizar dados do usuário:', erro);
+    res.status(500).json({ error: 'Erro ao atualizar dados do usuário' });
   }
 });
 

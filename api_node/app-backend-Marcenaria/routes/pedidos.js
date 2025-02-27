@@ -3,6 +3,7 @@ const router = express.Router();
 const Pedido = require('../models/pedido'); // Importando o modelo Pedido
 const Cliente = require('../models/cliente');
 const Proposta = require('../models/proposta'); // Modelo Proposta
+const Midia = require('../models/midia'); // Modelo Midia
 const Usuario = require('../models/usuario'); // Modelo Usuario
 const {registrarNotificacoes} = require('../utils/registrarNotificacoes');
 const PrestadoresInteressados = require('../models/prestadoresInteressados');
@@ -58,6 +59,38 @@ router.post('/criar', authenticateToken, async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ message: 'Erro ao criar pedido.' });
+  }
+});
+
+// Endpoint para listar um pedido específico
+router.post('/unico', authenticateToken, async (req, res) => {
+  const { id } = req.body;
+
+  try {
+    // Buscar o pedido pelo ID
+    const pedido = await Pedido.findByPk(id);
+
+    if (!pedido) {
+      return res.status(404).json({ message: 'Pedido não encontrado.' });
+    }
+
+    // Buscar orçamento associado ao pedido
+    const proposta = await Proposta.findOne({ where: { id_pedido: id } });
+
+    // Buscar capa associada ao pedido
+    const capa = await Midia.findOne({ where: { id_pedido: id, in_cover: true } });
+
+    // Preparar a resposta
+    const resposta = {
+      pedido: pedido,
+      proposta: proposta || { message: 'Orçamento não existe para o pedido solicitado.' },
+      capa: capa || { message: 'Capa não existe para o pedido solicitado.' }
+    };
+
+    res.status(200).json(resposta);
+  } catch (error) {
+    console.error('Erro ao listar pedido específico:', error);
+    res.status(500).json({ error: 'Erro ao listar pedido específico.' });
   }
 });
 
@@ -447,6 +480,98 @@ router.post('/quantitativos', authenticateToken, async (req, res) => {
   } catch (error) {
     console.error('Erro ao obter quantitativos de pedidos:', error);
     res.status(500).json({ error: 'Erro ao obter quantitativos de pedidos' });
+  }
+});
+
+// Endpoint para obter quantitativos de pedidos específicos de um cliente
+router.post('/quantitativos-cliente', authenticateToken, async (req, res) => {
+  const { id_cliente } = req.body;
+
+  try {
+    const clienteExiste = await verificarExistencia(Cliente, id_cliente);
+    if (!clienteExiste) {
+      return res.status(400).json({ message: 'Cliente não encontrado.' });
+    }
+    // Verificar se o cliente possui pedidos
+    const pedidosCliente = await Pedido.findAll({ where: { id_cliente } });
+    if (pedidosCliente.length === 0) {
+      return res.status(404).json({ message: 'Nenhum pedido encontrado para este cliente.' });
+    }
+
+    // Extrair IDs dos pedidos do cliente
+    const idsPedidosCliente = pedidosCliente.map(p => p.id_pedido);
+
+    // Buscar propostas existentes para os pedidos do cliente
+    const propostasExistem = await Proposta.findAll({
+      attributes: ['id_pedido'],
+      where: { id_pedido: { [Op.in]: idsPedidosCliente } }
+    });
+    const idsPedidosComPropostas = propostasExistem.map(p => p.id_pedido);
+
+    // Contar pedidos por status para o cliente específico
+    const [recusados, emExecucao, aceitos, concluidos, aguardandoAprovacao, aguardandoOrcamento] = await Promise.all([
+      Pedido.count({ where: { status: 'recusado', id_cliente } }),
+      Pedido.count({ where: { status: 'em execucao', id_cliente } }),
+      Pedido.count({ where: { status: 'aceito', id_cliente } }),
+      Pedido.count({ where: { status: 'concluido', id_cliente } }),
+      Pedido.count({
+        where: {
+          status: 'em analise',
+          id_cliente,
+          id_pedido: { [Op.in]: idsPedidosComPropostas },
+        },
+      }),
+      Pedido.count({
+        where: {
+          status: 'em analise',
+          id_cliente,
+          id_pedido: { [Op.notIn]: idsPedidosComPropostas },
+        },
+      }),
+    ]);
+
+    res.status(200).json({
+      Pedidos: {
+        recusados,
+        em_execucao: emExecucao,
+        aceitos,
+        concluidos,
+        aguardando_aprovacao: aguardandoAprovacao,
+        aguardando_orcamento: aguardandoOrcamento,
+      },
+    });
+  } catch (error) {
+    console.error('Erro ao obter quantitativos de pedidos do cliente:', error);
+    res.status(500).json({ error: 'Erro ao obter quantitativos de pedidos do cliente' });
+  }
+});
+
+// Endpoint para cancelar um pedido
+router.post('/cancelar/:id', authenticateToken, async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Verificar se o pedido existe
+    const pedido = await Pedido.findByPk(id);
+    if (!pedido) {
+      return res.status(404).json({ message: 'Pedido não encontrado.' });
+    }
+
+    // Atualizar o status do pedido para "Cancelado"
+    await pedido.update({ status: 'cancelado' });
+
+    // Verificar se há uma proposta associada e cancelar
+    if (pedido.id_proposta) {
+      const proposta = await Proposta.findByPk(pedido.id_proposta);
+      if (proposta) {
+        await proposta.update({ status: 'cancelada' });
+      }
+    }
+
+    res.status(200).json({ message: 'Pedido e proposta associados foram cancelados com sucesso.' });
+  } catch (error) {
+    console.error('Erro ao cancelar o pedido:', error);
+    res.status(500).json({ message: 'Erro ao cancelar o pedido.' });
   }
 });
 

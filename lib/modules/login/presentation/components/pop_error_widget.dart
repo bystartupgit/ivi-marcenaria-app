@@ -20,7 +20,7 @@ class PopUpErrorWidget extends StatelessWidget {
               spacing: 15.0,
               children: [
                 Text(title,style: TextStyle(color: ColorTheme.red,fontSize: 14,fontFamily: FamilyTheme.bold)),
-                Text(content,style: TextStyle(color: ColorTheme.black, fontSize: 12, fontFamily: FamilyTheme.regular))
+                Text(content, textAlign: TextAlign.center, style: TextStyle(color: ColorTheme.black, fontSize: 12, fontFamily: FamilyTheme.regular))
               ]),
         ));
   }

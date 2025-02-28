@@ -18,7 +18,7 @@ class CustomerPage extends StatelessWidget {
         children: [
           RegisterCardWidget(store: store),
           const SizedBox(height: 50.0),
-          RegisterButtonWidget(onPress: () => store.register())
+          RegisterButtonWidget(onPress: () => store.register(context: context))
         ]);
   }
 }

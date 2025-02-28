@@ -5,10 +5,10 @@ import 'package:marcenaria/core/themes/family_theme.dart';
 class HomeCarrouselItemWidget extends StatelessWidget {
 
   final String image;
-  final String title = "Conquiste novos clientes e expanda suas oportunidades.";
-  final String description = "Junte-se à nossa plataforma, conecte-se com clientes que valorizam qualidade e ganhe visibilidade para impulsionar seu negócio.";
+  final String title;
+  final String description;
 
-  const HomeCarrouselItemWidget({super.key, required this.image });
+  const HomeCarrouselItemWidget({super.key, required this.image, required this.title, required this.description });
 
   @override
   Widget build(BuildContext context) {

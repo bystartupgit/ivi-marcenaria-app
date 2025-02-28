@@ -14,5 +14,4 @@ abstract class HomeStoreBase with Store {
   @action
   setIndex(int value, CarouselPageChangedReason reason ) => index = value;
 
-
 }

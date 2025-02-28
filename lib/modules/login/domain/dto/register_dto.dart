@@ -22,7 +22,7 @@ class RegisterDTO {
     RegisterParamsMapper.name: name,
     RegisterParamsMapper.email: email,
     RegisterParamsMapper.password: password,
-    RegisterParamsMapper.cpf: cpf,
+    RegisterParamsMapper.cpf: cpf.replaceAll(".", "").replaceAll("-", ""),
     RegisterParamsMapper.phone: phone,
     RegisterParamsMapper.type: type.name
   };

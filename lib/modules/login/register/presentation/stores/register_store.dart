@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/modules/login/domain/dto/register_dto.dart';
 import 'package:marcenaria/modules/login/domain/enums/user_type_enum.dart';
+import 'package:marcenaria/modules/login/domain/mappers/router_mapper.dart';
 import 'package:marcenaria/modules/login/domain/usecases/register_usecase.dart';
+import 'package:marcenaria/modules/login/domain/usecases/show_error_message_usecase.dart';
 import 'package:mobx/mobx.dart';
+
 
 part 'register_store.g.dart';
 
@@ -67,21 +70,21 @@ abstract class RegisterStoreBase with Store {
   setCPF(String value) => cpf = value;
 
   @action
-  Future<void> register() async {
+  Future<void> register({required context}) async {
 
     try {
 
-      print("a");
       setLoading(true);
 
-      _registerUseCase.call(dto:
-      RegisterDTO(name: name, email: email,
+      (String, bool) result = await _registerUseCase.call(dto: RegisterDTO(name: name, email: email,
           password: password, cpf: cpf, phone: phone,
-          type: index == 0 ? UserType.cliente : UserType.prestador));
+          type: index == 1 ? UserType.cliente : UserType.prestador));
 
-    } catch(e) {}
+      if(result.$2) { Modular.to.pushNamed(RouterMapper.successIntern);  }
+      else { ShowErrorMessageUsecase(context: context).call(message: result.$1); }
+
+    } catch(e) { ShowErrorMessageUsecase(context: context).call(message: e.toString()); }
     finally { setLoading(false); }
-
 
   }
 

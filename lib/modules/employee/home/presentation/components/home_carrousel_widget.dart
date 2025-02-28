@@ -26,7 +26,7 @@ class HomeCarrouselWidget extends StatelessWidget {
           CarouselSlider.builder(
               itemCount: 2,
               itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
-                  const HomeCarrouselItemWidget(image: "assets/covers/cover_2.png"),
+                  const HomeCarrouselItemWidget(image: "assets/covers/cover_2.png", title: '', description: '',),
             options: CarouselOptions(
                 onPageChanged: onChanged,
                 viewportFraction: 1.0,

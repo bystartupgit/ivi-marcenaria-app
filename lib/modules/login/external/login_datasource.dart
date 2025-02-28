@@ -15,39 +15,20 @@ class LoginDataSource {
 
     Future<(String, bool)> registerUser({required RegisterDTO dto}) async {
 
-      Uri url = Uri.parse("$enviroment/api/pedidos/criar");
-      Uri url2 = Uri.parse("$enviroment/api/usuarios/login");
+      Uri url = Uri.parse("$enviroment/api/usuarios/registrar");
 
-      print(jsonEncode(dto.toMap()));
+      Map<String,String> headers = {"Content-Type": "application/json"};
 
+      Map<String,dynamic> body = dto.toMap();
 
+      print(body);
 
-      //Response response2 = await post(url2, headers: {"Content-Type": "application/json"}, body:
-      //jsonEncode({
-        //"email": "andreyprestador@gmail.com",
-       // "senha": "Andrey123",
-     // }));
+      Response response = await post(url, headers: headers, body: jsonEncode(body))
+          .timeout(const Duration(seconds: 8));
 
-      final token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjo5LCJ0aXBvX3VzdWFyaW8iOiJjbGllbnRlIiwiaWF0IjoxNzM3NzAzNzk2LCJleHAiOjE3Mzc3MDczOTZ9.EtVgbrLrysIVQhayAYq1dABcK7x5tfBA12D_lUfSnpo";
-
-     Response response = await post(url,
-          headers: {
-       "Content-Type": "application/json",
-            "Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZF91c3VhcmlvIjo5LCJ0aXBvX3VzdWFyaW8iOiJjbGllbnRlIiwiaWF0IjoxNzM3NzAzNzk2LCJleHAiOjE3Mzc3MDczOTZ9.EtVgbrLrysIVQhayAYq1dABcK7x5tfBA12D_lUfSnpo"},
-          body: jsonEncode({
-          "id_cliente": 1,
-          "titulo": "Mesa de Jantar",
-          "contato": true,
-          "ambientes": "",
-          "descricao": "Mesa de Jantar com 6 lugares."
-          }));
-
-
-
-      log(response.body.toString());
+      print(response.body);
 
       return ("",true);
-
 
     }
 

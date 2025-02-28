@@ -26,6 +26,12 @@
 	<true/>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Marcenaria gostaria de solicitar permissão para acessar sua galeria para selecionar images para o cadastro de serviços.</string>
+	<key>NSCameraUsageDescription</key>
+    <string>Marcenaria gostaria de solicitar permissão para acessar sua camera para tirar fotos.</string>
+    <key>NSMicrophoneUsageDescription</key>
+    <string>Marcenaria não utiliza esta permissão</string>
 	<key>UIMainStoryboardFile</key>
 	<string>Main</string>
 	<key>UISupportedInterfaceOrientations</key>

@@ -8,8 +8,10 @@ const Usuario = require('../models/usuario'); // Modelo Usuario
 const {registrarNotificacoes} = require('../utils/registrarNotificacoes');
 const PrestadoresInteressados = require('../models/prestadoresInteressados');
 const PrestadoresSelecionados = require('../models/prestadoresSelecionados');
+const Prestador = require('../models/prestador'); // Modelo Prestador
 const authenticateToken = require('../middleware/auth');
-const { Op } = require('sequelize'); // Operadores do Sequelize
+const sequelize = require('../config/database');
+const { Op } = require('sequelize'); // Operadores do  
 
 async function verificarExistencia(model, id) {
     if (id) {
@@ -572,6 +574,423 @@ router.post('/cancelar/:id', authenticateToken, async (req, res) => {
   } catch (error) {
     console.error('Erro ao cancelar o pedido:', error);
     res.status(500).json({ message: 'Erro ao cancelar o pedido.' });
+  }
+});
+
+// Endpoint para listar pedidos aguardando prestadores demonstrarem interesse 
+router.post('/pedidos-aguardando-prestadores-pendentes', async (req, res) => {
+    try {
+        const {
+            Titulo = '',
+            page = 1,
+            limit = 10
+        } = req.body;
+        const offset = (page - 1) * limit;
+
+        // Encontrar propostas que têm prestadores interessados pendentes
+        const propostasInteressadas = await PrestadoresInteressados.findAll({
+            where: {
+                status_interesse: 'pendente'
+            },
+            attributes: ['id_proposta'],
+            group: ['id_proposta'],
+            raw: true
+        });
+
+        // Construir a cláusula where para a busca por título
+        let whereClause = {};
+        if (Titulo) {
+            whereClause = {
+                titulo: {
+                    [Op.iLike]: `%${Titulo}%`
+                }
+            };
+        }
+        // Extrair os IDs das propostas
+        const idsPropostas = propostasInteressadas.map(p => p.id_proposta);
+
+        // Encontrar os pedidos associados a essas propostas
+        const {
+            count,
+            rows: pedidos
+        } = await Pedido.findAndCountAll({
+            where: whereClause, // Adiciona a cláusula where para a busca por título
+            include: [{
+                model: Proposta,
+                as: 'propostas',
+                where: {
+                    id_proposta: {
+                        [Op.in]: idsPropostas
+                    }
+                },
+                required: true,
+                attributes: ['id_proposta']
+            }],
+            limit: parseInt(limit),
+            offset: parseInt(offset),
+            distinct: true // Garante que cada pedido seja contado apenas uma vez
+        });
+
+        res.status(200).json({
+            totalRegistros: count,
+            totalPaginas: Math.ceil(count / limit),
+            paginaAtual: parseInt(page),
+            pedidos: pedidos
+        });
+
+    } catch (error) {
+        console.error('Erro ao listar pedidos aguardando prestadores:', error);
+        res.status(500).json({
+            message: 'Erro ao listar pedidos aguardando prestadores',
+            error: error.message
+        });
+    }
+});
+
+// Endpoint para listar pedidos aguardando seleção de prestadores para interesse
+router.post('/pedidos-aguardando-prestadores', async (req, res) => {
+  try {
+      const {
+          Titulo = '',
+          page = 1,
+          limit = 10
+      } = req.body;
+      const offset = (page - 1) * limit;
+
+      // Encontrar propostas que não têm nenhum prestador interessado
+      const propostasSemInteressados = await Proposta.findAll({
+          include: [{
+              model: PrestadoresInteressados,
+              as: 'interessados',
+              required: false,
+              attributes: [],
+          }],
+          where: {
+              '$interessados.id$': null // Garante que não haja nenhum prestador interessado
+          },
+          attributes: ['id_proposta', 'id_pedido'],
+          raw: true,
+          distinct: true
+      });
+
+      // Extrair os IDs dos pedidos
+      const idsPedidos = propostasSemInteressados.map(p => p.id_pedido);
+      // Construir a cláusula where para a busca por título
+      let whereClause = {};
+      if (Titulo) {
+          whereClause = {
+              titulo: {
+                  [Op.iLike]: `%${Titulo}%`
+              },id_pedido: {
+                [Op.in]: idsPedidos
+            }
+          };
+      }else{
+        whereClause = {
+            id_pedido: {
+                [Op.in]: idsPedidos
+            }
+        };
+      }
+      // Buscar os pedidos que correspondem aos IDs extraídos####
+      const {
+          count,
+          rows: pedidos
+      } = await Pedido.findAndCountAll({
+          where: whereClause,
+          limit: parseInt(limit),
+          offset: parseInt(offset)
+      });
+
+      res.status(200).json({
+          totalRegistros: count,
+          totalPaginas: Math.ceil(count / limit),
+          paginaAtual: parseInt(page),
+          pedidos: pedidos
+      });
+
+  } catch (error) {
+      console.error('Erro ao listar pedidos aguardando seleção de prestadores:', error);
+      res.status(500).json({
+          message: 'Erro ao listar pedidos aguardando seleção de prestadores',
+          error: error.message
+      });
+  }
+});
+
+// Endpoint para listar prestadores não selecionados para interesse
+router.post('/prestadores-nao-selecionados-interesse', async (req, res) => {
+  try {
+      const {
+          id_proposta,
+          page = 1,
+          limit = 10
+      } = req.body;
+      const offset = (page - 1) * limit;
+
+      // Validar se id_proposta foi fornecido
+      if (!id_proposta) {
+          return res.status(400).json({
+              message: 'id_proposta é obrigatório'
+          });
+      }
+
+      // Subconsulta para buscar os id_prestador que já estão na tabela PrestadoresInteressados para a proposta
+      const subQuery = sequelize.literal(`
+          SELECT id_prestador
+          FROM prestadores_interessados
+          WHERE id_proposta = ${id_proposta}
+      `);
+
+      // Verificar se a subconsulta retorna vazia
+      const prestadoresInteressados = await PrestadoresInteressados.findAll({
+          where: {
+              id_proposta: id_proposta
+          },
+          attributes: ['id_prestador'],
+          raw: true
+      });
+
+      let whereClause = {}; // Inicializa a cláusula where
+
+      // Se houver prestadores interessados, adiciona a condição NOT IN
+      if (prestadoresInteressados.length > 0) {
+          whereClause = {
+              id_prestador: {
+                  [Op.notIn]: sequelize.literal(`(${subQuery.content})`)
+              }
+          };
+      }
+
+      // Buscar todos os prestadores que NÃO estão na subconsulta
+      const {
+          count,
+          rows: prestadores
+      } = await Prestador.findAndCountAll({
+          where: whereClause, // Usa a cláusula where construída
+          limit: parseInt(limit),
+          offset: parseInt(offset)
+      });
+
+      res.status(200).json({
+          totalRegistros: count,
+          totalPaginas: Math.ceil(count / limit),
+          paginaAtual: parseInt(page),
+          prestadores: prestadores
+      });
+
+  } catch (error) {
+      console.error('Erro ao listar prestadores não selecionados para interesse:', error);
+      res.status(500).json({
+          message: 'Erro ao listar prestadores não selecionados para interesse',
+          error: error.message
+      });
+  }
+});
+
+// Endpoint para listar pedidos com propostas e prestadores interessados
+router.post('/pedidos-com-prestadores-selecionados', async (req, res) => {
+  try {
+      const {
+          Titulo = '',
+          page = 1,
+          limit = 10
+      } = req.body;
+      const offset = (page - 1) * limit;
+
+      // Encontrar os IDs das propostas que têm pelo menos um prestador interessado
+      const propostasComInteresse = await PrestadoresInteressados.findAll({
+          where: {
+              status_interesse: 'interessado'
+          },
+          attributes: ['id_proposta'],
+          group: ['id_proposta'],
+          raw: true
+      });
+
+      const idsPropostasComInteresse = propostasComInteresse.map(p => p.id_proposta);
+
+      // Construir a cláusula where para a busca por título
+      let whereClause = {};
+      if (Titulo) {
+          whereClause = {
+              titulo: {
+                  [Op.iLike]: `%${Titulo}%`
+              }
+          };
+      }
+      // Encontrar os pedidos que têm propostas com prestadores interessados
+      const {
+          count,
+          rows: pedidos
+      } = await Pedido.findAndCountAll({
+          where: whereClause, // Adiciona a cláusula where para a busca por título
+          include: [{
+              model: Proposta,
+              as: 'propostas',
+              where: {
+                  id_proposta: {
+                      [Op.in]: idsPropostasComInteresse
+                  }
+              },
+              required: true,
+              attributes: ['id_pedido'] // Seleciona o id_pedido da proposta
+          }],
+          limit: parseInt(limit),
+          offset: parseInt(offset),
+          distinct: true // Garante que cada pedido seja contado apenas uma vez
+      });
+
+      // Extrair os IDs dos pedidos
+      const idsPedidos = pedidos.map(pedido => pedido.propostas[0].id_pedido);
+
+      // Buscar os pedidos com base nos IDs extraídos
+      const {
+          count: totalRegistros,
+          rows: pedidosFiltrados
+      } = await Pedido.findAndCountAll({
+          where: {
+              id_pedido: {
+                  [Op.in]: idsPedidos
+              }
+          },
+          limit: parseInt(limit),
+          offset: parseInt(offset)
+      });
+
+      res.status(200).json({
+          totalRegistros: totalRegistros,
+          totalPaginas: Math.ceil(totalRegistros / limit),
+          paginaAtual: parseInt(page),
+          pedidos: pedidosFiltrados
+      });
+
+  } catch (error) {
+      console.error('Erro ao listar pedidos com propostas e prestadores interessados:', error);
+      res.status(500).json({
+          message: 'Erro ao listar pedidos com propostas e prestadores interessados',
+          error: error.message
+      });
+  }
+});
+
+// Endpoint para listar prestadores selecionados para interesse (seleção)
+router.post('/prestadores-selecionados-interesse-selecao', async (req, res) => {
+  try {
+      const {
+          id_proposta,
+          page = 1,
+          limit = 10
+      } = req.body;
+      const offset = (page - 1) * limit;
+
+      // Validar se id_proposta foi fornecido
+      if (!id_proposta) {
+          return res.status(400).json({
+              message: 'id_proposta é obrigatório'
+          });
+      }
+
+      // Buscar todos os prestadores interessados na proposta específica
+      const {
+          count,
+          rows: prestadoresInteressados
+      } = await PrestadoresInteressados.findAndCountAll({
+          where: {
+              id_proposta: id_proposta
+          },
+          include: [{
+              model: Prestador,
+              as: 'Prestador',
+              attributes: ['id_prestador', 'id_usuario', 'documentos', 'fotos_estabelecimento', 'status_contrato', 'status']
+          }],
+          limit: parseInt(limit),
+          offset: parseInt(offset)
+      });
+
+      res.status(200).json({
+          totalRegistros: count,
+          totalPaginas: Math.ceil(count / limit),
+          paginaAtual: parseInt(page),
+          prestadores: prestadoresInteressados
+      });
+
+  } catch (error) {
+      console.error('Erro ao listar prestadores selecionados para interesse (seleção):', error);
+      res.status(500).json({
+          message: 'Erro ao listar prestadores selecionados para interesse (seleção)',
+          error: error.message
+      });
+  }
+});
+
+// Endpoint para listar pedidos com propostas e prestadores que recusaram interesse
+router.post('/prestadores-recusaram-interesse', async (req, res) => {
+  try {
+      const {
+          Titulo = '',
+          page = 1,
+          limit = 10
+      } = req.body;
+      const offset = (page - 1) * limit;
+
+      // Encontrar os IDs das propostas que têm pelo menos um prestador que recusou o interesse
+      const propostasComRecusa = await PrestadoresInteressados.findAll({
+          where: {
+              status_interesse: 'recusado'
+          },
+          attributes: ['id_proposta'],
+          group: ['id_proposta'],
+          raw: true
+      });
+
+      const idsPropostasComRecusa = propostasComRecusa.map(p => p.id_proposta);
+
+      // Construir a cláusula where para a busca por título
+      let whereClause = {};
+      if (Titulo) {
+          whereClause = {
+              titulo: {
+                  [Op.iLike]: `%${Titulo}%`
+              }
+          };
+      }
+
+      // Encontrar os pedidos que têm propostas com prestadores que recusaram o interesse
+      const {
+          count,
+          rows: pedidos
+      } = await Pedido.findAndCountAll({
+          where: whereClause, // Adiciona a cláusula where para a busca por título
+          include: [{
+              model: Proposta,
+              as: 'propostas',
+              where: {
+                  id_proposta: {
+                      [Op.in]: idsPropostasComRecusa
+                  }
+              },
+              required: true,
+              attributes: []
+          }],
+          limit: parseInt(limit),
+          offset: parseInt(offset),
+          distinct: true // Garante que cada pedido seja contado apenas uma vez
+      });
+
+      res.status(200).json({
+          totalRegistros: count,
+          totalPaginas: Math.ceil(count / limit),
+          paginaAtual: parseInt(page),
+          pedidos: pedidos
+      });
+
+  } catch (error) {
+      console.error('Erro ao listar pedidos com propostas e prestadores que recusaram interesse:', error);
+      res.status(500).json({
+          message: 'Erro ao listar pedidos com propostas e prestadores que recusaram interesse',
+          error: error.message
+      });
   }
 });
 

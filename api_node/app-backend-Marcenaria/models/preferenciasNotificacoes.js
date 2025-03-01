@@ -18,6 +18,14 @@ const PreferenciasNotificacoes = sequelize.define('PreferenciasNotificacoes', {
     allowNull: false,
     primaryKey: true
   },
+  firebase_token: {
+    type: DataTypes.STRING(255),
+    allowNull: true
+  },
+  in_token: {
+    type: DataTypes.BOOLEAN,
+    defaultValue: false
+  },
   ativo: {
     type: DataTypes.BOOLEAN,
     defaultValue: true

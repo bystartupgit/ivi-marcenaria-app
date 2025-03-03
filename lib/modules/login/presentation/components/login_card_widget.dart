@@ -38,7 +38,7 @@ class LoginCardWidget extends StatelessWidget {
         const SizedBox(height: 10.0),
         Align(
             alignment: AlignmentDirectional.centerEnd,
-            child: LoginNavigationTextWidget(title: resetText, onPressed: () {})),
+            child: LoginNavigationTextWidget(title: resetText, onPressed: () => Modular.to.pushNamed(RouterMapper.resetPasswordIntern))),
         Align(
             alignment: AlignmentDirectional.centerEnd,
             child: LoginNavigationTextWidget(title: registerText, onPressed: () => Modular.to.pushNamed(RouterMapper.registerIntern)))

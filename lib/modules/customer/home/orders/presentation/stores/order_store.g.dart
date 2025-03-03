@@ -235,11 +235,11 @@ mixin _$OrderStore on OrderStoreBase, Store {
   }
 
   @override
-  dynamic removeProposalOrders(ProposalEntity order) {
+  dynamic removeProposalOrders(int propostaID) {
     final _$actionInfo = _$OrderStoreBaseActionController.startAction(
         name: 'OrderStoreBase.removeProposalOrders');
     try {
-      return super.removeProposalOrders(order);
+      return super.removeProposalOrders(propostaID);
     } finally {
       _$OrderStoreBaseActionController.endAction(_$actionInfo);
     }

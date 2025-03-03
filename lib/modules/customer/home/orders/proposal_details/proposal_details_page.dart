@@ -2,11 +2,12 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/core/data/router_global_mapper.dart';
 import 'package:marcenaria/core/data/store/core_store.dart';
+import 'package:marcenaria/modules/customer/data/routers/customer_routers.dart';
 import 'package:marcenaria/modules/customer/home/orders/details/presentation/components/details_cancel_button_widget.dart';
 import 'package:marcenaria/modules/customer/home/orders/details/presentation/components/details_suport_button_widget.dart';
 import 'package:marcenaria/modules/customer/home/orders/domain/entities/order_entity.dart';
 import 'package:marcenaria/modules/customer/home/orders/domain/entities/proposal_entity.dart';
-import 'package:marcenaria/modules/customer/home/orders/domain/enum/order_status_enum.dart';
+import 'package:marcenaria/modules/customer/home/orders/proposal_details/components/payment_button_widget.dart';
 import 'package:marcenaria/modules/customer/home/orders/proposal_details/stores/order_proposal_details_store.dart';
 
 import 'package:flutter/material.dart';
@@ -73,28 +74,41 @@ class _OrderProposalDetailsPageState extends State<OrderProposalDetailsPage> {
                         color: ColorTheme.black3, fontSize: 20,)),
                       ProporsalCardReviewWidget(store: store,order: widget.order,showMore: () {},showMoreEnable: true,proposal: null,),
                       const SizedBox(height: 20.0),
-                      DetailsIndicatorStepWidget(index: StatusExtension.fromStep(order.status)),
+                      const DetailsIndicatorStepWidget(index: 2),
                       const SizedBox(height: 20.0),
                       Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          spacing: 20.0,
                           children: [
-                            DetailsCancelButtonWidget(
-                                iconSize: 10,
-                                size: 12,
-                                onPressed: () => showDialog(context: context,
-                                    builder: (context) => DetailsCancelPopUpWidget(
-                                        order: OrderEntity(
-                                        id: widget.order.idPedido, customerID: Modular.get<CoreStore>().profile?.id ?? 0,
-                                        title: widget.order.pedido.titulo, environments: "",
-                                        status: order.status),
-                                        cancelOrder: () => store.cancelOrder(order: order, context: context)))),
-                            DetailsSuportButtonWidget(size: 12,onPressed: () =>
-                                Modular.to.pushNamed(RouterGlobalMapper.chatSupport,
-                                    arguments: OrderEntity(id: widget.order.idPedido,
-                                        customerID: Modular.get<CoreStore>().profile?.id ?? 0, title: widget.order.pedido.titulo,
-                                        environments: "", status: widget.order.status))
+                            Expanded(
+                              flex: 2,
+                              child: DetailsCancelButtonWidget(
+                                  iconSize: 10,
+                                  size: 8,
+                                  onPressed: () => showDialog(context: context,
+                                      builder: (context) => DetailsCancelPopUpWidget(
+                                          order: OrderEntity(
+                                          id: widget.order.idPedido, customerID: Modular.get<CoreStore>().profile?.id ?? 0,
+                                          title: widget.order.pedido.titulo, environments: "",
+                                          status: order.status),
+                                          cancelOrder: () => store.cancelOrder(order: order, context: context)))),
+                            ),
+                            Expanded(
+                              flex: 3,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.stretch,
+                                mainAxisAlignment: MainAxisAlignment.end,
+                                children: [
+                                  DetailsSuportButtonWidget(size: 12,onPressed: () =>
+                                      Modular.to.pushNamed(RouterGlobalMapper.chatSupport,
+                                          arguments: OrderEntity(id: widget.order.idPedido,
+                                              customerID: Modular.get<CoreStore>().profile?.id ?? 0, title: widget.order.pedido.titulo,
+                                              environments: "", status: widget.order.status))
+                                  ),
+                                  PaymentButtonWidget(onPressed: () => Modular.to.pushNamed(CustomerRouters.paymentProposalIntern,arguments: widget.order.idProposta))
+                                ],
+                              ),
                             )
                           ]),
                       const SizedBox(height: 40.0),

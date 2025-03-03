@@ -78,7 +78,7 @@ abstract class OrderStoreBase with Store {
   addWaigintOrders(OrderEntity order) => waitingOrders.add(order);
 
   @action
-  removeProposalOrders(ProposalEntity order) => waitingApprovalOrders.remove(order);
+  removeProposalOrders(int propostaID) => waitingApprovalOrders.removeWhere((e) => e.idProposta == propostaID);
 
   @action
   addProposalOrders(ProposalEntity order) => waitingApprovalOrders.add(order);

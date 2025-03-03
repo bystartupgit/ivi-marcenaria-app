@@ -67,4 +67,58 @@ class LoginDataSource {
 
     }
 
+    Future<(String, bool)> sendResetEmail({required String email}) async {
+
+      Uri url = Uri.parse("$enviroment/api/usuarios/recoverPassword");
+
+      Map<String,String> headers = {"Content-Type": "application/json"};
+
+      Map<String,dynamic> body ={ "email":email };
+
+      try {
+
+        Response response = await post(
+            url, headers: headers, body: jsonEncode(body))
+            .timeout(const Duration(seconds: 8));
+
+        dynamic data = jsonDecode(response.body);
+
+        final String message = data[AuthMapper.message];
+
+        if(response.statusCode == 200) {
+          return (message, true);
+        } else { return (message, false); }
+
+      } catch(e) { return (e.toString(), false); }
+
+    }
+
+    Future<(String, bool)> validateToken({required String code}) async {
+
+      Uri url = Uri.parse("$enviroment/api/usuarios/validateToken");
+
+      Map<String,String> headers = {"Content-Type": "application/json"};
+
+      Map<String,dynamic> body = { "token": code };
+
+      try {
+
+        Response response = await post(
+            url, headers: headers, body: jsonEncode(body))
+            .timeout(const Duration(seconds: 8));
+
+        dynamic data = jsonDecode(response.body);
+
+        final String message = data[AuthMapper.message];
+
+        print(message);
+
+        if(response.statusCode == 200) {
+          return (message, true);
+        } else { return (message, false); }
+
+      } catch(e) { return (e.toString(), false); }
+
+    }
+
 }

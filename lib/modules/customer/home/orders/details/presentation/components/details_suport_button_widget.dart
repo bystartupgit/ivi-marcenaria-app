@@ -24,7 +24,7 @@ class DetailsSuportButtonWidget extends StatelessWidget {
               color: ColorTheme.orange,
               borderRadius: BorderRadius.circular(5.0)
             ),
-            child: Text(title,style: TextStyle(fontSize: size,fontFamily: FamilyTheme.regular, color: Colors.white ))),
+            child: Text(title, textAlign: TextAlign.center, style: TextStyle(fontSize: size,fontFamily: FamilyTheme.regular, color: Colors.white ))),
       ),
     );
   }

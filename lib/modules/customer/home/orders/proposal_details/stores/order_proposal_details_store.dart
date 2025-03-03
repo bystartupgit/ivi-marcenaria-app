@@ -80,7 +80,7 @@ abstract class OrderProposalDetailsStoreBase with Store {
 
       bool result = await _cancelOrderUsecase.call(orderID: order.idPedido);
 
-      if(result) { Modular.get<OrderStore>().removeProposalOrders(order); Modular.to.pop(); }
+      if(result) { Modular.get<OrderStore>().removeProposalOrders(order.idProposta); Modular.to.pop(); }
       else {
         ShowErrorMessageUsecase(context: context).call(message: "Não foi possível cancelar a proposta"); }
     } catch (e) { ShowErrorMessageUsecase(context: context)

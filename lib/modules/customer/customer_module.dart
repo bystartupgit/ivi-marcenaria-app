@@ -6,11 +6,16 @@ import 'package:marcenaria/modules/customer/home/external/user_datasource.dart';
 import 'package:marcenaria/modules/customer/home/orders/details/presentation/order_waiting_details_page.dart';
 import 'package:marcenaria/modules/customer/home/orders/details/presentation/stores/order_waiting_details_store.dart';
 import 'package:marcenaria/modules/customer/home/orders/domain/usecases/cancel_order_usecase.dart';
+import 'package:marcenaria/modules/customer/home/orders/domain/usecases/confirm_payment_usecase.dart';
 import 'package:marcenaria/modules/customer/home/orders/domain/usecases/download_media_usecase.dart';
 import 'package:marcenaria/modules/customer/home/orders/domain/usecases/get_order_details_usecase.dart';
 import 'package:marcenaria/modules/customer/home/orders/domain/usecases/get_waiting_approval_orders_usecase.dart';
 import 'package:marcenaria/modules/customer/home/orders/domain/usecases/get_waiting_orders_usecase.dart';
 import 'package:marcenaria/modules/customer/home/orders/external/order_datasource.dart';
+import 'package:marcenaria/modules/customer/home/orders/external/payment_datasource.dart';
+import 'package:marcenaria/modules/customer/home/orders/payment/components/payment_success_page.dart';
+import 'package:marcenaria/modules/customer/home/orders/payment/payment_page.dart';
+import 'package:marcenaria/modules/customer/home/orders/payment/stores/payment_store.dart';
 import 'package:marcenaria/modules/customer/home/orders/presentation/stores/order_store.dart';
 import 'package:marcenaria/modules/customer/home/presentation/stores/home_store.dart';
 import 'package:marcenaria/modules/customer/home/profile/domain/usecases/update_profile_usecase.dart';
@@ -53,12 +58,14 @@ class CustomerModule extends Module {
 
     i.add(() => OrderWaitingDetailsStore());
     i.add(() => OrderProposalDetailsStore());
+    i.add(() => PaymentStore());
 
     i.add(() => ServiceDataSource());
     i.add(() => UserDataSource());
     i.add(() => OrderDataSource());
     i.add(() => ProfileDatasource());
     i.add(() => ProposalDataSource());
+    i.add(() => PaymentDataSource());
 
     i.add(() => GetUserUseCase(datasource: i.get<UserDataSource>()));
     i.add(() => CancelOrderUsecase(datasource: i.get<OrderDataSource>()));
@@ -73,6 +80,7 @@ class CustomerModule extends Module {
     i.add(() => GetOrderDetailsUsecase(datasource: i.get<OrderDataSource>()));
     i.add(() => DownloadMediaUsecase(datasource: i.get<OrderDataSource>()));
     i.add(() => UpdateProfileUsecase(datasource: i.get<ProfileDatasource>()));
+    i.add(() => ConfirmPaymentUsecase(datasource: i.get<PaymentDataSource>()));
 
   }
 
@@ -89,5 +97,8 @@ class CustomerModule extends Module {
 
     r.child(CustomerRouters.orderWaitingDetails, child: (context) => OrderWaitingDetailsPage(order: r.args.data));
     r.child(CustomerRouters.orderProposalDetails, child: (context) => OrderProposalDetailsPage(order: r.args.data));
+
+    r.child(CustomerRouters.paymentProposal, child: (context) => PaymentPage(orderID: r.args.data));
+    r.child(CustomerRouters.paymentSuccessProposal, child: (context) => const PaymentSuccessPage());
   }
 }

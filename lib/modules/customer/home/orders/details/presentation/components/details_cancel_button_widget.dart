@@ -27,6 +27,7 @@ class DetailsCancelButtonWidget extends StatelessWidget {
         child: Row(
           spacing: 5.0,
           mainAxisSize: MainAxisSize.min,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Icon(DetailsIcons.delete, color: Colors.red, size: iconSize),
             Text(title,style: TextStyle(fontSize: size,fontFamily:

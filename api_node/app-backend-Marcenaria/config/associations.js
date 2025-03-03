@@ -6,10 +6,15 @@ const Cliente = require('../models/cliente');
 const PrestadoresInteressados = require('../models/prestadoresInteressados');
 const PrestadoresSelecionados = require('../models/prestadoresSelecionados');
 const Midia = require('../models/midia'); // Certifique-se de que o modelo Midia está importado
+const Prestador = require('../models/prestador'); 
 
 // Associações para PrestadoresInteressados
 PrestadoresInteressados.belongsTo(Proposta, { foreignKey: 'id_proposta', as: 'proposta' });
 Proposta.hasMany(PrestadoresInteressados, { foreignKey: 'id_proposta', as: 'interessados' });
+
+// Nova associação: PrestadoresInteressados belongsTo Prestador
+PrestadoresInteressados.belongsTo(Prestador, { foreignKey: 'id_prestador', as: 'Prestador'});
+Prestador.hasMany(PrestadoresInteressados, { foreignKey: 'id_prestador', as: 'interessados'});
 
 // Associações para Proposta e Pedido
 Proposta.belongsTo(Pedido, { foreignKey: 'id_pedido', as: 'pedido' });

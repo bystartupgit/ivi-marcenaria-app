@@ -6,6 +6,7 @@ const Cliente = require('../models/cliente');
 const Prestador = require('../models/prestador');
 const Administrador = require('../models/administrador');
 const Usuario = require('../models/usuario');
+const enviarNotificacao = require('./enviarNotificacao'); 
 
 // Função para selecionar administradores ativos
 async function obterAdministradoresParaNotificacao() {
@@ -82,6 +83,7 @@ async function registrarNotificacoes(entidades, tipoEntidade, tipoNotificacao, d
     // Obter IDs dos administradores apenas quando necessário
     const idsAdministradores = await obterAdministradoresParaNotificacao();
     const idAdministrador = await obterUsuarios(idsAdministradores, 'administrador');
+    const enviarPush = true;
     // Combinar destinatários
     let destinatarios = [...idAdministrador];
     const usuarios = await obterUsuarios(entidades, tipoEntidade);
@@ -104,6 +106,17 @@ async function registrarNotificacoes(entidades, tipoEntidade, tipoNotificacao, d
             id_proposta: dados.hasOwnProperty('id_proposta') ? dados.id_proposta : null,
             id_prestador: dados.hasOwnProperty('id_prestador') ? dados.id_prestador : null
           });
+          // Enviar notificação push se enviarPush for true
+          if (enviarPush) {
+            const usuario = await Usuario.findOne({ where: { id_usuario: idUsuario } });
+            if (usuario && usuario.preferenciasNotificacoes && usuario.preferenciasNotificacoes.firebaseToken) {
+              try {
+                await enviarNotificacao(usuario.preferenciasNotificacoes.firebaseToken, 'Nova Notificação', mensagem, dados);
+              } catch (error) {
+                console.error('Erro ao enviar push notification:', error);
+              }
+            }
+          }
         }
       }
     }

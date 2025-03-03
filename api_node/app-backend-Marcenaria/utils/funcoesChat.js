@@ -9,6 +9,7 @@ const Administrador = require('../models/administrador');
 const Cliente = require('../models/cliente');
 const Prestador = require('../models/prestador');
 const PreferenciasNotificacoes = require('../models/preferenciasNotificacoes');
+const enviarNotificacao = require('./enviarNotificacao');
 
 // Função para verificar permissões de um usuário em relação a um pedido
 async function verificarPermissoes(id_usuario, id_pedido) {
@@ -60,6 +61,7 @@ async function verificarPermissoes(id_usuario, id_pedido) {
 async function notificarParticipantes(id_pedido, mensagem) {
   try {
     const pedido = await Pedido.findOne({ where: { id_pedido } });
+    const enviarPush = true;
     if (!pedido) {
       console.error('Pedido não encontrado.');
       return;
@@ -109,6 +111,17 @@ async function notificarParticipantes(id_pedido, mensagem) {
           mensagem: `Nova mensagem no pedido ${id_pedido}: ${mensagem.mensagem}`,
           id_pedido: id_pedido // Incluindo o id_pedido na notificação
         });
+        // Enviar notificação push se enviarPush for true
+        if (enviarPush) {
+          const usuario = await Usuario.findOne({ where: { id_usuario: id_usuario } });
+          if (usuario && usuario.preferenciasNotificacoes && usuario.preferenciasNotificacoes.firebaseToken) {
+            try {
+              await enviarNotificacao(usuario.preferenciasNotificacoes.firebaseToken, 'Nova Mensagem', `Nova mensagem no pedido ${id_pedido}: ${mensagem.mensagem}`, { id_pedido: id_pedido.toString() });
+            } catch (error) {
+              console.error('Erro ao enviar push notification:', error);
+            }
+          }
+        }
       } else {
         console.log(`Usuário ${id_usuario} optou por não receber notificações de 'nova_mensagem'.`);
       }

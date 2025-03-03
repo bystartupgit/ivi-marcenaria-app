@@ -209,6 +209,16 @@ router.post('/login', async (req, res) => {
       return res.status(401).json({ message: 'Credenciais inválidas' });
     }
 
+    // Buscar o token de push do usuário
+    const preferenciasNotificacoes = await PreferenciasNotificacoes.findOne({
+      where: {
+        id_usuario: usuario.id_usuario,
+        in_token: true // Garante que estamos buscando apenas tokens
+      }
+    });
+
+    const firebaseToken = preferenciasNotificacoes ? preferenciasNotificacoes.firebase_token : null;
+
     // Gerar um token JWT
     const token = jwt.sign(
       { id_usuario: usuario.id_usuario, tipo_usuario: usuario.tipo_usuario },
@@ -216,14 +226,15 @@ router.post('/login', async (req, res) => {
       { expiresIn: '1h' }
     );
 
-    // Enviar a resposta com o token
+    // Enviar a resposta com o token e o token de push
     res.status(200).json({
       message: 'Login bem-sucedido',
       token: token,
       usuario: {
         id_usuario: usuario.id_usuario,
         email: usuario.email,
-        tipo_usuario: usuario.tipo_usuario
+        tipo_usuario: usuario.tipo_usuario,
+        firebaseToken: firebaseToken // Adiciona o token de push ao objeto usuario
       }
     });
   } catch (error) {

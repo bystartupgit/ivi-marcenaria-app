@@ -3,6 +3,7 @@ const express = require('express');
 const router = express.Router();
 const PreferenciasNotificacoes = require('../models/preferenciasNotificacoes');
 const authenticateToken = require('../middleware/auth');
+const admin = require('firebase-admin'); // Importe o Firebase Admin SDK
 
 router.post('/registrar-preferencias', authenticateToken, async (req, res) => {
     try {
@@ -90,5 +91,51 @@ router.post('/registrar-preferencias', authenticateToken, async (req, res) => {
         });
     }
 });
+
+router.post('/registrar-token', authenticateToken, async (req, res) => {
+  const { token, id_usuario } = req.body;
+  const tipo = "push";
+  const in_token = true;
+  try {
+    // Validar o token usando o Firebase Admin SDK
+    try {
+      const decodedToken = await admin.auth().verifyIdToken(token);
+      const uid = decodedToken.uid;
+      console.log('Token push válido para o usuário:', uid);
+    } catch (error) {
+      console.error('Token push inválido:', error);
+      return res.status(400).json({ message: 'Token push inválido.' });
+    }
+
+    // Verificar se o token já existe para este usuário
+    let preferencias = await PreferenciasNotificacoes.findOne({
+      where: {
+        id_usuario,
+        in_token
+      }
+    });
+
+    if (!preferencias) {
+      // Se não existir, criar um novo registro
+      preferencias = await PreferenciasNotificacoes.create({
+        id_usuario,
+        tipo,
+        in_token,
+        firebase_token: token,
+      });
+      res.status(200).json({ message: 'Token registrado com sucesso.' });
+    } else {
+      // Se existir, atualizar o token
+      preferencias.firebase_token = token;
+      await preferencias.save();
+      res.status(200).json({ message: 'Token atualizado com sucesso.' });
+    }
+
+  } catch (error) {
+    console.error('Erro ao registrar token:', error);
+    res.status(500).json({ message: 'Erro ao registrar token.' });
+  }
+});
+
 
 module.exports = router;

@@ -11,10 +11,12 @@ class HomeCarrouselWidget extends StatelessWidget {
 
   final String title = "Sabia mais sobre nosso app";
   final int index;
+  final int dots;
   final Function(int index,CarouselPageChangedReason reason) onChanged;
   final List<Set<String>> abouts;
 
   const HomeCarrouselWidget({super.key, required this.index,
+    required this.dots,
     required this.abouts,
     required this.onChanged});
 
@@ -27,7 +29,7 @@ class HomeCarrouselWidget extends StatelessWidget {
               child: Text(title,style: TextStyle(fontSize: 14,fontFamily: FamilyTheme.regular,color: Colors.black))),
           const SizedBox(height: 2.0),
           CarouselSlider.builder(
-              itemCount: 3,
+              itemCount: dots,
               itemBuilder: (BuildContext context, int itemIndex, int pageViewIndex) =>
                   HomeCarrouselItemWidget(
                     image: HomeAboutMapper.abouts[itemIndex].elementAt(0),
@@ -41,7 +43,7 @@ class HomeCarrouselWidget extends StatelessWidget {
           const SizedBox(height: 5.0),
           DotsIndicator(
               position: index,
-              dotsCount: 3,
+              dotsCount: dots,
               decorator: DotsDecorator(activeColor: ColorTheme.orange,color: ColorTheme.lightGray2))
         ],
     );

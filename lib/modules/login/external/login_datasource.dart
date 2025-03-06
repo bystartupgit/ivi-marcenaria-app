@@ -59,6 +59,8 @@ class LoginDataSource {
 
         final String message = data[AuthMapper.message];
 
+        print(data.toString());
+
         if(response.statusCode == 200) {
           return (message, AuthEntity.fromMap(data));
         } else { return (message, null); }
@@ -110,8 +112,6 @@ class LoginDataSource {
         dynamic data = jsonDecode(response.body);
 
         final String message = data[AuthMapper.message];
-
-        print(message);
 
         if(response.statusCode == 200) {
           return (message, true);

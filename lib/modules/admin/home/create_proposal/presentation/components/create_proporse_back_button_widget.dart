@@ -18,7 +18,7 @@ class CreateProporseBackButtonWidget extends StatelessWidget {
       child: Card(
         elevation: 3,
         child: Container(
-          padding: const EdgeInsets.all(5.0),
+          padding: const EdgeInsets.all(8.0),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5.0),
               color: ColorTheme.orange
@@ -30,7 +30,7 @@ class CreateProporseBackButtonWidget extends StatelessWidget {
               spacing: 5.0,
               children: [
                 SvgPicture.asset(image,colorFilter: const ColorFilter.mode( Colors.white, BlendMode.srcIn)),
-                Text(title,style: TextStyle(fontFamily: FamilyTheme.regular,
+                Text(title,style: TextStyle(fontFamily: FamilyTheme.medium,
                     color: Colors.white, fontSize: 12))
               ]),
         ),

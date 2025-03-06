@@ -9,6 +9,23 @@ part of 'conversation_store.dart';
 // ignore_for_file: non_constant_identifier_names, unnecessary_brace_in_string_interps, unnecessary_lambdas, prefer_expression_function_bodies, lines_longer_than_80_chars, avoid_as, avoid_annotating_with_dynamic, no_leading_underscores_for_local_identifiers
 
 mixin _$ConversationStore on ConversationStoreBase, Store {
+  Computed<List<OrderEntity>>? _$waitingOrdersFilteredComputed;
+
+  @override
+  List<OrderEntity> get waitingOrdersFiltered =>
+      (_$waitingOrdersFilteredComputed ??= Computed<List<OrderEntity>>(
+              () => super.waitingOrdersFiltered,
+              name: 'ConversationStoreBase.waitingOrdersFiltered'))
+          .value;
+  Computed<List<ProposalEntity>>? _$waitingApprovalFilteredComputed;
+
+  @override
+  List<ProposalEntity> get waitingApprovalFiltered =>
+      (_$waitingApprovalFilteredComputed ??= Computed<List<ProposalEntity>>(
+              () => super.waitingApprovalFiltered,
+              name: 'ConversationStoreBase.waitingApprovalFiltered'))
+          .value;
+
   late final _$conversationsAtom =
       Atom(name: 'ConversationStoreBase.conversations', context: context);
 
@@ -87,7 +104,9 @@ mixin _$ConversationStore on ConversationStoreBase, Store {
     return '''
 conversations: ${conversations},
 loading: ${loading},
-filter: ${filter}
+filter: ${filter},
+waitingOrdersFiltered: ${waitingOrdersFiltered},
+waitingApprovalFiltered: ${waitingApprovalFiltered}
     ''';
   }
 }

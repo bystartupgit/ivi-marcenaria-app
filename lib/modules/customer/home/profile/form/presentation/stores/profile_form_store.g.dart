@@ -25,6 +25,40 @@ mixin _$ProfileFormStore on ProfileFormStoreBase, Store {
     });
   }
 
+  late final _$imageAtom =
+      Atom(name: 'ProfileFormStoreBase.image', context: context);
+
+  @override
+  File? get image {
+    _$imageAtom.reportRead();
+    return super.image;
+  }
+
+  @override
+  set image(File? value) {
+    _$imageAtom.reportWrite(value, super.image, () {
+      super.image = value;
+    });
+  }
+
+  late final _$uploadImageAsyncAction =
+      AsyncAction('ProfileFormStoreBase.uploadImage', context: context);
+
+  @override
+  Future uploadImage({required dynamic context}) {
+    return _$uploadImageAsyncAction
+        .run(() => super.uploadImage(context: context));
+  }
+
+  late final _$getProfilePhotoAsyncAction =
+      AsyncAction('ProfileFormStoreBase.getProfilePhoto', context: context);
+
+  @override
+  Future<bool> getProfilePhoto({required dynamic context}) {
+    return _$getProfilePhotoAsyncAction
+        .run(() => super.getProfilePhoto(context: context));
+  }
+
   late final _$initAsyncAction =
       AsyncAction('ProfileFormStoreBase.init', context: context);
 
@@ -56,9 +90,21 @@ mixin _$ProfileFormStore on ProfileFormStoreBase, Store {
   }
 
   @override
+  dynamic setImage(File? value) {
+    final _$actionInfo = _$ProfileFormStoreBaseActionController.startAction(
+        name: 'ProfileFormStoreBase.setImage');
+    try {
+      return super.setImage(value);
+    } finally {
+      _$ProfileFormStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
-loading: ${loading}
+loading: ${loading},
+image: ${image}
     ''';
   }
 }

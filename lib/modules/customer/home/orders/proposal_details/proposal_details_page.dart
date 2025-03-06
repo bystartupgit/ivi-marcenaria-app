@@ -65,7 +65,7 @@ class _OrderProposalDetailsPageState extends State<OrderProposalDetailsPage> {
                       OrderProposalDetailsCardWidget(
                           store: store,
                           order: OrderEntity(
-                              id: widget.order.idPedido, customerID: 0,
+                              id: widget.order.idPedido,
                               title: widget.order.pedido.titulo, environments: "",
                               status: order.status), moreDetails: store.showMore,
                           changeMoreDetails: store.setShowMore),
@@ -89,7 +89,7 @@ class _OrderProposalDetailsPageState extends State<OrderProposalDetailsPage> {
                                   onPressed: () => showDialog(context: context,
                                       builder: (context) => DetailsCancelPopUpWidget(
                                           order: OrderEntity(
-                                          id: widget.order.idPedido, customerID: Modular.get<CoreStore>().profile?.id ?? 0,
+                                          id: widget.order.idPedido,
                                           title: widget.order.pedido.titulo, environments: "",
                                           status: order.status),
                                           cancelOrder: () => store.cancelOrder(order: order, context: context)))),
@@ -103,7 +103,7 @@ class _OrderProposalDetailsPageState extends State<OrderProposalDetailsPage> {
                                   DetailsSuportButtonWidget(size: 12,onPressed: () =>
                                       Modular.to.pushNamed(RouterGlobalMapper.chatSupport,
                                           arguments: OrderEntity(id: widget.order.idPedido,
-                                              customerID: Modular.get<CoreStore>().profile?.id ?? 0, title: widget.order.pedido.titulo,
+                                              title: widget.order.pedido.titulo,
                                               environments: "", status: widget.order.status))
                                   ),
                                   PaymentButtonWidget(onPressed: () => Modular.to.pushNamed(CustomerRouters.paymentProposalIntern,arguments: widget.order.idProposta))

@@ -7,7 +7,6 @@ import 'package:marcenaria/modules/customer/home/orders/domain/mappers/order_map
 class OrderEntity {
 
   final int id;
-  final int customerID;
   final String title;
   final String description;
   final bool whatsapp;
@@ -19,7 +18,6 @@ class OrderEntity {
 
   OrderEntity({
     required this.id,
-    required this.customerID,
     required this.title,
     this.description = "",
     this.whatsapp = false,
@@ -30,9 +28,8 @@ class OrderEntity {
   factory OrderEntity.fromMap(Map<String,dynamic> map) =>
       OrderEntity(
           id: map[OrderMapper.id],
-          customerID: map[OrderMapper.customerID],
           title: map[OrderMapper.title],
-          environments: map[OrderMapper.environments],
+          environments: map[OrderMapper.environments] ?? "",
           whatsapp: map[OrderMapper.whatsapp],
           description: map[OrderMapper.description],
           status: StatusExtension.fromString(map[OrderMapper.status])

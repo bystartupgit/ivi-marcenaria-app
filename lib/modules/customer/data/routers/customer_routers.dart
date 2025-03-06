@@ -13,6 +13,8 @@ class CustomerRouters {
   static String paymentProposal = "/orderProposalDetails/Payment/";
   static String paymentSuccessProposal = "/orderProposalDetails/Payment/Success/";
 
+  static String production = "/Production/";
+
   static String serviceIntern = "service/";
   static String serviceSuccessIntern = "success/";
   static String profileIntern = "Profile/";
@@ -22,6 +24,8 @@ class CustomerRouters {
   static String orderProposalDetailsIntern = "orderProposalDetails/";
   static String paymentProposalIntern = "Payment/";
   static String paymentSuccessProposalIntern = "Success/";
+
+  static String productionIntern = "Production/";
 
 
 }

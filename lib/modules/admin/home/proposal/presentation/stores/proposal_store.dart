@@ -11,6 +11,9 @@ class ProposalStore = ProposalStoreBase with _$ProposalStore;
 
 abstract class ProposalStoreBase with Store {
 
+  final ScrollController scrollWaiting = ScrollController();
+  final ScrollController scrollAppoval = ScrollController();
+
   final GetOrderWaitingAppovalUsecase _getOrderWaitingAppovalUsecase = Modular.get<GetOrderWaitingAppovalUsecase>();
   final GetWaitingProposalUsecase _getWaitingProposalUsecase = Modular.get<GetWaitingProposalUsecase>();
 
@@ -24,6 +27,9 @@ abstract class ProposalStoreBase with Store {
 
   @observable
   int pageApproval = 1;
+
+  @action
+  addPaginationWaiting() => pageWaiting++;
 
   @observable
   int limit = 10;
@@ -75,6 +81,13 @@ abstract class ProposalStoreBase with Store {
   @action
   init() async {
 
+    scrollWaiting.addListener(() {
+
+      if(scrollWaiting.position.pixels == scrollWaiting.position.maxScrollExtent && loading == false) {
+        loadingMoreOrdersWaiting();
+      }
+    });
+
     if(waitingProposal.isEmpty && loading == false) {
 
       setLoading(true);
@@ -90,6 +103,38 @@ abstract class ProposalStoreBase with Store {
 
       setLoading(false);
     }
+  }
+
+  @action
+  loadingMoreOrdersWaiting() async {
+
+    if (waitingProposal.length/limit >= pageWaiting) {
+
+      addPaginationWaiting();
+
+      List<OrderEntity> result = await _getWaitingProposalUsecase.call(page: pageWaiting, limit: limit);
+
+      if(result.isNotEmpty) {
+
+        for(OrderEntity value in result) {
+          if(waitingProposal.contains(value) == false) { waitingProposal.add(value); }
+        }
+
+      }
+
+    } else {
+
+      List<OrderEntity> result = await _getWaitingProposalUsecase.call(page: pageWaiting, limit: limit);
+
+      if(result.isNotEmpty) {
+
+        for(OrderEntity value in result) {
+          if(waitingProposal.contains(value) == false) { waitingProposal.add(value); }
+        }
+
+      }
+    }
+
   }
 
 }

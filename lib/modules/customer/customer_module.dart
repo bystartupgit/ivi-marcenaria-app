@@ -2,6 +2,7 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/modules/customer/data/routers/customer_routers.dart';
 import 'package:marcenaria/modules/customer/home/conversations/presentation/stores/conversation_store.dart';
 import 'package:marcenaria/modules/customer/home/domain/usecases/get_user_usecase.dart';
+import 'package:marcenaria/modules/customer/home/domain/usecases/register_fcm_token_usecase.dart';
 import 'package:marcenaria/modules/customer/home/external/user_datasource.dart';
 import 'package:marcenaria/modules/customer/home/orders/details/presentation/order_waiting_details_page.dart';
 import 'package:marcenaria/modules/customer/home/orders/details/presentation/stores/order_waiting_details_store.dart';
@@ -27,6 +28,7 @@ import 'package:marcenaria/modules/customer/home/profile/presentation/stores/pro
 import 'package:marcenaria/modules/customer/home/proposal/domain/usecases/get_finished_orders_usecase.dart';
 import 'package:marcenaria/modules/customer/home/proposal/domain/usecases/get_production_orders_usecase.dart';
 import 'package:marcenaria/modules/customer/home/proposal/external/proposal_datasource.dart';
+import 'package:marcenaria/modules/customer/home/proposal/presentation/order_production/order_production_page.dart';
 import 'package:marcenaria/modules/customer/home/proposal/presentation/stores/proposal_store.dart';
 import 'package:marcenaria/modules/customer/home/service/domain/usecases/create_service_usecase.dart';
 import 'package:marcenaria/modules/customer/home/service/domain/usecases/get_services_usecase.dart';
@@ -38,8 +40,12 @@ import 'package:marcenaria/modules/customer/home/service/presentation/success/se
 import 'package:marcenaria/modules/customer/home/service/presentation/success/stores/service_success_store.dart';
 import 'package:marcenaria/modules/customer/navigation/presentation/stores/navigation_store.dart';
 
+import '../admin/domain/usecases/get_order_details_without_employee_usecase.dart';
+import 'home/orders/domain/usecases/aprove_proposal_usecase.dart';
 import 'home/orders/proposal_details/proposal_details_page.dart';
 import 'home/orders/proposal_details/stores/order_proposal_details_store.dart';
+import 'home/profile/domain/usecases/upload_profile_photo_usecase.dart';
+import 'home/proposal/presentation/order_production/stores/order_production_store.dart';
 import 'navigation/presentation/navigation_page.dart';
 
 class CustomerModule extends Module {
@@ -55,6 +61,7 @@ class CustomerModule extends Module {
     i.add(() => ProfileFormStore());
     i.addSingleton(() => ProposalStore());
     i.add(() => ServiceSuccessStore());
+    i.add(() => OrderProductionStore());
 
     i.add(() => OrderWaitingDetailsStore());
     i.add(() => OrderProposalDetailsStore());
@@ -70,6 +77,7 @@ class CustomerModule extends Module {
     i.add(() => GetUserUseCase(datasource: i.get<UserDataSource>()));
     i.add(() => CancelOrderUsecase(datasource: i.get<OrderDataSource>()));
     i.add(() => GetServiceUseCase(datasource: i.get<ServiceDataSource>()));
+    i.add(() => UploadProfilePhotoUsecase(datasource: i.get<ProfileDatasource>()));
     i.add(() => CreateServiceUseCase(datasource: i.get<ServiceDataSource>()));
     i.add(() => UploadMediaServiceUseCase(datasource: i.get<ServiceDataSource>()));
 
@@ -81,6 +89,8 @@ class CustomerModule extends Module {
     i.add(() => DownloadMediaUsecase(datasource: i.get<OrderDataSource>()));
     i.add(() => UpdateProfileUsecase(datasource: i.get<ProfileDatasource>()));
     i.add(() => ConfirmPaymentUsecase(datasource: i.get<PaymentDataSource>()));
+    i.add(() => AproveProposalUsecase(datasource: i.get<OrderDataSource>()));
+    i.add(() => RegisterFcmTokenUsecase(datasource: i.get<UserDataSource>()));
 
   }
 
@@ -100,5 +110,7 @@ class CustomerModule extends Module {
 
     r.child(CustomerRouters.paymentProposal, child: (context) => PaymentPage(orderID: r.args.data));
     r.child(CustomerRouters.paymentSuccessProposal, child: (context) => const PaymentSuccessPage());
+
+    r.child(CustomerRouters.production, child: (context) => OrderProductionPage(orderID: r.args.data));
   }
 }

@@ -6,6 +6,7 @@ class OrderEntity {
   final int id;
   final String title;
   final String environments;
+  final String? description;
 
   final OrderStatus status;
 
@@ -15,15 +16,17 @@ class OrderEntity {
     required this.id,
     required this.title,
     required this.environments,
-    required this.status
+    required this.status,
+    this.description
   });
 
   factory OrderEntity.fromMap(Map<String,dynamic> map) =>
       OrderEntity(
           id: map[OrderMapper.id],
           title: map[OrderMapper.title],
-          environments: map[OrderMapper.environments],
-          status: StatusExtension.fromString(map[OrderMapper.status])
+          environments: map[OrderMapper.environments] ?? "",
+          status: StatusExtension.fromString(map[OrderMapper.status]),
+          description: map[OrderMapper.description]
       );
 
   @override

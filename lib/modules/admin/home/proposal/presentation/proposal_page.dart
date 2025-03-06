@@ -47,16 +47,20 @@ class _ProposalPageState extends State<ProposalPage> with AutomaticKeepAliveClie
                 const SizedBox(height: 20),
                 Expanded(
                     child: PageView(
+                        physics: const NeverScrollableScrollPhysics(),
                         controller: store.controller,
                         children: [
                           ProposalListWidget(orders: store.waitingProposalFiltered,
+                              scroll: store.scrollWaiting,
                               message: OrderEmptyMapper.waitingProposal,onPressed: (value) =>
                                   Modular.to.pushNamed(RouterMapper.createProposalIntern,arguments: value).then((value) {
 
                                     if(value == true) { store.getAprovals(); }
 
                                   })),
-                          ProposalListWidget(orders: store.waitingAprovalFiltered, message: OrderEmptyMapper.waitAproval,
+                          ProposalListWidget(
+                              scroll: store.scrollAppoval,
+                              orders: store.waitingAprovalFiltered, message: OrderEmptyMapper.waitAproval,
                               onPressed: (value) => Modular.to.pushNamed(RouterMapper.paymentProposalIntern,arguments: value))
                         ]
                     ))

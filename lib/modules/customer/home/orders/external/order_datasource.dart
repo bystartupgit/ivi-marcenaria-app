@@ -2,7 +2,6 @@
 
 
 import 'dart:convert';
-import 'dart:developer';
 import 'dart:io';
 
 import 'package:dartssh2/dartssh2.dart';
@@ -127,6 +126,31 @@ class OrderDataSource {
       }
     }catch(e) { return []; }
 
+  }
+
+  Future<bool> aproveProposal({required int proposalID, required int customerID}) async {
+
+    Uri url = Uri.parse("$enviroment/api/propostas/$proposalID/aprovar");
+
+    String? token = Modular.get<CoreStore>().auth?.token;
+
+    Map<String,String> headers = {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token"
+    };
+
+    Map<String,dynamic> body = { "id_cliente": customerID };
+
+    try {
+
+      Response response = await post(
+          url, headers: headers, body: jsonEncode(body))
+          .timeout(const Duration(seconds: 8));
+
+      if (response.statusCode == 200) { return true; }
+      else { return false; }
+
+    } catch(e) { return false; }
   }
 
   Future<MediaEntity?> getMedias({required int orderID}) async {

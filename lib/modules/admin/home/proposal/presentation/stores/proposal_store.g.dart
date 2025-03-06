@@ -170,8 +170,29 @@ mixin _$ProposalStore on ProposalStoreBase, Store {
     return _$initAsyncAction.run(() => super.init());
   }
 
+  late final _$loadingMoreOrdersWaitingAsyncAction = AsyncAction(
+      'ProposalStoreBase.loadingMoreOrdersWaiting',
+      context: context);
+
+  @override
+  Future loadingMoreOrdersWaiting() {
+    return _$loadingMoreOrdersWaitingAsyncAction
+        .run(() => super.loadingMoreOrdersWaiting());
+  }
+
   late final _$ProposalStoreBaseActionController =
       ActionController(name: 'ProposalStoreBase', context: context);
+
+  @override
+  dynamic addPaginationWaiting() {
+    final _$actionInfo = _$ProposalStoreBaseActionController.startAction(
+        name: 'ProposalStoreBase.addPaginationWaiting');
+    try {
+      return super.addPaginationWaiting();
+    } finally {
+      _$ProposalStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   dynamic setLoading(bool value) {

@@ -24,22 +24,6 @@ mixin _$OrderStore on OrderStoreBase, Store {
     });
   }
 
-  late final _$ordersAtom =
-      Atom(name: 'OrderStoreBase.orders', context: context);
-
-  @override
-  ObservableList<OrderEntity> get orders {
-    _$ordersAtom.reportRead();
-    return super.orders;
-  }
-
-  @override
-  set orders(ObservableList<OrderEntity> value) {
-    _$ordersAtom.reportWrite(value, super.orders, () {
-      super.orders = value;
-    });
-  }
-
   late final _$OrderStoreBaseActionController =
       ActionController(name: 'OrderStoreBase', context: context);
 
@@ -57,8 +41,7 @@ mixin _$OrderStore on OrderStoreBase, Store {
   @override
   String toString() {
     return '''
-index: ${index},
-orders: ${orders}
+index: ${index}
     ''';
   }
 }

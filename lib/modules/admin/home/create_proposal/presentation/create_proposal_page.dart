@@ -67,7 +67,7 @@ class _CreateProposalPageState extends State<CreateProposalPage> {
                             Expanded(
                               child: CreateProporseCustomerButtonWidget(size: 12, onPressed: () =>
                                   Modular.to.pushNamed(RouterGlobalMapper.chatSupport, arguments:
-                                  OrderEntity(id: store.order?.id ?? 0, customerID: Modular.get<CoreStore>().profile?.id ?? 0, title: store.order?.title ?? "",
+                                  OrderEntity(id: store.order?.id ?? 0, title: store.order?.title ?? "",
                                       environments: store.order?.environments ?? "", status: OrderStatus.appoval))
                               ),
                             ),

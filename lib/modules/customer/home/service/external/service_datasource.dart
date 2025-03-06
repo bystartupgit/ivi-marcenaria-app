@@ -40,8 +40,6 @@ class ServiceDataSource {
 
       dynamic data = response.body;
 
-      print(data);
-
     } catch(e) { print(e); }
 
   }

@@ -6,6 +6,7 @@ import 'package:marcenaria/modules/customer/home/presentation/components/proposa
 import 'package:marcenaria/modules/customer/home/proposal/presentation/stores/proposal_store.dart';
 
 import '../../../../../core/themes/color_theme.dart';
+import '../../../data/routers/customer_routers.dart';
 import '../../orders/domain/mappers/order_empty_mapper.dart';
 import '../../presentation/components/order_header_greetings_widget.dart';
 import '../../presentation/components/order_loading_widget.dart';
@@ -50,10 +51,15 @@ class _ProposalPageState extends State<ProposalPage> with AutomaticKeepAliveClie
                 const SizedBox(height: 20),
                 Expanded(
                     child: PageView(
+                        physics: const NeverScrollableScrollPhysics(),
                         controller: store.controller,
                         children: [
-                          ProposalListWidget(orders: store.productionOrdersFiltered,message: OrderEmptyMapper.production),
-                          ProposalListWidget(orders: store.finishedOrdersFiltered, message: OrderEmptyMapper.finished)
+                          ProposalListWidget(
+                            navigation: (value) => Modular.to.pushNamed(CustomerRouters.productionIntern,arguments: value),
+                              orders: store.productionOrdersFiltered,message: OrderEmptyMapper.production),
+                          ProposalListWidget(
+                              navigation: (value) {},
+                              orders: store.finishedOrdersFiltered, message: OrderEmptyMapper.finished)
                         ]
                     ))
               ]),

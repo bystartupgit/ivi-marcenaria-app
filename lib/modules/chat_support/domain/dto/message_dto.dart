@@ -2,7 +2,6 @@
 
 
 import '../mappers/message_dto_mapper.dart';
-import '../mappers/message_mapper.dart';
 
 class MessageDTO {
 

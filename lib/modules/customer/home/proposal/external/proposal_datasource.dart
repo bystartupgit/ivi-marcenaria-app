@@ -27,10 +27,12 @@ class ProposalDataSource {
 
     Map<String,dynamic> body = { "page" : page, "limit" : limit };
 
-    try {
+
       Response response = await post(
           url, headers: headers, body: jsonEncode(body))
           .timeout(const Duration(seconds: 8));
+
+      print(response.body);
 
       Map<String, dynamic> data = jsonDecode(response.body);
 
@@ -46,7 +48,7 @@ class ProposalDataSource {
       } else {
         return [];
       }
-    }catch(e) { return []; }
+
 
   }
 

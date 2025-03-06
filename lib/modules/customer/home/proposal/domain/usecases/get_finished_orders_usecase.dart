@@ -10,6 +10,6 @@ class GetFinishedOrdersUsecase {
   GetFinishedOrdersUsecase({required this.datasource});
 
   Future<List<OrderEntity>> call({required int customerID, required int page, required int limit }) async =>
-      datasource.getProductionOrders(customerID: customerID, page: page, limit: limit);
+      datasource.getFinishOrders(customerID: customerID, page: page, limit: limit);
 
 }

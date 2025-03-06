@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:marcenaria/modules/admin/home/create_proposal/presentation/proporsal/proporsal_download_button_widget.dart';
 import 'package:marcenaria/modules/admin/home/create_proposal/presentation/proporsal/proposal_rich_title_widget.dart';
 
@@ -39,7 +38,7 @@ class ProporsalCompleteWidget extends StatelessWidget {
               children: [
                 Text(title,style: TextStyle(color: ColorTheme.black3, fontFamily: FamilyTheme.light, fontSize: 15)),
                 const SizedBox(height: 10.0),
-                if(proposal != null) ProporsalDownloadButtonWidget(onPressed: () => store.download()),
+                if(proposal != null) ProporsalDownloadButtonWidget(onPressed: () => store.download(),title: "Download do Orçamento"),
                 Row(
                   spacing: 5.0,
                   children: [

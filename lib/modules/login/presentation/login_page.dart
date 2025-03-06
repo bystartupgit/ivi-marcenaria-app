@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:marcenaria/core/data/router_global_mapper.dart';
 import 'package:marcenaria/core/themes/color_theme.dart';
 import 'package:marcenaria/modules/login/presentation/components/login_button_widget.dart';
@@ -20,6 +21,7 @@ class LoginPage extends StatefulWidget {
 class _LoginPageState extends State<LoginPage> {
 
   final String title = "Login";
+  final String logo = "assets/logo/logo.svg";
 
   final LoginStore store = Modular.get<LoginStore>();
 
@@ -36,6 +38,7 @@ class _LoginPageState extends State<LoginPage> {
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
+                    SvgPicture.asset(logo,width: MediaQuery.of(context).size.width * 0.45,),
                     const LoginGreetingsWidget(),
                     const SizedBox(height: 30.0),
                     LoginTitleWidget(title: title),

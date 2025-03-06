@@ -40,8 +40,34 @@ mixin _$CoreStore on CoreStoreBase, Store {
     });
   }
 
+  late final _$imageAtom = Atom(name: 'CoreStoreBase.image', context: context);
+
+  @override
+  File? get image {
+    _$imageAtom.reportRead();
+    return super.image;
+  }
+
+  @override
+  set image(File? value) {
+    _$imageAtom.reportWrite(value, super.image, () {
+      super.image = value;
+    });
+  }
+
   late final _$CoreStoreBaseActionController =
       ActionController(name: 'CoreStoreBase', context: context);
+
+  @override
+  dynamic setImage(File? value) {
+    final _$actionInfo = _$CoreStoreBaseActionController.startAction(
+        name: 'CoreStoreBase.setImage');
+    try {
+      return super.setImage(value);
+    } finally {
+      _$CoreStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   dynamic setAuth(AuthEntity value) {
@@ -69,7 +95,8 @@ mixin _$CoreStore on CoreStoreBase, Store {
   String toString() {
     return '''
 auth: ${auth},
-profile: ${profile}
+profile: ${profile},
+image: ${image}
     ''';
   }
 }

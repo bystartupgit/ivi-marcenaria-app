@@ -31,7 +31,7 @@ abstract class ChatStoreBase with Store {
   int page = 1;
 
   @observable
-  int limit = 10;
+  int limit = 20;
 
   @action
   setPagination() => page++;
@@ -50,7 +50,7 @@ abstract class ChatStoreBase with Store {
 
     if(value.trim().isEmpty) { return; }
 
-    _sendMessagesUseCase.call(dto: MessageSupportDTO(userID: userID, message: value,suportID: userID));
+    _sendMessagesUseCase.call(dto: MessageSupportDTO(userID: userID, message: value, suportID: userID));
 
     messages.add(MessageEntity(id: 0, senderID: userID, message: value, date: DateTime.now()));
 
@@ -71,7 +71,7 @@ abstract class ChatStoreBase with Store {
       if (list.isNotEmpty) {
         messages = list.asObservable();
       }
-    }catch(e) { print(e); } finally { setLoading(false); }
+    }catch(e) {} finally { setLoading(false); }
 
   }
 }

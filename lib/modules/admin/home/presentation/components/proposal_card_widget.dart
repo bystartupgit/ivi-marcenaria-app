@@ -13,7 +13,12 @@ class ProposalCardWidget extends StatelessWidget {
   final OrderEntity order;
   final Function() onPressed;
 
-  const ProposalCardWidget({super.key, required this.order, required this.onPressed});
+  final Color? colorStatus;
+  final String? status;
+
+  const ProposalCardWidget({super.key, required this.order,
+    this.status, this.colorStatus,
+    required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -62,9 +67,9 @@ class ProposalCardWidget extends StatelessWidget {
                                   Text("Orçamento nº ${order.id}", style: TextStyle(
                                       fontFamily: FamilyTheme.regular, color: ColorTheme.pureBlack, fontSize: 10)),
                                   const SizedBox(height: 3.0),
-                                  Text(StatusExtension.fromTitle(order.status),style: TextStyle(
-                                      fontFamily: FamilyTheme.medium, color: order.status == OrderStatus.production?
-                                  ColorTheme.lightBlue : ColorTheme.lightGreen, fontSize: 10))
+                                  Text(status ?? StatusExtension.fromTitle(order.status),style: TextStyle(
+                                      fontFamily: FamilyTheme.medium, color: colorStatus ?? (order.status == OrderStatus.production?
+                                  ColorTheme.lightBlue : ColorTheme.lightGreen), fontSize: 10))
 
                                 ],
                               ),

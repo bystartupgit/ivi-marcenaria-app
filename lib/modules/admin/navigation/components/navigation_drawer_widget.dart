@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:marcenaria/modules/admin/domain/mappers/home_title_mapper.dart';
 import 'package:marcenaria/modules/admin/navigation/stores/navigation_store.dart';
 
@@ -12,6 +13,8 @@ import 'navigation_drawer_option_widget.dart';
 class NavigationDrawerWidget extends StatelessWidget {
 
   final NavigationStore store;
+
+  final String logo = "assets/logo/logo.svg";
 
   const NavigationDrawerWidget({super.key, required this.store});
 
@@ -29,7 +32,7 @@ class NavigationDrawerWidget extends StatelessWidget {
           spacing: 10.0,
           children: [
             SizedBox(height: MediaQuery.of(context).padding.top + 50.0),
-            Text("LOGO", style: TextStyle(color: Colors.white)),
+            SvgPicture.asset(logo,width: MediaQuery.of(context).size.width * 0.30),
             const SizedBox(height: 10.0),
             NavigationDrawerOptionWidget(icon: DrawerIcons.notification, onPressed: () {
               Navigator.pop(context);

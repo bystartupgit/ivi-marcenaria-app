@@ -39,4 +39,33 @@ class UserDataSource {
       else { return null; }
 
   }
+
+  Future<bool> registerFirebaseToken({required String fcmToken, required int userID}) async {
+
+    Uri url = Uri.parse("$enviroment/api/usuarios/validateToken");
+
+    String? token = Modular.get<CoreStore>().auth?.token;
+
+    Map<String,String> headers = {"Content-Type": "application/json", "Authorization": "Bearer $token"};
+
+    Map<String,dynamic> body = {
+      "id_usuario": userID,
+      "token": fcmToken
+    };
+
+    try {
+
+      Response response = await post(
+          url, headers: headers, body: jsonEncode(body))
+          .timeout(const Duration(seconds: 8));
+
+      dynamic data = jsonDecode(response.body);
+
+      print(data.toString());
+
+      if(response.statusCode == 200) {return true; } else { return false; }
+
+    } catch(e) { return false; }
+
+  }
 }

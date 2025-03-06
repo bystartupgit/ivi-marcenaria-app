@@ -25,6 +25,22 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
     });
   }
 
+  late final _$loadingAtom =
+      Atom(name: 'ProfileStoreBase.loading', context: context);
+
+  @override
+  bool get loading {
+    _$loadingAtom.reportRead();
+    return super.loading;
+  }
+
+  @override
+  set loading(bool value) {
+    _$loadingAtom.reportWrite(value, super.loading, () {
+      super.loading = value;
+    });
+  }
+
   late final _$initAsyncAction =
       AsyncAction('ProfileStoreBase.init', context: context);
 
@@ -37,8 +53,18 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
       AsyncAction('ProfileStoreBase.uploadImage', context: context);
 
   @override
-  Future uploadImage() {
-    return _$uploadImageAsyncAction.run(() => super.uploadImage());
+  Future uploadImage({required dynamic context}) {
+    return _$uploadImageAsyncAction
+        .run(() => super.uploadImage(context: context));
+  }
+
+  late final _$getProfilePhotoAsyncAction =
+      AsyncAction('ProfileStoreBase.getProfilePhoto', context: context);
+
+  @override
+  Future<bool> getProfilePhoto({required dynamic context}) {
+    return _$getProfilePhotoAsyncAction
+        .run(() => super.getProfilePhoto(context: context));
   }
 
   late final _$ProfileStoreBaseActionController =
@@ -50,6 +76,17 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
         name: 'ProfileStoreBase.setImage');
     try {
       return super.setImage(value);
+    } finally {
+      _$ProfileStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setLoading(bool value) {
+    final _$actionInfo = _$ProfileStoreBaseActionController.startAction(
+        name: 'ProfileStoreBase.setLoading');
+    try {
+      return super.setLoading(value);
     } finally {
       _$ProfileStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -69,7 +106,8 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
   @override
   String toString() {
     return '''
-image: ${image}
+image: ${image},
+loading: ${loading}
     ''';
   }
 }

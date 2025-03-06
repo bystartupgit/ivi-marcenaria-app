@@ -6,12 +6,15 @@ import '../../../../../../core/themes/family_theme.dart';
 
 class ProporsalDownloadButtonWidget extends StatelessWidget {
 
-  final String title = "Download do Orçamento";
+  final String title;
+  final double titleSize;
   final Function() onPressed;
 
   final String image = "assets/login/svgs/download.svg";
 
-  const ProporsalDownloadButtonWidget({super.key, required this.onPressed});
+  const ProporsalDownloadButtonWidget({super.key,
+    this.titleSize = 12,
+    required this.onPressed, required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,7 @@ class ProporsalDownloadButtonWidget extends StatelessWidget {
               mainAxisSize: MainAxisSize.min,
               children: [
                 SvgPicture.asset(image, colorFilter: const ColorFilter.mode( Colors.white, BlendMode.srcIn)),
-                Text(title,style: TextStyle(fontSize: 12,fontFamily: FamilyTheme.regular, color: Colors.white )),
+                Text(title,style: TextStyle(fontSize: titleSize,fontFamily: FamilyTheme.regular, color: Colors.white )),
               ],
             )),
       ),

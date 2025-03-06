@@ -16,7 +16,7 @@ class AuthEntity {
   factory AuthEntity.fromMap(Map<String,dynamic> map) =>
       AuthEntity(
           token: map[AuthMapper.token],
-          type: UserType.values.firstWhere((e) => e.name == map[AuthMapper.user][AuthMapper.type]),
+          type: UserType.values.byName(map[AuthMapper.user][AuthMapper.type]),
           id: map[AuthMapper.user][AuthMapper.id],
           email: map[AuthMapper.user][AuthMapper.email]
       );

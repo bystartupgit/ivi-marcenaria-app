@@ -50,13 +50,15 @@ abstract class LoginStoreBase with Store {
 
       AuthEntity? auth = result.$2;
 
+      print(auth?.type);
+
       if (auth != null) {
 
         Modular.get<CoreStore>().setAuth(auth);
 
         return switch(auth.type) {
           UserType.cliente => Modular.to.navigate(RouterGlobalMapper.customer),
-          UserType.prestador => Modular.to.navigate(RouterGlobalMapper.customer),
+          UserType.prestador => Modular.to.navigate(RouterGlobalMapper.employee),
           UserType.administrador => Modular.to.navigate(RouterGlobalMapper.admin),
         };
       } else { ShowErrorMessageUsecase(context: context).call(message: result.$1); }

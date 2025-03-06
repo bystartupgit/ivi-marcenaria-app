@@ -10,14 +10,15 @@ import '../../orders/domain/enum/order_status_enum.dart';
 
 class ProposalCardWidget extends StatelessWidget {
 
+  final Function() navigation;
   final OrderEntity order;
 
-  const ProposalCardWidget({super.key, required this.order});
+  const ProposalCardWidget({super.key, required this.order, required this.navigation});
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Modular.to.pushNamed(RouterMapper.detailsIntern),
+      onTap: navigation,
       child: Container(
           height: MediaQuery.of(context).size.height * 0.12,
           width: MediaQuery.of(context).size.width * 0.2,

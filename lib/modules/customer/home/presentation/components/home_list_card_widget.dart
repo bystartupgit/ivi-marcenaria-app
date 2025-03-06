@@ -21,27 +21,24 @@ class HomeListCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-      builder: (context) {
-        return orders.isEmpty ? Container() : Column(
-          mainAxisSize: MainAxisSize.min,
+    return orders.isEmpty ? Container() : Column(
+      mainAxisSize: MainAxisSize.min,
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(title,style: TextStyle(fontSize: 14,fontFamily: FamilyTheme.regular,color: Colors.black)),
-                InkWell(
-                    onTap: seeAll, child: Text(button,style: TextStyle(fontSize: 14,fontFamily: FamilyTheme.regular,color: Colors.black))),
-              ]),
-            SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  spacing: 10.0,
-                  children: orders.map((e) => HomeCardWidget(order: e, details: details)).toList()
-                ),
-            )
-          ]);
-      }
-    );
+            Text(title,style: TextStyle(fontSize: 14,fontFamily: FamilyTheme.regular,color: Colors.black)),
+            InkWell(
+                onTap: seeAll, child: Text(button,style: TextStyle(fontSize: 14,fontFamily: FamilyTheme.regular,color: Colors.black))),
+          ]),
+        SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              spacing: 10.0,
+              children: orders.map((e) => HomeCardWidget(order: e, details: details)).toList()
+            ),
+        )
+      ]);
   }
 }

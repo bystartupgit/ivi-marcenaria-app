@@ -16,6 +16,7 @@ class AppWidget extends StatelessWidget {
     return MaterialApp.router(
       title: 'Marcenaria',
       themeMode: ThemeMode.light,
+      locale: const Locale("pt_BR"),
       debugShowCheckedModeBanner: false,
       theme: ThemeData(brightness: Brightness.light, useMaterial3: true),
       darkTheme: ThemeData(brightness: Brightness.dark, useMaterial3: true),

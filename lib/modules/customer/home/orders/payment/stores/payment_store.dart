@@ -1,6 +1,8 @@
 
 
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:marcenaria/core/data/store/core_store.dart';
+import 'package:marcenaria/modules/customer/home/orders/domain/usecases/aprove_proposal_usecase.dart';
 import 'package:marcenaria/modules/customer/home/orders/domain/usecases/confirm_payment_usecase.dart';
 import 'package:marcenaria/modules/customer/home/orders/presentation/stores/order_store.dart';
 import 'package:marcenaria/modules/login/domain/usecases/show_error_message_usecase.dart';

@@ -9,6 +9,8 @@ import 'package:marcenaria/modules/notification/notification_module.dart';
 import 'package:marcenaria/modules/onboarding/presentation/onboarding_page.dart';
 import 'package:marcenaria/modules/onboarding/presentation/stores/onboarding_store.dart';
 
+import 'admin/domain/usecases/get_order_details_without_employee_usecase.dart';
+import 'admin/external/order_datasource.dart';
 import 'chat_support/chat_module.dart';
 import 'login/login_module.dart';
 
@@ -20,6 +22,10 @@ class AppModule extends Module {
     i.addSingleton(CoreStore.new);
 
     i.add(OnboardingStore.new);
+
+    i.add(() => OrderDataSource());
+
+    i.add(() => GetOrderDetailsWithoutEmployeeUsecase(datasource: i.get<OrderDataSource>()));
   }
 
   @override

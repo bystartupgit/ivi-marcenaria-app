@@ -12,6 +12,7 @@ import 'package:marcenaria/modules/customer/home/orders/presentation/stores/orde
 import '../../../../../core/data/router_global_mapper.dart';
 import '../../../../../core/themes/color_theme.dart';
 import 'components/conversation_filter_widget.dart';
+import 'components/conversation_tile_proposal_widget.dart';
 
 class ConversationPage extends StatefulWidget {
   const ConversationPage({super.key});
@@ -23,7 +24,6 @@ class ConversationPage extends StatefulWidget {
 class _ConversationPageState extends State<ConversationPage> with AutomaticKeepAliveClientMixin {
 
   final CoreStore core = Modular.get<CoreStore>();
-  final OrderStore orders = Modular.get<OrderStore>();
   final ConversationStore store = Modular.get<ConversationStore>();
 
   @override
@@ -59,11 +59,21 @@ class _ConversationPageState extends State<ConversationPage> with AutomaticKeepA
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (context,index) => ConversationTileWidget(
-                              onPressed: () => Modular.to.pushNamed(RouterGlobalMapper.chatSupport, arguments: orders.waitingOrders[index]),
+                              onPressed: () => Modular.to.pushNamed(RouterGlobalMapper.chatSupport, arguments: store.waitingOrdersFiltered[index]),
                               name: core.profile?.name ?? "",
-                              order: orders.waitingOrders[index],colaborations: "Suporte e você",),
+                              order: store.waitingOrdersFiltered[index], colaborations: "Suporte e você",),
                           separatorBuilder: (context,index) => const SizedBox(height: 10),
-                          itemCount: orders.waitingOrders.length ),
+                          itemCount: store.waitingOrdersFiltered.length ),
+                      const SizedBox(height: 10),
+                      ListView.separated(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context,index) => ConversationTileProposalWidget(
+                            onPressed: () => Modular.to.pushNamed(RouterGlobalMapper.chatSupport, arguments: store.waitingOrdersFiltered[index]),
+                            name: core.profile?.name ?? "",
+                            proposal: store.waitingApprovalFiltered[index], colaborations: "Suporte e você",),
+                          separatorBuilder: (context,index) => const SizedBox(height: 10),
+                          itemCount: store.waitingApprovalFiltered.length ),
                     ],
                   )
                 ]),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:marcenaria/core/data/entities/profile_entity.dart';
 import 'package:mobx/mobx.dart';
 
@@ -14,6 +16,12 @@ abstract class CoreStoreBase with Store {
 
   @observable
   ProfileEntity? profile;
+
+  @observable
+  File? image;
+
+  @action
+  setImage(File? value) => image = value;
 
   @action
   setAuth(AuthEntity value) => auth = value;

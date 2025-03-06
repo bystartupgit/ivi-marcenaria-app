@@ -40,7 +40,7 @@ class ProporsalCompleteWidget extends StatelessWidget {
               children: [
                 Text(title,style: TextStyle(color: ColorTheme.black3, fontFamily: FamilyTheme.light, fontSize: 15)),
                 const SizedBox(height: 10.0),
-                if(proposal != null) ProporsalDownloadButtonWidget(onPressed: () {}),
+                if(proposal != null) ProporsalDownloadButtonWidget(onPressed: () {},title: "Download do Orçamento"),
                 Row(
                   spacing: 5.0,
                   children: [

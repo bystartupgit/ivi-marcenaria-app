@@ -24,7 +24,7 @@ class CheckButtonWidget extends StatelessWidget {
                 color: ColorTheme.green,
                 borderRadius: BorderRadius.circular(5.0)
             ),
-            child: Center(child: Text(title,style: TextStyle(fontSize: size,fontFamily: FamilyTheme.regular, color: Colors.white )))),
+            child: Center(child: Text(title,style: TextStyle(fontSize: size,fontFamily: FamilyTheme.medium, color: Colors.white )))),
       ),
     );
   }

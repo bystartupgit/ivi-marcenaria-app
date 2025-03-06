@@ -7,6 +7,7 @@ extension StatusExtension on OrderStatus {
   static OrderStatus fromString(String value) => switch(value) {
     "em analise" => OrderStatus.analysis,
     "em negociacao" => OrderStatus.appoval,
+    "em execucao" => OrderStatus.production,
     _ => OrderStatus.analysis
   };
 

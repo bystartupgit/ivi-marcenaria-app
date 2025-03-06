@@ -37,6 +37,8 @@ class ChatDataSource {
 
       Map<String,dynamic> data = jsonDecode(response.body);
 
+      print(data.toString());
+
       if(response.statusCode == 200) {
 
         List<dynamic> messages = data[MessageMapper.messages];
@@ -46,7 +48,7 @@ class ChatDataSource {
 
       } else { return []; }
 
-    } catch(e) { return []; }
+    } catch(e) { print(e); return []; }
   }
 
   Future<List<MessageEntity>> getMessagesSupport({required int supportID, required int page, required int limit }) async {
@@ -118,10 +120,14 @@ class ChatDataSource {
 
     Map<String,dynamic> body = dto.toMap();
 
+    print(body.toString());
+
     try{
 
-      await post(
-          url, headers: headers, body: jsonEncode(body));
+      Response response = await post(url, headers: headers, body: jsonEncode(body));
+
+      print(response.body);
+      print(response.statusCode);
 
     } catch(e) { print(e); }
 

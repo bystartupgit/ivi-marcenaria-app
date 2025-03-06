@@ -5,12 +5,10 @@ import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/modules/customer/home/profile/form/presentation/components/profile_edit_field_widget.dart';
 import 'package:marcenaria/modules/customer/home/profile/form/presentation/components/profile_update_button_widget.dart';
 import 'package:marcenaria/modules/customer/home/profile/form/presentation/stores/profile_form_store.dart';
-import 'package:marcenaria/modules/customer/home/profile/presentation/components/profile_icons.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 import '../../../../../../core/themes/color_theme.dart';
 import '../../../../../../core/themes/family_theme.dart';
-import '../../../../../employee/profile/presentation/components/profile_back_button_widget.dart';
 import '../../../../../login/register/presentation/utils/cpf_formatter_util.dart';
 import '../../../../../login/register/presentation/utils/phone_formatter_util.dart';
 import '../../../../../login/shared/components/login_icons.dart';
@@ -55,7 +53,7 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
                       child: Column(
                           spacing: 10.0,
                           children: [
-                            ProfileEditImageWidget(name: store.name.text),
+                            ProfileEditImageWidget(name: store.name.text, uploadImage: () => store.uploadImage(context: context),image: store.image),
                             const SizedBox(height: 10.0),
                             ProfileEditFieldWidget(
                                 label: "nome",

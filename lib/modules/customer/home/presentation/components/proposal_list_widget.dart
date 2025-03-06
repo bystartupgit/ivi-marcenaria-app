@@ -10,7 +10,9 @@ class ProposalListWidget extends StatelessWidget {
   final String message;
   final List<OrderEntity> orders;
 
-  const ProposalListWidget({super.key, required this.orders, required this.message});
+  final Function(int value) navigation;
+
+  const ProposalListWidget({super.key, required this.orders, required this.message, required this.navigation});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,8 @@ class ProposalListWidget extends StatelessWidget {
                 shrinkWrap: true,
                 separatorBuilder: (context, index) => const SizedBox(height: 10.0),
                 itemCount: orders.length,
-                itemBuilder: (context,index) => ProposalCardWidget(order: orders[index])),
+                itemBuilder: (context,index) => ProposalCardWidget(order: orders[index],
+                  navigation: () => navigation(orders[index].id))),
             const SizedBox(height: 20.0)
           ],
         ),

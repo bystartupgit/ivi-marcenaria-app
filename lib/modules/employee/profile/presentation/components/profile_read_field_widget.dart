@@ -20,6 +20,8 @@ class ProfileReadFieldWidget extends StatelessWidget {
     return TextField(
       controller: controller,
       keyboardType: TextInputType.text,
+      readOnly: true,
+      enabled: false,
       decoration: InputDecoration(
           border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(10.0)),
           filled: true,

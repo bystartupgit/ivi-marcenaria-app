@@ -8,12 +8,19 @@ import 'package:marcenaria/modules/chat_private_support/presentation/components/
 import 'package:marcenaria/modules/chat_private_support/presentation/components/chat_textfield_widget.dart';
 import 'package:marcenaria/modules/chat_private_support/presentation/components/chat_tile_widget.dart';
 import 'package:marcenaria/modules/chat_private_support/presentation/stores/chat_store.dart';
+import 'package:marcenaria/modules/chat_private_support/presentation/utils/suport_chat_util.dart';
+import 'package:marcenaria/modules/login/domain/enums/user_type_enum.dart';
 
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class ChatPage extends StatefulWidget {
 
-  const ChatPage({super.key});
+  final UserType user;
+  final String senderName;
+  final int id;
+  final UserType sender;
+
+  const ChatPage({super.key, required this.user, required this.sender, required this.senderName, required this.id});
 
   @override
   State<ChatPage> createState() => _ChatPageState();
@@ -26,7 +33,7 @@ class _ChatPageState extends State<ChatPage> {
 
   @override
   void initState() {
-    store.init();
+    store.init(id: widget.id);
     super.initState();
   }
 
@@ -45,9 +52,10 @@ class _ChatPageState extends State<ChatPage> {
                     icon: Icon(Icons.arrow_back_ios_new_rounded,color: ColorTheme.black2))),
             body: Column(
                 children: [
-                  ChatTileWidget(name: core.profile?.name ?? ""),
+                  ChatTileWidget(name: widget.senderName, subtitle: SuportChatUtil.subtitleSuport(user: widget.user, senderName: widget.senderName, sender: widget.sender),),
                   const SizedBox(height: 10.0),
                   ChatGroupSpaceWidget(
+                    id: widget.id,
                     scroll: store.scroll,
                     messages: store.messages,
                     userID: store.userID ),
@@ -64,13 +72,13 @@ class _ChatPageState extends State<ChatPage> {
 
                             FocusScope.of(context).requestFocus(store.focus);
 
-                            store.sendMessage(value);
+                            store.sendMessage(value,widget.id);
 
                             setState(() {});
                           } ,),
                       ),
                       const SizedBox(width: 10.0),
-                      IconButton(onPressed: () => store.sendMessage(store.controller.text), icon: const Icon(ChatIcons.send,color: Colors.orange)),
+                      IconButton(onPressed: () => store.sendMessage(store.controller.text,widget.id), icon: const Icon(ChatIcons.send,color: Colors.orange)),
                       const SizedBox(width: 5.0,)
                     ],
                   )),

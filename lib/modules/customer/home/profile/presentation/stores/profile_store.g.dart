@@ -25,6 +25,22 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
     });
   }
 
+  late final _$pathImageAtom =
+      Atom(name: 'ProfileStoreBase.pathImage', context: context);
+
+  @override
+  String? get pathImage {
+    _$pathImageAtom.reportRead();
+    return super.pathImage;
+  }
+
+  @override
+  set pathImage(String? value) {
+    _$pathImageAtom.reportWrite(value, super.pathImage, () {
+      super.pathImage = value;
+    });
+  }
+
   late final _$loadingAtom =
       Atom(name: 'ProfileStoreBase.loading', context: context);
 
@@ -107,6 +123,7 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
   String toString() {
     return '''
 image: ${image},
+pathImage: ${pathImage},
 loading: ${loading}
     ''';
   }

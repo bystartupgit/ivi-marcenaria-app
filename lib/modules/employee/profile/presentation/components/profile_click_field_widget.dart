@@ -24,7 +24,7 @@ class ProfileClickFieldWidget extends StatelessWidget {
             border: OutlineInputBorder(borderSide: BorderSide.none, borderRadius: BorderRadius.circular(10.0)),
             filled: true,
             prefixIcon: Icon(icon, color: attachment == null ? ColorTheme.gray2 : ColorTheme.orange),
-            suffixIcon: const ProfileDownloadButtonWidget(),
+            suffixIcon: attachment == null? null : const ProfileDownloadButtonWidget(),
             suffixIconConstraints: const BoxConstraints(maxHeight: 30),
             hintText: title,
             hintStyle: TextStyle(color: Colors.black,fontFamily: FamilyTheme.regular,fontSize: 14),

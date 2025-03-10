@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/core/themes/color_theme.dart';
+import 'package:marcenaria/modules/admin/home/conclusion/conclusion_page.dart';
+import 'package:marcenaria/modules/admin/home/conversations/conversations_page.dart';
+import 'package:marcenaria/modules/admin/home/conversations/conversations_store.dart';
 import 'package:marcenaria/modules/admin/home/orders/order_page.dart';
 import 'package:marcenaria/modules/admin/home/presentation/home_page.dart';
 import 'package:marcenaria/modules/admin/home/proposal/presentation/proposal_page.dart';
@@ -103,12 +106,12 @@ class _NavigationPageState extends State<NavigationPage> {
                               child: PageView(
                                   controller: store.controller,
                                   physics: const NeverScrollableScrollPhysics(),
-                                  children: [
-                                    const HomePage(),
-                                    const ProposalPage(),
-                                    const OrderPage(),
-                                    Container(color: Colors.red),
-                                    Container(color: Colors.lightGreen)
+                                  children: const [
+                                    HomePage(),
+                                    ProposalPage(),
+                                    OrderPage(),
+                                    ConclusionPage(),
+                                    ConversationPage()
                                   ])),
                         ],
                       ))),

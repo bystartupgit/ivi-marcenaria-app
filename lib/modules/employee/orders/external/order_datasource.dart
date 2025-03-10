@@ -149,7 +149,6 @@ class OrderDataSource {
 
       Response response = await post(url, headers: headers, body: jsonEncode(body)).timeout(const Duration(seconds: 8));
 
-      print(response.statusCode);
       if(response.statusCode == 201) {
 
         return true;

@@ -16,7 +16,9 @@ class ConfirmPasswordPage extends StatelessWidget {
   final String title = "Crie uma nova senha";
   final String buttonTitle = "Redefinir senha";
 
-  ConfirmPasswordPage({super.key});
+  final String token;
+
+  ConfirmPasswordPage({super.key, required this.token});
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +54,7 @@ class ConfirmPasswordPage extends StatelessWidget {
                           ])),
                       const SizedBox(height: 40.0),
                       ElevatedButton(
-                          onPressed: store.passwordValid? () {} : null,
+                          onPressed: store.passwordValid? () => store.confirmationPassword(context: context,code: token) : null,
                           style: ElevatedButton.styleFrom(
                               shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(5.0)),
                               backgroundColor: ColorTheme.orange),

@@ -36,6 +36,7 @@ class NavigationDrawerWidget extends StatelessWidget {
             const SizedBox(height: 10.0),
             NavigationDrawerOptionWidget(icon: DrawerIcons.notification, onPressed: () {
               Navigator.pop(context);
+              Modular.to.pushNamed(RouterGlobalMapper.notification);
               }, title: HomeTitleMapper.notification),
             Divider(color: Colors.black.withValues(alpha: 0.1)),
             NavigationDrawerOptionWidget(icon: DrawerIcons.home, onPressed: () {
@@ -53,7 +54,7 @@ class NavigationDrawerWidget extends StatelessWidget {
             Divider(color: Colors.black.withValues(alpha: 0.1)),
             NavigationDrawerOptionWidget(icon: DrawerIcons.comment, onPressed: () {
               Navigator.pop(context);
-              store.setIndex(3);
+              store.setIndex(4);
             }, title: HomeTitleMapper.messages),
             const Expanded(child: SizedBox(height: 10.0)),
             NavigationDrawerOptionWidget(icon: DrawerIcons.exit, onPressed: () {

@@ -34,7 +34,7 @@ class ProporsalCardWidget extends StatelessWidget {
                   Text("R\$${CoinUtil.formatValues(double.parse(order.valorTotal))}",overflow: TextOverflow.ellipsis, style: TextStyle(fontFamily: FamilyTheme.bold, color: Colors.black, fontSize: 30)),
                 ],
               ),
-              if(order.valorPix.isNotEmpty) Text("Entrada + Parcelado: 1x ${"R\$ ${CoinUtil.formatValues(double.parse(order.entradaMinima))}"} + ${order.parcelas}x ${"R\$ ${CoinUtil.formatValues(double.parse(order.valorPix))}"}",  style: TextStyle(fontFamily: FamilyTheme.regular, color: Colors.black, fontSize: 10)),
+              if(order.valorPix.isNotEmpty) Text("Entrada + Parcelado: 1x ${"R\$ ${CoinUtil.formatValues(double.parse(order.entradaMinima))}"} + ${order.parcelas}x ${"R\$ ${CoinUtil.formatValues(double.parse(order.valorParc ?? "0"))}"}",  style: TextStyle(fontFamily: FamilyTheme.regular, color: Colors.black, fontSize: 10)),
               const SizedBox(height: 10.0),
             ]));
   }

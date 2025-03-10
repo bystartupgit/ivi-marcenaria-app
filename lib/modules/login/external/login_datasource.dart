@@ -59,13 +59,13 @@ class LoginDataSource {
 
         final String message = data[AuthMapper.message];
 
-        print(data.toString());
+
 
         if(response.statusCode == 200) {
           return (message, AuthEntity.fromMap(data));
         } else { return (message, null); }
 
-      } catch(e) { return (e.toString(), null); }
+      } catch(e) { print(e); return (e.toString(), null); }
 
     }
 
@@ -118,6 +118,33 @@ class LoginDataSource {
         } else { return (message, false); }
 
       } catch(e) { return (e.toString(), false); }
+
+    }
+
+    Future<(String,bool)> resetPassword({required String code, required String password}) async {
+
+      Uri url = Uri.parse("$enviroment/api/usuarios/alterkeyrecovery");
+
+      Map<String,String> headers = {"Content-Type": "application/json"};
+
+      Map<String,dynamic> body = { "token": code, "novaSenha": password };
+
+      try {
+
+        Response response = await post(
+            url, headers: headers, body: jsonEncode(body))
+            .timeout(const Duration(seconds: 8));
+
+        dynamic data = jsonDecode(response.body);
+
+        final String message = data[AuthMapper.message];
+
+        if(response.statusCode == 200) {
+          return (message, true);
+        } else { return (message, false); }
+
+      } catch(e) { return (e.toString(), false); }
+
 
     }
 

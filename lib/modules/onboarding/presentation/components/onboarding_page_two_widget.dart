@@ -2,6 +2,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:marcenaria/core/data/router_global_mapper.dart';
 import 'package:marcenaria/core/themes/family_theme.dart';
 
@@ -14,6 +15,7 @@ class OnboardingPageTwoWidget extends StatelessWidget {
   final String button = "Entrar";
   final String image = "assets/onboarding/onboarding_2.png";
   final String title = "Dê vida ao seu ambiente com móveis";
+  final String logo = "assets/logo/logo.svg";
   final String description = "Solicitar orçamento";
 
   const OnboardingPageTwoWidget({super.key});
@@ -41,9 +43,11 @@ class OnboardingPageTwoWidget extends StatelessWidget {
               children: [
                 const Expanded(child: SizedBox()),
                 Expanded(
+                  flex: 2,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
+                      SvgPicture.asset(logo,height: 150),
                       SizedBox(
                           width: MediaQuery.of(context).size.width * 0.8,
                           child: Text(title,

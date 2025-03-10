@@ -10,6 +10,8 @@ import 'package:marcenaria/modules/employee/profile/presentation/components/prof
 import 'package:marcenaria/modules/employee/profile/presentation/components/profile_read_field_widget.dart';
 import 'package:marcenaria/modules/employee/profile/presentation/stores/profile_store.dart';
 
+import '../../../customer/home/profile/presentation/components/profile_image_widget.dart';
+
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
 
@@ -24,6 +26,12 @@ class _ProfilePageState extends State<ProfilePage> {
 
   final String documentONE = "Carteira de trabalho";
   final String documentTWO = "Contrato de serviços";
+
+  @override
+  void initState() {
+    store.init();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,6 +50,10 @@ class _ProfilePageState extends State<ProfilePage> {
               child: Column(
                   spacing: 10.0,
                   children: [
+                    ProfileImageWidget(name: store.name.text,
+                        pathImage: store.pathImage,
+                        image: store.image, uploadImage: () => store.uploadImage(context: context)),
+                    const SizedBox(height: 20.0),
                     ProfileReadFieldWidget(
                         hint: "exemplo@exemplo.com",
                         keyboard: TextInputType.emailAddress, icon: ProfileIcons.email, controller: store.email),

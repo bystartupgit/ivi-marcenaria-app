@@ -5,16 +5,20 @@ import 'package:marcenaria/core/themes/color_theme.dart';
 import 'package:marcenaria/core/themes/family_theme.dart';
 import 'package:marcenaria/modules/customer/home/profile/presentation/utils/profile_utils.dart';
 
+import '../../../../../../core/environments/app_environments.dart';
 import 'edit_icons.dart';
 
 class ProfileImageWidget extends StatelessWidget {
 
   final File? image;
+  final String? pathImage;
 
   final Function() uploadImage;
   final String name;
 
-  const ProfileImageWidget({super.key, this.image, required this.name, required this.uploadImage});
+  const ProfileImageWidget({super.key, this.image,
+    this.pathImage,
+    required this.name, required this.uploadImage});
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +37,11 @@ class ProfileImageWidget extends StatelessWidget {
                   height: 74 ,
                   decoration: BoxDecoration(
                       color: ColorTheme.darkGray,
-                      image: image == null ? null : DecorationImage(image: FileImage(image!),fit: BoxFit.cover),
+                      image: image == null ? pathImage == null ? null :
+                      DecorationImage(image: NetworkImage(AppEnvironments.base + pathImage!), fit: BoxFit.cover, onError:(e,s) => Container()) :
+                      DecorationImage(image: FileImage(image!),fit: BoxFit.cover),
                       borderRadius: BorderRadius.circular(10.0)),
-                  child: image != null ? null : Center(child: Text(ProfileUtils.initalLetters(name),
+                  child: image != null || pathImage != null ? null : Center(child: Text(ProfileUtils.initalLetters(name),
                       style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.08,fontFamily: FamilyTheme.regular,color: Colors.black)))),
               Positioned(
                 bottom: -5,right: -8,

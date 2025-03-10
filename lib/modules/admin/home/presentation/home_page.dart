@@ -18,6 +18,8 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
               Row(
+                spacing: 10,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Expanded(child: HomeProposalWidget()),
                   Expanded(child: HomeOrderWidget())

@@ -29,7 +29,6 @@ abstract class ServiceSuccessStoreBase with Store {
 
     try{
 
-      print(file.path);
       setLoading(true);
 
       await OpenFile.open(file.path);

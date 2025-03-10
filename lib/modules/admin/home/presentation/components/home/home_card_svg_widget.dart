@@ -18,10 +18,11 @@ class HomeCardSVGWidget extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       child: Card(
+        elevation: 3,
         color: ColorTheme.lightGray,
         child: Center(
           child: Container(
-            height: 105,
+            height: 90,
             padding: const EdgeInsets.all(16.0),
             decoration: BoxDecoration(borderRadius: BorderRadius.circular(10.0)),
             child: Column(
@@ -30,10 +31,10 @@ class HomeCardSVGWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                SvgPicture.asset(icon,height: 25,),
+                SvgPicture.asset(icon,height: 20,),
                 Text(title, textAlign: TextAlign.center,
                     style: TextStyle(fontFamily: FamilyTheme.medium,
-                        color: ColorTheme.black3, fontSize: 12))
+                        color: ColorTheme.black3, fontSize: 10))
               ],
             ),
           ),

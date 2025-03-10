@@ -8,8 +8,10 @@ class ProfileDTO {
   final String email;
   final String cpf;
   final String phone;
+  final String? image;
 
-  ProfileDTO({required this.name, required this.email, this.cpf = "", this.phone = "" });
+  ProfileDTO({required this.name,
+    this.image, required this.email, this.cpf = "", this.phone = "" });
 
   toMap() => {
     ProfileMappers.name: name,

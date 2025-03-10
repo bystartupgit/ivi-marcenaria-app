@@ -18,6 +18,8 @@ class HomeOrderWidget extends StatelessWidget {
 
   final String waitingApproval = "Aguardando Prestador ";
   final String waitingProporsal = "Recusados";
+  final String production = "Em produção";
+  final String finish = "Concluídos";
 
   HomeOrderWidget({super.key});
 
@@ -30,7 +32,12 @@ class HomeOrderWidget extends StatelessWidget {
           Text(title,style: TextStyle(fontSize: 14,color: ColorTheme.black3,fontFamily: FamilyTheme.medium)),
           const SizedBox(height: 5.0),
           HomeCardSVGWidget(title: waitingProporsal,onPressed: () { store.setIndex(2);  },icon: "assets/admin/navigation/aguardando.svg"),
+          const SizedBox(height: 10.0),
           HomeCardSVGWidget(title: waitingApproval,onPressed: () { store.setIndex(2); },icon: "assets/admin/navigation/recusado.svg"),
+          const SizedBox(height: 10.0),
+          HomeCardSVGWidget(title: production,onPressed: () { store.setIndex(2);  },icon: "assets/admin/navigation/production.svg"),
+          const SizedBox(height: 10.0),
+          HomeCardSVGWidget(title: finish,onPressed: () { store.setIndex(3); },icon: "assets/admin/navigation/recusado.svg"),
         ]);
   }
 }

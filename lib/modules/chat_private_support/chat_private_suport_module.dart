@@ -22,6 +22,7 @@ class ChatPrivateSuportModule extends Module {
 
   @override
   void routes(r) {
-    r.child(Modular.initialRoute, child: (context) => const ChatPage());
+    r.child(Modular.initialRoute, child: (context) => ChatPage(
+        id: r.args.data[0], user: r.args.data[1], sender: r.args.data[2], senderName: r.args.data[3]));
   }
 }

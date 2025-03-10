@@ -7,7 +7,7 @@ import 'package:marcenaria/modules/customer/home/conversations/presentation/comp
 import 'package:marcenaria/modules/customer/home/conversations/presentation/components/conversation_suport_tile_widget.dart';
 import 'package:marcenaria/modules/customer/home/conversations/presentation/components/conversation_tile_widget.dart';
 import 'package:marcenaria/modules/customer/home/conversations/presentation/stores/conversation_store.dart';
-import 'package:marcenaria/modules/customer/home/orders/presentation/stores/order_store.dart';
+import 'package:marcenaria/modules/login/domain/enums/user_type_enum.dart';
 
 import '../../../../../core/data/router_global_mapper.dart';
 import '../../../../../core/themes/color_theme.dart';
@@ -52,7 +52,8 @@ class _ConversationPageState extends State<ConversationPage> with AutomaticKeepA
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       ConversationSuportTileWidget(colaborations: "Suporte e você",
-                        onPressed: () => Modular.to.pushNamed(RouterGlobalMapper.chatPrivateSupport),
+                        onPressed: () => Modular.to.pushNamed(RouterGlobalMapper.chatPrivateSupport,
+                            arguments: [core.auth?.id, UserType.cliente, UserType.administrador, "Suporte"]),
                         name: core.profile?.name ?? "",),
                       const SizedBox(height: 10),
                       ListView.separated(

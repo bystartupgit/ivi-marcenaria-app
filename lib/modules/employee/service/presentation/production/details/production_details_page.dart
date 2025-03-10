@@ -87,9 +87,6 @@ class _ProductionDetailsPageState extends State<ProductionDetailsPage> {
                                           environments: store.order?.environments ?? "", status: OrderStatus.appoval))
                               ),
                             ),
-                            Expanded(child: ConfirmationButtonWidget(size: 12,
-                                title: "Concluir Serviço",
-                                onPressed: () => store.finishService(context: context)))
                           ]),
                     ),
                     const SizedBox(height: 40.0),

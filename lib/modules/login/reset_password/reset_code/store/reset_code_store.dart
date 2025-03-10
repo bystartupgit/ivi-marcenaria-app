@@ -37,7 +37,7 @@ abstract class ResetCodeStoreBase with Store {
 
       (String,bool) result = await _validateCodeUsecase.call(code: code);
 
-      if(result.$2) { Modular.to.pushNamed(RouterMapper.confirmPasswordIntern); }
+      if(result.$2) { Modular.to.pushNamed(RouterMapper.confirmPasswordIntern,arguments: code); }
       else { ShowErrorMessageUsecase(context: context).call(message: result.$1); }
 
     }

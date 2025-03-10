@@ -51,7 +51,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   child: Column(
                       spacing: 10.0,
                       children: [
-                        ProfileImageWidget(name: store.name.text, image: store.image, uploadImage: () => store.uploadImage(context: context)),
+                        ProfileImageWidget(name: store.name.text,
+                            pathImage: store.pathImage,
+                            image: store.image, uploadImage: () => store.uploadImage(context: context)),
                         const SizedBox(height: 20.0),
                         Align(
                             alignment: AlignmentDirectional.topEnd,

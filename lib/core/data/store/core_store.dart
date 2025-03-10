@@ -20,8 +20,14 @@ abstract class CoreStoreBase with Store {
   @observable
   File? image;
 
+  @observable
+  String? pathImage;
+
   @action
   setImage(File? value) => image = value;
+
+  @action
+  setPathImage(String? value) => pathImage = value;
 
   @action
   setAuth(AuthEntity value) => auth = value;

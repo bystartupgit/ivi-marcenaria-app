@@ -3,11 +3,9 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/core/data/router_global_mapper.dart';
 import 'package:marcenaria/modules/admin/home/orders/waiting_employee/details/potential_employee/potential_employee_widget.dart';
-import 'package:marcenaria/modules/admin/home/orders/waiting_employee/details/potential_employee/stores/potential_employee_store.dart';
 import 'package:marcenaria/modules/admin/home/orders/waiting_employee/details/stores/waiting_employee_details_store.dart';
 import 'package:marcenaria/modules/admin/shared/details_card/details_card_widget.dart';
 
-import '../../../../../../core/data/store/core_store.dart';
 import '../../../../../../core/themes/color_theme.dart';
 import '../../../../../../core/themes/family_theme.dart';
 import '../../../../../customer/home/orders/domain/entities/order_entity.dart';

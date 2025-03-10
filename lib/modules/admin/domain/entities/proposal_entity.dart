@@ -1,7 +1,7 @@
+
 class ProposalEntity {
   int idProposta;
   int idPedido;
-  int? idPrestador;
   String mensagem;
   String valorTotal;
   String valorPix;
@@ -18,7 +18,6 @@ class ProposalEntity {
   ProposalEntity({
     required this.idProposta,
     required this.idPedido,
-    required this.idPrestador,
     required this.mensagem,
     required this.valorTotal,
     required this.valorPix,
@@ -33,38 +32,41 @@ class ProposalEntity {
     this.valorParc
   });
 
-  factory ProposalEntity.fromJson(Map<String, dynamic> json) => ProposalEntity(
-    idProposta: json["id_proposta"],
-    idPedido: json["id_pedido"],
-    idPrestador: json["id_prestador"],
-    mensagem: json["mensagem"],
-    valorTotal: json["valor_total"],
-    valorPix: json["valor_pix"],
-    valorDesconto: json["valor_desconto"],
-    entradaMinima: json["entrada_minima"],
-    parcelas: json["parcelas"],
-    escassezTemporal: json["escassez_temporal"],
-    dePor: json["de_por"],
-    urlArquivoOrcamento: json["url_arquivo_orcamento"],
-    dataCriacao: DateTime.parse(json["data_criacao"]),
-    dataAtualizacao: DateTime.parse(json["data_atualizacao"]),
-    valorParc: json["valor_parc"]
-  );
+  factory ProposalEntity.fromJson(Map<String, dynamic> json) {
 
-  Map<String, dynamic> toJson() => {
-    "id_proposta": idProposta,
-    "id_pedido": idPedido,
-    "id_prestador": idPrestador,
-    "mensagem": mensagem,
-    "valor_total": valorTotal,
-    "valor_pix": valorPix,
-    "valor_desconto": valorDesconto,
-    "entrada_minima": entradaMinima,
-    "parcelas": parcelas,
-    "escassez_temporal": escassezTemporal,
-    "de_por": dePor,
-    "url_arquivo_orcamento": urlArquivoOrcamento,
-    "data_criacao": dataCriacao.toIso8601String(),
-    "data_atualizacao": dataAtualizacao.toIso8601String(),
-  };
-}
+    print(json);
+
+    return ProposalEntity(
+        idProposta: json["id_proposta"],
+        idPedido: json["id_pedido"],
+        mensagem: json["mensagem"],
+        valorTotal: json["valor_total"],
+        valorPix: json["valor_pix"],
+        valorDesconto: json["valor_desconto"],
+        entradaMinima: json["entrada_minima"],
+        parcelas: json["parcelas"],
+        escassezTemporal: json["escassez_temporal"],
+        dePor: json["de_por"],
+        urlArquivoOrcamento: json["url_arquivo_orcamento"],
+        dataCriacao: DateTime.parse(json["data_criacao"]),
+        dataAtualizacao: DateTime.parse(json["data_atualizacao"]),
+        valorParc: json["valor_parc"]
+    );
+  }
+
+    Map<String, dynamic> toJson() => {
+      "id_proposta": idProposta,
+      "id_pedido": idPedido,
+      "mensagem": mensagem,
+      "valor_total": valorTotal,
+      "valor_pix": valorPix,
+      "valor_desconto": valorDesconto,
+      "entrada_minima": entradaMinima,
+      "parcelas": parcelas,
+      "escassez_temporal": escassezTemporal,
+      "de_por": dePor,
+      "url_arquivo_orcamento": urlArquivoOrcamento,
+      "data_criacao": dataCriacao.toIso8601String(),
+      "data_atualizacao": dataAtualizacao.toIso8601String(),
+    };
+  }

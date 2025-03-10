@@ -1,6 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../../../../../admin/domain/entities/employee_user_entity.dart';
 import '../../../../../../admin/domain/entities/order_entity.dart';
 import '../../../../../../admin/domain/entities/proposal_entity.dart';
 import '../../../../../../admin/domain/usecases/get_order_details_without_employee_usecase.dart';
@@ -30,7 +31,7 @@ abstract class FinishDetailsStoreBase with Store {
 
     setLoading(true);
 
-    (OrderEntity?, ProposalEntity?) result = await _getOrderDetailsWithoutEmployeeUsecase.call(orderID: orderID);
+    (OrderEntity?, ProposalEntity?, List<EmployeeUserEntity>) result = await _getOrderDetailsWithoutEmployeeUsecase.call(orderID: orderID);
 
     order = result.$1;
     proposal = result.$2;

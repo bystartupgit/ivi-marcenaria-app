@@ -53,7 +53,9 @@ class _ProfileFormPageState extends State<ProfileFormPage> {
                       child: Column(
                           spacing: 10.0,
                           children: [
-                            ProfileEditImageWidget(name: store.name.text, uploadImage: () => store.uploadImage(context: context),image: store.image),
+                            ProfileEditImageWidget(name: store.name.text,
+                                pathImage: store.pathImage,
+                                uploadImage: () => store.uploadImage(context: context),image: store.image),
                             const SizedBox(height: 10.0),
                             ProfileEditFieldWidget(
                                 label: "nome",

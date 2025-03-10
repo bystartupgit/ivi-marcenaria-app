@@ -31,6 +31,9 @@ abstract class ProfileStoreBase with Store {
   @observable
   File? image;
 
+  @observable
+  String? pathImage;
+
   @action
   setImage(File value) => image = value;
 
@@ -44,6 +47,8 @@ abstract class ProfileStoreBase with Store {
   init() async {
 
      ProfileEntity? profile = Modular.get<CoreStore>().profile;
+
+     pathImage = Modular.get<CoreStore>().pathImage?.split("/").last;
 
      if(profile != null) {
        name.text = profile.name;

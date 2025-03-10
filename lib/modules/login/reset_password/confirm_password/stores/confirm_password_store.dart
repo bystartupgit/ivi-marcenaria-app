@@ -1,5 +1,9 @@
 
 
+import 'package:flutter/material.dart';
+import 'package:flutter_modular/flutter_modular.dart';
+import 'package:marcenaria/modules/login/domain/usecases/reset_password_usecase.dart';
+import 'package:marcenaria/modules/login/domain/usecases/show_success_message_usecase.dart';
 import 'package:mobx/mobx.dart';
 
 import '../../../domain/usecases/show_error_message_usecase.dart';
@@ -9,6 +13,8 @@ part 'confirm_password_store.g.dart';
 class ConfirmPasswordStore = ConfirmPasswordStoreBase with _$ConfirmPasswordStore;
 
 abstract class ConfirmPasswordStoreBase with Store {
+
+  final ResetPasswordUsecase _resetPasswordUsecase = Modular.get<ResetPasswordUsecase>();
 
   @observable
   String password = "";
@@ -33,7 +39,7 @@ abstract class ConfirmPasswordStoreBase with Store {
   setLoading(bool value) => loading = value;
 
   @action
-  confirmationPasswrod({required context}) async {
+  confirmationPassword({required context, required String code}) async {
 
     try {
 
@@ -43,9 +49,11 @@ abstract class ConfirmPasswordStoreBase with Store {
 
       setLoading(true);
 
-      (String,bool) result = ("", true);
+      (String,bool) result = await _resetPasswordUsecase.call(code: code, password: password);
 
-      if(result.$2) {}
+      if(result.$2) {
+        ShowSuccessMessageUsecase(context: context).call(message: "Sucesso ao redefinir senha").whenComplete(() => Modular.to.popUntil(ModalRoute.withName(Modular.initialRoute)));
+      }
       else { ShowErrorMessageUsecase(context: context).call(message: result.$1); }
 
     }

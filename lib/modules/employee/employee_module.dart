@@ -2,6 +2,8 @@
 
 
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:marcenaria/modules/customer/home/profile/external/profile_datasource.dart';
+import 'package:marcenaria/modules/employee/conversation/conversation_store.dart';
 import 'package:marcenaria/modules/employee/details/presentation/details_page.dart';
 import 'package:marcenaria/modules/employee/domain/mappers/router_mapper.dart';
 import 'package:marcenaria/modules/employee/domain/usecases/get_user_usecase.dart';
@@ -31,6 +33,7 @@ import 'package:marcenaria/modules/employee/service/presentation/production/deta
 import 'package:marcenaria/modules/employee/service/presentation/production/stores/production_store.dart';
 import 'package:marcenaria/modules/employee/service/presentation/stores/service_store.dart';
 
+import '../customer/home/profile/domain/usecases/upload_profile_photo_usecase.dart';
 import 'domain/usecases/register_fcm_token_usecase.dart';
 import 'orders/domain/usecases/get_order_not_started_usecase.dart';
 import 'orders/domain/usecases/get_waiting_interest_orders_usecase.dart';
@@ -47,6 +50,7 @@ class EmployeeModule extends Module {
     i.addSingleton(() => NavigationStore());
     i.add(() => ProfileStore());
     i.add(() => HomeStore());
+    i.add(() => ConversationStore());
 
     i.addSingleton(() => OrderStore());
     i.add(() => WaitingInterestiongStore());
@@ -61,6 +65,7 @@ class EmployeeModule extends Module {
     i.add(() => UserDataSource());
     i.add(() => OrderDataSource());
     i.add(() => ServiceDataSource());
+    i.add(() => ProfileDatasource());
     i.add(() => ProductionDetailsStore());
     i.add(() => FinishDetailsStore());
 
@@ -74,6 +79,7 @@ class EmployeeModule extends Module {
     i.add(() => GetServiceProductionUsecase(datasource: i.get<ServiceDataSource>()));
     i.add(() => GetServiceFinishUsecase(datasource: i.get<ServiceDataSource>()));
     i.add(() => FinishServiceUsecase(datasource: i.get<ServiceDataSource>()));
+    i.add(() => UploadProfilePhotoUsecase(datasource: i.get<ProfileDatasource>()));
 
     i.add(() => RegisterFcmTokenUsecase(datasource: i.get<UserDataSource>()));
 

@@ -10,9 +10,9 @@ class ChatTileWidget extends StatelessWidget {
   final String name;
 
   final String title = "Suporte";
-  final String subtitle = "Suporte e Você";
+  final String subtitle;
 
-  const ChatTileWidget({super.key, required this.name});
+  const ChatTileWidget({super.key, required this.name, required this.subtitle});
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +44,7 @@ class ChatTileWidget extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Suporte e você",style: TextStyle(color: ColorTheme.black3,
+            Text(subtitle,style: TextStyle(color: ColorTheme.black3,
                 fontFamily: FamilyTheme.regular,fontSize: 10)),
           ],
         ),

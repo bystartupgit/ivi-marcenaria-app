@@ -58,7 +58,7 @@ class _ProposalPageState extends State<ProposalPage> with AutomaticKeepAliveClie
                             navigation: (value) => Modular.to.pushNamed(CustomerRouters.productionIntern,arguments: value),
                               orders: store.productionOrdersFiltered,message: OrderEmptyMapper.production),
                           ProposalListWidget(
-                              navigation: (value) {},
+                              navigation: (value) => Modular.to.pushNamed(CustomerRouters.conclusionIntern,arguments: value),
                               orders: store.finishedOrdersFiltered, message: OrderEmptyMapper.finished)
                         ]
                     ))

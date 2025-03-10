@@ -27,12 +27,9 @@ class ProposalDataSource {
 
     Map<String,dynamic> body = { "page" : page, "limit" : limit };
 
-
       Response response = await post(
           url, headers: headers, body: jsonEncode(body))
           .timeout(const Duration(seconds: 8));
-
-      print(response.body);
 
       Map<String, dynamic> data = jsonDecode(response.body);
 
@@ -48,15 +45,13 @@ class ProposalDataSource {
       } else {
         return [];
       }
-
-
   }
 
   Future<List<OrderEntity>> getFinishOrders({required int customerID, required int page, required int limit }) async {
 
     String? token = Modular.get<CoreStore>().auth?.token;
 
-    Uri url = Uri.parse("$enviroment/api/pedidos/cliente/1/concluidos");
+    Uri url = Uri.parse("$enviroment/api/pedidos/cliente/$customerID/concluidos");
 
     Map<String,String> headers = {
       "Content-Type": "application/json",
@@ -65,9 +60,6 @@ class ProposalDataSource {
 
     Map<String,dynamic> body = { "page" : page, "limit" : limit };
 
-
-
-    try {
       Response response = await post(
           url, headers: headers, body: jsonEncode(body))
           .timeout(const Duration(seconds: 8));
@@ -86,8 +78,6 @@ class ProposalDataSource {
       } else {
         return [];
       }
-    }catch(e) { return []; }
-
   }
 
 }

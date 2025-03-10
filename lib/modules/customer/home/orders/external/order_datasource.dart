@@ -105,10 +105,7 @@ class OrderDataSource {
 
     try {
       Response response = await post(
-          url, headers: headers, body: jsonEncode(body))
-          .timeout(const Duration(seconds: 8));
-
-      print(response.body);
+          url, headers: headers, body: jsonEncode(body)).timeout(const Duration(seconds: 8));
 
       Map<String, dynamic> data = jsonDecode(response.body);
 

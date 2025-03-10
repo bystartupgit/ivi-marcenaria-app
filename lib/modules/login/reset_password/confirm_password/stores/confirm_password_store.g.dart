@@ -65,14 +65,15 @@ mixin _$ConfirmPasswordStore on ConfirmPasswordStoreBase, Store {
     });
   }
 
-  late final _$confirmationPasswrodAsyncAction = AsyncAction(
-      'ConfirmPasswordStoreBase.confirmationPasswrod',
+  late final _$confirmationPasswordAsyncAction = AsyncAction(
+      'ConfirmPasswordStoreBase.confirmationPassword',
       context: context);
 
   @override
-  Future confirmationPasswrod({required dynamic context}) {
-    return _$confirmationPasswrodAsyncAction
-        .run(() => super.confirmationPasswrod(context: context));
+  Future confirmationPassword(
+      {required dynamic context, required String code}) {
+    return _$confirmationPasswordAsyncAction
+        .run(() => super.confirmationPassword(context: context, code: code));
   }
 
   late final _$ConfirmPasswordStoreBaseActionController =

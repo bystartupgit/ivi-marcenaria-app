@@ -56,7 +56,7 @@ abstract class ChoiceEmployeeDetailsStoreBase with Store {
 
     setLoading(true);
 
-    (OrderEntity?, ProposalEntity?) result = await _getOrderDetailsWithoutEmployeeUsecase.call(orderID: orderID);
+    (OrderEntity?, ProposalEntity?,List<EmployeeUserEntity>) result = await _getOrderDetailsWithoutEmployeeUsecase.call(orderID: orderID);
 
     order = result.$1;
     proposal = result.$2;

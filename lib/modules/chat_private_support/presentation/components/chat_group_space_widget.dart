@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:marcenaria/modules/chat_private_support/presentation/components/message_suport_ballon_widget.dart';
 import 'package:marcenaria/modules/chat_private_support/presentation/components/message_user_balloon_widget.dart';
+import 'package:marcenaria/modules/login/domain/enums/user_type_enum.dart';
 
 import '../../domain/entities/message_entity.dart';
 
@@ -10,8 +11,10 @@ class ChatGroupSpaceWidget extends StatelessWidget {
   final List<MessageEntity> messages;
   final ScrollController scroll;
   final int userID;
+  final int id;
 
   const ChatGroupSpaceWidget({ super.key, required this.messages,
+    required this.id,
     required this.userID, required this.scroll });
 
   @override
@@ -32,7 +35,7 @@ class ChatGroupSpaceWidget extends StatelessWidget {
                 itemCount: messages.length,
                 itemBuilder: (context,index) {
 
-                  if(messages[index].senderID == userID) { return MessageUserBalloonWidget(message: messages[index]); }
+                  if(messages[index].senderID == id) { return MessageUserBalloonWidget(message: messages[index]); }
 
                   else { return MessageSupportBalloonWidget(message: messages[index]); }
 

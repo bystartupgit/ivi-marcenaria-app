@@ -2,6 +2,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_svg/svg.dart';
 
 import '../../../../core/data/router_global_mapper.dart';
 import '../../../../core/themes/color_theme.dart';
@@ -15,6 +16,7 @@ class OnboardingPageThreeWidget extends StatelessWidget {
   final String button = "Entrar";
   final String image = "assets/onboarding/onboarding_3.png";
   final String title = "Junte-se a nós e ofereça aos nossos clientes.";
+  final String logo = "assets/logo/logo.svg";
   final String description = "Seja um prestador";
 
   @override
@@ -40,9 +42,11 @@ class OnboardingPageThreeWidget extends StatelessWidget {
               children: [
                 const Expanded(child: SizedBox()),
                 Expanded(
+                  flex: 2,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
+                      SvgPicture.asset(logo,height: 150),
                       SizedBox(
                           width: MediaQuery.of(context).size.width * 0.8,
                           child: Text(title,

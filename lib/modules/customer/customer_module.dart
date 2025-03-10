@@ -1,8 +1,11 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/modules/customer/data/routers/customer_routers.dart';
+import 'package:marcenaria/modules/customer/home/conclusion/conclusion_page.dart';
+import 'package:marcenaria/modules/customer/home/conclusion/conclusion_store.dart';
 import 'package:marcenaria/modules/customer/home/conversations/presentation/stores/conversation_store.dart';
 import 'package:marcenaria/modules/customer/home/domain/usecases/get_user_usecase.dart';
 import 'package:marcenaria/modules/customer/home/domain/usecases/register_fcm_token_usecase.dart';
+import 'package:marcenaria/modules/customer/home/external/rating_datasource.dart';
 import 'package:marcenaria/modules/customer/home/external/user_datasource.dart';
 import 'package:marcenaria/modules/customer/home/orders/details/presentation/order_waiting_details_page.dart';
 import 'package:marcenaria/modules/customer/home/orders/details/presentation/stores/order_waiting_details_store.dart';
@@ -40,7 +43,7 @@ import 'package:marcenaria/modules/customer/home/service/presentation/success/se
 import 'package:marcenaria/modules/customer/home/service/presentation/success/stores/service_success_store.dart';
 import 'package:marcenaria/modules/customer/navigation/presentation/stores/navigation_store.dart';
 
-import '../admin/domain/usecases/get_order_details_without_employee_usecase.dart';
+import 'home/domain/usecases/rating_order_usecase.dart';
 import 'home/orders/domain/usecases/aprove_proposal_usecase.dart';
 import 'home/orders/proposal_details/proposal_details_page.dart';
 import 'home/orders/proposal_details/stores/order_proposal_details_store.dart';
@@ -62,6 +65,7 @@ class CustomerModule extends Module {
     i.addSingleton(() => ProposalStore());
     i.add(() => ServiceSuccessStore());
     i.add(() => OrderProductionStore());
+    i.add(() => ConclusionStore());
 
     i.add(() => OrderWaitingDetailsStore());
     i.add(() => OrderProposalDetailsStore());
@@ -73,6 +77,7 @@ class CustomerModule extends Module {
     i.add(() => ProfileDatasource());
     i.add(() => ProposalDataSource());
     i.add(() => PaymentDataSource());
+    i.add(() => RatingDatasource());
 
     i.add(() => GetUserUseCase(datasource: i.get<UserDataSource>()));
     i.add(() => CancelOrderUsecase(datasource: i.get<OrderDataSource>()));
@@ -91,6 +96,7 @@ class CustomerModule extends Module {
     i.add(() => ConfirmPaymentUsecase(datasource: i.get<PaymentDataSource>()));
     i.add(() => AproveProposalUsecase(datasource: i.get<OrderDataSource>()));
     i.add(() => RegisterFcmTokenUsecase(datasource: i.get<UserDataSource>()));
+    i.add(() => RatingOrderUsecase(datasource: i.get<RatingDatasource>()));
 
   }
 
@@ -112,5 +118,6 @@ class CustomerModule extends Module {
     r.child(CustomerRouters.paymentSuccessProposal, child: (context) => const PaymentSuccessPage());
 
     r.child(CustomerRouters.production, child: (context) => OrderProductionPage(orderID: r.args.data));
+    r.child(CustomerRouters.conclusion, child: (context) => ConclusionPage(orderID: r.args.data));
   }
 }

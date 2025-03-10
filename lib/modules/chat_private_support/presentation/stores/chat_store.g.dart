@@ -98,16 +98,25 @@ mixin _$ChatStore on ChatStoreBase, Store {
       AsyncAction('ChatStoreBase.sendMessage', context: context);
 
   @override
-  Future sendMessage(String value) {
-    return _$sendMessageAsyncAction.run(() => super.sendMessage(value));
+  Future sendMessage(String value, int id) {
+    return _$sendMessageAsyncAction.run(() => super.sendMessage(value, id));
   }
 
   late final _$initAsyncAction =
       AsyncAction('ChatStoreBase.init', context: context);
 
   @override
-  Future init() {
-    return _$initAsyncAction.run(() => super.init());
+  Future init({required int id}) {
+    return _$initAsyncAction.run(() => super.init(id: id));
+  }
+
+  late final _$loadingMoreMessagesAsyncAction =
+      AsyncAction('ChatStoreBase.loadingMoreMessages', context: context);
+
+  @override
+  Future loadingMoreMessages({required int id}) {
+    return _$loadingMoreMessagesAsyncAction
+        .run(() => super.loadingMoreMessages(id: id));
   }
 
   late final _$ChatStoreBaseActionController =

@@ -41,6 +41,22 @@ mixin _$ProfileFormStore on ProfileFormStoreBase, Store {
     });
   }
 
+  late final _$pathImageAtom =
+      Atom(name: 'ProfileFormStoreBase.pathImage', context: context);
+
+  @override
+  String? get pathImage {
+    _$pathImageAtom.reportRead();
+    return super.pathImage;
+  }
+
+  @override
+  set pathImage(String? value) {
+    _$pathImageAtom.reportWrite(value, super.pathImage, () {
+      super.pathImage = value;
+    });
+  }
+
   late final _$uploadImageAsyncAction =
       AsyncAction('ProfileFormStoreBase.uploadImage', context: context);
 
@@ -104,7 +120,8 @@ mixin _$ProfileFormStore on ProfileFormStoreBase, Store {
   String toString() {
     return '''
 loading: ${loading},
-image: ${image}
+image: ${image},
+pathImage: ${pathImage}
     ''';
   }
 }

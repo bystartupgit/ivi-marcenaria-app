@@ -101,7 +101,7 @@ class OrderDataSource {
     }
   }
 
-  Future<(OrderEntity?,ProposalEntity?)> getWaitingChoiceDetailsWithoutEmployees({required int orderID}) async {
+  Future<(OrderEntity?,ProposalEntity?,List<EmployeeUserEntity>)> getWaitingChoiceDetailsWithoutEmployees({required int orderID}) async {
 
     Uri url = Uri.parse("$enviroment/api/pedidos/unico");
 
@@ -114,8 +114,6 @@ class OrderDataSource {
 
     Map<String,dynamic> body = { "id" : orderID };
 
-    try{
-
     Response response = await post(
         url, headers: headers, body: jsonEncode(body))
         .timeout(const Duration(seconds: 8));
@@ -124,14 +122,15 @@ class OrderDataSource {
 
       Map<String, dynamic> data = jsonDecode(response.body);
 
+      List<dynamic> list = data["prestadores"] ?? [];
+
       final OrderEntity order = OrderEntity.fromMap(data[OrderMapper.order]);
       final ProposalEntity proposal = ProposalEntity.fromJson(data[OrderMapper.proposal]);
+      final List<EmployeeUserEntity> employees = list.map((e) => EmployeeUserEntity.fromOrder(e)).toList();
 
-      log(response.body.toString());
+      return (order,proposal,employees);
 
-      return (order,proposal);
-
-    } else { return (null,null); } } catch(e) { return (null,null); }
+    } else { return (null,null,<EmployeeUserEntity>[]); }
   }
 
   Future<List<OrderEntity>> getWaitingOrderEmployees({ required int page, required int limit }) async {
@@ -284,15 +283,9 @@ class OrderDataSource {
     } catch (e) { return []; }
   }
 
+  Future<List<OrderEntity>> getProductionOrders({ required int page, required int limit }) async {
 
-
-
-
-
-
-  Future<void> getDeclinedOrderEmployees({ required int page, required int limit }) async {
-
-    Uri url = Uri.parse("$enviroment/api/pedidos/prestadores-recusaram-interesse");
+    Uri url = Uri.parse("$enviroment/api/pedidos/listar/em-execucao");
 
     String? token = Modular.get<CoreStore>().auth?.token;
 
@@ -301,23 +294,51 @@ class OrderDataSource {
       "Authorization": "Bearer $token"
     };
 
-    Map<String,dynamic> body = { "page" : page, "limit" : limit, "Titulo": "", };
+    Map<String,dynamic> body = { "page" : page, "limit" : limit };
 
     Response response = await post(
         url, headers: headers, body: jsonEncode(body))
         .timeout(const Duration(seconds: 8));
 
-    print(response.body);
+    Map<String, dynamic> data = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+      List<dynamic> orders = data[OrderMapper.orders];
+
+      if (orders.isNotEmpty) { return orders.map((e) => OrderEntity.fromMap(e)).toList(); }
+      else { return []; }
+    } else {
+      return [];
+    }
+  }
+
+  Future<List<OrderEntity>> getConclusionOrders({ required int page, required int limit }) async {
+
+    Uri url = Uri.parse("$enviroment/api/pedidos/listar/concluidos");
+
+    String? token = Modular.get<CoreStore>().auth?.token;
+
+    Map<String,String> headers = {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token"
+    };
+
+    Map<String,dynamic> body = { "page" : page, "limit" : limit };
+
+    Response response = await post(
+        url, headers: headers, body: jsonEncode(body))
+        .timeout(const Duration(seconds: 8));
 
     Map<String, dynamic> data = jsonDecode(response.body);
 
-    print(data.toString());
+    if (response.statusCode == 200) {
+      List<dynamic> orders = data[OrderMapper.orders];
 
-    if (response.statusCode == 200) {}
-    else { print (response.body); }
-
-
+      if (orders.isNotEmpty) { return orders.map((e) => OrderEntity.fromMap(e)).toList(); }
+      else { return []; }
+    } else {
+      return [];
+    }
   }
-
 
 }

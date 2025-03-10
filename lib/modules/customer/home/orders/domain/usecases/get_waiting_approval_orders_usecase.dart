@@ -1,6 +1,3 @@
-
-
-import 'package:marcenaria/modules/customer/home/orders/domain/entities/order_entity.dart';
 import 'package:marcenaria/modules/customer/home/orders/external/order_datasource.dart';
 
 import '../entities/proposal_entity.dart';

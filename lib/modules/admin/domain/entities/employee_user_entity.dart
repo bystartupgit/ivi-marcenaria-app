@@ -17,7 +17,6 @@ class EmployeeUserEntity {
 
   final List<String> funcoes;
 
-
   EmployeeUserEntity({required this.employeeID,
     required this.email, required this.phone,
     this.funcoes = const [],
@@ -51,6 +50,18 @@ class EmployeeUserEntity {
           userID: map[EmployeeUserMapper.userID],
           statusContrato: map[EmployeeUserMapper.contract],
           name: map[EmployeeUserMapper.user]?[EmployeeUserMapper.name] ?? "Nome Prestador");
+
+  factory EmployeeUserEntity.fromOrder(Map<String,dynamic> map) =>
+      EmployeeUserEntity(
+          status: map[EmployeeUserMapper.status] ?? "aceito",
+          email: map[EmployeeUserMapper.email] ?? "",
+          phone: map[EmployeeUserMapper.phone] ?? "",
+          funcoes: map[EmployeeUserMapper.funcoes] == null?
+          <String>[] : List<String>.from(map[EmployeeUserMapper.funcoes]),
+          employeeID: map[EmployeeUserMapper.employeeID],
+          userID: map[EmployeeUserMapper.userID],
+          statusContrato: map[EmployeeUserMapper.contract],
+          name: map[EmployeeUserMapper.name] ?? "Nome Prestador");
 
   @override
   bool operator ==(Object other) {

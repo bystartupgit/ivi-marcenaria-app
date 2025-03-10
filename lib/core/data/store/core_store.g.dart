@@ -55,6 +55,22 @@ mixin _$CoreStore on CoreStoreBase, Store {
     });
   }
 
+  late final _$pathImageAtom =
+      Atom(name: 'CoreStoreBase.pathImage', context: context);
+
+  @override
+  String? get pathImage {
+    _$pathImageAtom.reportRead();
+    return super.pathImage;
+  }
+
+  @override
+  set pathImage(String? value) {
+    _$pathImageAtom.reportWrite(value, super.pathImage, () {
+      super.pathImage = value;
+    });
+  }
+
   late final _$CoreStoreBaseActionController =
       ActionController(name: 'CoreStoreBase', context: context);
 
@@ -64,6 +80,17 @@ mixin _$CoreStore on CoreStoreBase, Store {
         name: 'CoreStoreBase.setImage');
     try {
       return super.setImage(value);
+    } finally {
+      _$CoreStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
+  dynamic setPathImage(String? value) {
+    final _$actionInfo = _$CoreStoreBaseActionController.startAction(
+        name: 'CoreStoreBase.setPathImage');
+    try {
+      return super.setPathImage(value);
     } finally {
       _$CoreStoreBaseActionController.endAction(_$actionInfo);
     }
@@ -96,7 +123,8 @@ mixin _$CoreStore on CoreStoreBase, Store {
     return '''
 auth: ${auth},
 profile: ${profile},
-image: ${image}
+image: ${image},
+pathImage: ${pathImage}
     ''';
   }
 }

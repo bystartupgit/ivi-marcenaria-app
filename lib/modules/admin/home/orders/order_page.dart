@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/modules/admin/home/orders/choice_employee/choice_employee_page.dart';
+import 'package:marcenaria/modules/admin/home/orders/production/production_page.dart';
 import 'package:marcenaria/modules/admin/home/orders/stores/order_store.dart';
 import 'package:marcenaria/modules/admin/home/orders/waiting_employee/waiting_employee_page.dart';
 import 'package:marcenaria/modules/admin/home/presentation/components/proposal_filter_widget.dart';
@@ -51,7 +52,7 @@ class _OrderPageState extends State<OrderPage> with AutomaticKeepAliveClientMixi
                         children: [
                           WaitingEmployeePage(store: store.waitingEmployee),
                           ChoiceEmployeePage(store: store.choiceEmployee),
-                          Container(color: Colors.blue,)
+                          ProductionPage(store: store.productionStore)
                         ]
                     ))
               ]),

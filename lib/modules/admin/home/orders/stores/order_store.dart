@@ -3,9 +3,8 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:marcenaria/modules/admin/domain/usecases/get_declined_order_employees_usecase.dart';
-import 'package:marcenaria/modules/admin/domain/usecases/get_waiting_employees_usecase.dart';
 import 'package:marcenaria/modules/admin/home/orders/choice_employee/store/choice_employee_store.dart';
+import 'package:marcenaria/modules/admin/home/orders/production/stores/production_store.dart';
 import 'package:marcenaria/modules/admin/home/orders/waiting_employee/stores/waiting_employee_store.dart';
 import 'package:mobx/mobx.dart';
 
@@ -19,6 +18,7 @@ abstract class OrderStoreBase with Store implements Disposable {
 
   final WaitingEmployeeStore waitingEmployee = Modular.get<WaitingEmployeeStore>();
   final ChoiceEmployeeStore choiceEmployee = Modular.get<ChoiceEmployeeStore>();
+  final ProductionStore productionStore = Modular.get<ProductionStore>();
 
   @observable
   int pageWaitingEmployees = 1;
@@ -41,6 +41,7 @@ abstract class OrderStoreBase with Store implements Disposable {
 
       choiceEmployee.init();
       waitingEmployee.init();
+      productionStore.init();
 
     }catch(e) {}
 

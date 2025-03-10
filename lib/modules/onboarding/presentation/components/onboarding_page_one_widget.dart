@@ -2,6 +2,7 @@ import 'package:animated_text_kit/animated_text_kit.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:marcenaria/core/data/router_global_mapper.dart';
 import 'package:marcenaria/core/themes/color_theme.dart';
 import 'package:marcenaria/core/themes/family_theme.dart';
@@ -14,6 +15,7 @@ class OnboardingPageOneWidget extends StatelessWidget {
 
   final String button = "Entrar";
   final String image = "assets/onboarding/onboarding_1.png";
+  final String logo = "assets/logo/logo.svg";
   final String title = "Transforme seu espaço com um projeto de marcenaria";
   final String description = "Solicitar orçamento";
 
@@ -42,9 +44,11 @@ class OnboardingPageOneWidget extends StatelessWidget {
             children: [
               const Expanded(child: SizedBox()),
               Expanded(
+                flex: 2,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
+                    SvgPicture.asset(logo,height: 150),
                     SizedBox(
                         width: MediaQuery.of(context).size.width * 0.8,
                         child: Text(title,

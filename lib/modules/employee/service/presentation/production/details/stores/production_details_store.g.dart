@@ -65,15 +65,6 @@ mixin _$ProductionDetailsStore on ProductionDetailsStoreBase, Store {
     return _$initAsyncAction.run(() => super.init(orderID: orderID));
   }
 
-  late final _$finishServiceAsyncAction =
-      AsyncAction('ProductionDetailsStoreBase.finishService', context: context);
-
-  @override
-  Future finishService({required dynamic context}) {
-    return _$finishServiceAsyncAction
-        .run(() => super.finishService(context: context));
-  }
-
   late final _$ProductionDetailsStoreBaseActionController =
       ActionController(name: 'ProductionDetailsStoreBase', context: context);
 

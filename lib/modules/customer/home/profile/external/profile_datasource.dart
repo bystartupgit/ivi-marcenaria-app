@@ -73,7 +73,7 @@ class ProfileDatasource {
     };
 
     Map<String,dynamic> body = {
-      "nome_arquivo": name,
+      "nome_arquivo": 'profile-$customerID-$name',
       "tipo": "foto",
       "caminho": path,
       "id_cliente": customerID,
@@ -87,7 +87,7 @@ class ProfileDatasource {
           url, headers: headers, body: jsonEncode(body))
           .timeout(const Duration(seconds: 8));
 
-      if(response.statusCode == 201) { return true; }
+      if(response.statusCode == 201) { Modular.get<CoreStore>().setPathImage(path); return true; }
       else { return false; }
 
     } catch(e) { return false; }

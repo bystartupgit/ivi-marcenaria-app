@@ -19,6 +19,7 @@ import 'package:marcenaria/modules/login/reset_password/reset_code/store/reset_c
 import 'package:marcenaria/modules/login/reset_password/reset_password_page.dart';
 import 'package:marcenaria/modules/login/reset_password/stores/reset_password_store.dart';
 
+import 'domain/usecases/reset_password_usecase.dart';
 import 'presentation/login_page.dart';
 
 class LoginModule extends Module {
@@ -37,6 +38,7 @@ class LoginModule extends Module {
     i.add(() => RegisterUseCase(datasource: i.get<LoginDataSource>()));
     i.add(() => SendResetEmailUsecase(datasource: i.get<LoginDataSource>()));
     i.add(() => ValidateCodeUsecase(datasource: i.get<LoginDataSource>()));
+    i.add(() => ResetPasswordUsecase(datasource: i.get<LoginDataSource>()));
   }
 
   @override
@@ -49,6 +51,6 @@ class LoginModule extends Module {
 
     r.child(RouterMapper.resetPassword, child: (context) => ResetPasswordPage());
     r.child(RouterMapper.resetPasswordCode, child: (context) =>  ResetCodePage());
-    r.child(RouterMapper.confirmPassword, child: (context) => ConfirmPasswordPage());
+    r.child(RouterMapper.confirmPassword, child: (context) => ConfirmPasswordPage(token: r.args.data));
   }
 }

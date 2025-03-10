@@ -52,6 +52,7 @@ abstract class NavigationStoreBase with Store {
       ProfileEntity? profile = await _getUserUseCase.call(id: auth.id, type: auth.type);
 
       Modular.get<CoreStore>().setProfile(profile);
+      Modular.get<CoreStore>().setPathImage(profile?.image);
 
       _registerFcmTokenUsecase.call(userID: auth.id, fcmToken: token ?? "");
 

@@ -88,9 +88,4 @@ abstract class RegisterStoreBase with Store {
     finally { setLoading(false); }
 
   }
-
-
-
-
-
 }

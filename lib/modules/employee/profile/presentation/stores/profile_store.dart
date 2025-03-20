@@ -15,6 +15,7 @@ import '../../../../../core/permissions/gallery_permission_utils.dart';
 import '../../../../customer/home/profile/domain/usecases/upload_profile_photo_usecase.dart';
 import '../../../../login/domain/usecases/show_error_message_usecase.dart';
 import '../../../../login/domain/usecases/show_success_message_usecase.dart';
+import '../../../domain/dto/profile_dto.dart';
 
 part 'profile_store.g.dart';
 
@@ -35,6 +36,12 @@ abstract class ProfileStoreBase with Store {
   @observable
   String? pathImage;
 
+  @observable
+  ObservableList<String> jobs = <String>[].asObservable();
+
+  @action
+  setJobs(List<String> value) => jobs = value.asObservable();
+
   @action
   setImage(File value) => image = value;
 
@@ -48,14 +55,18 @@ abstract class ProfileStoreBase with Store {
   init() async {
 
     ProfileEntity? profile = Modular.get<CoreStore>().profile;
+    List<String> value = Modular.get<CoreStore>().jobs;
 
     pathImage = Modular.get<CoreStore>().pathImage?.split("/").last;
+
     if(profile != null) {
 
       name.text = profile.name;
       email.text = profile.email;
       phone.text = profile.phone;
       documentNumber.text = profile.cpf;
+
+      jobs = value.asObservable();
     }
   }
 
@@ -109,6 +120,18 @@ abstract class ProfileStoreBase with Store {
 
     return false;
     }
+  }
+
+  @action
+  update(ProfileDTO dto) {
+
+    name.text = dto.name;
+    email.text = dto.email;
+    phone.text = dto.phone;
+    documentNumber.text = dto.cpf;
+
+    jobs = dto.jobs.asObservable();
+
   }
 
 

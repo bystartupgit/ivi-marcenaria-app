@@ -24,7 +24,7 @@ class NotificationEntity {
           message: map[NotificationMapper.message],
           type: NotificationStatus.fromString(map[NotificationMapper.type]),
           date: DateUtil.convertStringToDatatime( map[NotificationMapper.date]),
-          isRead: map[NotificationMapper.type]
+          isRead: map[NotificationMapper.read]
       );
 
   NotificationEntity readNotification() =>

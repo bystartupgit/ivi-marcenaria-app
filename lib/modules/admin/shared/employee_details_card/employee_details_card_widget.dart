@@ -13,7 +13,7 @@ class EmployeeDetailsCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-        height: 110,
+        height: 120,
         decoration: BoxDecoration(
             boxShadow: [BoxShadow(color: ColorTheme.gray, blurRadius: 2.0, offset: const Offset(0.0, 5.0))],
             color: const Color(0xFFECECEC),

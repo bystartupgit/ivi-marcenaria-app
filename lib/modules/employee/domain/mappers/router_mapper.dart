@@ -5,6 +5,7 @@ class RouterMapper {
 
   static String details = "/Details/";
   static String profile = "/Profile/";
+  static String profileForm = "/Profile/Form/";
 
   static String orderWaitingDetails = "/OrderWaitingDetails/";
   static String orderWaitingSuccessDetails = "/OrderWaitingDetails/Success/";
@@ -15,6 +16,7 @@ class RouterMapper {
 
 
   static String profileIntern = "Profile/";
+  static String profileFormIntern = "Form/";
   static String detailsIntern = "Details/";
 
   static String orderWaitingDetailsIntern = "OrderWaitingDetails/";

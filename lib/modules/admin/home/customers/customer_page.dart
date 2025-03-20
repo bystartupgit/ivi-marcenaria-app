@@ -37,7 +37,7 @@ class _CustomerPageState extends State<CustomerPage> {
     return Observer(
         builder: (context) {
           return ModalProgressHUD(
-            inAsyncCall: false,
+            inAsyncCall: store.loading,
             child: Scaffold(
                 backgroundColor: ColorTheme.background,
                 appBar: AppBar(

@@ -4,7 +4,6 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:marcenaria/core/data/store/core_store.dart';
 import 'package:marcenaria/modules/admin/domain/entities/employee_user_entity.dart';
 import 'package:marcenaria/modules/admin/domain/usecases/get_employee_selection_for_job_usecase.dart';
 import 'package:marcenaria/modules/login/domain/usecases/show_error_message_usecase.dart';

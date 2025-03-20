@@ -10,4 +10,6 @@ class ProfileMappers {
   static String cpf = "cpf";
   static String phone = "telefone";
 
+  static String jobs = "funcoes";
+
 }

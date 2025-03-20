@@ -40,6 +40,21 @@ mixin _$CoreStore on CoreStoreBase, Store {
     });
   }
 
+  late final _$jobsAtom = Atom(name: 'CoreStoreBase.jobs', context: context);
+
+  @override
+  ObservableList<String> get jobs {
+    _$jobsAtom.reportRead();
+    return super.jobs;
+  }
+
+  @override
+  set jobs(ObservableList<String> value) {
+    _$jobsAtom.reportWrite(value, super.jobs, () {
+      super.jobs = value;
+    });
+  }
+
   late final _$imageAtom = Atom(name: 'CoreStoreBase.image', context: context);
 
   @override
@@ -73,6 +88,17 @@ mixin _$CoreStore on CoreStoreBase, Store {
 
   late final _$CoreStoreBaseActionController =
       ActionController(name: 'CoreStoreBase', context: context);
+
+  @override
+  dynamic setJobs(List<String> value) {
+    final _$actionInfo = _$CoreStoreBaseActionController.startAction(
+        name: 'CoreStoreBase.setJobs');
+    try {
+      return super.setJobs(value);
+    } finally {
+      _$CoreStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
 
   @override
   dynamic setImage(File? value) {
@@ -123,6 +149,7 @@ mixin _$CoreStore on CoreStoreBase, Store {
     return '''
 auth: ${auth},
 profile: ${profile},
+jobs: ${jobs},
 image: ${image},
 pathImage: ${pathImage}
     ''';

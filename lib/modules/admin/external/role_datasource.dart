@@ -37,7 +37,7 @@ class RoleDataSource {
 
       List<dynamic> result = data[EmployeeUserMapper.employees];
 
-      if(result.isNotEmpty) { return result.map((e) => EmployeeUserEntity.fromMap(e)).toList(); }
+      if(result.isNotEmpty) { return result.map((e) => EmployeeUserEntity.fromOrder(e)).toList(); }
       else { return []; }
 
     } else { return []; }

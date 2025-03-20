@@ -31,7 +31,7 @@ class _LoginPageState extends State<LoginPage> {
       builder: (context) => ModalProgressHUD(
         inAsyncCall: store.loading,
         child: Scaffold(
-            resizeToAvoidBottomInset: true,
+            resizeToAvoidBottomInset: false,
             backgroundColor: ColorTheme.background,
             body: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),

@@ -27,7 +27,7 @@ class CustomerEntity extends ProfileEntity {
           enable: map[CustomerMapper.user][CustomerMapper.status],
           cpf: map[CustomerMapper.user][CustomerMapper.cpf],
           phone: map[CustomerMapper.user][CustomerMapper.phone],
-          image: map["midia_perfil"]["caminho"]
+          image: map["midia_perfil"]?["caminho"]
       );
 
   @override

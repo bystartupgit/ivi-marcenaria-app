@@ -41,6 +41,21 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
     });
   }
 
+  late final _$jobsAtom = Atom(name: 'ProfileStoreBase.jobs', context: context);
+
+  @override
+  ObservableList<String> get jobs {
+    _$jobsAtom.reportRead();
+    return super.jobs;
+  }
+
+  @override
+  set jobs(ObservableList<String> value) {
+    _$jobsAtom.reportWrite(value, super.jobs, () {
+      super.jobs = value;
+    });
+  }
+
   late final _$loadingAtom =
       Atom(name: 'ProfileStoreBase.loading', context: context);
 
@@ -87,6 +102,17 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
       ActionController(name: 'ProfileStoreBase', context: context);
 
   @override
+  dynamic setJobs(List<String> value) {
+    final _$actionInfo = _$ProfileStoreBaseActionController.startAction(
+        name: 'ProfileStoreBase.setJobs');
+    try {
+      return super.setJobs(value);
+    } finally {
+      _$ProfileStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic setImage(File value) {
     final _$actionInfo = _$ProfileStoreBaseActionController.startAction(
         name: 'ProfileStoreBase.setImage');
@@ -109,10 +135,22 @@ mixin _$ProfileStore on ProfileStoreBase, Store {
   }
 
   @override
+  dynamic update(ProfileDTO dto) {
+    final _$actionInfo = _$ProfileStoreBaseActionController.startAction(
+        name: 'ProfileStoreBase.update');
+    try {
+      return super.update(dto);
+    } finally {
+      _$ProfileStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 image: ${image},
 pathImage: ${pathImage},
+jobs: ${jobs},
 loading: ${loading}
     ''';
   }

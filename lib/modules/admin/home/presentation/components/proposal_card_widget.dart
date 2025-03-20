@@ -25,7 +25,7 @@ class ProposalCardWidget extends StatelessWidget {
     return InkWell(
       onTap: onPressed,
       child: Container(
-          height: 110,
+          height: 120,
           width: MediaQuery.of(context).size.width * 0.2,
           decoration: BoxDecoration(
               boxShadow: [BoxShadow(color: ColorTheme.gray, blurRadius: 4.0, offset: const Offset(0.0, 5.0))],

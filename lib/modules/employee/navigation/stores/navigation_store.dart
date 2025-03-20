@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:marcenaria/modules/employee/domain/entities/employee_entity.dart';
 import 'package:marcenaria/modules/employee/domain/usecases/register_fcm_token_usecase.dart';
 import 'package:marcenaria/modules/login/domain/entities/auth_entity.dart';
 import 'package:mobx/mobx.dart';
@@ -47,9 +48,10 @@ abstract class NavigationStoreBase with Store {
 
       String? token = Platform.isIOS? await messaging.getAPNSToken() : await messaging.getToken();
 
-      ProfileEntity? profile = await _getUserUseCase.call(id: auth.id, type: auth.type);
+      EmployeeEntity? profile = await _getUserUseCase.call(id: auth.id, type: auth.type);
 
       Modular.get<CoreStore>().setProfile(profile);
+      Modular.get<CoreStore>().setJobs(profile?.functions ?? []);
 
       _registerFcmTokenUsecase.call(userID: auth.id, fcmToken: token ?? "");
 

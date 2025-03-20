@@ -27,7 +27,7 @@ class NotificationDataSource {
 
     Map<String,dynamic> body = { "idUsuario" : userID, "page" : page,  "limit" : limit };
 
-    try{
+
 
     Response response = await post(
         url, headers: headers, body: jsonEncode(body))
@@ -43,7 +43,7 @@ class NotificationDataSource {
       else { return []; }
 
     } else { return []; }
-    } catch(e) { return []; }
+
   }
 
   Future<void> readNotification({required int notificationID }) async {

@@ -18,6 +18,12 @@ abstract class CoreStoreBase with Store {
   ProfileEntity? profile;
 
   @observable
+  ObservableList<String> jobs = <String>[].asObservable();
+
+  @action
+  setJobs(List<String> value) => jobs = value.asObservable();
+
+  @observable
   File? image;
 
   @observable

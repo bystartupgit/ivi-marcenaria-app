@@ -1,6 +1,7 @@
 
 
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/modules/customer/home/profile/external/profile_datasource.dart';
 import 'package:marcenaria/modules/employee/conversation/conversation_store.dart';
@@ -19,6 +20,8 @@ import 'package:marcenaria/modules/employee/orders/presentation/stores/order_ped
 import 'package:marcenaria/modules/employee/orders/presentation/stores/order_peding/details/stores/order_peding_details_store.dart';
 import 'package:marcenaria/modules/employee/orders/presentation/stores/order_store.dart';
 import 'package:marcenaria/modules/employee/orders/presentation/stores/waiting_interesting/details/waiting_interesting_details_page.dart';
+import 'package:marcenaria/modules/employee/profile/form/presentation/profile_form_page.dart';
+import 'package:marcenaria/modules/employee/profile/form/presentation/stores/profile_form_store.dart';
 import 'package:marcenaria/modules/employee/profile/presentation/profile_page.dart';
 import 'package:marcenaria/modules/employee/profile/presentation/stores/profile_store.dart';
 import 'package:marcenaria/modules/employee/service/domain/usecases/finish_service_usecase.dart';
@@ -35,6 +38,9 @@ import 'package:marcenaria/modules/employee/service/presentation/stores/service_
 
 import '../customer/home/profile/domain/usecases/upload_profile_photo_usecase.dart';
 import 'domain/usecases/register_fcm_token_usecase.dart';
+import 'domain/usecases/register_user_document_usecase.dart';
+import 'domain/usecases/register_user_photo_usecase.dart';
+import 'domain/usecases/update_profile_employee_usecase.dart';
 import 'orders/domain/usecases/get_order_not_started_usecase.dart';
 import 'orders/domain/usecases/get_waiting_interest_orders_usecase.dart';
 import 'orders/domain/usecases/start_service_usecase.dart';
@@ -49,6 +55,7 @@ class EmployeeModule extends Module {
   void binds(i) {
     i.addSingleton(() => NavigationStore());
     i.add(() => ProfileStore());
+    i.add(() => ProfileFormStore());
     i.add(() => HomeStore());
     i.add(() => ConversationStore());
 
@@ -81,6 +88,10 @@ class EmployeeModule extends Module {
     i.add(() => FinishServiceUsecase(datasource: i.get<ServiceDataSource>()));
     i.add(() => UploadProfilePhotoUsecase(datasource: i.get<ProfileDatasource>()));
 
+    i.add(() => RegisterUserDocumentUsecase(datasource: i.get<UserDataSource>()));
+    i.add(() => RegisterUserPhotoUsecase(datasource: i.get<UserDataSource>()));
+    i.add(() => UpdateProfileEmployeeUsecase(datasource: i.get<UserDataSource>()));
+
     i.add(() => RegisterFcmTokenUsecase(datasource: i.get<UserDataSource>()));
 
   }
@@ -89,6 +100,7 @@ class EmployeeModule extends Module {
   void routes(r) {
     r.child(Modular.initialRoute, child: (context) => const NavigationPage());
     r.child(RouterMapper.profile, child: (context) => const ProfilePage());
+    r.child(RouterMapper.profileForm, child: (context) => const ProfileFormPage());
     r.child(RouterMapper.details, child: (context) => const DetailsPage());
 
     r.child(RouterMapper.orderWaitingDetails, child: (context) => WaitingInterestingDetailsPage(orderID: r.args.data));

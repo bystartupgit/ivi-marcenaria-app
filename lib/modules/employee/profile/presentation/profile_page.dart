@@ -11,6 +11,8 @@ import 'package:marcenaria/modules/employee/profile/presentation/components/prof
 import 'package:marcenaria/modules/employee/profile/presentation/stores/profile_store.dart';
 
 import '../../../customer/home/profile/presentation/components/profile_image_widget.dart';
+import '../../domain/dto/profile_dto.dart';
+import 'components/profile_edit_button_widget.dart';
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({super.key});
@@ -54,6 +56,11 @@ class _ProfilePageState extends State<ProfilePage> {
                         pathImage: store.pathImage,
                         image: store.image, uploadImage: () => store.uploadImage(context: context)),
                     const SizedBox(height: 20.0),
+                    Align(
+                        alignment: AlignmentDirectional.topEnd,
+                        child: ProfileEditButtonWidget(update: (ProfileDTO value) { store.update(value); setState(() {
+
+                        }); })),
                     ProfileReadFieldWidget(
                         hint: "exemplo@exemplo.com",
                         keyboard: TextInputType.emailAddress, icon: ProfileIcons.email, controller: store.email),
@@ -64,8 +71,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         hint: "CPF ou RG",
                         keyboard: TextInputType.number, icon: ProfileIcons.cpf, controller: store.documentNumber),
                     ProfileClickFieldWidget(title: documentONE, icon: ProfileIcons.documents),
-                    ProfileClickFieldWidget(title: documentTWO, icon: ProfileIcons.file),
-                    const ProfilePositionWidget(jobs: [])
+                    ProfilePositionWidget(jobs: store.jobs)
                   ]
               ),
             )),

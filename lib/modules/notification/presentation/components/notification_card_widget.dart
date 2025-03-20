@@ -39,7 +39,7 @@ class NotificationCardWidget extends StatelessWidget {
                             width: MediaQuery.of(context).size.width * 0.1,
                             decoration: const BoxDecoration(
                                 image: DecorationImage(
-                                    image: AssetImage("assets/home/covers/5.jpeg"),fit: BoxFit.cover),
+                                    image: AssetImage("assets/home/covers/1.jpeg"),fit: BoxFit.cover),
                                 borderRadius: BorderRadius.all(Radius.circular(10.0)))),
                       )),
                   Expanded(

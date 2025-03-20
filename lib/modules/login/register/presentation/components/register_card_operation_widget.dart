@@ -35,7 +35,8 @@ class RegisterCardOperationWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         JobPillWidget(
-                            job: JobMapper.marceneiro, add: () => store.addJob(JobMapper.marceneiro),
+                            job: JobMapper.marceneiro,
+                            add: () => store.addJob(JobMapper.marceneiro),
                             remove: () => store.removeJob(JobMapper.marceneiro),
                             selected: store.jobs.contains(JobMapper.marceneiro)),
                         const SizedBox(width: 10.0),
@@ -46,7 +47,8 @@ class RegisterCardOperationWidget extends StatelessWidget {
                             selected: store.jobs.contains(JobMapper.montador)),
                         const SizedBox(width: 10.0),
                         JobPillWidget(
-                            job: JobMapper.oficial, add: () => store.addJob(JobMapper.oficial),
+                            job: JobMapper.oficial,
+                            add: () => store.addJob(JobMapper.oficial),
                             remove: () => store.removeJob(JobMapper.oficial),
                             selected: store.jobs.contains(JobMapper.oficial))
                   ]),
@@ -56,7 +58,8 @@ class RegisterCardOperationWidget extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         JobPillWidget(
-                            job: JobMapper.vendedor, add: () => store.addJob(JobMapper.vendedor),
+                            job: JobMapper.vendedor,
+                            add: () => store.addJob(JobMapper.vendedor),
                             remove: () => store.removeJob(JobMapper.vendedor),
                             selected: store.jobs.contains(JobMapper.vendedor)),
                         const SizedBox(width: 10.0),

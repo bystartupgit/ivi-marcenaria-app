@@ -18,17 +18,21 @@ class EmployeeEntity extends ProfileEntity {
     super.image
   });
 
-  factory EmployeeEntity.fromMap(Map<String,dynamic> map) =>
-      EmployeeEntity(
-          id: map[EmployeeMapper.profile][EmployeeMapper.employeeID],
-          name: map[EmployeeMapper.user][EmployeeMapper.name],
-          email: map[EmployeeMapper.user][EmployeeMapper.email],
-          enable: map[EmployeeMapper.user][EmployeeMapper.status],
-          cpf: map[EmployeeMapper.user][EmployeeMapper.cpf],
-          phone: map[EmployeeMapper.user][EmployeeMapper.phone],
-          image: map[EmployeeMapper.user][EmployeeMapper.image],
-          functions: map[EmployeeMapper.profile][EmployeeMapper.funcoes] == null ? const [] : List.from(map[EmployeeMapper.profile][EmployeeMapper.funcoes])
-      );
+  factory EmployeeEntity.fromMap(Map<String,dynamic> map) {
+    print(map["midia_perfil"]["nome_arquivo"]);
+    return EmployeeEntity(
+        id: map[EmployeeMapper.profile][EmployeeMapper.employeeID],
+        name: map[EmployeeMapper.user][EmployeeMapper.name],
+        email: map[EmployeeMapper.user][EmployeeMapper.email],
+        enable: map[EmployeeMapper.user][EmployeeMapper.status],
+        cpf: map[EmployeeMapper.user][EmployeeMapper.cpf],
+        phone: map[EmployeeMapper.user][EmployeeMapper.phone],
+        image: map["midia_perfil"]["nome_arquivo"],
+        functions: map[EmployeeMapper.profile][EmployeeMapper.funcoes] == null
+            ? const []
+            : List.from(map[EmployeeMapper.profile][EmployeeMapper.funcoes])
+    );
+  }
 
   @override
   ProfileEntity copyWith({ String? name, String? email, String? cpf, String? phone }) =>

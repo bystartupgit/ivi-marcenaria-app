@@ -57,7 +57,7 @@ class ProporsalCompleteWidget extends StatelessWidget {
                   ],
                 ),
                 if(order.escassezTemporal == true) Text("Preço por tempo Limitado!", style: TextStyle(fontFamily: FamilyTheme.medium, color: Colors.red, fontSize: 12)),
-                if(order.valorPix.isNotEmpty) Text("ou entrada + Parcelado: 1x ${"R\$ ${store.formatValues(double.parse(order.entradaMinima))}"} + ${order.parcelas}x ${"R\$ ${store.formatValues(double.parse(order.valorPix))}"}",  style: TextStyle(fontFamily: FamilyTheme.regular, color: Colors.black, fontSize: 10)),
+                if(order.valorPix.isNotEmpty) Text("ou entrada + Parcelado: 1x ${"R\$ ${store.formatValues(double.parse(order.entradaMinima))}"} + ${order.parcelas}x ${"R\$ ${store.formatValues(double.parse(order.valorParcela))}"}",  style: TextStyle(fontFamily: FamilyTheme.regular, color: Colors.black, fontSize: 10)),
                 const SizedBox(height: 10.0),
                 Text(order.mensagem, textAlign: TextAlign.left, style: TextStyle(fontFamily: FamilyTheme.regular, color: Colors.black, fontSize: 14)),
                 const SizedBox(height: 10.0),

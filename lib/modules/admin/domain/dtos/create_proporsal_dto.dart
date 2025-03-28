@@ -34,6 +34,7 @@ class CreateProposalDTO {
     ProposalDTOMapper.parcels: parcels,
     ProposalDTOMapper.temporal: temporal,
     ProposalDTOMapper.fromTo: fromTo,
+    ProposalDTOMapper.parcelValue: valueParcel,
     ProposalDTOMapper.url: url
   }..removeWhere((k,v) => v == null);
 

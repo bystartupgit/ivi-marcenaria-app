@@ -7,6 +7,7 @@ class ProposalDTOMapper {
   static String message = "mensagem";
   static String totalValue = "valor_total";
   static String pixValue = "valor_pix";
+  static String parcelValue = "valor_parc";
   static String discountValue = "valor_desconto";
   static String openingValue = "entrada_minima";
   static String parcels = "parcelas";

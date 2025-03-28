@@ -1,9 +1,4 @@
-
-
-
 import 'dart:convert';
-import 'dart:developer';
-
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:http/http.dart';
 import 'package:marcenaria/modules/admin/domain/entities/order_entity.dart';
@@ -149,7 +144,7 @@ class OrderDataSource {
 
       Response response = await post(url, headers: headers, body: jsonEncode(body)).timeout(const Duration(seconds: 8));
 
-      if(response.statusCode == 201) {
+      if(response.statusCode == 200) {
 
         return true;
 
@@ -157,9 +152,4 @@ class OrderDataSource {
 
 
   }
-
-  ///api/pedidos/prestador/:id/em-execucao
-  ///api/pedidos/prestador/:id/sem-execucao
-  ///api/pedidos/prestador/1/concluidos
-
 }

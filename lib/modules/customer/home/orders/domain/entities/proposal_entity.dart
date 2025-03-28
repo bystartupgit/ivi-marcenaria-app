@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:marcenaria/modules/customer/home/orders/domain/enum/order_status_enum.dart';
 
 class ProposalEntity {
@@ -7,6 +9,7 @@ class ProposalEntity {
   String mensagem;
   String valorTotal;
   String valorPix;
+  String valorParcela;
   String valorDesconto;
   String entradaMinima;
   int parcelas;
@@ -27,6 +30,7 @@ class ProposalEntity {
     required this.valorPix,
     required this.valorDesconto,
     required this.entradaMinima,
+    required this.valorParcela,
     required this.parcelas,
     required this.escassezTemporal,
     required this.dePor,
@@ -37,44 +41,51 @@ class ProposalEntity {
     required this.pedido,
   });
 
-  factory ProposalEntity.fromJson(Map<String, dynamic> json) => ProposalEntity(
-    idProposta: json["id_proposta"],
-    idPedido: json["id_pedido"],
-    idPrestador: json["id_prestador"],
-    mensagem: json["mensagem"],
-    valorTotal: json["valor_total"],
-    valorPix: json["valor_pix"],
-    valorDesconto: json["valor_desconto"],
-    entradaMinima: json["entrada_minima"],
-    parcelas: json["parcelas"],
-    escassezTemporal: json["escassez_temporal"],
-    dePor: json["de_por"],
-    urlArquivoOrcamento: json["url_arquivo_orcamento"],
-    status: StatusExtension.fromString(json["status"]),
-    dataCriacao: DateTime.parse(json["data_criacao"]),
-    dataAtualizacao: DateTime.parse(json["data_atualizacao"]),
-    pedido: Pedido.fromJson(json["pedido"]),
-  );
+  factory ProposalEntity.fromJson(Map<String, dynamic> json) {
 
-  Map<String, dynamic> toJson() => {
-    "id_proposta": idProposta,
-    "id_pedido": idPedido,
-    "id_prestador": idPrestador,
-    "mensagem": mensagem,
-    "valor_total": valorTotal,
-    "valor_pix": valorPix,
-    "valor_desconto": valorDesconto,
-    "entrada_minima": entradaMinima,
-    "parcelas": parcelas,
-    "escassez_temporal": escassezTemporal,
-    "de_por": dePor,
-    "url_arquivo_orcamento": urlArquivoOrcamento,
-    "status": status,
-    "data_criacao": dataCriacao.toIso8601String(),
-    "data_atualizacao": dataAtualizacao.toIso8601String(),
-    "pedido": pedido.toJson(),
-  };
-}
+    log(json.toString());
+
+    return ProposalEntity(
+      idProposta: json["id_proposta"],
+      idPedido: json["id_pedido"],
+      idPrestador: json["id_prestador"],
+      mensagem: json["mensagem"],
+      valorTotal: json["valor_total"],
+      valorPix: json["valor_pix"],
+      valorDesconto: json["valor_desconto"],
+      entradaMinima: json["entrada_minima"],
+      valorParcela: json["valor_parc"] ?? "0.00",
+      parcelas: json["parcelas"],
+      escassezTemporal: json["escassez_temporal"],
+      dePor: json["de_por"],
+      urlArquivoOrcamento: json["url_arquivo_orcamento"],
+      status: StatusExtension.fromString(json["status"]),
+      dataCriacao: DateTime.parse(json["data_criacao"]),
+      dataAtualizacao: DateTime.parse(json["data_atualizacao"]),
+      pedido: Pedido.fromJson(json["pedido"]),
+    );
+  }
+
+    Map<String, dynamic> toJson() => {
+      "id_proposta": idProposta,
+      "id_pedido": idPedido,
+      "id_prestador": idPrestador,
+      "mensagem": mensagem,
+      "valor_total": valorTotal,
+      "valor_pix": valorPix,
+      "valor_desconto": valorDesconto,
+      "entrada_minima": entradaMinima,
+      "parcelas": parcelas,
+      "escassez_temporal": escassezTemporal,
+      "de_por": dePor,
+      "url_arquivo_orcamento": urlArquivoOrcamento,
+      "status": status,
+      "data_criacao": dataCriacao.toIso8601String(),
+      "data_atualizacao": dataAtualizacao.toIso8601String(),
+      "pedido": pedido.toJson(),
+    };
+  }
+
 
 class Pedido {
   String titulo;

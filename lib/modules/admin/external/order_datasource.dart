@@ -118,6 +118,9 @@ class OrderDataSource {
         url, headers: headers, body: jsonEncode(body))
         .timeout(const Duration(seconds: 8));
 
+
+    log(response.body.toString());
+
     if(response.statusCode == 200) {
 
       Map<String, dynamic> data = jsonDecode(response.body);
@@ -179,8 +182,6 @@ class OrderDataSource {
     };
 
     Map<String,dynamic> body = { "page" : page, "limit" : limit, "id_proposta": proposalID };
-
-    print(body.toString());
 
     Response response = await post(
         url, headers: headers, body: jsonEncode(body))

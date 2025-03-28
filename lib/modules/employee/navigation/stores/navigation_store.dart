@@ -52,6 +52,7 @@ abstract class NavigationStoreBase with Store {
 
       Modular.get<CoreStore>().setProfile(profile);
       Modular.get<CoreStore>().setJobs(profile?.functions ?? []);
+      Modular.get<CoreStore>().setPathImage(profile?.image);
 
       _registerFcmTokenUsecase.call(userID: auth.id, fcmToken: token ?? "");
 

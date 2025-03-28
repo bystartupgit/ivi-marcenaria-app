@@ -55,7 +55,7 @@ class ProporsalCompleteWidget extends StatelessWidget {
                   ],
                 ),
                 if(store.temporal == "SIM") Text("Preço por tempo Limitado!", style: TextStyle(fontFamily: FamilyTheme.medium, color: Colors.red, fontSize: 12)),
-                if(dto.valueParcel != null) Text("ou entrada + Parcelado: 1x ${"R\$ ${store.formatValues(dto.totalValue)}"} + ${dto.parcels}x ${"R\$ ${store.formatValues(dto.valueParcel!)}"}",  style: TextStyle(fontFamily: FamilyTheme.regular, color: Colors.black, fontSize: 10)),
+                if(dto.valueParcel != null) Text("ou entrada + Parcelado: 1x ${"R\$ ${store.formatValues(dto.openingValue ?? 0)}"} + ${dto.parcels}x ${"R\$ ${store.formatValues(dto.valueParcel!)}"}",  style: TextStyle(fontFamily: FamilyTheme.regular, color: Colors.black, fontSize: 10)),
                 const SizedBox(height: 10.0),
                 Text(dto.message, textAlign: TextAlign.left, style: TextStyle(fontFamily: FamilyTheme.regular, color: Colors.black, fontSize: 14)),
                 const SizedBox(height: 10.0),

@@ -38,6 +38,7 @@ class UserDataSource {
 
       Map<String, dynamic> data = jsonDecode(response.body);
 
+      print(response.body);
       if (response.statusCode == 200) {
         return EmployeeEntity.fromMap(data);
       }
@@ -70,7 +71,7 @@ class UserDataSource {
       Map<String, dynamic> data = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
-        return data[ProfileMappers.message] == ProfileMappers.successMessage;
+        return data[ProfileMappers.message] == "Dados do prestador atualizados com sucesso";
       }
 
       else {

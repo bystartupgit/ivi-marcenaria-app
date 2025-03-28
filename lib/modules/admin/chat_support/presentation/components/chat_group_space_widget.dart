@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:marcenaria/modules/chat_support/presentation/components/message_suport_ballon_widget.dart';
-import 'package:marcenaria/modules/chat_support/presentation/components/message_user_balloon_widget.dart';
 
 import '../../domain/entities/message_entity.dart';
-
+import 'message_suport_ballon_widget.dart';
+import 'message_user_balloon_widget.dart';
 
 class ChatGroupSpaceWidget extends StatelessWidget {
 

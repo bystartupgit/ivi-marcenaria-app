@@ -34,8 +34,6 @@ class ProposalEntity {
 
   factory ProposalEntity.fromJson(Map<String, dynamic> json) {
 
-    print(json);
-
     return ProposalEntity(
         idProposta: json["id_proposta"],
         idPedido: json["id_pedido"],
@@ -60,6 +58,7 @@ class ProposalEntity {
       "mensagem": mensagem,
       "valor_total": valorTotal,
       "valor_pix": valorPix,
+      "valor_parc": valorParc,
       "valor_desconto": valorDesconto,
       "entrada_minima": entradaMinima,
       "parcelas": parcelas,

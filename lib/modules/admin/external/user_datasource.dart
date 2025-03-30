@@ -5,6 +5,7 @@ import 'package:http/http.dart';
 import 'package:marcenaria/core/data/store/core_store.dart';
 import 'package:marcenaria/modules/admin/domain/entities/admin_entity.dart';
 import 'package:marcenaria/modules/admin/domain/entities/customer_user_entity.dart';
+import 'package:marcenaria/modules/admin/domain/entities/employee_user_entity.dart';
 import 'package:marcenaria/modules/admin/domain/mappers/customer_quantity_mapper.dart';
 import 'package:marcenaria/modules/login/domain/enums/user_type_enum.dart';
 
@@ -65,12 +66,41 @@ class UserDataSource {
 
       List<dynamic> result = data["clientes"];
 
-      print(result.first);
-
       if(result.isNotEmpty) { return result.map((e) => CustomerUserEntity.fromMap(e)).toList(); }
       else { return []; }
 
     } else { return []; }
+  }
+
+  Future<List<EmployeeUserEntity>> getEmployees({required int page, required int limit, String name = ""}) async {
+
+    Uri url = Uri.parse("$enviroment/api/clientes/");
+
+    String? token = Modular.get<CoreStore>().auth?.token;
+
+    Map<String,String> headers = {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token"
+    };
+
+    Map<String,dynamic> body = { "page" : page, "limit" : limit, "nome": name }
+      ..removeWhere((key,value) => value is String && value.isEmpty);
+
+    Response response = await post(
+        url, headers: headers, body: jsonEncode(body))
+        .timeout(const Duration(seconds: 8));
+
+    Map<String, dynamic> data = jsonDecode(response.body);
+
+    if (response.statusCode == 200) {
+
+      List<dynamic> result = data["clientes"];
+
+      if(result.isNotEmpty) { return result.map((e) => EmployeeUserEntity.fromMap(e)).toList(); }
+      else { return []; }
+
+    } else { return []; }
+
   }
 
   Future<CustomerQuantityEntity> getQuantityCustomerOrders({required int customerID}) async {

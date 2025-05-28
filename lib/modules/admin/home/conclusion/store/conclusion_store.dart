@@ -11,10 +11,10 @@ part 'conclusion_store.g.dart';
 class ConclusionStore = ConclusionStoreBase with _$ConclusionStore;
 
 abstract class ConclusionStoreBase with Store implements Disposable {
-
   ScrollController scroll = ScrollController();
 
-  final GetAllConclusionOrdersUsecase _getAllConclusionOrdersUsecase = Modular.get<GetAllConclusionOrdersUsecase>();
+  final GetAllConclusionOrdersUsecase _getAllConclusionOrdersUsecase =
+      Modular.get<GetAllConclusionOrdersUsecase>();
 
   @observable
   int page = 1;
@@ -45,74 +45,75 @@ abstract class ConclusionStoreBase with Store implements Disposable {
 
   @action
   init() async {
-
     scroll.addListener(() {
-
-      if(scroll.position.pixels == scroll.position.maxScrollExtent && loading == false) {
+      if (scroll.position.pixels == scroll.position.maxScrollExtent &&
+          loading == false) {
         loadingMoreOrders();
       }
-
     });
 
-    List<OrderEntity> result = await _getAllConclusionOrdersUsecase.call(page: page, limit: limit);
+    List<OrderEntity> result =
+        await _getAllConclusionOrdersUsecase.call(page: page, limit: limit);
 
     orders = result.asObservable();
-
   }
 
   @action
   loadingNewOrders({required context}) async {
-
-    try{
-
+    try {
       setLoading(true);
 
-      List<OrderEntity> result = await _getAllConclusionOrdersUsecase.call(page: 1, limit: limit);
+      List<OrderEntity> result =
+          await _getAllConclusionOrdersUsecase.call(page: 1, limit: limit);
 
-      for(OrderEntity value in result) {
-        if(!orders.contains(value)) { orders.add(value); }
+      for (OrderEntity value in result) {
+        if (!orders.contains(value)) {
+          orders.add(value);
+        }
       }
-    } catch(e) { ShowErrorMessageUsecase(context: context).call(message: "Falha ao buscar novos pedidos."); }
-    finally { setLoading(false); }
-
+    } catch (e) {
+      ShowErrorMessageUsecase(context: context)
+          .call(message: "Falha ao buscar novos pedidos.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   @action
   loadingMoreOrders() async {
-
-    if (orders.length/limit >= page) {
-
+    if (orders.length / limit >= page) {
       addPagination();
 
       setPaginationLoading(true);
 
-      List<OrderEntity> result = await _getAllConclusionOrdersUsecase.call(page: page, limit: limit);
+      List<OrderEntity> result =
+          await _getAllConclusionOrdersUsecase.call(page: page, limit: limit);
 
-      if(result.isNotEmpty) {
-
-        for(OrderEntity value in result) {
-          if(orders.contains(value) == false) { orders.add(value); }
+      if (result.isNotEmpty) {
+        for (OrderEntity value in result) {
+          if (orders.contains(value) == false) {
+            orders.add(value);
+          }
         }
       }
 
       setPaginationLoading(false);
     } else {
-
       setPaginationLoading(true);
 
-      List<OrderEntity> result = await _getAllConclusionOrdersUsecase.call(page: page, limit: limit);
+      List<OrderEntity> result =
+          await _getAllConclusionOrdersUsecase.call(page: page, limit: limit);
 
-      if(result.isNotEmpty) {
-
-        for(OrderEntity value in result) {
-          if(orders.contains(value) == false) { orders.add(value); }
+      if (result.isNotEmpty) {
+        for (OrderEntity value in result) {
+          if (orders.contains(value) == false) {
+            orders.add(value);
+          }
         }
-
       }
 
       setPaginationLoading(false);
     }
-
   }
 
   @override

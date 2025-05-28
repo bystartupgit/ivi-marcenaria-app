@@ -6,5 +6,6 @@ class OnboardingIcons {
   static const _kFontFam = 'OnboardingIcons';
   static const String? _kFontPkg = null;
 
-  static const plus = IconData(0xe807, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const plus =
+      IconData(0xe807, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

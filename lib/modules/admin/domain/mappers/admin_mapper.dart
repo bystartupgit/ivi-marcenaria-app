@@ -1,8 +1,4 @@
-
-
-
 class AdminMapper {
-
   static String user = "usuario";
 
   static String name = "nome";
@@ -15,5 +11,4 @@ class AdminMapper {
 
   static String profile = "perfil";
   static String adminID = "id_administrador";
-
 }

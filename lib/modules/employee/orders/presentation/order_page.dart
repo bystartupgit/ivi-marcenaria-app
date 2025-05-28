@@ -18,8 +18,8 @@ class OrderPage extends StatefulWidget {
   State<OrderPage> createState() => _OrderPageState();
 }
 
-class _OrderPageState extends State<OrderPage> with AutomaticKeepAliveClientMixin {
-
+class _OrderPageState extends State<OrderPage>
+    with AutomaticKeepAliveClientMixin {
   final OrderStore store = Modular.get<OrderStore>();
 
   @override
@@ -40,48 +40,69 @@ class _OrderPageState extends State<OrderPage> with AutomaticKeepAliveClientMixi
         backgroundColor: ColorTheme.background,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
-              children: [
-                OrderFilterWidget(
-                    title: OrderSearchingMapper.title,
-                    description: OrderSearchingMapper.subtitle,
-                    onChanged: (value) {}),
-                const SizedBox(height: 20),
-                OrderSlideWidget(store: store),
-                const SizedBox(height: 20),
-                Expanded(
-                  child: PageView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      controller: store.controller,
-                      children: [
-                        store.waitingInteresting.orders.isEmpty? Center(
-                          child: Text("Nenhuma proposta no momento para avaliar.",
-                          textAlign: TextAlign.center,style: TextStyle(fontFamily: FamilyTheme.regular,fontSize: 14,color: ColorTheme.black3),),) :
-                        OrderListWidget(
+          child: Column(children: [
+            OrderFilterWidget(
+                title: OrderSearchingMapper.title,
+                description: OrderSearchingMapper.subtitle,
+                onChanged: (value) {}),
+            const SizedBox(height: 20),
+            OrderSlideWidget(store: store),
+            const SizedBox(height: 20),
+            Expanded(
+              child: PageView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  controller: store.controller,
+                  children: [
+                    store.waitingInteresting.orders.isEmpty
+                        ? Center(
+                            child: Text(
+                              "Nenhuma proposta no momento para avaliar.",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontFamily: FamilyTheme.regular,
+                                  fontSize: 14,
+                                  color: ColorTheme.black3),
+                            ),
+                          )
+                        : OrderListWidget(
                             subtitle: "Aguardando Confirmação",
                             colorSubtitle: ColorTheme.green,
-                            navigation: (value) => Modular.to.pushNamed(RouterMapper.orderWaitingDetailsIntern,arguments: value).then((result) {
-                              if(result == true) { store.waitingInteresting.removeOrderByID(value); }
-                            }),
-                            orders: store.waitingInteresting.orders, title: "Serviços aguardando aceitar recentes"),
-                        store.orderPendingStore.orders.isEmpty? Center(
-                          child: Text("Nenhuma proposta no momento para iniciar.",
-                            textAlign: TextAlign.center,style: TextStyle(fontFamily: FamilyTheme.regular,fontSize: 14,color: ColorTheme.black3),),) :
-                        OrderListWidget(orders: store.orderPendingStore.orders,
+                            navigation: (value) => Modular.to
+                                    .pushNamed(
+                                        RouterMapper.orderWaitingDetailsIntern,
+                                        arguments: value)
+                                    .then((result) {
+                                  if (result == true) {
+                                    store.waitingInteresting
+                                        .removeOrderByID(value);
+                                  }
+                                }),
+                            orders: store.waitingInteresting.orders,
+                            title: "Serviços aguardando aceitar recentes"),
+                    store.orderPendingStore.orders.isEmpty
+                        ? Center(
+                            child: Text(
+                              "Nenhuma proposta no momento para iniciar.",
+                              textAlign: TextAlign.center,
+                              style: TextStyle(
+                                  fontFamily: FamilyTheme.regular,
+                                  fontSize: 14,
+                                  color: ColorTheme.black3),
+                            ),
+                          )
+                        : OrderListWidget(
+                            orders: store.orderPendingStore.orders,
                             subtitle: "Aguardando início da produção",
                             colorSubtitle: const Color(0xFF9747FF),
-                            navigation: (value) => Modular.to.pushNamed(RouterMapper.orderPendingDetailsIntern,arguments: value),
+                            navigation: (value) => Modular.to.pushNamed(
+                                RouterMapper.orderPendingDetailsIntern,
+                                arguments: value),
                             title: "Serviços em andamento")
-                      ]
-                  ),
-                )
-
-
-
-              ]),
+                  ]),
+            )
+          ]),
         ),
       ),
     );
   }
 }
-

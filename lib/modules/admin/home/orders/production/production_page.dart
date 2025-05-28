@@ -8,7 +8,6 @@ import 'package:marcenaria/modules/admin/home/presentation/components/proposal_c
 import '../../../../customer/home/presentation/components/order_empty_widget.dart';
 
 class ProductionPage extends StatelessWidget {
-
   final String message = "Nenhuma proposta em produção.";
 
   final ProductionStore store;
@@ -17,33 +16,41 @@ class ProductionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-        builder: (context) {
-          return store.orders.isEmpty ? OrderEmptyWidget(title: message) :
-          RefreshIndicator.adaptive(
-            onRefresh: () => store.loadingMoreOrders(),
-            child: SingleChildScrollView(
-              controller: store.scroll,
-              child: Column(
-                children: [
-                  ListView.separated(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      separatorBuilder: (context, index) => const SizedBox(height: 10.0),
-                      itemCount: store.orders.length,
-                      itemBuilder: (context,index) => ProposalCardWidget(order: store.orders[index],
-                          onPressed: () => Modular.to.pushNamed(RouterMapper.productionOrderDetailsIntern,arguments: store.orders[index].id).then((e) {
-
-                            if(e == true) { store.removeOrderByID(store.orders[index].id); }
-
-                          }))),
-                  const SizedBox(height: 20.0),
-                  if(store.paginationLoading) const Center(child: CircularProgressIndicator())
-                ],
+    return Observer(builder: (context) {
+      return store.orders.isEmpty
+          ? OrderEmptyWidget(title: message)
+          : RefreshIndicator.adaptive(
+              onRefresh: () => store.loadingMoreOrders(),
+              child: SingleChildScrollView(
+                controller: store.scroll,
+                child: Column(
+                  children: [
+                    ListView.separated(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 10.0),
+                        itemCount: store.orders.length,
+                        itemBuilder: (context, index) => ProposalCardWidget(
+                            order: store.orders[index],
+                            onPressed: () => Modular.to
+                                    .pushNamed(
+                                        RouterMapper
+                                            .productionOrderDetailsIntern,
+                                        arguments: store.orders[index].id)
+                                    .then((e) {
+                                  if (e == true) {
+                                    store.removeOrderByID(
+                                        store.orders[index].id);
+                                  }
+                                }))),
+                    const SizedBox(height: 20.0),
+                    if (store.paginationLoading)
+                      const Center(child: CircularProgressIndicator())
+                  ],
+                ),
               ),
-            ),
-          );
-        }
-    );
+            );
+    });
   }
 }

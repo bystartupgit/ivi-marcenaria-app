@@ -1,0 +1,2 @@
+/Users/andreysales/Marcenaria/android/app/.cxx/RelWithDebInfo/2s3h6p2r/x86/CMakeFiles/edit_cache.dir
+/Users/andreysales/Marcenaria/android/app/.cxx/RelWithDebInfo/2s3h6p2r/x86/CMakeFiles/rebuild_cache.dir

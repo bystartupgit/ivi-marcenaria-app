@@ -5,15 +5,16 @@ import 'package:marcenaria/modules/employee/details/presentation/components/deta
 import 'details_suport_button_widget.dart';
 
 class DetailsProgressActionWidget extends StatelessWidget {
-
   final String title;
 
   final Function() cancel;
   final Function() action;
 
-  const DetailsProgressActionWidget({super.key,
-    required this.title,
-    required this.cancel, required this.action});
+  const DetailsProgressActionWidget(
+      {super.key,
+      required this.title,
+      required this.cancel,
+      required this.action});
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +26,13 @@ class DetailsProgressActionWidget extends StatelessWidget {
           DetailsCancelButtonWidget(onPressed: () {}),
           Expanded(
               child: Column(
-                spacing: 5.0,
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  DetailsSuportButtonWidget(),
-                  DetailsFinishButtonWidget(title: title, onPressed: () {}),
+            spacing: 5.0,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              DetailsSuportButtonWidget(),
+              DetailsFinishButtonWidget(title: title, onPressed: () {}),
             ],
           ))
-    ]);
+        ]);
   }
 }

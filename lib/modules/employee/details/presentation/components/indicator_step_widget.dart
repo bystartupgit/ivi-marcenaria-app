@@ -6,7 +6,6 @@ import 'package:marcenaria/core/themes/color_theme.dart';
 import 'package:marcenaria/core/themes/family_theme.dart';
 
 class IndicatorStepWidget extends StatelessWidget {
-
   final OrderStatus current;
 
   const IndicatorStepWidget({super.key, required this.current});
@@ -15,32 +14,85 @@ class IndicatorStepWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return AnotherStepper(
       stepperList: [
-        StepperData( title: StepperText(
-            "Orçamento solicitado",
-            textStyle: TextStyle(color: current.index >= 0 ? ColorTheme.black3 : ColorTheme.gray2, fontFamily: FamilyTheme.regular, fontSize: 14)),
-            iconWidget: Container(padding: const EdgeInsets.all(8), decoration: BoxDecoration(color: current.index >= 0 ? ColorTheme.darkYellow : ColorTheme.lightGray,
-                borderRadius: const BorderRadius.all(Radius.circular(30))))),
-        StepperData( title: StepperText(
-            "Aprovação do Orçamento",
-            textStyle: TextStyle(color: current.index >= 1 ? ColorTheme.black3 : ColorTheme.gray2, fontFamily: FamilyTheme.regular, fontSize: 14)),
-            iconWidget: Container(padding: const EdgeInsets.all(8), decoration: BoxDecoration(color: current.index >= 1 ? ColorTheme.darkYellow : ColorTheme.lightGray,
-                borderRadius: const BorderRadius.all(Radius.circular(30))))),
-        StepperData( title: StepperText(
-            "Pagamento",
-            textStyle: TextStyle(color: current.index >= 2 ? ColorTheme.black3 : ColorTheme.gray2, fontFamily: FamilyTheme.regular, fontSize: 14)),
-            iconWidget: Container(padding: const EdgeInsets.all(8), decoration: BoxDecoration(color: current.index >= 2 ? ColorTheme.darkYellow : ColorTheme.lightGray,
-                borderRadius: const BorderRadius.all(Radius.circular(30))))),
-        StepperData( title: StepperText(
-            "Em Produção",
-            textStyle: TextStyle(color: current.index >= 3 ? ColorTheme.black3 : ColorTheme.gray2, fontFamily: FamilyTheme.regular, fontSize: 14)),
-            iconWidget: Container(padding: const EdgeInsets.all(8), decoration: BoxDecoration(color: current.index >= 3 ? ColorTheme.darkYellow : ColorTheme.lightGray,
-                borderRadius: const BorderRadius.all(Radius.circular(30))))),
-        StepperData( title: StepperText(
-            "Concluído",
-            textStyle: TextStyle(color: current.index >= 4 ? ColorTheme.black3 : ColorTheme.gray2, fontFamily: FamilyTheme.regular, fontSize: 14)),
-            iconWidget: Container(padding: const EdgeInsets.all(8), decoration: BoxDecoration(color: current.index >= 4 ? ColorTheme.darkYellow : ColorTheme.lightGray,
-                borderRadius: const BorderRadius.all(Radius.circular(30)))))
-
+        StepperData(
+            title: StepperText("Orçamento solicitado",
+                textStyle: TextStyle(
+                    color: current.index >= 0
+                        ? ColorTheme.black3
+                        : ColorTheme.gray2,
+                    fontFamily: FamilyTheme.regular,
+                    fontSize: 14)),
+            iconWidget: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                    color: current.index >= 0
+                        ? ColorTheme.darkYellow
+                        : ColorTheme.lightGray,
+                    borderRadius:
+                        const BorderRadius.all(Radius.circular(30))))),
+        StepperData(
+            title: StepperText("Aprovação do Orçamento",
+                textStyle: TextStyle(
+                    color: current.index >= 1
+                        ? ColorTheme.black3
+                        : ColorTheme.gray2,
+                    fontFamily: FamilyTheme.regular,
+                    fontSize: 14)),
+            iconWidget: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                    color: current.index >= 1
+                        ? ColorTheme.darkYellow
+                        : ColorTheme.lightGray,
+                    borderRadius:
+                        const BorderRadius.all(Radius.circular(30))))),
+        StepperData(
+            title: StepperText("Pagamento",
+                textStyle: TextStyle(
+                    color: current.index >= 2
+                        ? ColorTheme.black3
+                        : ColorTheme.gray2,
+                    fontFamily: FamilyTheme.regular,
+                    fontSize: 14)),
+            iconWidget: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                    color: current.index >= 2
+                        ? ColorTheme.darkYellow
+                        : ColorTheme.lightGray,
+                    borderRadius:
+                        const BorderRadius.all(Radius.circular(30))))),
+        StepperData(
+            title: StepperText("Em Produção",
+                textStyle: TextStyle(
+                    color: current.index >= 3
+                        ? ColorTheme.black3
+                        : ColorTheme.gray2,
+                    fontFamily: FamilyTheme.regular,
+                    fontSize: 14)),
+            iconWidget: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                    color: current.index >= 3
+                        ? ColorTheme.darkYellow
+                        : ColorTheme.lightGray,
+                    borderRadius:
+                        const BorderRadius.all(Radius.circular(30))))),
+        StepperData(
+            title: StepperText("Concluído",
+                textStyle: TextStyle(
+                    color: current.index >= 4
+                        ? ColorTheme.black3
+                        : ColorTheme.gray2,
+                    fontFamily: FamilyTheme.regular,
+                    fontSize: 14)),
+            iconWidget: Container(
+                padding: const EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                    color: current.index >= 4
+                        ? ColorTheme.darkYellow
+                        : ColorTheme.lightGray,
+                    borderRadius: const BorderRadius.all(Radius.circular(30)))))
       ],
       stepperDirection: Axis.vertical,
       inActiveBarColor: ColorTheme.lightGray,

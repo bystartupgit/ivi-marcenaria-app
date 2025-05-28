@@ -1,5 +1,3 @@
-
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -16,11 +14,11 @@ part 'select_employee_store.g.dart';
 class SelectEmployeeStore = SelectEmployeeStoreBase with _$SelectEmployeeStore;
 
 abstract class SelectEmployeeStoreBase with Store implements Disposable {
-
   ScrollController scroll = ScrollController();
 
   final _getEmployees = Modular.get<GetEmployeeSelectionForJobUsecase>();
-  final _saveEmployeeProposalUseCase = Modular.get<SaveEmployeeProposalUseCase>();
+  final _saveEmployeeProposalUseCase =
+      Modular.get<SaveEmployeeProposalUseCase>();
 
   @observable
   Timer? debounce;
@@ -29,7 +27,8 @@ abstract class SelectEmployeeStoreBase with Store implements Disposable {
   int page = 1;
 
   @observable
-  ObservableList<EmployeeUserEntity> employees = <EmployeeUserEntity>[].asObservable();
+  ObservableList<EmployeeUserEntity> employees =
+      <EmployeeUserEntity>[].asObservable();
 
   @observable
   EmployeeUserEntity? employeedSelected;
@@ -62,59 +61,60 @@ abstract class SelectEmployeeStoreBase with Store implements Disposable {
     if (debounce?.isActive ?? false) debounce?.cancel();
 
     debounce = Timer(const Duration(milliseconds: 500), () async {
-
       try {
-
         setLoading(true);
 
         page = 1;
 
-        List<EmployeeUserEntity> result = await _getEmployees.call(page: page, limit: limit,proposalID: proposalID);
+        List<EmployeeUserEntity> result = await _getEmployees.call(
+            page: page, limit: limit, proposalID: proposalID);
 
         employees = result.asObservable();
-
-      } catch(e) { ShowErrorMessageUsecase(context: context).call(message: "Não foi possível pesquisar novos prestadores."); }
-      finally { setLoading(false); }
-
+      } catch (e) {
+        ShowErrorMessageUsecase(context: context)
+            .call(message: "Não foi possível pesquisar novos prestadores.");
+      } finally {
+        setLoading(false);
+      }
     });
   }
 
   @action
   init({required proposalID}) async {
-
     scroll.addListener(() {
-
-      if(scroll.position.pixels == scroll.position.maxScrollExtent && loading == false) {
+      if (scroll.position.pixels == scroll.position.maxScrollExtent &&
+          loading == false) {
         loadingMoreOrders();
       }
-
     });
 
-    List<EmployeeUserEntity> result =  await _getEmployees.call(page: page, limit: limit,proposalID: proposalID);
+    List<EmployeeUserEntity> result = await _getEmployees.call(
+        page: page, limit: limit, proposalID: proposalID);
 
     employees = result.asObservable();
-
   }
 
   @action
   loadingMoreOrders() async {
-
     print("pagination");
   }
 
   @action
   save({required context, required proposalID}) async {
-
     try {
-
-      (String,bool) result = await _saveEmployeeProposalUseCase.call(proposalID: proposalID,
+      (String, bool) result = await _saveEmployeeProposalUseCase.call(
+          proposalID: proposalID,
           employeeID: employeedSelected?.employeeID ?? 0);
 
-      if(result.$2) { Navigator.pop(context); Modular.to.pop(true); }
-      else { ShowErrorMessageUsecase(context: context).call(message: result.$1); }
-
-    } catch(e) { ShowErrorMessageUsecase(context: context).call(message: e.toString()); }
-
+      if (result.$2) {
+        Navigator.pop(context);
+        Modular.to.pop(true);
+      } else {
+        ShowErrorMessageUsecase(context: context).call(message: result.$1);
+      }
+    } catch (e) {
+      ShowErrorMessageUsecase(context: context).call(message: e.toString());
+    }
   }
 
   @override

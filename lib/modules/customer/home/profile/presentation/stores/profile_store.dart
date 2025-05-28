@@ -20,8 +20,8 @@ part 'profile_store.g.dart';
 class ProfileStore = ProfileStoreBase with _$ProfileStore;
 
 abstract class ProfileStoreBase with Store {
-
-  final UploadProfilePhotoUsecase _uploadProfilePhotoUsecase = Modular.get<UploadProfilePhotoUsecase>();
+  final UploadProfilePhotoUsecase _uploadProfilePhotoUsecase =
+      Modular.get<UploadProfilePhotoUsecase>();
 
   final TextEditingController name = TextEditingController();
   final TextEditingController email = TextEditingController();
@@ -45,55 +45,58 @@ abstract class ProfileStoreBase with Store {
 
   @action
   init() async {
+    ProfileEntity? profile = Modular.get<CoreStore>().profile;
 
-     ProfileEntity? profile = Modular.get<CoreStore>().profile;
+    pathImage = Modular.get<CoreStore>().pathImage?.split("/").last;
 
-     pathImage = Modular.get<CoreStore>().pathImage?.split("/").last;
-
-     if(profile != null) {
-       name.text = profile.name;
-       email.text = profile.email;
-       phone.text = profile.phone;
-       documentNumber.text = profile.cpf;
-     }
+    if (profile != null) {
+      name.text = profile.name;
+      email.text = profile.email;
+      phone.text = profile.phone;
+      documentNumber.text = profile.cpf;
+    }
   }
 
   @action
   uploadImage({required context}) async {
-    try{
+    try {
+      setLoading(true);
 
-    setLoading(true);
+      bool result = await getProfilePhoto(context: context);
 
-    bool result = await getProfilePhoto(context: context);
+      if (result) {
+        int customerID = Modular.get<CoreStore>().profile?.id ?? 0;
 
-    if(result) {
+        bool result = await _uploadProfilePhotoUsecase.call(
+            customerID: customerID,
+            name: path.basename(image!.path),
+            photo: image!);
 
-      int customerID = Modular.get<CoreStore>().profile?.id ?? 0;
-
-      bool result = await _uploadProfilePhotoUsecase.call(customerID: customerID, name: path.basename(image!.path), photo: image!);
-      
-      if(result) {
-        ShowSuccessMessageUsecase(context: context).call(message: "Sucesso ao inserir a nova foto.");
-      } else { ShowErrorMessageUsecase(context: context).call(message: "Não foi possível inserir uma nova foto."); }
+        if (result) {
+          ShowSuccessMessageUsecase(context: context)
+              .call(message: "Sucesso ao inserir a nova foto.");
+        } else {
+          ShowErrorMessageUsecase(context: context)
+              .call(message: "Não foi possível inserir uma nova foto.");
+        }
+      }
+    } catch (e) {
+      ShowErrorMessageUsecase(context: context).call(
+          message:
+              "Não foi possível atualizar a foto de perfil. Tente novamente mais tarde.");
+    } finally {
+      setLoading(false);
     }
-
-    } catch(e) { ShowErrorMessageUsecase(context: context)
-        .call(message: "Não foi possível atualizar a foto de perfil. Tente novamente mais tarde."); } finally { setLoading(false); }
-
   }
 
-
   @action
-  Future<bool> getProfilePhoto({ required context }) async {
-
+  Future<bool> getProfilePhoto({required context}) async {
     PermissionStatus permission = await GalleryPermission().call();
 
-    if(permission.isGranted) {
-
+    if (permission.isGranted) {
       XFile? file = await ImagePicker().pickImage(source: ImageSource.gallery);
 
       if (file != null) {
-
         final File result = File(file.path);
 
         image = result;
@@ -102,10 +105,10 @@ abstract class ProfileStoreBase with Store {
       }
 
       return false;
-
-    } else { ShowErrorMessageUsecase(context: context)
-        .call(message: "Você precisa permitir que o Marcenaria APP acesse "
-        "a galeria do seu dispositivo para incluir uma foto de perfil.");
+    } else {
+      ShowErrorMessageUsecase(context: context).call(
+          message: "Você precisa permitir que o Marcenaria APP acesse "
+              "a galeria do seu dispositivo para incluir uma foto de perfil.");
 
       return false;
     }
@@ -113,12 +116,9 @@ abstract class ProfileStoreBase with Store {
 
   @action
   update(ProfileDTO dto) {
-
     name.text = dto.name;
     email.text = dto.email;
     phone.text = dto.phone;
     documentNumber.text = dto.cpf;
   }
-
-
 }

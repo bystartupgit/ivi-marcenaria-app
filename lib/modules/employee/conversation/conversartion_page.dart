@@ -19,8 +19,8 @@ class ConversationPage extends StatefulWidget {
   State<ConversationPage> createState() => _ConversationPageState();
 }
 
-class _ConversationPageState extends State<ConversationPage> with AutomaticKeepAliveClientMixin {
-
+class _ConversationPageState extends State<ConversationPage>
+    with AutomaticKeepAliveClientMixin {
   final CoreStore core = Modular.get<CoreStore>();
   final ConversationStore store = Modular.get<ConversationStore>();
 
@@ -40,24 +40,36 @@ class _ConversationPageState extends State<ConversationPage> with AutomaticKeepA
         backgroundColor: ColorTheme.background,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: store.loading ? ConversationLoadingWidget() : SingleChildScrollView(
-            child: Column(
-                children: [
-                  ConversationFilterWidget(onChanged: store.setFilter,name: core.profile?.name ?? "Olá, "),
-                  const SizedBox(height: 20),
-                  false ? const ConversationEmptyWidget() :
-                  Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ConversationSuportTileWidget(colaborations: "Suporte e você",
-                        onPressed: () => Modular.to.pushNamed(RouterGlobalMapper.chatPrivateSupport,
-                            arguments: [core.auth?.id, UserType.prestador, UserType.administrador, "Suporte"]),
-                        name: core.profile?.name ?? "",),
-                      const SizedBox(height: 10),
-                    ],
-                  )
-                ]),
-          ),
+          child: store.loading
+              ? ConversationLoadingWidget()
+              : SingleChildScrollView(
+                  child: Column(children: [
+                    ConversationFilterWidget(
+                        onChanged: store.setFilter,
+                        name: core.profile?.name ?? "Olá, "),
+                    const SizedBox(height: 20),
+                    false
+                        ? const ConversationEmptyWidget()
+                        : Column(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              ConversationSuportTileWidget(
+                                colaborations: "Suporte e você",
+                                onPressed: () => Modular.to.pushNamed(
+                                    RouterGlobalMapper.chatPrivateSupport,
+                                    arguments: [
+                                      core.auth?.id,
+                                      UserType.prestador,
+                                      UserType.administrador,
+                                      "Suporte"
+                                    ]),
+                                name: core.profile?.name ?? "",
+                              ),
+                              const SizedBox(height: 10),
+                            ],
+                          )
+                  ]),
+                ),
         ),
       ),
     );

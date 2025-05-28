@@ -3,22 +3,20 @@ import 'package:marcenaria/modules/employee/domain/mappers/employee_mapper.dart'
 import 'package:marcenaria/modules/login/domain/enums/user_type_enum.dart';
 
 class EmployeeEntity extends ProfileEntity {
-
   final List<String> functions;
 
-  EmployeeEntity({
-    required this.functions,
-    required super.id,
-    required super.name,
-    required super.email,
-    required super.enable,
-    super.type = UserType.prestador,
-    required super.cpf,
-    required super.phone,
-    super.image
-  });
+  EmployeeEntity(
+      {required this.functions,
+      required super.id,
+      required super.name,
+      required super.email,
+      required super.enable,
+      super.type = UserType.prestador,
+      required super.cpf,
+      required super.phone,
+      super.image});
 
-  factory EmployeeEntity.fromMap(Map<String,dynamic> map) {
+  factory EmployeeEntity.fromMap(Map<String, dynamic> map) {
     print(map["midia_perfil"]["nome_arquivo"]);
     return EmployeeEntity(
         id: map[EmployeeMapper.profile][EmployeeMapper.employeeID],
@@ -30,12 +28,12 @@ class EmployeeEntity extends ProfileEntity {
         image: map["midia_perfil"]["nome_arquivo"],
         functions: map[EmployeeMapper.profile][EmployeeMapper.funcoes] == null
             ? const []
-            : List.from(map[EmployeeMapper.profile][EmployeeMapper.funcoes])
-    );
+            : List.from(map[EmployeeMapper.profile][EmployeeMapper.funcoes]));
   }
 
   @override
-  ProfileEntity copyWith({ String? name, String? email, String? cpf, String? phone }) =>
+  ProfileEntity copyWith(
+          {String? name, String? email, String? cpf, String? phone}) =>
       EmployeeEntity(
           type: type,
           functions: functions,
@@ -46,5 +44,4 @@ class EmployeeEntity extends ProfileEntity {
           id: id,
           image: image,
           phone: phone ?? this.phone);
-
 }

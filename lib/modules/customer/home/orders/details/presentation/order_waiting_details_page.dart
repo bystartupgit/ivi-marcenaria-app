@@ -15,20 +15,20 @@ import 'components/details_waiting_message_widget.dart';
 import 'components/order_details_card_widget.dart';
 
 class OrderWaitingDetailsPage extends StatefulWidget {
-
   final OrderEntity order;
 
-  const OrderWaitingDetailsPage({ super.key, required this.order });
+  const OrderWaitingDetailsPage({super.key, required this.order});
 
   @override
-  State<OrderWaitingDetailsPage> createState() => _OrderWaitingDetailsPageState();
+  State<OrderWaitingDetailsPage> createState() =>
+      _OrderWaitingDetailsPageState();
 }
 
 class _OrderWaitingDetailsPageState extends State<OrderWaitingDetailsPage> {
-
   late final OrderEntity order = widget.order;
 
-  final OrderWaitingDetailsStore store = Modular.get<OrderWaitingDetailsStore>();
+  final OrderWaitingDetailsStore store =
+      Modular.get<OrderWaitingDetailsStore>();
 
   @override
   void initState() {
@@ -45,40 +45,44 @@ class _OrderWaitingDetailsPageState extends State<OrderWaitingDetailsPage> {
             backgroundColor: ColorTheme.background,
             appBar: AppBar(
                 backgroundColor: ColorTheme.background,
-                leading: IconButton(onPressed: () => Modular.to.pop(),
-                    icon: Icon(Icons.arrow_back_ios_new_rounded,color: ColorTheme.black2))
-            ),
+                leading: IconButton(
+                    onPressed: () => Modular.to.pop(),
+                    icon: Icon(Icons.arrow_back_ios_new_rounded,
+                        color: ColorTheme.black2))),
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: SingleChildScrollView(
-                child: Column(
-                    children: [
-                      OrderDetailsCardWidget(
-                          store: store,
-                          order: order, moreDetails: store.showMore,
-                          changeMoreDetails: store.setShowMore),
-                      const SizedBox(height: 20.0),
-                      const DetailsWaitingMessageWidget(),
-                      const SizedBox(height: 10.0),
-                      const DetailsIndicatorStepWidget(),
-                      const SizedBox(height: 20.0),
-                      Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            DetailsCancelButtonWidget(
-                                iconSize: 10,
-                                size: 12,
-                                onPressed: () => showDialog(context: context,
-                                    builder: (context) => DetailsCancelPopUpWidget(order: order,
-                                      cancelOrder: () => store.cancelOrder(order: order, context: context)))),
-                            DetailsSuportButtonWidget(size: 12,onPressed: () =>
-                                Modular.to.pushNamed(RouterGlobalMapper.chatSupport,
-                                    arguments: order)
-                            )
+                child: Column(children: [
+                  OrderDetailsCardWidget(
+                      store: store,
+                      order: order,
+                      moreDetails: store.showMore,
+                      changeMoreDetails: store.setShowMore),
+                  const SizedBox(height: 20.0),
+                  const DetailsWaitingMessageWidget(),
+                  const SizedBox(height: 10.0),
+                  const DetailsIndicatorStepWidget(),
+                  const SizedBox(height: 20.0),
+                  Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        DetailsCancelButtonWidget(
+                            iconSize: 10,
+                            size: 12,
+                            onPressed: () => showDialog(
+                                context: context,
+                                builder: (context) => DetailsCancelPopUpWidget(
+                                    order: order,
+                                    cancelOrder: () => store.cancelOrder(
+                                        order: order, context: context)))),
+                        DetailsSuportButtonWidget(
+                            size: 12,
+                            onPressed: () => Modular.to.pushNamed(
+                                RouterGlobalMapper.chatSupport,
+                                arguments: order))
                       ]),
-                      const SizedBox(height: 40.0),
+                  const SizedBox(height: 40.0),
                 ]),
               ),
             )),
@@ -86,4 +90,3 @@ class _OrderWaitingDetailsPageState extends State<OrderWaitingDetailsPage> {
     );
   }
 }
-

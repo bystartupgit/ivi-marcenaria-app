@@ -1,6 +1,3 @@
-
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/modules/admin/domain/entities/order_entity.dart';
@@ -9,11 +6,11 @@ import 'package:mobx/mobx.dart';
 
 part 'waiting_employee_store.g.dart';
 
-class WaitingEmployeeStore = WaitingEmployeeStoreBase with _$WaitingEmployeeStore;
+class WaitingEmployeeStore = WaitingEmployeeStoreBase
+    with _$WaitingEmployeeStore;
 
 abstract class WaitingEmployeeStoreBase with Store implements Disposable {
-
-  ScrollController scroll= ScrollController();
+  ScrollController scroll = ScrollController();
 
   final _getWaitingEmployeesUsecase = Modular.get<GetWaitingEmployeesUsecase>();
 
@@ -43,57 +40,54 @@ abstract class WaitingEmployeeStoreBase with Store implements Disposable {
 
   @action
   init() async {
-
     scroll.addListener(() {
-
-      if(scroll.position.pixels == scroll.position.maxScrollExtent && loading == false) {
+      if (scroll.position.pixels == scroll.position.maxScrollExtent &&
+          loading == false) {
         loadingMoreOrders();
       }
-
     });
 
-    List<OrderEntity> result = await _getWaitingEmployeesUsecase.call(page: page, limit: limit);
+    List<OrderEntity> result =
+        await _getWaitingEmployeesUsecase.call(page: page, limit: limit);
 
     orders = result.asObservable();
   }
 
   @action
   loadingMoreOrders() async {
-
-    if (orders.length/limit >= 10) {
-
+    if (orders.length / limit >= 10) {
       addPagination();
 
       setPaginationLoading(true);
 
-      List<OrderEntity> result = await _getWaitingEmployeesUsecase.call(page: page, limit: limit);
+      List<OrderEntity> result =
+          await _getWaitingEmployeesUsecase.call(page: page, limit: limit);
 
-      if(result.isNotEmpty) {
-
-        for(OrderEntity value in result) {
-          if(orders.contains(value) == false) { orders.add(value); }
+      if (result.isNotEmpty) {
+        for (OrderEntity value in result) {
+          if (orders.contains(value) == false) {
+            orders.add(value);
+          }
         }
-
       }
 
       setPaginationLoading(false);
     } else {
-
       setPaginationLoading(true);
 
-      List<OrderEntity> result = await _getWaitingEmployeesUsecase.call(page: page, limit: limit);
+      List<OrderEntity> result =
+          await _getWaitingEmployeesUsecase.call(page: page, limit: limit);
 
-      if(result.isNotEmpty) {
-
-        for(OrderEntity value in result) {
-          if(orders.contains(value) == false) { orders.add(value); }
+      if (result.isNotEmpty) {
+        for (OrderEntity value in result) {
+          if (orders.contains(value) == false) {
+            orders.add(value);
+          }
         }
-
       }
 
       setPaginationLoading(false);
     }
-
   }
 
   @override

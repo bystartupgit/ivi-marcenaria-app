@@ -10,12 +10,13 @@ part 'proposal_store.g.dart';
 class ProposalStore = ProposalStoreBase with _$ProposalStore;
 
 abstract class ProposalStoreBase with Store {
-
   final ScrollController scrollWaiting = ScrollController();
   final ScrollController scrollAppoval = ScrollController();
 
-  final GetOrderWaitingAppovalUsecase _getOrderWaitingAppovalUsecase = Modular.get<GetOrderWaitingAppovalUsecase>();
-  final GetWaitingProposalUsecase _getWaitingProposalUsecase = Modular.get<GetWaitingProposalUsecase>();
+  final GetOrderWaitingAppovalUsecase _getOrderWaitingAppovalUsecase =
+      Modular.get<GetOrderWaitingAppovalUsecase>();
+  final GetWaitingProposalUsecase _getWaitingProposalUsecase =
+      Modular.get<GetWaitingProposalUsecase>();
 
   final PageController controller = PageController(initialPage: 0);
 
@@ -48,25 +49,32 @@ abstract class ProposalStoreBase with Store {
 
   @computed
   List<OrderEntity> get waitingProposalFiltered {
-    if(filter.isEmpty) { return waitingProposal; }
-    else { return waitingProposal.where((e) => e.title.toLowerCase().contains(filter.toLowerCase())).toList(); }
+    if (filter.isEmpty) {
+      return waitingProposal;
+    } else {
+      return waitingProposal
+          .where((e) => e.title.toLowerCase().contains(filter.toLowerCase()))
+          .toList();
+    }
   }
 
   @action
   getAprovals() async {
-
-    List<OrderEntity> orders = await _getOrderWaitingAppovalUsecase.call(page: pageApproval, limit: limit);
+    List<OrderEntity> orders = await _getOrderWaitingAppovalUsecase.call(
+        page: pageApproval, limit: limit);
 
     waitingAproval = orders.asObservable();
-
   }
-
 
   @computed
   List<OrderEntity> get waitingAprovalFiltered {
-
-    if(filter.isEmpty) { return waitingAproval; }
-    else { return waitingAproval.where((e) => e.title.toLowerCase().contains(filter.toLowerCase())).toList(); }
+    if (filter.isEmpty) {
+      return waitingAproval;
+    } else {
+      return waitingAproval
+          .where((e) => e.title.toLowerCase().contains(filter.toLowerCase()))
+          .toList();
+    }
   }
 
   @action
@@ -76,20 +84,22 @@ abstract class ProposalStoreBase with Store {
   setFilter(String value) => filter = value;
 
   @action
-  setIndex(int value) { index = value; controller.jumpToPage(index -1); }
+  setIndex(int value) {
+    index = value;
+    controller.jumpToPage(index - 1);
+  }
 
   @action
   init() async {
-
     scrollWaiting.addListener(() {
-
-      if(scrollWaiting.position.pixels == scrollWaiting.position.maxScrollExtent && loading == false) {
+      if (scrollWaiting.position.pixels ==
+              scrollWaiting.position.maxScrollExtent &&
+          loading == false) {
         loadingMoreOrdersWaiting();
       }
     });
 
-    if(waitingProposal.isEmpty && loading == false) {
-
+    if (waitingProposal.isEmpty && loading == false) {
       setLoading(true);
 
       List<OrderEntity> orders = await _getWaitingProposalUsecase.call(
@@ -97,7 +107,8 @@ abstract class ProposalStoreBase with Store {
 
       waitingProposal = orders.asObservable();
 
-      orders = await _getOrderWaitingAppovalUsecase.call(page: pageApproval, limit: limit);
+      orders = await _getOrderWaitingAppovalUsecase.call(
+          page: pageApproval, limit: limit);
 
       waitingAproval = orders.asObservable();
 
@@ -107,34 +118,30 @@ abstract class ProposalStoreBase with Store {
 
   @action
   loadingMoreOrdersWaiting() async {
-
-    if (waitingProposal.length/limit >= pageWaiting) {
-
+    if (waitingProposal.length / limit >= pageWaiting) {
       addPaginationWaiting();
 
-      List<OrderEntity> result = await _getWaitingProposalUsecase.call(page: pageWaiting, limit: limit);
+      List<OrderEntity> result = await _getWaitingProposalUsecase.call(
+          page: pageWaiting, limit: limit);
 
-      if(result.isNotEmpty) {
-
-        for(OrderEntity value in result) {
-          if(waitingProposal.contains(value) == false) { waitingProposal.add(value); }
+      if (result.isNotEmpty) {
+        for (OrderEntity value in result) {
+          if (waitingProposal.contains(value) == false) {
+            waitingProposal.add(value);
+          }
         }
-
       }
-
     } else {
+      List<OrderEntity> result = await _getWaitingProposalUsecase.call(
+          page: pageWaiting, limit: limit);
 
-      List<OrderEntity> result = await _getWaitingProposalUsecase.call(page: pageWaiting, limit: limit);
-
-      if(result.isNotEmpty) {
-
-        for(OrderEntity value in result) {
-          if(waitingProposal.contains(value) == false) { waitingProposal.add(value); }
+      if (result.isNotEmpty) {
+        for (OrderEntity value in result) {
+          if (waitingProposal.contains(value) == false) {
+            waitingProposal.add(value);
+          }
         }
-
       }
     }
-
   }
-
 }

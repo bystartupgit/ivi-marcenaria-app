@@ -1,13 +1,8 @@
-
-
-
 class RouterMapper {
-
   static String register = "/Register/";
   static String document = "/Register/Document/";
   static String contract = "/Register/Contract/";
   static String success = "/Register/Contract/Success/";
-
 
   static String resetPassword = "/ResetPassword/";
   static String resetPasswordCode = "/ResetPassword/Code/";
@@ -21,5 +16,4 @@ class RouterMapper {
   static String resetPasswordIntern = "ResetPassword/";
   static String resetPasswordCodeIntern = "Code/";
   static String confirmPasswordIntern = "ConfirmPassword/";
-
 }

@@ -8,7 +8,6 @@ import '../../../../admin/home/presentation/components/order_empty_widget.dart';
 import '../../../../admin/home/presentation/components/proposal_card_widget.dart';
 
 class FinishPage extends StatelessWidget {
-
   final String message = "Nenhuma pedido finalizado.";
 
   final FinishStore store;
@@ -17,25 +16,29 @@ class FinishPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-        builder: (context) {
-          return store.orders.isEmpty ? OrderEmptyWidget(title: message) :
-          RefreshIndicator.adaptive(
-            onRefresh: () => store.loadingMoreOrders(),
-            child: Column(
-              children: [
-                ListView.separated(
-                    controller: store.scroll,
-                    shrinkWrap: true,
-                    separatorBuilder: (context, index) => const SizedBox(height: 10.0),
-                    itemCount: store.orders.length,
-                    itemBuilder: (context,index) => ProposalCardWidget(order: store.orders[index],
-                      onPressed: () => Modular.to.pushNamed(RouterMapper.finishDetailsIntern,arguments: store.orders[index].id),)),
-                const SizedBox(height: 20.0),
-              ],
-            ),
-          );
-        }
-    );
+    return Observer(builder: (context) {
+      return store.orders.isEmpty
+          ? OrderEmptyWidget(title: message)
+          : RefreshIndicator.adaptive(
+              onRefresh: () => store.loadingMoreOrders(),
+              child: Column(
+                children: [
+                  ListView.separated(
+                      controller: store.scroll,
+                      shrinkWrap: true,
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 10.0),
+                      itemCount: store.orders.length,
+                      itemBuilder: (context, index) => ProposalCardWidget(
+                            order: store.orders[index],
+                            onPressed: () => Modular.to.pushNamed(
+                                RouterMapper.finishDetailsIntern,
+                                arguments: store.orders[index].id),
+                          )),
+                  const SizedBox(height: 20.0),
+                ],
+              ),
+            );
+    });
   }
 }

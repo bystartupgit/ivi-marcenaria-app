@@ -1,0 +1,2 @@
+/Users/andreysales/Marcenaria/android/app/.cxx/Debug/4n4k525g/x86/CMakeFiles/edit_cache.dir
+/Users/andreysales/Marcenaria/android/app/.cxx/Debug/4n4k525g/x86/CMakeFiles/rebuild_cache.dir

@@ -5,7 +5,6 @@ import '../../../../../../core/themes/color_theme.dart';
 import '../../../../../../core/themes/family_theme.dart';
 
 class ProfileAttachmentButtonWidget extends StatelessWidget {
-
   final String image = "assets/admin/navigation/clip.svg";
   final String title = "Anexar";
 
@@ -18,11 +17,9 @@ class ProfileAttachmentButtonWidget extends StatelessWidget {
     return InkWell(
       onTap: download,
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 10.0,vertical: 2.0),
+        padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
         decoration: BoxDecoration(
-          color: ColorTheme.orange,
-          borderRadius: BorderRadius.circular(5.0)
-        ),
+            color: ColorTheme.orange, borderRadius: BorderRadius.circular(5.0)),
         child: Row(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -30,8 +27,11 @@ class ProfileAttachmentButtonWidget extends StatelessWidget {
             children: [
               SvgPicture.asset(image),
               const SizedBox(width: 5.0),
-              Text(title,style: TextStyle(fontFamily: FamilyTheme.regular,
-                  color: Colors.white, fontSize: 12))
+              Text(title,
+                  style: TextStyle(
+                      fontFamily: FamilyTheme.regular,
+                      color: Colors.white,
+                      fontSize: 12))
             ]),
       ),
     );

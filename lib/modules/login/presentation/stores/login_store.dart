@@ -1,5 +1,3 @@
-
-
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/core/data/store/core_store.dart';
 import 'package:marcenaria/modules/login/domain/entities/auth_entity.dart';
@@ -15,11 +13,16 @@ part 'login_store.g.dart';
 class LoginStore = LoginStoreBase with _$LoginStore;
 
 abstract class LoginStoreBase with Store {
-
   final LoginUseCase _loginUseCase = Modular.get<LoginUseCase>();
 
   @observable
   bool loading = false;
+
+  @observable
+  bool isObscure = false;
+
+  @action
+  void changeObscure() => isObscure = !isObscure;
 
   @action
   setLoading(bool value) => loading = value;
@@ -41,9 +44,7 @@ abstract class LoginStoreBase with Store {
 
   @action
   login({required context}) async {
-
     try {
-
       setLoading(true);
 
       (String, AuthEntity?) result = await _loginUseCase.call(email, password);
@@ -53,19 +54,22 @@ abstract class LoginStoreBase with Store {
       print(auth?.type);
 
       if (auth != null) {
-
         Modular.get<CoreStore>().setAuth(auth);
 
-        return switch(auth.type) {
+        return switch (auth.type) {
           UserType.cliente => Modular.to.navigate(RouterGlobalMapper.customer),
-          UserType.prestador => Modular.to.navigate(RouterGlobalMapper.employee),
-          UserType.administrador => Modular.to.navigate(RouterGlobalMapper.admin),
+          UserType.prestador =>
+            Modular.to.navigate(RouterGlobalMapper.employee),
+          UserType.administrador =>
+            Modular.to.navigate(RouterGlobalMapper.admin),
         };
-      } else { ShowErrorMessageUsecase(context: context).call(message: result.$1); }
+      } else {
+        ShowErrorMessageUsecase(context: context).call(message: result.$1);
+      }
+    } catch (e) {
+      ShowErrorMessageUsecase(context: context).call(message: e.toString());
+    } finally {
+      setLoading(false);
     }
-
-    catch(e) { ShowErrorMessageUsecase(context: context).call(message: e.toString()); }
-
-    finally { setLoading(false); }
   }
 }

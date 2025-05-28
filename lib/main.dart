@@ -11,7 +11,6 @@ import 'modules/app_widget.dart';
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {}
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
 
   await Firebase.initializeApp(
@@ -32,5 +31,6 @@ void main() async {
     sound: true,
   );
 
-  return initializeDateFormatting('pt_BR', null).then((e) => runApp(ModularApp(module: AppModule(), child: const AppWidget())));
+  return initializeDateFormatting('pt_BR', null).then(
+      (e) => runApp(ModularApp(module: AppModule(), child: const AppWidget())));
 }

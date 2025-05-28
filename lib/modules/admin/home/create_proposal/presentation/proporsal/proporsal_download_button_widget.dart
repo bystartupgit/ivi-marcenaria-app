@@ -5,16 +5,17 @@ import '../../../../../../core/themes/color_theme.dart';
 import '../../../../../../core/themes/family_theme.dart';
 
 class ProporsalDownloadButtonWidget extends StatelessWidget {
-
   final String title;
   final double titleSize;
   final Function() onPressed;
 
   final String image = "assets/login/svgs/download.svg";
 
-  const ProporsalDownloadButtonWidget({super.key,
-    this.titleSize = 12,
-    required this.onPressed, required this.title});
+  const ProporsalDownloadButtonWidget(
+      {super.key,
+      this.titleSize = 12,
+      required this.onPressed,
+      required this.title});
 
   @override
   Widget build(BuildContext context) {
@@ -26,14 +27,19 @@ class ProporsalDownloadButtonWidget extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
                 color: ColorTheme.orange,
-                borderRadius: BorderRadius.circular(5.0)
-            ),
+                borderRadius: BorderRadius.circular(5.0)),
             child: Row(
               spacing: 10.0,
               mainAxisSize: MainAxisSize.min,
               children: [
-                SvgPicture.asset(image, colorFilter: const ColorFilter.mode( Colors.white, BlendMode.srcIn)),
-                Text(title,style: TextStyle(fontSize: titleSize,fontFamily: FamilyTheme.regular, color: Colors.white )),
+                SvgPicture.asset(image,
+                    colorFilter:
+                        const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
+                Text(title,
+                    style: TextStyle(
+                        fontSize: titleSize,
+                        fontFamily: FamilyTheme.regular,
+                        color: Colors.white)),
               ],
             )),
       ),

@@ -12,7 +12,6 @@ import '../../../../core/themes/family_theme.dart';
 import '../../orders/presentation/mappers/order_searching_mapper.dart';
 import 'components/service_slide_widget.dart';
 
-
 class ServicePage extends StatefulWidget {
   const ServicePage({super.key});
 
@@ -20,8 +19,8 @@ class ServicePage extends StatefulWidget {
   State<ServicePage> createState() => _ServicePageState();
 }
 
-class _ServicePageState extends State<ServicePage> with AutomaticKeepAliveClientMixin {
-
+class _ServicePageState extends State<ServicePage>
+    with AutomaticKeepAliveClientMixin {
   final ServiceStore store = Modular.get<ServiceStore>();
 
   @override
@@ -42,29 +41,24 @@ class _ServicePageState extends State<ServicePage> with AutomaticKeepAliveClient
         backgroundColor: ColorTheme.background,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
-              children: [
-                OrderFilterWidget(
-                    title: OrderSearchingMapper.conclusionTitle,
-                    description: OrderSearchingMapper.conclusionSubtitle,
-                    onChanged: (value) {}),
-                const SizedBox(height: 20),
-                ServiceSlideWidget(store: store),
-                const SizedBox(height: 20),
-                Expanded(
-                  child: PageView(
-                      physics: const NeverScrollableScrollPhysics(),
-                      controller: store.controller,
-                      children: [
-                        ProductionPage(store: store.production),
-                        FinishPage(store: store.finish)
-                      ]
-                  ),
-                )
-
-
-
-              ]),
+          child: Column(children: [
+            OrderFilterWidget(
+                title: OrderSearchingMapper.conclusionTitle,
+                description: OrderSearchingMapper.conclusionSubtitle,
+                onChanged: (value) {}),
+            const SizedBox(height: 20),
+            ServiceSlideWidget(store: store),
+            const SizedBox(height: 20),
+            Expanded(
+              child: PageView(
+                  physics: const NeverScrollableScrollPhysics(),
+                  controller: store.controller,
+                  children: [
+                    ProductionPage(store: store.production),
+                    FinishPage(store: store.finish)
+                  ]),
+            )
+          ]),
         ),
       ),
     );

@@ -33,6 +33,22 @@ mixin _$LoginStore on LoginStoreBase, Store {
     });
   }
 
+  late final _$isObscureAtom =
+      Atom(name: 'LoginStoreBase.isObscure', context: context);
+
+  @override
+  bool get isObscure {
+    _$isObscureAtom.reportRead();
+    return super.isObscure;
+  }
+
+  @override
+  set isObscure(bool value) {
+    _$isObscureAtom.reportWrite(value, super.isObscure, () {
+      super.isObscure = value;
+    });
+  }
+
   late final _$emailAtom = Atom(name: 'LoginStoreBase.email', context: context);
 
   @override
@@ -76,6 +92,17 @@ mixin _$LoginStore on LoginStoreBase, Store {
       ActionController(name: 'LoginStoreBase', context: context);
 
   @override
+  void changeObscure() {
+    final _$actionInfo = _$LoginStoreBaseActionController.startAction(
+        name: 'LoginStoreBase.changeObscure');
+    try {
+      return super.changeObscure();
+    } finally {
+      _$LoginStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic setLoading(bool value) {
     final _$actionInfo = _$LoginStoreBaseActionController.startAction(
         name: 'LoginStoreBase.setLoading');
@@ -112,6 +139,7 @@ mixin _$LoginStore on LoginStoreBase, Store {
   String toString() {
     return '''
 loading: ${loading},
+isObscure: ${isObscure},
 email: ${email},
 password: ${password},
 enableLogin: ${enableLogin}

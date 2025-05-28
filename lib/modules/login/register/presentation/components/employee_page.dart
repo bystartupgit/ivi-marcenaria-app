@@ -7,7 +7,6 @@ import 'package:marcenaria/modules/login/register/presentation/components/regist
 import 'package:marcenaria/modules/login/register/presentation/stores/register_store.dart';
 
 class EmployeePage extends StatelessWidget {
-
   final RegisterStore store;
 
   const EmployeePage({super.key, required this.store});
@@ -15,15 +14,14 @@ class EmployeePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
-      child: Column(
-          children: [
-            RegisterCardWidget(store: store),
-            const SizedBox(height: 15.0),
-            RegisterCardOperationWidget(store: store),
-            const SizedBox(height: 40.0),
-            RegisterButtonWidget(onPress: () => store.register(context: context)),
-            const SizedBox(height: 40.0),
-          ]),
+      child: Column(children: [
+        RegisterCardWidget(store: store),
+        const SizedBox(height: 15.0),
+        RegisterCardOperationWidget(store: store),
+        const SizedBox(height: 40.0),
+        RegisterButtonWidget(onPress: () => store.register(context: context)),
+        const SizedBox(height: 40.0),
+      ]),
     );
   }
 }

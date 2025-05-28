@@ -1,8 +1,4 @@
-
-
 class OnboardingMapper {
-
-
   static String oa1 = "personalizado";
   static String oa2 = "exclusivo";
   static String oa3 = "único";
@@ -14,5 +10,4 @@ class OnboardingMapper {
   static String oc1 = "serviços";
   static String oc2 = "produtos";
   static String oc3 = "experiências";
-
 }

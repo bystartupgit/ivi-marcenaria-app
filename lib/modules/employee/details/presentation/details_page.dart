@@ -20,10 +20,10 @@ class _DetailsPageState extends State<DetailsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: ColorTheme.background,
-      appBar: AppBar(
         backgroundColor: ColorTheme.background,
-        leading: const DetailsBackButtonWidget()),
+        appBar: AppBar(
+            backgroundColor: ColorTheme.background,
+            leading: const DetailsBackButtonWidget()),
         body: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
           child: Column(
@@ -33,8 +33,10 @@ class _DetailsPageState extends State<DetailsPage> {
                 const DetailsCardWidget(),
                 const DetailsContractWidget(),
                 const IndicatorStepWidget(current: OrderStatus.start),
-                DetailsProgressActionWidget(action: () {}, cancel: () {}, title: "Iniciar Produção"),
-                if(OrderStatus.completed == OrderStatus.completed) const DetailsHistoricButtonWidget()
+                DetailsProgressActionWidget(
+                    action: () {}, cancel: () {}, title: "Iniciar Produção"),
+                if (OrderStatus.completed == OrderStatus.completed)
+                  const DetailsHistoricButtonWidget()
               ]),
         ));
   }

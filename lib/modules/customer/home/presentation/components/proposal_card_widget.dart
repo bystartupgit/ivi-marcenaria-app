@@ -9,11 +9,11 @@ import '../../../../employee/orders/presentation/components/environment_text_wid
 import '../../orders/domain/enum/order_status_enum.dart';
 
 class ProposalCardWidget extends StatelessWidget {
-
   final Function() navigation;
   final OrderEntity order;
 
-  const ProposalCardWidget({super.key, required this.order, required this.navigation});
+  const ProposalCardWidget(
+      {super.key, required this.order, required this.navigation});
 
   @override
   Widget build(BuildContext context) {
@@ -23,55 +23,69 @@ class ProposalCardWidget extends StatelessWidget {
           height: MediaQuery.of(context).size.height * 0.12,
           width: MediaQuery.of(context).size.width * 0.2,
           decoration: BoxDecoration(
-              boxShadow: [BoxShadow(color: ColorTheme.gray, blurRadius: 4.0, offset: const Offset(0.0, 5.0))],
+              boxShadow: [
+                BoxShadow(
+                    color: ColorTheme.gray,
+                    blurRadius: 4.0,
+                    offset: const Offset(0.0, 5.0))
+              ],
               color: const Color(0xFFECECEC),
               borderRadius: BorderRadius.circular(10.0)),
-          child: Row(
-              children: [
-                Expanded(
-                    flex: 1,
-                    child: Container(
-                        width: MediaQuery.of(context).size.width * 0.2,
-                        decoration: const BoxDecoration(
-                            image: DecorationImage(image: AssetImage("assets/covers/cover_1.png"),fit: BoxFit.cover),
-                            borderRadius: BorderRadius.all(Radius.circular(10.0))))),
-                Expanded(
-                    flex: 2,
-                    child: Container(
-                        padding: const EdgeInsets.symmetric(vertical: 10,horizontal: 10),
-                        decoration: const BoxDecoration(
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(10.0),
-                                bottomRight: Radius.circular(10.0))
-                        ),
-                        child: Column(
+          child: Row(children: [
+            Expanded(
+                flex: 1,
+                child: Container(
+                    width: MediaQuery.of(context).size.width * 0.2,
+                    decoration: const BoxDecoration(
+                        image: DecorationImage(
+                            image: AssetImage("assets/covers/cover_1.png"),
+                            fit: BoxFit.cover),
+                        borderRadius:
+                            BorderRadius.all(Radius.circular(10.0))))),
+            Expanded(
+                flex: 2,
+                child: Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 10, horizontal: 10),
+                    decoration: const BoxDecoration(
+                        borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(10.0),
+                            bottomRight: Radius.circular(10.0))),
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Text(order.title,
+                              maxLines: 2,
+                              style: TextStyle(
+                                  fontFamily: FamilyTheme.medium,
+                                  color: Colors.black,
+                                  fontSize: 16)),
+                          Column(
+                            mainAxisSize: MainAxisSize.min,
                             crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: [
-                              Text(order.title,
-                                  maxLines: 2, style: TextStyle(
+                              EnvironmentTextWidget(
+                                  environments: order.listEnviroment),
+                              const SizedBox(height: 5.0),
+                              Text("Orçamento nº ${order.id}",
+                                  style: TextStyle(
+                                      fontFamily: FamilyTheme.regular,
+                                      color: ColorTheme.pureBlack,
+                                      fontSize: 10)),
+                              const SizedBox(height: 3.0),
+                              Text(StatusExtension.fromTitle(order.status),
+                                  style: TextStyle(
                                       fontFamily: FamilyTheme.medium,
-                                      color: Colors.black, fontSize: 16)),
-                              Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  EnvironmentTextWidget(environments: order.listEnviroment),
-                                  const SizedBox(height: 5.0),
-                                  Text("Orçamento nº ${order.id}", style: TextStyle(
-                                      fontFamily: FamilyTheme.regular, color: ColorTheme.pureBlack, fontSize: 10)),
-                                  const SizedBox(height: 3.0),
-                                  Text(StatusExtension.fromTitle(order.status),style: TextStyle(
-                                      fontFamily: FamilyTheme.medium, color: order.status == OrderStatus.production?
-                                  ColorTheme.lightBlue : ColorTheme.lightGreen, fontSize: 10))
-
-                                ],
-                              ),
-
-                            ])
-
-                    ))
-              ])),
+                                      color:
+                                          order.status == OrderStatus.production
+                                              ? ColorTheme.lightBlue
+                                              : ColorTheme.lightGreen,
+                                      fontSize: 10))
+                            ],
+                          ),
+                        ])))
+          ])),
     );
   }
 }

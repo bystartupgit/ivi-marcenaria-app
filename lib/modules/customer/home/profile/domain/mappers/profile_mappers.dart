@@ -1,7 +1,4 @@
-
-
 class ProfileMappers {
-
   static String message = "message";
   static String successMessage = "Dados do cliente atualizados com sucesso";
 
@@ -11,5 +8,4 @@ class ProfileMappers {
   static String phone = "telefone";
 
   static String jobs = "funcoes";
-
 }

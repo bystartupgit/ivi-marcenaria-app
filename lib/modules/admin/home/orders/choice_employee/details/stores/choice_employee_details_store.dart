@@ -10,12 +10,14 @@ import '../../../../../domain/usecases/get_order_details_without_employee_usecas
 
 part 'choice_employee_details_store.g.dart';
 
-class ChoiceEmployeeDetailsStore = ChoiceEmployeeDetailsStoreBase with _$ChoiceEmployeeDetailsStore;
+class ChoiceEmployeeDetailsStore = ChoiceEmployeeDetailsStoreBase
+    with _$ChoiceEmployeeDetailsStore;
 
 abstract class ChoiceEmployeeDetailsStoreBase with Store {
-
-  final _getOrderDetailsWithoutEmployeeUsecase = Modular.get<GetOrderDetailsWithoutEmployeeUsecase>();
-  final _getEmployeeSelectionForJobUsecase = Modular.get<GetEmployeeSelectionForJobUsecase>();
+  final _getOrderDetailsWithoutEmployeeUsecase =
+      Modular.get<GetOrderDetailsWithoutEmployeeUsecase>();
+  final _getEmployeeSelectionForJobUsecase =
+      Modular.get<GetEmployeeSelectionForJobUsecase>();
 
   final ScrollController scroll = ScrollController();
 
@@ -26,7 +28,8 @@ abstract class ChoiceEmployeeDetailsStoreBase with Store {
   int limit = 10;
 
   @observable
-  ObservableList<EmployeeUserEntity> employees = <EmployeeUserEntity>[].asObservable();
+  ObservableList<EmployeeUserEntity> employees =
+      <EmployeeUserEntity>[].asObservable();
 
   @observable
   OrderEntity? order;
@@ -45,25 +48,25 @@ abstract class ChoiceEmployeeDetailsStoreBase with Store {
 
   @action
   init({required int orderID}) async {
-
     scroll.addListener(() {
-
-      if(scroll.position.pixels == scroll.position.maxScrollExtent && loading == false) {
+      if (scroll.position.pixels == scroll.position.maxScrollExtent &&
+          loading == false) {
         loadingMoreOrders();
       }
-
     });
 
     setLoading(true);
 
-    (OrderEntity?, ProposalEntity?,List<EmployeeUserEntity>) result = await _getOrderDetailsWithoutEmployeeUsecase.call(orderID: orderID);
+    (OrderEntity?, ProposalEntity?, List<EmployeeUserEntity>) result =
+        await _getOrderDetailsWithoutEmployeeUsecase.call(orderID: orderID);
 
     order = result.$1;
     proposal = result.$2;
 
-    if(proposal?.idProposta != null) {
+    if (proposal?.idProposta != null) {
       List<EmployeeUserEntity> resultEmployees =
-      await _getEmployeeSelectionForJobUsecase.call(page: page, limit: limit, proposalID: proposal?.idProposta ?? 0);
+          await _getEmployeeSelectionForJobUsecase.call(
+              page: page, limit: limit, proposalID: proposal?.idProposta ?? 0);
 
       employees = resultEmployees.asObservable();
     }
@@ -73,33 +76,31 @@ abstract class ChoiceEmployeeDetailsStoreBase with Store {
 
   @action
   loadingMoreOrders() async {
-
-    if (employees.length/limit >= 10) {
-
+    if (employees.length / limit >= 10) {
       addPagination();
 
       List<EmployeeUserEntity> result =
-      await _getEmployeeSelectionForJobUsecase.call(page: page, limit: limit,
-          proposalID: proposal?.idProposta ?? 0);
+          await _getEmployeeSelectionForJobUsecase.call(
+              page: page, limit: limit, proposalID: proposal?.idProposta ?? 0);
 
-      if(result.isNotEmpty) {
-        for(EmployeeUserEntity value in result) {
-          if(employees.contains(value) == false) { employees.add(value); }
+      if (result.isNotEmpty) {
+        for (EmployeeUserEntity value in result) {
+          if (employees.contains(value) == false) {
+            employees.add(value);
+          }
         }
       }
-
     } else {
+      List<EmployeeUserEntity> result =
+          await _getEmployeeSelectionForJobUsecase.call(
+              page: page, limit: limit, proposalID: proposal?.idProposta ?? 0);
 
-      List<EmployeeUserEntity> result = await _getEmployeeSelectionForJobUsecase.call(
-          page: page, limit: limit,
-          proposalID: proposal?.idProposta ?? 0);
-
-      if(result.isNotEmpty) {
-
-        for(EmployeeUserEntity value in result) {
-          if(employees.contains(value) == false) { employees.add(value); }
+      if (result.isNotEmpty) {
+        for (EmployeeUserEntity value in result) {
+          if (employees.contains(value) == false) {
+            employees.add(value);
+          }
         }
-
       }
     }
   }

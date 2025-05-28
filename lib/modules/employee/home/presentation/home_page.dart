@@ -23,7 +23,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   final NavigationStore navigation = Modular.get<NavigationStore>();
   final CoreStore core = Modular.get<CoreStore>();
   final HomeStore store = Modular.get<HomeStore>();
@@ -37,32 +36,44 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: ColorTheme.background,
         body: SingleChildScrollView(
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  HomeHeaderWidget(name: core.profile?.name ?? "Prestador"),
-                  const SizedBox(height: 10.0),
-                  HomeCarrouselWidget(onChanged: store.setIndex,
-                      dots: 2, index: store.index,abouts: HomeAboutMapper.abouts),
-                  HomeListCardWidget(title: HomeTitleMapper.oportunities,
-                    details: (value) =>  Modular.to.pushNamed(RouterMapper.orderWaitingDetailsIntern,arguments: value) ,
-                      seeAll: () => navigation.setIndex(1) ,
-                      orders: List.from(order.waitingInteresting.orders)),
-                  const SizedBox(height: 10.0),
-                  HomeListCardWidget(
-                      details: (value) => Modular.to.pushNamed(RouterMapper.orderPendingDetailsIntern,arguments: value),
-                      seeAll: () => navigation.setIndex(1),
-                      title: HomeTitleMapper.pendentes, orders: List.from(order.orderPendingStore.orders)),
-                  const SizedBox(height: 10.0),
-                  HomeListCardWidget(
-                      details: (value) => Modular.to.pushNamed(RouterMapper.productionDetailsIntern, arguments: value),
-                      seeAll: () => navigation.setIndex(2),
-                      title: HomeTitleMapper.progress, orders: List.from(service.production.orders)),
-                  const SizedBox(height: 20.0),
-                ],
-              ),
-            )),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              HomeHeaderWidget(name: core.profile?.name ?? "Prestador"),
+              const SizedBox(height: 10.0),
+              HomeCarrouselWidget(
+                  onChanged: store.setIndex,
+                  dots: 2,
+                  index: store.index,
+                  abouts: HomeAboutMapper.abouts),
+              HomeListCardWidget(
+                  title: HomeTitleMapper.oportunities,
+                  details: (value) => Modular.to.pushNamed(
+                      RouterMapper.orderWaitingDetailsIntern,
+                      arguments: value),
+                  seeAll: () => navigation.setIndex(1),
+                  orders: List.from(order.waitingInteresting.orders)),
+              const SizedBox(height: 10.0),
+              HomeListCardWidget(
+                  details: (value) => Modular.to.pushNamed(
+                      RouterMapper.orderPendingDetailsIntern,
+                      arguments: value),
+                  seeAll: () => navigation.setIndex(1),
+                  title: HomeTitleMapper.pendentes,
+                  orders: List.from(order.orderPendingStore.orders)),
+              const SizedBox(height: 10.0),
+              HomeListCardWidget(
+                  details: (value) => Modular.to.pushNamed(
+                      RouterMapper.productionDetailsIntern,
+                      arguments: value),
+                  seeAll: () => navigation.setIndex(2),
+                  title: HomeTitleMapper.progress,
+                  orders: List.from(service.production.orders)),
+              const SizedBox(height: 20.0),
+            ],
+          ),
+        )),
       ),
     );
   }

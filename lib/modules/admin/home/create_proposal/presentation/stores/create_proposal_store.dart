@@ -1,5 +1,3 @@
-
-
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -21,9 +19,10 @@ part 'create_proposal_store.g.dart';
 class CreateProposalStore = CreateProposalStoreBase with _$CreateProposalStore;
 
 abstract class CreateProposalStoreBase with Store {
-
-  final CreateProposalUsecase _createProposalUsecase = Modular.get<CreateProposalUsecase>();
-  final GetOrderWithoutProposalUsecase _getOrderDetailsUsecase = Modular.get<GetOrderWithoutProposalUsecase>();
+  final CreateProposalUsecase _createProposalUsecase =
+      Modular.get<CreateProposalUsecase>();
+  final GetOrderWithoutProposalUsecase _getOrderDetailsUsecase =
+      Modular.get<GetOrderWithoutProposalUsecase>();
 
   @observable
   OrderWithoutProposalEntity? order;
@@ -54,15 +53,12 @@ abstract class CreateProposalStoreBase with Store {
 
   @action
   init({required int orderID}) async {
-
     setLoading(true);
 
     order = await _getOrderDetailsUsecase.call(orderID: orderID);
 
     setLoading(false);
-
   }
-
 
   @observable
   String environments = "";
@@ -74,7 +70,9 @@ abstract class CreateProposalStoreBase with Store {
   String total = "";
 
   @action
-  setTotal(String value) { total = value; }
+  setTotal(String value) {
+    total = value;
+  }
 
   @observable
   String opening = "";
@@ -132,14 +130,14 @@ abstract class CreateProposalStoreBase with Store {
 
   @action
   getFile() async {
-
     setLoadingScreen(true);
 
-    FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.custom, allowMultiple: false,
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowMultiple: false,
         allowedExtensions: ['png', 'pdf']);
 
     if (result != null) {
-
       XFile file = result.xFiles.first;
 
       proporsalFile = File(file.path);
@@ -151,23 +149,30 @@ abstract class CreateProposalStoreBase with Store {
   @action
   setDateLimit(String? value) => dateLimit = value ?? "30 dias uteis";
 
-  String formatValues(double value) => NumberFormat.currency(locale: "pt_BR", symbol: "",decimalDigits: 2).format(value).trim();
+  String formatValues(double value) =>
+      NumberFormat.currency(locale: "pt_BR", symbol: "", decimalDigits: 2)
+          .format(value)
+          .trim();
 
   CreateProposalDTO dto({String? url}) {
-
     NumberFormat format = NumberFormat.simpleCurrency(locale: 'pt_BR');
 
     CreateProposalDTO value = CreateProposalDTO(
         orderID: order?.id ?? 0,
         message: environments,
-        valueParcel:  valueParcel.isEmpty ? null : format.parse(valueParcel) as double,
+        valueParcel:
+            valueParcel.isEmpty ? null : format.parse(valueParcel) as double,
         totalValue: total.isEmpty ? 0.0 : format.parse(total) as double,
         pixValue: valuePix.isEmpty ? 0.0 : format.parse(valuePix) as double,
-        discountValue: discount.isEmpty ? 0.0 : format.parse(discount.replaceAll("%", "")) as double,
-        openingValue: opening.isEmpty ? null :format.parse(opening) as double,
+        discountValue: discount.isEmpty
+            ? 0.0
+            : format.parse(discount.replaceAll("%", "")) as double,
+        openingValue: opening.isEmpty ? null : format.parse(opening) as double,
         parcels: numberParcels.isEmpty ? null : int.parse(numberParcels),
         temporal: temporal == "Não" ? false : true,
-        fromTo: forTo == false && forToValue.isEmpty ? null : format.parse(forToValue) as double,
+        fromTo: forTo == false && forToValue.isEmpty
+            ? null
+            : format.parse(forToValue) as double,
         url: url);
 
     return value;
@@ -175,38 +180,35 @@ abstract class CreateProposalStoreBase with Store {
 
   @action
   download() async {
-
-    try{
-
+    try {
       setLoadingScreen(true);
 
-      if(proporsalFile != null) {
+      if (proporsalFile != null) {
         await OpenFile.open(proporsalFile!.path);
       }
-
-    } catch(e) { print(e); } finally { (setLoadingScreen(false)); }
-
+    } catch (e) {
+      print(e);
+    } finally {
+      (setLoadingScreen(false));
+    }
   }
 
   @action
   createProporsal({required context}) async {
-
-    try{
-
+    try {
       Navigator.pop(context);
       setLoadingScreen(true);
 
-      (String,bool) result = await _createProposalUsecase.call(dto: dto());
-      
-      if(result.$2) { Modular.to.pop(true);}
-      else { ShowErrorMessageUsecase(context: context).call(message: result.$1); }
+      (String, bool) result = await _createProposalUsecase.call(dto: dto());
 
-
-    }catch(e) {} finally{ setLoadingScreen(false); }
-
-
+      if (result.$2) {
+        Modular.to.pop(true);
+      } else {
+        ShowErrorMessageUsecase(context: context).call(message: result.$1);
+      }
+    } catch (e) {
+    } finally {
+      setLoadingScreen(false);
+    }
   }
-
-
-
 }

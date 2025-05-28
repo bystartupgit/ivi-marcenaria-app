@@ -12,7 +12,6 @@ import 'onboarding_button_widget.dart';
 import 'onboarding_icons.dart';
 
 class OnboardingPageOneWidget extends StatelessWidget {
-
   final String button = "Entrar";
   final String image = "assets/onboarding/onboarding_1.png";
   final String logo = "assets/logo/logo.svg";
@@ -26,64 +25,92 @@ class OnboardingPageOneWidget extends StatelessWidget {
     return Stack(
       children: [
         Container(
-            height:  MediaQuery.of(context).size.height,
+            height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            decoration: BoxDecoration(image: DecorationImage(image: AssetImage(image)))),
+            decoration: BoxDecoration(
+                image: DecorationImage(image: AssetImage(image)))),
         Container(
-            height:  MediaQuery.of(context).size.height,
+            height: MediaQuery.of(context).size.height,
             width: MediaQuery.of(context).size.width,
-            decoration: const BoxDecoration( gradient: LinearGradient(
-                begin: AlignmentDirectional.centerEnd,
-                end: AlignmentDirectional.centerStart,
-                stops: [0, 100],
-                colors: [Color(0xFFECB157),Color(0x00000000)]))),
+            decoration: const BoxDecoration(
+                gradient: LinearGradient(
+                    begin: AlignmentDirectional.centerEnd,
+                    end: AlignmentDirectional.centerStart,
+                    stops: [0, 100],
+                    colors: [Color(0xFFECB157), Color(0x00000000)]))),
         Container(
-          width:  MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
-            children: [
-              const Expanded(child: SizedBox()),
-              Expanded(
-                flex: 2,
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    SvgPicture.asset(logo,height: 150),
-                    SizedBox(
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        child: Text(title,
-                            textAlign: TextAlign.right,
-                            style: TextStyle(fontSize: 24,fontFamily: FamilyTheme.regular,color: Colors.white))),
-                    SizedBox(
-                      height: 45,
-                      child: AnimatedTextKit(
-                        repeatForever: true,
-                        animatedTexts: [
-                          FadeAnimatedText(OnboardingMapper.oa1, textStyle: TextStyle(fontSize: 36,fontFamily: FamilyTheme.medium,color: Colors.white)),
-                          FadeAnimatedText(OnboardingMapper.oa2, textStyle: TextStyle(fontSize: 36,fontFamily: FamilyTheme.medium,color: Colors.white)),
-                          FadeAnimatedText(OnboardingMapper.oa3, textStyle: TextStyle(fontSize: 36,fontFamily: FamilyTheme.medium,color: Colors.white)),
-                        ]),
-                    ),
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.1),
-                    Center(child: DotsIndicator(dotsCount: 3,
-                        position: 0,
-                        decorator: DotsDecorator(
-                            activeColor: ColorTheme.orange,
-                            color: ColorTheme.background,
-                            activeSize: const Size(15.0, 15.0),
-                            size: const Size(15.0, 15.0)))),
-                    const SizedBox(height: 20.0),
-                    Center(child: OnboardingButtonWidget(description: description))
-                  ],
+            width: MediaQuery.of(context).size.width,
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: Column(
+              children: [
+                const Expanded(child: SizedBox()),
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      SvgPicture.asset(logo, height: 150),
+                      SizedBox(
+                          width: MediaQuery.of(context).size.width * 0.8,
+                          child: Text(title,
+                              textAlign: TextAlign.right,
+                              style: TextStyle(
+                                  fontSize: 24,
+                                  fontFamily: FamilyTheme.regular,
+                                  color: Colors.white))),
+                      SizedBox(
+                        height: 45,
+                        child: AnimatedTextKit(
+                            repeatForever: true,
+                            animatedTexts: [
+                              FadeAnimatedText(OnboardingMapper.oa1,
+                                  textStyle: TextStyle(
+                                      fontSize: 36,
+                                      fontFamily: FamilyTheme.medium,
+                                      color: Colors.white)),
+                              FadeAnimatedText(OnboardingMapper.oa2,
+                                  textStyle: TextStyle(
+                                      fontSize: 36,
+                                      fontFamily: FamilyTheme.medium,
+                                      color: Colors.white)),
+                              FadeAnimatedText(OnboardingMapper.oa3,
+                                  textStyle: TextStyle(
+                                      fontSize: 36,
+                                      fontFamily: FamilyTheme.medium,
+                                      color: Colors.white)),
+                            ]),
+                      ),
+                      SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.1),
+                      Center(
+                          child: DotsIndicator(
+                              dotsCount: 3,
+                              position: 0,
+                              decorator: DotsDecorator(
+                                  activeColor: ColorTheme.orange,
+                                  color: ColorTheme.background,
+                                  activeSize: const Size(15.0, 15.0),
+                                  size: const Size(15.0, 15.0)))),
+                      const SizedBox(height: 20.0),
+                      Center(
+                          child:
+                              OnboardingButtonWidget(description: description))
+                    ],
+                  ),
                 ),
-              ),
-            ],
-          )),
+              ],
+            )),
         Positioned(
             right: 0,
             top: MediaQuery.of(context).padding.top + 30.0,
-            child: TextButton(onPressed: () => Modular.to.pushReplacementNamed(RouterGlobalMapper.login),
-                child: Text(button,style: TextStyle(color: Colors.white,fontFamily: FamilyTheme.regular,fontSize: 16))))
+            child: TextButton(
+                onPressed: () =>
+                    Modular.to.pushReplacementNamed(RouterGlobalMapper.login),
+                child: Text(button,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: FamilyTheme.regular,
+                        fontSize: 16))))
       ],
     );
   }

@@ -70,7 +70,6 @@ import 'navigation/navigation_page.dart';
 import 'navigation/stores/navigation_store.dart';
 
 class AdminModule extends Module {
-
   @override
   void binds(i) {
     i.addSingleton(() => NavigationStore());
@@ -80,7 +79,6 @@ class AdminModule extends Module {
     i.add(() => CreateProposalStore());
     i.add(() => CustomerRegisterStore());
     i.add(() => ProfileStore());
-
 
     i.addSingleton(() => OrderStore());
     i.add(() => ChoiceEmployeeStore());
@@ -97,7 +95,6 @@ class AdminModule extends Module {
     i.add(() => ProfileFormStore());
     i.add(() => ConversationStore());
 
-
     i.add(() => OrderDataSource());
     i.add(() => ProposalDataSource());
     i.add(() => UserDataSource());
@@ -106,57 +103,79 @@ class AdminModule extends Module {
     i.add(() => RoleDataSource());
     i.add(() => ConversationDataSource());
 
-    i.add(() => GetOrderWithoutProposalUsecase(datasource: i.get<OrderDataSource>()));
-    i.add(() => GetWaitingProposalUsecase(datasource: i.get<OrderDataSource>()));
+    i.add(() =>
+        GetOrderWithoutProposalUsecase(datasource: i.get<OrderDataSource>()));
+    i.add(
+        () => GetWaitingProposalUsecase(datasource: i.get<OrderDataSource>()));
     i.add(() => GetUserUseCase(datasource: i.get<UserDataSource>()));
     i.add(() => CreateProposalUsecase(datasource: i.get<ProposalDataSource>()));
-    i.add(() => GetOrderWaitingAppovalUsecase(datasource: i.get<OrderDataSource>()));
-    i.add(() => GetWaitingEmployeesUsecase(datasource: i.get<OrderDataSource>()));
+    i.add(() =>
+        GetOrderWaitingAppovalUsecase(datasource: i.get<OrderDataSource>()));
+    i.add(
+        () => GetWaitingEmployeesUsecase(datasource: i.get<OrderDataSource>()));
 
-    i.add(() => GetWaitingChoiceEmployeesUsecase(datasource:i.get<OrderDataSource>()));
-    i.add(() => GetOrderDetailsWithoutEmployeeUsecase(datasource:i.get<OrderDataSource>()));
-    i.add(() => GetAllProductionOrdersUsecase(datasource: i.get<OrderDataSource>()));
-    i.add(() => GetAllConclusionOrdersUsecase(datasource:  i.get<OrderDataSource>()));
+    i.add(() =>
+        GetWaitingChoiceEmployeesUsecase(datasource: i.get<OrderDataSource>()));
+    i.add(() => GetOrderDetailsWithoutEmployeeUsecase(
+        datasource: i.get<OrderDataSource>()));
+    i.add(() =>
+        GetAllProductionOrdersUsecase(datasource: i.get<OrderDataSource>()));
+    i.add(() =>
+        GetAllConclusionOrdersUsecase(datasource: i.get<OrderDataSource>()));
     i.add(() => FinishServiceUsecase(datasource: i.get<ServiceDataSource>()));
 
     i.add(() => GetEmployeesUsecase(datasource: i.get<RoleDataSource>()));
-    i.add(() => GetEmployeesWithPotentialUseCase(datasource: i.get<OrderDataSource>()));
-    i.add(() => SavePotentialEmployeeUsecase(datasource: i.get<OrderDataSource>()));
-    i.add(() => GetEmployeeSelectionForJobUsecase(datasource: i.get<OrderDataSource>()));
-    i.add(() => SaveEmployeeProposalUseCase(datasource: i.get<ProposalDataSource>()));
+    i.add(() =>
+        GetEmployeesWithPotentialUseCase(datasource: i.get<OrderDataSource>()));
+    i.add(() =>
+        SavePotentialEmployeeUsecase(datasource: i.get<OrderDataSource>()));
+    i.add(() => GetEmployeeSelectionForJobUsecase(
+        datasource: i.get<OrderDataSource>()));
+    i.add(() =>
+        SaveEmployeeProposalUseCase(datasource: i.get<ProposalDataSource>()));
     i.add(() => RegisterFcmTokenUsecase(datasource: i.get<UserDataSource>()));
-
 
     i.add(() => GetCustomersUsecase(datasource: i.get<UserDataSource>()));
     i.add(() => RegisterUseCase(datasource: LoginDataSource()));
-    i.add(() => UploadProfilePhotoUsecase(datasource: i.get<ProfileDatasource>()));
+    i.add(() =>
+        UploadProfilePhotoUsecase(datasource: i.get<ProfileDatasource>()));
     i.add(() => UpdateProfileUsecase(datasource: i.get<ProfileDatasource>()));
-    i.add(() => GetCustomersQuantityOrdersUsecase(datasource: i.get<UserDataSource>()));
+    i.add(() =>
+        GetCustomersQuantityOrdersUsecase(datasource: i.get<UserDataSource>()));
     i.add(() => GetWaitingOrdersUsecase(datasource: i.get<UserDataSource>()));
-    i.add(() => GetWaitingApprovalOrdersUsecase(datasource: i.get<UserDataSource>()));
-    i.add(() => GetProductionOrdersUsecase(datasource: i.get<UserDataSource>()));
+    i.add(() =>
+        GetWaitingApprovalOrdersUsecase(datasource: i.get<UserDataSource>()));
+    i.add(
+        () => GetProductionOrdersUsecase(datasource: i.get<UserDataSource>()));
     i.add(() => GetFinishedOrdersUsecase(datasource: i.get<UserDataSource>()));
 
     i.add(() => GetPrivateConversationUsecase(datasource: i.get()));
-
   }
 
   @override
   void routes(r) {
     r.child(Modular.initialRoute, child: (context) => const NavigationPage());
-    r.child(RouterMapper.createProposal, child: (context) => CreateProposalPage(orderID: r.args.data));
-    r.child(RouterMapper.paymentProposal, child: (context) => PaymentPage(orderID: r.args.data));
-    
-    r.child(RouterMapper.choiceEmployeeDetails, child:  (context) => ChoiceEmployeeDetailsPage(orderID: r.args.data));
-    r.child(RouterMapper.waitingEmployeeDetails, child:  (context) => WaitingEmployeeDetailsPage(orderID: r.args.data));
-    r.child(RouterMapper.productionOrderDetails, child:  (context) => ProductionDetailsPage(orderID: r.args.data));
-    r.child(RouterMapper.conclusionOrderDetails, child:  (context) => ConclusionDetailsPage(orderID: r.args.data));
+    r.child(RouterMapper.createProposal,
+        child: (context) => CreateProposalPage(orderID: r.args.data));
+    r.child(RouterMapper.paymentProposal,
+        child: (context) => PaymentPage(orderID: r.args.data));
 
+    r.child(RouterMapper.choiceEmployeeDetails,
+        child: (context) => ChoiceEmployeeDetailsPage(orderID: r.args.data));
+    r.child(RouterMapper.waitingEmployeeDetails,
+        child: (context) => WaitingEmployeeDetailsPage(orderID: r.args.data));
+    r.child(RouterMapper.productionOrderDetails,
+        child: (context) => ProductionDetailsPage(orderID: r.args.data));
+    r.child(RouterMapper.conclusionOrderDetails,
+        child: (context) => ConclusionDetailsPage(orderID: r.args.data));
 
     r.child(RouterMapper.customer, child: (context) => const CustomerPage());
-    r.child(RouterMapper.customerRegister, child: (context) => const CustomerRegisterPage());
-    r.child(RouterMapper.customerProfile, child: (context) => ProfilePage(profile: r.args.data));
-    r.child(RouterMapper.customerProfileForm, child: (context) => ProfileFormPage(profile: r.args.data));
+    r.child(RouterMapper.customerRegister,
+        child: (context) => const CustomerRegisterPage());
+    r.child(RouterMapper.customerProfile,
+        child: (context) => ProfilePage(profile: r.args.data));
+    r.child(RouterMapper.customerProfileForm,
+        child: (context) => ProfileFormPage(profile: r.args.data));
 
     r.module("/admin-suport/", module: ChatSuportModule());
   }

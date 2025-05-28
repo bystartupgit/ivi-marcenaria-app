@@ -22,7 +22,6 @@ class ProfilePage extends StatefulWidget {
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-
   final ProfileStore store = Modular.get<ProfileStore>();
   final String title = "Perfil";
 
@@ -42,40 +41,49 @@ class _ProfilePageState extends State<ProfilePage> {
         backgroundColor: ColorTheme.background,
         appBar: AppBar(
             backgroundColor: ColorTheme.background,
-            title: Text(title,style: TextStyle(color: ColorTheme.black3,
-                fontSize: 20,
-                fontFamily: FamilyTheme.regular)),
+            title: Text(title,
+                style: TextStyle(
+                    color: ColorTheme.black3,
+                    fontSize: 20,
+                    fontFamily: FamilyTheme.regular)),
             leading: const ProfileBackButtonWidget()),
         body: SingleChildScrollView(
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Column(
-                  spacing: 10.0,
-                  children: [
-                    ProfileImageWidget(name: store.name.text,
-                        pathImage: store.pathImage,
-                        image: store.image, uploadImage: () => store.uploadImage(context: context)),
-                    const SizedBox(height: 20.0),
-                    Align(
-                        alignment: AlignmentDirectional.topEnd,
-                        child: ProfileEditButtonWidget(update: (ProfileDTO value) { store.update(value); setState(() {
-
-                        }); })),
-                    ProfileReadFieldWidget(
-                        hint: "exemplo@exemplo.com",
-                        keyboard: TextInputType.emailAddress, icon: ProfileIcons.email, controller: store.email),
-                    ProfileReadFieldWidget(
-                        hint: "(DDD) Numero",
-                        keyboard: TextInputType.number, icon: ProfileIcons.phone, controller: store.phone),
-                    ProfileReadFieldWidget(
-                        hint: "CPF ou RG",
-                        keyboard: TextInputType.number, icon: ProfileIcons.cpf, controller: store.documentNumber),
-                    ProfileClickFieldWidget(title: documentONE, icon: ProfileIcons.documents),
-                    ProfilePositionWidget(jobs: store.jobs)
-                  ]
-              ),
-            )),
-        ),
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(spacing: 10.0, children: [
+            ProfileImageWidget(
+                name: store.name.text,
+                pathImage: store.pathImage,
+                image: store.image,
+                uploadImage: () => store.uploadImage(context: context)),
+            const SizedBox(height: 20.0),
+            Align(
+                alignment: AlignmentDirectional.topEnd,
+                child: ProfileEditButtonWidget(update: (ProfileDTO value) {
+                  store.update(value);
+                  setState(() {});
+                })),
+            ProfileReadFieldWidget(
+                hint: "exemplo@exemplo.com",
+                keyboard: TextInputType.emailAddress,
+                icon: ProfileIcons.email,
+                controller: store.email),
+            ProfileReadFieldWidget(
+                hint: "(DDD) Numero",
+                keyboard: TextInputType.number,
+                icon: ProfileIcons.phone,
+                controller: store.phone),
+            ProfileReadFieldWidget(
+                hint: "CPF ou RG",
+                keyboard: TextInputType.number,
+                icon: ProfileIcons.cpf,
+                controller: store.documentNumber),
+            ProfileClickFieldWidget(
+                title: documentONE, icon: ProfileIcons.documents),
+            ProfilePositionWidget(jobs: store.jobs)
+          ]),
+        )),
+      ),
     );
   }
 }

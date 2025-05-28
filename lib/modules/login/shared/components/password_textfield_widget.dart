@@ -2,35 +2,58 @@ import 'package:flutter/material.dart';
 import 'package:marcenaria/core/themes/color_theme.dart';
 import 'package:marcenaria/core/themes/family_theme.dart';
 
-
 class PasswordTextFieldWidget extends StatelessWidget {
-
   final String title;
   final IconData icon;
 
   final Function(String value) onChanged;
+  final Function() changeObscure;
+  final bool isObscure;
   final TextInputType keyboard;
 
-  const PasswordTextFieldWidget({super.key,required this.title,
-    required this.onChanged,
-    this.icon = Icons.add, this.keyboard = TextInputType.text });
+  const PasswordTextFieldWidget(
+      {super.key,
+      required this.title,
+      required this.onChanged,
+      required this.isObscure,
+      required this.changeObscure,
+      this.icon = Icons.add,
+      this.keyboard = TextInputType.text});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      style: TextStyle(color: ColorTheme.gray,fontSize: 16,fontFamily: FamilyTheme.regular),
+      style: TextStyle(
+          color: ColorTheme.gray,
+          fontSize: 16,
+          fontFamily: FamilyTheme.regular),
       onChanged: onChanged,
-      obscureText: true,
+      obscureText: isObscure,
       obscuringCharacter: "*",
       keyboardType: keyboard,
-      decoration: InputDecoration(labelText: title,
-          suffixIcon: Icon(icon,size: 15,color: const Color.fromRGBO(59, 59, 59, 0.5)),
+      decoration: InputDecoration(
+          labelText: title,
+          suffixIcon: IconButton(
+              onPressed: changeObscure,
+              icon: isObscure
+                  ? const Icon(Icons.visibility_off,
+                      size: 15, color: const Color.fromRGBO(59, 59, 59, 0.5))
+                  : const Icon(Icons.visibility,
+                      size: 15, color: const Color.fromRGBO(59, 59, 59, 0.5))),
           floatingLabelBehavior: FloatingLabelBehavior.always,
-          enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: ColorTheme.gray)),
-          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: ColorTheme.gray)),
+          enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: ColorTheme.gray)),
+          focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: ColorTheme.gray)),
           hintText: "**********",
-          hintStyle: TextStyle(fontFamily: FamilyTheme.regular,fontSize: 16,color: ColorTheme.description),
-          labelStyle: TextStyle(fontFamily: FamilyTheme.regular,fontSize: 14,color: ColorTheme.title)),
+          hintStyle: TextStyle(
+              fontFamily: FamilyTheme.regular,
+              fontSize: 16,
+              color: ColorTheme.description),
+          labelStyle: TextStyle(
+              fontFamily: FamilyTheme.regular,
+              fontSize: 14,
+              color: ColorTheme.title)),
     );
   }
 }

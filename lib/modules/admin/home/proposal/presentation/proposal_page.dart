@@ -18,8 +18,8 @@ class ProposalPage extends StatefulWidget {
   State<ProposalPage> createState() => _ProposalPageState();
 }
 
-class _ProposalPageState extends State<ProposalPage> with AutomaticKeepAliveClientMixin {
-
+class _ProposalPageState extends State<ProposalPage>
+    with AutomaticKeepAliveClientMixin {
   final ProposalStore store = Modular.get<ProposalStore>();
 
   @override
@@ -39,32 +39,40 @@ class _ProposalPageState extends State<ProposalPage> with AutomaticKeepAliveClie
         backgroundColor: ColorTheme.background,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: store.loading ? OrderLoadingWidget() : Column(
-              children: [
-                ProposalFilterWidget(onChanged: store.setFilter),
-                const SizedBox(height: 20),
-                ProposalSlideWidget(store: store),
-                const SizedBox(height: 20),
-                Expanded(
-                    child: PageView(
-                        physics: const NeverScrollableScrollPhysics(),
-                        controller: store.controller,
-                        children: [
-                          ProposalListWidget(orders: store.waitingProposalFiltered,
-                              scroll: store.scrollWaiting,
-                              message: OrderEmptyMapper.waitingProposal,onPressed: (value) =>
-                                  Modular.to.pushNamed(RouterMapper.createProposalIntern,arguments: value).then((value) {
-
-                                    if(value == true) { store.getAprovals(); }
-
-                                  })),
-                          ProposalListWidget(
-                              scroll: store.scrollAppoval,
-                              orders: store.waitingAprovalFiltered, message: OrderEmptyMapper.waitAproval,
-                              onPressed: (value) => Modular.to.pushNamed(RouterMapper.paymentProposalIntern,arguments: value))
-                        ]
-                    ))
-              ]),
+          child: store.loading
+              ? OrderLoadingWidget()
+              : Column(children: [
+                  ProposalFilterWidget(onChanged: store.setFilter),
+                  const SizedBox(height: 20),
+                  ProposalSlideWidget(store: store),
+                  const SizedBox(height: 20),
+                  Expanded(
+                      child: PageView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          controller: store.controller,
+                          children: [
+                        ProposalListWidget(
+                            orders: store.waitingProposalFiltered,
+                            scroll: store.scrollWaiting,
+                            message: OrderEmptyMapper.waitingProposal,
+                            onPressed: (value) => Modular.to
+                                    .pushNamed(
+                                        RouterMapper.createProposalIntern,
+                                        arguments: value)
+                                    .then((value) {
+                                  if (value == true) {
+                                    store.getAprovals();
+                                  }
+                                })),
+                        ProposalListWidget(
+                            scroll: store.scrollAppoval,
+                            orders: store.waitingAprovalFiltered,
+                            message: OrderEmptyMapper.waitAproval,
+                            onPressed: (value) => Modular.to.pushNamed(
+                                RouterMapper.paymentProposalIntern,
+                                arguments: value))
+                      ]))
+                ]),
         ),
       ),
     );

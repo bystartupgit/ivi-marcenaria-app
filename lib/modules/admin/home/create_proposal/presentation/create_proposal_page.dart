@@ -17,7 +17,6 @@ import '../../../../../core/themes/color_theme.dart';
 import 'components/check_button_widget.dart';
 
 class CreateProposalPage extends StatefulWidget {
-
   final int orderID;
 
   const CreateProposalPage({super.key, required this.orderID});
@@ -27,7 +26,6 @@ class CreateProposalPage extends StatefulWidget {
 }
 
 class _CreateProposalPageState extends State<CreateProposalPage> {
-
   final CreateProposalStore store = Modular.get<CreateProposalStore>();
 
   @override
@@ -46,41 +44,59 @@ class _CreateProposalPageState extends State<CreateProposalPage> {
             backgroundColor: ColorTheme.background,
             appBar: AppBar(
                 backgroundColor: ColorTheme.background,
-                leading: IconButton(onPressed: () => Modular.to.pop(),
-                    icon: Icon(Icons.arrow_back_ios_new_rounded,color: ColorTheme.black2))
-            ),
-            body: store.loading? Center(child: CircularProgressIndicator(color: ColorTheme.orange)) : Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: SingleChildScrollView(
-                child: Column(
-                    children: [
-                      CreateProporseDetailsCardWidget(order: store.order!, moreDetails: store.showMore,
-                          changeMoreDetails: store.setShowMore),
-                      const SizedBox(height: 20.0),
-                      CreateProporseCalculatorWidget(store: store),
-                      const SizedBox(height: 20.0),
-                      Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          spacing: 10,
-                          children: [
-                            Expanded(
-                              child: CreateProporseCustomerButtonWidget(size: 12, onPressed: () =>
-                                  Modular.to.pushNamed(RouterGlobalMapper.chatSupport, arguments:
-                                  OrderEntity(id: store.order?.id ?? 0, title: store.order?.title ?? "",
-                                      environments: store.order?.environments ?? "", status: OrderStatus.appoval))
+                leading: IconButton(
+                    onPressed: () => Modular.to.pop(),
+                    icon: Icon(Icons.arrow_back_ios_new_rounded,
+                        color: ColorTheme.black2))),
+            body: store.loading
+                ? Center(
+                    child: CircularProgressIndicator(color: ColorTheme.orange))
+                : Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: SingleChildScrollView(
+                      child: Column(children: [
+                        CreateProporseDetailsCardWidget(
+                            order: store.order!,
+                            moreDetails: store.showMore,
+                            changeMoreDetails: store.setShowMore),
+                        const SizedBox(height: 20.0),
+                        CreateProporseCalculatorWidget(store: store),
+                        const SizedBox(height: 20.0),
+                        Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            spacing: 10,
+                            children: [
+                              Expanded(
+                                child: CreateProporseCustomerButtonWidget(
+                                    size: 12,
+                                    onPressed: () => Modular.to.pushNamed(
+                                        RouterGlobalMapper.chatSupport,
+                                        arguments: OrderEntity(
+                                            id: store.order?.id ?? 0,
+                                            title: store.order?.title ?? "",
+                                            environments:
+                                                store.order?.environments ?? "",
+                                            status: OrderStatus.appoval))),
                               ),
-                            ),
-                            Expanded(child: CheckButtonWidget(size: 12,
-                                onPressed: () => showModalBottomSheet(context: context,
-                                    backgroundColor: ColorTheme.background,
-                                    builder: (context) => ProporsalCardReviewWidget(dto: store.dto(),
-                                        store: store, proposal: store.proporsalFile))))
-                          ]),
-                      const SizedBox(height: 40.0),
-                    ]),
-              ),
-            )),
+                              Expanded(
+                                  child: CheckButtonWidget(
+                                      size: 12,
+                                      onPressed: () => showModalBottomSheet(
+                                          context: context,
+                                          backgroundColor:
+                                              ColorTheme.background,
+                                          builder: (context) =>
+                                              ProporsalCardReviewWidget(
+                                                  dto: store.dto(),
+                                                  store: store,
+                                                  proposal:
+                                                      store.proporsalFile))))
+                            ]),
+                        const SizedBox(height: 40.0),
+                      ]),
+                    ),
+                  )),
       ),
     );
   }

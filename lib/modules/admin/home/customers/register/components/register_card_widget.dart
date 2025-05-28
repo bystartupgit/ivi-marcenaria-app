@@ -12,7 +12,6 @@ import 'package:marcenaria/modules/login/shared/components/phone_textfield_widge
 import '../stores/customer_register_store.dart';
 
 class RegisterCardWidget extends StatelessWidget {
-
   final CustomerRegisterStore store;
   final String description = "Informações para contato";
 
@@ -21,30 +20,55 @@ class RegisterCardWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisSize: MainAxisSize.min,
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Text(description,style: TextStyle(fontSize: 10,fontFamily: FamilyTheme.regular,color: ColorTheme.title)),
-        const SizedBox(height: 10.0),
-        Container(
-            padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 10),
-            decoration: BoxDecoration(
-                boxShadow: [BoxShadow(color: ColorTheme.gray, blurRadius: 4.0, offset: const Offset(0.0, 5.0))],
-                color: const Color(0xFFECECEC),
-                borderRadius: BorderRadius.circular(10.0)),
-            child: Column(
-                children: [
-                  NameTextFieldWidget(title: "Nome", icon: LoginIcons.user ,onChanged: store.setName),
-                  const SizedBox(height: 15.0),
-                  EmailTextFieldWidget(title: "E-mail", icon: LoginIcons.email, onChanged: store.setEmail),
-                  const SizedBox(height: 15.0),
-                  PasswordTextFieldWidget(title: "Senha",icon: LoginIcons.password, onChanged: store.setPassword),
-                  const SizedBox(height: 15.0),
-                  DocumentTextFieldWidget(title: "Documento", icon: LoginIcons.cpf, onChanged: store.setCPF),
-                  const SizedBox(height: 15.0),
-                  PhoneTextFieldWidget(title: "Telefone", icon: LoginIcons.whatsapp, onChanged: store.setPhone),
-                  const SizedBox(height: 10.0),
-                ])),
-      ]);
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(description,
+              style: TextStyle(
+                  fontSize: 10,
+                  fontFamily: FamilyTheme.regular,
+                  color: ColorTheme.title)),
+          const SizedBox(height: 10.0),
+          Container(
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+              decoration: BoxDecoration(
+                  boxShadow: [
+                    BoxShadow(
+                        color: ColorTheme.gray,
+                        blurRadius: 4.0,
+                        offset: const Offset(0.0, 5.0))
+                  ],
+                  color: const Color(0xFFECECEC),
+                  borderRadius: BorderRadius.circular(10.0)),
+              child: Column(children: [
+                NameTextFieldWidget(
+                    title: "Nome",
+                    icon: LoginIcons.user,
+                    onChanged: store.setName),
+                const SizedBox(height: 15.0),
+                EmailTextFieldWidget(
+                    title: "E-mail",
+                    icon: LoginIcons.email,
+                    onChanged: store.setEmail),
+                const SizedBox(height: 15.0),
+                PasswordTextFieldWidget(
+                    title: "Senha",
+                    icon: LoginIcons.password,
+                    onChanged: store.setPassword,
+                    isObscure: true,
+                    changeObscure: () {}),
+                const SizedBox(height: 15.0),
+                DocumentTextFieldWidget(
+                    title: "Documento",
+                    icon: LoginIcons.cpf,
+                    onChanged: store.setCPF),
+                const SizedBox(height: 15.0),
+                PhoneTextFieldWidget(
+                    title: "Telefone",
+                    icon: LoginIcons.whatsapp,
+                    onChanged: store.setPhone),
+                const SizedBox(height: 10.0),
+              ])),
+        ]);
   }
 }

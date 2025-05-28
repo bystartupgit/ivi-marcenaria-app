@@ -55,5 +55,4 @@ class DefaultFirebaseOptions {
     storageBucket: 'push-ivi-moveis-planejados.firebasestorage.app',
     iosBundleId: 'com.iva.marcenaria',
   );
-
 }

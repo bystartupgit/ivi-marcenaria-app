@@ -6,19 +6,16 @@ import 'package:marcenaria/modules/login/register/presentation/components/regist
 import 'package:marcenaria/modules/login/register/presentation/stores/register_store.dart';
 
 class CustomerCardPage extends StatelessWidget {
-
   final CustomerRegisterStore store;
 
   const CustomerCardPage({super.key, required this.store});
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          RegisterCardWidget(store: store),
-          const SizedBox(height: 50.0),
-          RegisterButtonWidget(onPress: () => store.register(context: context))
-        ]);
+    return Column(mainAxisSize: MainAxisSize.min, children: [
+      RegisterCardWidget(store: store),
+      const SizedBox(height: 50.0),
+      RegisterButtonWidget(onPress: () => store.register(context: context))
+    ]);
   }
 }

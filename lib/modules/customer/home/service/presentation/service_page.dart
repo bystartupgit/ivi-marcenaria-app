@@ -18,40 +18,42 @@ class ServicePage extends StatefulWidget {
 }
 
 class _ServicePageState extends State<ServicePage> {
-
   final ServiceStore store = Modular.get<ServiceStore>();
 
   @override
   Widget build(BuildContext context) {
     return Observer(
-      builder: (context) => ModalProgressHUD(
-        inAsyncCall: store.loading,
-        child: Scaffold(
-            backgroundColor: ColorTheme.background,
-            appBar: AppBar(
-                leading: IconButton(onPressed: () => Navigator.pop(context),
-                    icon: Icon(Icons.arrow_back_ios_new_rounded, size: 20,color: ColorTheme.black)),
-                backgroundColor: ColorTheme.background),
-            body: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  const ServiceTitleWidget(),
-                  const SizedBox(height: 10.0),
-                  Center(child: ServiceIndicatorPageWidget(index: store.index)),
-                  const SizedBox(height: 10.0),
-                  Expanded(
-                    child: PageView(
-                        physics: const NeverScrollableScrollPhysics(),
-                        controller: store.controller,
-                        children: [
-                          ServiceInformationPage(store: store),
-                          ServiceDetailsPage(store: store)
-                        ]
-                    ))
-                ]))
-        ),
-      ));
+        builder: (context) => ModalProgressHUD(
+              inAsyncCall: store.loading,
+              child: Scaffold(
+                  backgroundColor: ColorTheme.background,
+                  appBar: AppBar(
+                      leading: IconButton(
+                          onPressed: () => Navigator.pop(context),
+                          icon: Icon(Icons.arrow_back_ios_new_rounded,
+                              size: 20, color: ColorTheme.black)),
+                      backgroundColor: ColorTheme.background),
+                  body: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            const ServiceTitleWidget(),
+                            const SizedBox(height: 10.0),
+                            Center(
+                                child: ServiceIndicatorPageWidget(
+                                    index: store.index)),
+                            const SizedBox(height: 10.0),
+                            Expanded(
+                                child: PageView(
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    controller: store.controller,
+                                    children: [
+                                  ServiceInformationPage(store: store),
+                                  ServiceDetailsPage(store: store)
+                                ]))
+                          ]))),
+            ));
   }
 }

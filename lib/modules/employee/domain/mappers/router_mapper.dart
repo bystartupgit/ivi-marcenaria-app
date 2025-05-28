@@ -1,8 +1,4 @@
-
-
 class RouterMapper {
-
-
   static String details = "/Details/";
   static String profile = "/Profile/";
   static String profileForm = "/Profile/Form/";
@@ -13,7 +9,6 @@ class RouterMapper {
 
   static String productionDetails = "/ProductionDetails/";
   static String finishDetails = "/FinishDetails/";
-
 
   static String profileIntern = "Profile/";
   static String profileFormIntern = "Form/";
@@ -26,5 +21,4 @@ class RouterMapper {
 
   static String productionDetailsIntern = "ProductionDetails/";
   static String finishDetailsIntern = "FinishDetails/";
-
 }

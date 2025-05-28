@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -11,15 +9,16 @@ import '../../../../../../../admin/shared/chat_order_button/chat_order_button_wi
 import '../../../../../../../customer/home/orders/domain/entities/order_entity.dart';
 
 class DetailsProposalCancelPopWidget extends StatelessWidget {
-
   final OrderEntity order;
 
   final Function() cancelOrder;
 
   final String title = "Deseja recusar proposta??";
 
-  final String description1 = "Se você tiver dúvidas ou precisar de ajuda, entre em contato com o nosso suporte. ";
-  final String description2 = "Caso deseje realmente recusar o proposta, ela será redirecionada a outro prestador.";
+  final String description1 =
+      "Se você tiver dúvidas ou precisar de ajuda, entre em contato com o nosso suporte. ";
+  final String description2 =
+      "Caso deseje realmente recusar o proposta, ela será redirecionada a outro prestador.";
   final String description3 = "Por favor, confirme sua decisão";
 
   const DetailsProposalCancelPopWidget(
@@ -34,18 +33,30 @@ class DetailsProposalCancelPopWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         spacing: 10.0,
         children: [
-          Text(title, textAlign: TextAlign.start,
-              style: TextStyle(fontSize: 18, fontFamily:
-              FamilyTheme.medium, color: ColorTheme.black3)),
-          Text(description1, textAlign: TextAlign.left,
-              style: TextStyle(fontSize: 14, fontFamily:
-              FamilyTheme.regular, color: ColorTheme.black3)),
-          Text(description2, textAlign: TextAlign.left,
-              style: TextStyle(fontSize: 14, fontFamily:
-              FamilyTheme.regular, color: ColorTheme.black3)),
-          Text(description3, textAlign: TextAlign.left,
-              style: TextStyle(fontSize: 14, fontFamily:
-              FamilyTheme.regular, color: ColorTheme.black3)),
+          Text(title,
+              textAlign: TextAlign.start,
+              style: TextStyle(
+                  fontSize: 18,
+                  fontFamily: FamilyTheme.medium,
+                  color: ColorTheme.black3)),
+          Text(description1,
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                  fontSize: 14,
+                  fontFamily: FamilyTheme.regular,
+                  color: ColorTheme.black3)),
+          Text(description2,
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                  fontSize: 14,
+                  fontFamily: FamilyTheme.regular,
+                  color: ColorTheme.black3)),
+          Text(description3,
+              textAlign: TextAlign.left,
+              style: TextStyle(
+                  fontSize: 14,
+                  fontFamily: FamilyTheme.regular,
+                  color: ColorTheme.black3)),
           const SizedBox(height: 10),
           Row(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -59,19 +70,21 @@ class DetailsProposalCancelPopWidget extends StatelessWidget {
                       onPressed: () {
                         Navigator.pop(context);
                         cancelOrder();
-                      }, size: 12),
+                      },
+                      size: 12),
                 ),
                 Expanded(
                     flex: 3,
                     child: ChatOrderButtonWidget(
-                    title: "Conversar com suporte",
-                    size: 12, onPressed: () {
-                  Navigator.pop(context);
-                  Modular.to.pushNamed(RouterGlobalMapper.chatSupport, arguments: order);
-                }))
+                        title: "Conversar com suporte",
+                        size: 12,
+                        onPressed: () {
+                          Navigator.pop(context);
+                          Modular.to.pushNamed(RouterGlobalMapper.chatSupport,
+                              arguments: order);
+                        }))
               ]),
           const SizedBox(height: 40)
-
         ],
       ),
     );

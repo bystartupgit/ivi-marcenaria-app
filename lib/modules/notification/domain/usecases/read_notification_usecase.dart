@@ -1,15 +1,10 @@
-
-
-
 import '../../external/notification_datasource.dart';
 
-class ReadNotificationUsecase  {
+class ReadNotificationUsecase {
+  final NotificationDataSource datasource;
 
-final NotificationDataSource datasource;
+  ReadNotificationUsecase({required this.datasource});
 
-ReadNotificationUsecase ({required this.datasource});
-
-Future<void> call({required int notificationID}) async =>
-    datasource.readNotification(notificationID: notificationID);
-
+  Future<void> call({required int notificationID}) async =>
+      datasource.readNotification(notificationID: notificationID);
 }

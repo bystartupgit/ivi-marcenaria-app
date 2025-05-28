@@ -11,7 +11,7 @@
 ///      fonts:
 ///       - asset: fonts/ChatIcons.ttf
 ///
-/// 
+///
 ///
 import 'package:flutter/widgets.dart';
 
@@ -21,5 +21,6 @@ class ChatIcons {
   static const _kFontFam = 'ChatIcons';
   static const String? _kFontPkg = null;
 
-  static const IconData send = IconData(0xe816, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData send =
+      IconData(0xe816, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

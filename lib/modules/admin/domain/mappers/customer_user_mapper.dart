@@ -1,7 +1,4 @@
-
-
 class CustomerUserMapper {
-
   static String user = "Usuario";
 
   static String name = "nome";
@@ -13,5 +10,4 @@ class CustomerUserMapper {
 
   static String customerID = "id_cliente";
   static String userID = "id_usuario";
-
 }

@@ -24,8 +24,8 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin  {
-
+class _HomePageState extends State<HomePage>
+    with AutomaticKeepAliveClientMixin {
   final NavigationStore navigation = Modular.get<NavigationStore>();
   final CoreStore core = Modular.get<CoreStore>();
   final HomeStore store = Modular.get<HomeStore>();
@@ -43,36 +43,43 @@ class _HomePageState extends State<HomePage> with AutomaticKeepAliveClientMixin 
         backgroundColor: ColorTheme.background,
         body: SingleChildScrollView(
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 20.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  HomeHeaderWidget(name: core.profile?.name ?? "Cliente"),
-                  const SizedBox(height: 20.0),
-                  const HomeHeaderGreatingsWidget(),
-                  const SizedBox(height: 15.0),
-                  const HomeRowCardsWidget(),
-                  const SizedBox(height: 10.0),
-                  Observer(
-                    builder: (_) => HomeListCardWidget(
-                        details: (value) => Modular.to.pushNamed(CustomerRouters.orderWaitingDetailsIntern, arguments: value),
-                        seeAll: () => navigation.setIndex(1),
-                        title: HomeTitleMapper.oportunities,
-                        orders: order.waitingOrders),
-                  ),
-                  const SizedBox(height: 10.0),
-                  HomeListCardWidget(
-                      details: (value) => Modular.to.pushNamed(CustomerRouters.productionIntern,arguments: value.id),
-                      seeAll: () => navigation.setIndex(2),
-                      title: HomeTitleMapper.currents, orders: proposal.productionOrders),
-                  const SizedBox(height: 20.0),
-                  HomeCarrouselWidget(onChanged: store.setIndex,
-                      dots: 3,
-                      index: store.index,abouts: HomeAboutMapper.abouts),
-                  const SizedBox(height: 20.0),
-                ],
+          padding: const EdgeInsets.symmetric(horizontal: 20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              HomeHeaderWidget(name: core.profile?.name ?? "Cliente"),
+              const SizedBox(height: 20.0),
+              const HomeHeaderGreatingsWidget(),
+              const SizedBox(height: 15.0),
+              const HomeRowCardsWidget(),
+              const SizedBox(height: 10.0),
+              Observer(
+                builder: (_) => HomeListCardWidget(
+                    details: (value) => Modular.to.pushNamed(
+                        CustomerRouters.orderWaitingDetailsIntern,
+                        arguments: value),
+                    seeAll: () => navigation.setIndex(1),
+                    title: HomeTitleMapper.oportunities,
+                    orders: order.waitingOrders),
               ),
-            )),
+              const SizedBox(height: 10.0),
+              HomeListCardWidget(
+                  details: (value) => Modular.to.pushNamed(
+                      CustomerRouters.productionIntern,
+                      arguments: value.id),
+                  seeAll: () => navigation.setIndex(2),
+                  title: HomeTitleMapper.currents,
+                  orders: proposal.productionOrders),
+              const SizedBox(height: 20.0),
+              HomeCarrouselWidget(
+                  onChanged: store.setIndex,
+                  dots: 3,
+                  index: store.index,
+                  abouts: HomeAboutMapper.abouts),
+              const SizedBox(height: 20.0),
+            ],
+          ),
+        )),
       ),
     );
   }

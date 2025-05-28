@@ -1,7 +1,4 @@
-
-
 class RouterGlobalMapper {
-
   static String login = "/Login/";
   static String onboarding = "/OnBoarding/";
   static String employee = "/Employee/";
@@ -10,5 +7,4 @@ class RouterGlobalMapper {
   static String notification = "/Notification/";
   static String chatSupport = "/ChatSupport/";
   static String chatPrivateSupport = "/ChatPrivateSupport/";
-
 }

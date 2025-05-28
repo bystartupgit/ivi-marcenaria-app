@@ -1,9 +1,4 @@
-
-
-
 class FamilyTheme {
-
-
   static String regular = "Gotham Regular";
   static String regularItalic = "Gotham Regular Italic";
   static String mediumItalic = "Gotham Medium Italic";
@@ -13,5 +8,4 @@ class FamilyTheme {
   static String black = "Gotham Black";
 
   static String khula = "Khula Regular";
-
 }

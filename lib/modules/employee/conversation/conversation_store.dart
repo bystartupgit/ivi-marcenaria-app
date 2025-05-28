@@ -2,10 +2,9 @@ import 'package:mobx/mobx.dart';
 
 part 'conversation_store.g.dart';
 
-class  ConversationStore = ConversationStoreBase with _$ConversationStore;
+class ConversationStore = ConversationStoreBase with _$ConversationStore;
 
 abstract class ConversationStoreBase with Store {
-
   @observable
   bool loading = false;
 
@@ -17,5 +16,4 @@ abstract class ConversationStoreBase with Store {
 
   @action
   setFilter(String value) => filter = value;
-
 }

@@ -17,9 +17,9 @@ part 'navigation_store.g.dart';
 class NavigationStore = NavigationStoreBase with _$NavigationStore;
 
 abstract class NavigationStoreBase with Store {
-
   final GetUserUseCase _getUserUseCase = Modular.get<GetUserUseCase>();
-  final RegisterFcmTokenUsecase _registerFcmTokenUsecase = Modular.get<RegisterFcmTokenUsecase>();
+  final RegisterFcmTokenUsecase _registerFcmTokenUsecase =
+      Modular.get<RegisterFcmTokenUsecase>();
 
   final PageController controller = PageController(initialPage: 0);
 
@@ -33,32 +33,34 @@ abstract class NavigationStoreBase with Store {
   setLoading(bool value) => loading = value;
 
   @action
-  setIndex(int value) { index = value; controller.jumpToPage(index); }
+  setIndex(int value) {
+    index = value;
+    controller.jumpToPage(index);
+  }
 
   @action
   init() async {
-
     AuthEntity? auth = Modular.get<CoreStore>().auth;
 
     setLoading(true);
 
-    if(auth != null) {
-
+    if (auth != null) {
       FirebaseMessaging messaging = FirebaseMessaging.instance;
 
-      String? token = Platform.isIOS? await messaging.getAPNSToken() : await messaging.getToken();
+      String? token = Platform.isIOS
+          ? await messaging.getAPNSToken()
+          : await messaging.getToken();
 
-      EmployeeEntity? profile = await _getUserUseCase.call(id: auth.id, type: auth.type);
+      EmployeeEntity? profile =
+          await _getUserUseCase.call(id: auth.id, type: auth.type);
 
       Modular.get<CoreStore>().setProfile(profile);
       Modular.get<CoreStore>().setJobs(profile?.functions ?? []);
       Modular.get<CoreStore>().setPathImage(profile?.image);
 
       _registerFcmTokenUsecase.call(userID: auth.id, fcmToken: token ?? "");
-
     }
 
     setLoading(false);
   }
-
 }

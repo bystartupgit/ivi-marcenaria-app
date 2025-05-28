@@ -1,7 +1,3 @@
-
-
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/modules/admin/domain/entities/order_entity.dart';
@@ -10,16 +6,15 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../domain/usecases/get_waiting_choice_employees_usecase.dart';
 
-
 part 'choice_employee_store.g.dart';
 
 class ChoiceEmployeeStore = ChoiceEmployeeStoreBase with _$ChoiceEmployeeStore;
 
 abstract class ChoiceEmployeeStoreBase with Store implements Disposable {
-
   ScrollController scroll = ScrollController();
 
-  final _getWaitingChoiceEmployeesUsecase = Modular.get<GetWaitingChoiceEmployeesUsecase>();
+  final _getWaitingChoiceEmployeesUsecase =
+      Modular.get<GetWaitingChoiceEmployeesUsecase>();
 
   @observable
   int page = 1;
@@ -50,75 +45,75 @@ abstract class ChoiceEmployeeStoreBase with Store implements Disposable {
 
   @action
   init() async {
-
     scroll.addListener(() {
-
-      if(scroll.position.pixels == scroll.position.maxScrollExtent && loading == false) {
+      if (scroll.position.pixels == scroll.position.maxScrollExtent &&
+          loading == false) {
         loadingMoreOrders();
       }
-
     });
 
-    List<OrderEntity> result = await _getWaitingChoiceEmployeesUsecase.call(page: page, limit: limit);
+    List<OrderEntity> result =
+        await _getWaitingChoiceEmployeesUsecase.call(page: page, limit: limit);
 
     orders = result.asObservable();
-
   }
 
   @action
   loadingNewOrders({required context}) async {
-
-    try{
-
+    try {
       setLoading(true);
 
-      List<OrderEntity> result = await _getWaitingChoiceEmployeesUsecase.call(page: 1, limit: limit);
+      List<OrderEntity> result =
+          await _getWaitingChoiceEmployeesUsecase.call(page: 1, limit: limit);
 
-      for(OrderEntity value in result) {
-        if(!orders.contains(value)) { orders.add(value); }
+      for (OrderEntity value in result) {
+        if (!orders.contains(value)) {
+          orders.add(value);
+        }
       }
-    } catch(e) { ShowErrorMessageUsecase(context: context).call(message: "Falha ao buscar novos pedidos."); }
-      finally { setLoading(false); }
-
+    } catch (e) {
+      ShowErrorMessageUsecase(context: context)
+          .call(message: "Falha ao buscar novos pedidos.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   @action
   loadingMoreOrders() async {
-
-    if (orders.length/limit >= 10) {
-
+    if (orders.length / limit >= 10) {
       addPagination();
 
       setPaginationLoading(true);
 
-      List<OrderEntity> result = await _getWaitingChoiceEmployeesUsecase.call(page: page, limit: limit);
+      List<OrderEntity> result = await _getWaitingChoiceEmployeesUsecase.call(
+          page: page, limit: limit);
 
-      if(result.isNotEmpty) {
-
-        for(OrderEntity value in result) {
-          if(orders.contains(value) == false) { orders.add(value); }
+      if (result.isNotEmpty) {
+        for (OrderEntity value in result) {
+          if (orders.contains(value) == false) {
+            orders.add(value);
+          }
         }
-
       }
 
       setPaginationLoading(false);
     } else {
-
       setPaginationLoading(true);
 
-      List<OrderEntity> result = await _getWaitingChoiceEmployeesUsecase.call(page: page, limit: limit);
+      List<OrderEntity> result = await _getWaitingChoiceEmployeesUsecase.call(
+          page: page, limit: limit);
 
-      if(result.isNotEmpty) {
-
-        for(OrderEntity value in result) {
-          if(orders.contains(value) == false) { orders.add(value); }
+      if (result.isNotEmpty) {
+        for (OrderEntity value in result) {
+          if (orders.contains(value) == false) {
+            orders.add(value);
+          }
         }
-
       }
 
       setPaginationLoading(false);
     }
-
   }
 
   @override

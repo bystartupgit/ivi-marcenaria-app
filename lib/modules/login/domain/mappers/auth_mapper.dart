@@ -1,8 +1,4 @@
-
-
-
 class AuthMapper {
-
   static String id = "id_usuario";
   static String token = "token";
   static String user = "usuario";
@@ -11,5 +7,4 @@ class AuthMapper {
   static String message = "message";
 
   static String success = "Usuário registrado com sucesso";
-
 }

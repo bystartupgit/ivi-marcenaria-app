@@ -15,10 +15,10 @@ part 'chat_store.g.dart';
 class ChatStore = ChatStoreBase with _$ChatStore;
 
 abstract class ChatStoreBase with Store {
-
-  final SendMessagesUseCase _sendMessagesUseCase = Modular.get<SendMessagesUseCase>();
-  final GetMessagesUseCase _getMessagesUseCase = Modular.get<GetMessagesUseCase>();
-
+  final SendMessagesUseCase _sendMessagesUseCase =
+      Modular.get<SendMessagesUseCase>();
+  final GetMessagesUseCase _getMessagesUseCase =
+      Modular.get<GetMessagesUseCase>();
 
   final TextEditingController controller = TextEditingController();
   final FocusNode focus = FocusNode();
@@ -49,31 +49,32 @@ abstract class ChatStoreBase with Store {
 
   @action
   sendMessage(String value, int orderID) async {
+    if (value.trim().isEmpty) {
+      return;
+    }
 
-    if(value.trim().isEmpty) { return; }
+    _sendMessagesUseCase.call(
+        dto: MessageDTO(userID: userID, orderID: orderID, message: value));
 
-    _sendMessagesUseCase.call(dto: MessageDTO(userID: userID, orderID: orderID, message: value));
-
-    messages.add(MessageEntity(id: 0, senderID: userID, message: value, date: DateTime.now()));
+    messages.add(MessageEntity(
+        id: 0, senderID: userID, message: value, date: DateTime.now()));
 
     controller.clear();
-
   }
 
   @action
   init({required orderID}) async {
-
     try {
       setLoading(true);
 
       List<MessageEntity> list = await _getMessagesUseCase.call(
-          orderID: orderID,
-          page: page, limit: limit);
+          orderID: orderID, page: page, limit: limit);
 
       if (list.isNotEmpty) {
         messages = list.asObservable();
       }
-    } finally { setLoading(false); }
-
+    } finally {
+      setLoading(false);
+    }
   }
 }

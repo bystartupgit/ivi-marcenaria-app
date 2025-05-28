@@ -6,10 +6,9 @@ import 'package:marcenaria/modules/admin/home/orders/waiting_employee/stores/wai
 import 'package:marcenaria/modules/admin/home/presentation/components/order_empty_widget.dart';
 import 'package:marcenaria/modules/admin/home/presentation/components/proposal_card_widget.dart';
 
-
 class WaitingEmployeePage extends StatelessWidget {
-
-  final String message = "Nenhuma proposta aceita para indicar prestadores no momento.";
+  final String message =
+      "Nenhuma proposta aceita para indicar prestadores no momento.";
   final String status = "Aguardando Prestador";
   final Color colorStatus = const Color(0xFF6E00F4);
 
@@ -19,31 +18,35 @@ class WaitingEmployeePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Observer(
-        builder: (context) {
-          return store.orders.isEmpty ? OrderEmptyWidget(title: message) :
-          RefreshIndicator.adaptive(
-            onRefresh: () => store.loadingMoreOrders(),
-            child: SingleChildScrollView(
-              controller: store.scroll,
-              child: Column(
-                children: [
-                  ListView.separated(
-                      physics: const NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      separatorBuilder: (context, index) => const SizedBox(height: 10.0),
-                      itemCount: store.orders.length,
-                      itemBuilder: (context,index) => ProposalCardWidget(order: store.orders[index],
-                          status: status,
-                          colorStatus: colorStatus,
-                          onPressed: () => Modular.to.pushNamed(RouterMapper.waitingEmployeeDetailsIntern,arguments: store.orders[index].id))),
-                  const SizedBox(height: 20.0),
-                  if(store.paginationLoading) const Center(child: CircularProgressIndicator())
-                ],
+    return Observer(builder: (context) {
+      return store.orders.isEmpty
+          ? OrderEmptyWidget(title: message)
+          : RefreshIndicator.adaptive(
+              onRefresh: () => store.loadingMoreOrders(),
+              child: SingleChildScrollView(
+                controller: store.scroll,
+                child: Column(
+                  children: [
+                    ListView.separated(
+                        physics: const NeverScrollableScrollPhysics(),
+                        shrinkWrap: true,
+                        separatorBuilder: (context, index) =>
+                            const SizedBox(height: 10.0),
+                        itemCount: store.orders.length,
+                        itemBuilder: (context, index) => ProposalCardWidget(
+                            order: store.orders[index],
+                            status: status,
+                            colorStatus: colorStatus,
+                            onPressed: () => Modular.to.pushNamed(
+                                RouterMapper.waitingEmployeeDetailsIntern,
+                                arguments: store.orders[index].id))),
+                    const SizedBox(height: 20.0),
+                    if (store.paginationLoading)
+                      const Center(child: CircularProgressIndicator())
+                  ],
+                ),
               ),
-            ),
-          );
-        }
-    );
+            );
+    });
   }
 }

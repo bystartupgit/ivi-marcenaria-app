@@ -11,8 +11,8 @@ part 'finish_details_store.g.dart';
 class FinishDetailsStore = FinishDetailsStoreBase with _$FinishDetailsStore;
 
 abstract class FinishDetailsStoreBase with Store {
-
-  final _getOrderDetailsWithoutEmployeeUsecase = Modular.get<GetOrderDetailsWithoutEmployeeUsecase>();
+  final _getOrderDetailsWithoutEmployeeUsecase =
+      Modular.get<GetOrderDetailsWithoutEmployeeUsecase>();
 
   @observable
   OrderEntity? order;
@@ -28,10 +28,10 @@ abstract class FinishDetailsStoreBase with Store {
 
   @action
   init({required int orderID}) async {
-
     setLoading(true);
 
-    (OrderEntity?, ProposalEntity?, List<EmployeeUserEntity>) result = await _getOrderDetailsWithoutEmployeeUsecase.call(orderID: orderID);
+    (OrderEntity?, ProposalEntity?, List<EmployeeUserEntity>) result =
+        await _getOrderDetailsWithoutEmployeeUsecase.call(orderID: orderID);
 
     order = result.$1;
     proposal = result.$2;

@@ -52,7 +52,6 @@ import 'home/proposal/presentation/order_production/stores/order_production_stor
 import 'navigation/presentation/navigation_page.dart';
 
 class CustomerModule extends Module {
-
   @override
   void binds(i) {
     i.addSingleton(() => NavigationStore());
@@ -82,14 +81,19 @@ class CustomerModule extends Module {
     i.add(() => GetUserUseCase(datasource: i.get<UserDataSource>()));
     i.add(() => CancelOrderUsecase(datasource: i.get<OrderDataSource>()));
     i.add(() => GetServiceUseCase(datasource: i.get<ServiceDataSource>()));
-    i.add(() => UploadProfilePhotoUsecase(datasource: i.get<ProfileDatasource>()));
+    i.add(() =>
+        UploadProfilePhotoUsecase(datasource: i.get<ProfileDatasource>()));
     i.add(() => CreateServiceUseCase(datasource: i.get<ServiceDataSource>()));
-    i.add(() => UploadMediaServiceUseCase(datasource: i.get<ServiceDataSource>()));
+    i.add(() =>
+        UploadMediaServiceUseCase(datasource: i.get<ServiceDataSource>()));
 
-    i.add(() => GetWaitingApprovalOrdersUsecase(datasource: i.get<OrderDataSource>()));
+    i.add(() =>
+        GetWaitingApprovalOrdersUsecase(datasource: i.get<OrderDataSource>()));
     i.add(() => GetWaitingOrdersUsecase(datasource: i.get<OrderDataSource>()));
-    i.add(() => GetProductionOrdersUsecase(datasource: i.get<ProposalDataSource>()));
-    i.add(() => GetFinishedOrdersUsecase(datasource: i.get<ProposalDataSource>()));
+    i.add(() =>
+        GetProductionOrdersUsecase(datasource: i.get<ProposalDataSource>()));
+    i.add(() =>
+        GetFinishedOrdersUsecase(datasource: i.get<ProposalDataSource>()));
     i.add(() => GetOrderDetailsUsecase(datasource: i.get<OrderDataSource>()));
     i.add(() => DownloadMediaUsecase(datasource: i.get<OrderDataSource>()));
     i.add(() => UpdateProfileUsecase(datasource: i.get<ProfileDatasource>()));
@@ -97,7 +101,6 @@ class CustomerModule extends Module {
     i.add(() => AproveProposalUsecase(datasource: i.get<OrderDataSource>()));
     i.add(() => RegisterFcmTokenUsecase(datasource: i.get<UserDataSource>()));
     i.add(() => RatingOrderUsecase(datasource: i.get<RatingDatasource>()));
-
   }
 
   @override
@@ -105,19 +108,29 @@ class CustomerModule extends Module {
     r.child(Modular.initialRoute, child: (context) => const NavigationPage());
     r.child(CustomerRouters.service, child: (context) => const ServicePage());
 
-    r.child(CustomerRouters.serviceSuccess, child: (context) =>
-        ServiceSuccesPage(order: r.args.data[0], serviceFile: r.args.data[1],type: r.args.data[2]));
+    r.child(CustomerRouters.serviceSuccess,
+        child: (context) => ServiceSuccesPage(
+            order: r.args.data[0],
+            serviceFile: r.args.data[1],
+            type: r.args.data[2]));
 
     r.child(CustomerRouters.profile, child: (context) => const ProfilePage());
-    r.child(CustomerRouters.profileForm, child: (context) => const ProfileFormPage());
+    r.child(CustomerRouters.profileForm,
+        child: (context) => const ProfileFormPage());
 
-    r.child(CustomerRouters.orderWaitingDetails, child: (context) => OrderWaitingDetailsPage(order: r.args.data));
-    r.child(CustomerRouters.orderProposalDetails, child: (context) => OrderProposalDetailsPage(order: r.args.data));
+    r.child(CustomerRouters.orderWaitingDetails,
+        child: (context) => OrderWaitingDetailsPage(order: r.args.data));
+    r.child(CustomerRouters.orderProposalDetails,
+        child: (context) => OrderProposalDetailsPage(order: r.args.data));
 
-    r.child(CustomerRouters.paymentProposal, child: (context) => PaymentPage(orderID: r.args.data));
-    r.child(CustomerRouters.paymentSuccessProposal, child: (context) => const PaymentSuccessPage());
+    r.child(CustomerRouters.paymentProposal,
+        child: (context) => PaymentPage(orderID: r.args.data));
+    r.child(CustomerRouters.paymentSuccessProposal,
+        child: (context) => const PaymentSuccessPage());
 
-    r.child(CustomerRouters.production, child: (context) => OrderProductionPage(orderID: r.args.data));
-    r.child(CustomerRouters.conclusion, child: (context) => ConclusionPage(orderID: r.args.data));
+    r.child(CustomerRouters.production,
+        child: (context) => OrderProductionPage(orderID: r.args.data));
+    r.child(CustomerRouters.conclusion,
+        child: (context) => ConclusionPage(orderID: r.args.data));
   }
 }

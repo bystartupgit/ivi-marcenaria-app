@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/core/data/store/core_store.dart';
@@ -8,15 +6,15 @@ import 'package:marcenaria/modules/customer/home/proposal/domain/usecases/get_fi
 import 'package:marcenaria/modules/customer/home/proposal/domain/usecases/get_production_orders_usecase.dart';
 import 'package:mobx/mobx.dart';
 
-
 part 'proposal_store.g.dart';
 
 class ProposalStore = ProposalStoreBase with _$ProposalStore;
 
 abstract class ProposalStoreBase with Store {
-
-  final GetProductionOrdersUsecase _getProductionOrdersUsecase = Modular.get<GetProductionOrdersUsecase>();
-  final GetFinishedOrdersUsecase _getFinishedOrdersUsecase = Modular.get<GetFinishedOrdersUsecase>();
+  final GetProductionOrdersUsecase _getProductionOrdersUsecase =
+      Modular.get<GetProductionOrdersUsecase>();
+  final GetFinishedOrdersUsecase _getFinishedOrdersUsecase =
+      Modular.get<GetFinishedOrdersUsecase>();
 
   @computed
   String get name => Modular.get<CoreStore>().profile?.name ?? "";
@@ -46,15 +44,24 @@ abstract class ProposalStoreBase with Store {
 
   @computed
   List<OrderEntity> get productionOrdersFiltered {
-    if(filter.isEmpty) { return productionOrders; }
-    else { return productionOrders.where((e) => e.title.toLowerCase().contains(filter.toLowerCase())).toList(); }
+    if (filter.isEmpty) {
+      return productionOrders;
+    } else {
+      return productionOrders
+          .where((e) => e.title.toLowerCase().contains(filter.toLowerCase()))
+          .toList();
+    }
   }
 
   @computed
   List<OrderEntity> get finishedOrdersFiltered {
-
-    if(filter.isEmpty) { return finishedOrders; }
-    else { return finishedOrders.where((e) => e.title.toLowerCase().contains(filter.toLowerCase())).toList(); }
+    if (filter.isEmpty) {
+      return finishedOrders;
+    } else {
+      return finishedOrders
+          .where((e) => e.title.toLowerCase().contains(filter.toLowerCase()))
+          .toList();
+    }
   }
 
   @action
@@ -64,34 +71,31 @@ abstract class ProposalStoreBase with Store {
   setFilter(String value) => filter = value;
 
   @action
-  setIndex(int value) { index = value; controller.jumpToPage(index -1); }
+  setIndex(int value) {
+    index = value;
+    controller.jumpToPage(index - 1);
+  }
 
   @action
   init() async {
-
-    if(productionOrders.isEmpty && loading == false) {
-
+    if (productionOrders.isEmpty && loading == false) {
       setLoading(true);
 
       List<OrderEntity> orders = await _getProductionOrdersUsecase.call(
-          customerID: Modular
-              .get<CoreStore>()
-              .profile
-              ?.id ?? 0,
-          page: pageWaiting, limit: limit);
+          customerID: Modular.get<CoreStore>().profile?.id ?? 0,
+          page: pageWaiting,
+          limit: limit);
 
       productionOrders = orders.asObservable();
 
-      orders = await _getFinishedOrdersUsecase.call(customerID: Modular
-          .get<CoreStore>()
-          .profile
-          ?.id ?? 0,
-          page: pageWaiting, limit: limit);
+      orders = await _getFinishedOrdersUsecase.call(
+          customerID: Modular.get<CoreStore>().profile?.id ?? 0,
+          page: pageWaiting,
+          limit: limit);
 
       finishedOrders = orders.asObservable();
 
       setLoading(false);
     }
   }
-
 }

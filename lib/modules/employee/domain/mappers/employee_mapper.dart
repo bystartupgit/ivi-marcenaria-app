@@ -1,5 +1,4 @@
 class EmployeeMapper {
-
   static String user = "usuario";
 
   static String name = "nome";
@@ -13,6 +12,4 @@ class EmployeeMapper {
   static String profile = "perfil";
   static String employeeID = "id_prestador";
   static String funcoes = "funcoes";
-
-
 }

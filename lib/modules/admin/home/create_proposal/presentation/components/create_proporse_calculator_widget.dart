@@ -13,7 +13,6 @@ import 'create_proporse_temporal_widget.dart';
 import 'create_proposal_days_widget.dart';
 
 class CreateProporseCalculatorWidget extends StatelessWidget {
-
   final CreateProposalStore store;
 
   const CreateProporseCalculatorWidget({super.key, required this.store});
@@ -24,67 +23,86 @@ class CreateProporseCalculatorWidget extends StatelessWidget {
       builder: (_) => Container(
           decoration: BoxDecoration(
               boxShadow: [
-                BoxShadow(color: ColorTheme.gray,
+                BoxShadow(
+                    color: ColorTheme.gray,
                     blurRadius: 4.0,
                     offset: const Offset(0.0, 5.0))
               ],
               color: const Color(0xFFECECEC),
               borderRadius: BorderRadius.circular(10.0)),
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0,vertical: 8.0),
+            padding:
+                const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
             child: Column(
                 spacing: 10.0,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  CreateProporseEnvironmentWidget(onChanged: store.setEnvironments),
+                  CreateProporseEnvironmentWidget(
+                      onChanged: store.setEnvironments),
                   Row(
                     spacing: 10.0,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Expanded(child: CreateProporseCustValueWidget(title: "Total:", onChanged: store.setTotal)),
-                      Expanded(child: CreateProporseCustValueWidget(title: "Entrada mínima:", onChanged: store.setOpening)),
+                      Expanded(
+                          child: CreateProporseCustValueWidget(
+                              title: "Total:", onChanged: store.setTotal)),
+                      Expanded(
+                          child: CreateProporseCustValueWidget(
+                              title: "Entrada mínima:",
+                              onChanged: store.setOpening)),
                     ],
                   ),
-
                   Row(
                     spacing: 10.0,
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Expanded(child: CreateProporseNumberParcelsWidget(
-                          numberParcel: store.setNumberParcels,
-                          value: store.setValueParcel)),
-                      Expanded(child: CreateProporseFromToWidget(onChanged: store.setForToValue,
-                          check: store.setForTo, isCheck: store.forTo))
+                      Expanded(
+                          child: CreateProporseNumberParcelsWidget(
+                              numberParcel: store.setNumberParcels,
+                              value: store.setValueParcel)),
+                      Expanded(
+                          child: CreateProporseFromToWidget(
+                              onChanged: store.setForToValue,
+                              check: store.setForTo,
+                              isCheck: store.forTo))
                     ],
                   ),
-
                   Row(
                     spacing: 10.0,
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       Expanded(
                           flex: 2,
-                          child: CreateProporseCustValueWidget(title: "Valor via Pix:", onChanged: store.setValuePix)),
-                      Expanded(child: CreateProporseDiscountWidget(onChanged: store.setDiscount)),
+                          child: CreateProporseCustValueWidget(
+                              title: "Valor via Pix:",
+                              onChanged: store.setValuePix)),
+                      Expanded(
+                          child: CreateProporseDiscountWidget(
+                              onChanged: store.setDiscount)),
                     ],
                   ),
-
                   Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Expanded(child: CreateProporseTemporalWidget(group: store.temporal, onChanged: store.setTemporal)),
-                      if(store.temporal == "Sim") Expanded(child: CreateProposalDaysWidget(onChanged: store.setDateLimit,value: store.dateLimit)),
+                      Expanded(
+                          child: CreateProporseTemporalWidget(
+                              group: store.temporal,
+                              onChanged: store.setTemporal)),
+                      if (store.temporal == "Sim")
+                        Expanded(
+                            child: CreateProposalDaysWidget(
+                                onChanged: store.setDateLimit,
+                                value: store.dateLimit)),
                     ],
                   ),
                   Align(
                       alignment: AlignmentDirectional.topStart,
                       child: SizedBox(
                           width: 200,
-                          child: ProporsalUploadButtonWidget(onPressed: () => store.getFile())))
+                          child: ProporsalUploadButtonWidget(
+                              onPressed: () => store.getFile())))
                 ]),
-          )
-
-      ),
+          )),
     );
   }
 }

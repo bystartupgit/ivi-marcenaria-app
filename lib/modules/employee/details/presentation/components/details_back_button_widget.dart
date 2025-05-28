@@ -7,6 +7,8 @@ class DetailsBackButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(onPressed: () => Modular.to.pop(), icon: Icon(Icons.arrow_back_ios_new_rounded,color: ColorTheme.black2));
+    return IconButton(
+        onPressed: () => Modular.to.pop(),
+        icon: Icon(Icons.arrow_back_ios_new_rounded, color: ColorTheme.black2));
   }
 }

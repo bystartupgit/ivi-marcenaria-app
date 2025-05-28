@@ -10,7 +10,6 @@ import 'package:marcenaria/modules/login/register/presentation/stores/register_s
 import 'package:marcenaria/modules/login/shared/components/login_title_widget.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
-
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
@@ -19,7 +18,6 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-
   final RegisterStore store = Modular.get<RegisterStore>();
   final String title = "Criar conta";
 
@@ -42,34 +40,51 @@ class _RegisterPageState extends State<RegisterPage> {
                   const SizedBox(height: 20.0),
                   SizedBox(
                     height: 22,
-                    child: CustomSlidingSegmentedControl<int>(customSegmentSettings: CustomSegmentSettings(),
+                    child: CustomSlidingSegmentedControl<int>(
+                      customSegmentSettings: CustomSegmentSettings(),
                       fixedWidth: MediaQuery.of(context).size.width * 0.3,
                       thumbDecoration: BoxDecoration(
-                          boxShadow: [BoxShadow(color: Colors.black.withOpacity(.3), blurRadius: 4.0, offset: const Offset(0.0, 4.0))],
-                          borderRadius: BorderRadius.circular(30.0),color: const Color(0xFFFFFFFF)),
+                          boxShadow: [
+                            BoxShadow(
+                                color: Colors.black.withOpacity(.3),
+                                blurRadius: 4.0,
+                                offset: const Offset(0.0, 4.0))
+                          ],
+                          borderRadius: BorderRadius.circular(30.0),
+                          color: const Color(0xFFFFFFFF)),
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(30.0),color: const Color(0xFFBEBEBE)),
+                          borderRadius: BorderRadius.circular(30.0),
+                          color: const Color(0xFFBEBEBE)),
                       onValueChanged: store.setIndex,
                       children: {
-                        1 : Text("Cliente",style: TextStyle(color: store.index ==  1 ? ColorTheme.orange : Colors.white,
-                            fontSize: 12, fontFamily: store.index ==  1 ? FamilyTheme.bold : FamilyTheme.regular)),
-                        2 : Text("Prestador", style: TextStyle(
-                            color: store.index ==  2 ? ColorTheme.orange : Colors.white,fontSize: 12,
-                            fontFamily: store.index ==  2 ? FamilyTheme.bold : FamilyTheme.regular)) },
+                        1: Text("Cliente",
+                            style: TextStyle(
+                                color: store.index == 1
+                                    ? ColorTheme.orange
+                                    : Colors.white,
+                                fontSize: 12,
+                                fontFamily: store.index == 1
+                                    ? FamilyTheme.bold
+                                    : FamilyTheme.regular)),
+                        2: Text("Prestador",
+                            style: TextStyle(
+                                color: store.index == 2
+                                    ? ColorTheme.orange
+                                    : Colors.white,
+                                fontSize: 12,
+                                fontFamily: store.index == 2
+                                    ? FamilyTheme.bold
+                                    : FamilyTheme.regular))
+                      },
                     ),
                   ),
                   const SizedBox(height: 20.0),
                   Expanded(
-                    child: PageView(
-                        controller: store.controller,
-                        children: [
-                          CustomerPage(store: store),
-                          EmployeePage(store: store)
-                        ]
-                    ),
+                    child: PageView(controller: store.controller, children: [
+                      CustomerPage(store: store),
+                      EmployeePage(store: store)
+                    ]),
                   )
-
-
                 ]),
           ),
         ),

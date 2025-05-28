@@ -13,7 +13,6 @@ import 'package:mobx/mobx.dart';
 import 'package:path/path.dart' as path;
 import 'package:permission_handler/permission_handler.dart';
 
-
 import '../../../../../../core/permissions/gallery_permission_utils.dart';
 import '../../../../../customer/home/profile/domain/dtos/profile_dto.dart';
 import '../../../../../customer/home/profile/domain/usecases/upload_profile_photo_usecase.dart';
@@ -28,13 +27,18 @@ part 'profile_store.g.dart';
 class ProfileStore = ProfileStoreBase with _$ProfileStore;
 
 abstract class ProfileStoreBase with Store {
-
-  final GetWaitingOrdersUsecase _getWaitingOrdersUsecase = Modular.get<GetWaitingOrdersUsecase>();
-  final GetWaitingApprovalOrdersUsecase _getWaitingApprovalOrdersUsecase = Modular.get<GetWaitingApprovalOrdersUsecase>();
-  final GetProductionOrdersUsecase _getProductionOrdersUsecase = Modular.get<GetProductionOrdersUsecase>();
-  final GetFinishedOrdersUsecase _getFinishedOrdersUsecase = Modular.get<GetFinishedOrdersUsecase>();
-  final GetCustomersQuantityOrdersUsecase _getCustomersQuantityOrdersUsecase = Modular.get<GetCustomersQuantityOrdersUsecase>();
-  final UploadProfilePhotoUsecase _uploadProfilePhotoUsecase = Modular.get<UploadProfilePhotoUsecase>();
+  final GetWaitingOrdersUsecase _getWaitingOrdersUsecase =
+      Modular.get<GetWaitingOrdersUsecase>();
+  final GetWaitingApprovalOrdersUsecase _getWaitingApprovalOrdersUsecase =
+      Modular.get<GetWaitingApprovalOrdersUsecase>();
+  final GetProductionOrdersUsecase _getProductionOrdersUsecase =
+      Modular.get<GetProductionOrdersUsecase>();
+  final GetFinishedOrdersUsecase _getFinishedOrdersUsecase =
+      Modular.get<GetFinishedOrdersUsecase>();
+  final GetCustomersQuantityOrdersUsecase _getCustomersQuantityOrdersUsecase =
+      Modular.get<GetCustomersQuantityOrdersUsecase>();
+  final UploadProfilePhotoUsecase _uploadProfilePhotoUsecase =
+      Modular.get<UploadProfilePhotoUsecase>();
 
   final TextEditingController name = TextEditingController();
   final TextEditingController email = TextEditingController();
@@ -64,21 +68,25 @@ abstract class ProfileStoreBase with Store {
 
   @action
   init({required CustomerUserEntity customer}) async {
-
     setLoading(true);
 
-    quantity = await _getCustomersQuantityOrdersUsecase.call(customerID: customer.customerID);
+    quantity = await _getCustomersQuantityOrdersUsecase.call(
+        customerID: customer.customerID);
 
     List<OrderEntity> result = <OrderEntity>[];
 
-    result = await _getWaitingOrdersUsecase.call(customerID:  customer.customerID, page: 1, limit: 100);
+    result = await _getWaitingOrdersUsecase.call(
+        customerID: customer.customerID, page: 1, limit: 100);
 
     orders.addAll(result);
 
-    _getWaitingApprovalOrdersUsecase.call(customerID: customer.customerID, page: 1, limit: 100);
-    _getProductionOrdersUsecase.call(customerID: customer.customerID, page: 1, limit: 100);
+    _getWaitingApprovalOrdersUsecase.call(
+        customerID: customer.customerID, page: 1, limit: 100);
+    _getProductionOrdersUsecase.call(
+        customerID: customer.customerID, page: 1, limit: 100);
 
-    result = await _getFinishedOrdersUsecase.call(customerID: customer.customerID, page: 1, limit: 100);
+    result = await _getFinishedOrdersUsecase.call(
+        customerID: customer.customerID, page: 1, limit: 100);
 
     orders.addAll(result);
 
@@ -93,39 +101,44 @@ abstract class ProfileStoreBase with Store {
 
   @action
   uploadImage({required context, required CustomerUserEntity customer}) async {
-    try{
-
+    try {
       setLoading(true);
 
       bool result = await getProfilePhoto(context: context);
 
-      if(result) {
-
+      if (result) {
         int customerID = customer.customerID;
 
-        bool result = await _uploadProfilePhotoUsecase.call(customerID: customerID, name: path.basename(image!.path), photo: image!);
+        bool result = await _uploadProfilePhotoUsecase.call(
+            customerID: customerID,
+            name: path.basename(image!.path),
+            photo: image!);
 
-        if(result) {
-          ShowSuccessMessageUsecase(context: context).call(message: "Sucesso ao inserir a nova foto.");
-        } else { ShowErrorMessageUsecase(context: context).call(message: "Não foi possível inserir uma nova foto."); }
+        if (result) {
+          ShowSuccessMessageUsecase(context: context)
+              .call(message: "Sucesso ao inserir a nova foto.");
+        } else {
+          ShowErrorMessageUsecase(context: context)
+              .call(message: "Não foi possível inserir uma nova foto.");
+        }
       }
-
-    } catch(e) { ShowErrorMessageUsecase(context: context)
-        .call(message: "Não foi possível atualizar a foto de perfil. Tente novamente mais tarde."); } finally { setLoading(false); }
-
+    } catch (e) {
+      ShowErrorMessageUsecase(context: context).call(
+          message:
+              "Não foi possível atualizar a foto de perfil. Tente novamente mais tarde.");
+    } finally {
+      setLoading(false);
+    }
   }
 
   @action
-  Future<bool> getProfilePhoto({ required context }) async {
-
+  Future<bool> getProfilePhoto({required context}) async {
     PermissionStatus permission = await GalleryPermission().call();
 
-    if(permission.isGranted) {
-
+    if (permission.isGranted) {
       XFile? file = await ImagePicker().pickImage(source: ImageSource.gallery);
 
       if (file != null) {
-
         final File result = File(file.path);
 
         image = result;
@@ -134,18 +147,17 @@ abstract class ProfileStoreBase with Store {
       }
 
       return false;
+    } else {
+      ShowErrorMessageUsecase(context: context).call(
+          message: "Você precisa permitir que o Marcenaria APP acesse "
+              "a galeria do seu dispositivo para incluir uma foto de perfil.");
 
-    } else { ShowErrorMessageUsecase(context: context)
-        .call(message: "Você precisa permitir que o Marcenaria APP acesse "
-        "a galeria do seu dispositivo para incluir uma foto de perfil.");
-
-    return false;
+      return false;
     }
   }
 
   @action
   update(ProfileDTO dto) {
-
     name.text = dto.name;
     email.text = dto.email;
     phone.text = dto.phone;
@@ -153,6 +165,4 @@ abstract class ProfileStoreBase with Store {
 
     pathImage = dto.image;
   }
-
-
 }

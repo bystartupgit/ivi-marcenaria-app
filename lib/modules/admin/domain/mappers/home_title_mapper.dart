@@ -1,8 +1,4 @@
-
-
 class HomeTitleMapper {
-
-
   static String oportunities = "Oportunidades";
   static String currents = "Orçamentos recentes";
   static String progress = "Pedidos recentes";
@@ -14,5 +10,4 @@ class HomeTitleMapper {
   static String messages = "Mensagens";
 
   static String exit = "Sair";
-
 }

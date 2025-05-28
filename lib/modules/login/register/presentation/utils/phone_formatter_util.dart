@@ -1,19 +1,20 @@
-
-
 import 'package:flutter/services.dart';
 
 class PhoneNumberFormatter extends TextInputFormatter {
   @override
-  TextEditingValue formatEditUpdate(TextEditingValue oldValue, TextEditingValue newValue ) {
-
-
+  TextEditingValue formatEditUpdate(
+      TextEditingValue oldValue, TextEditingValue newValue) {
     String onlyNumbers = newValue.text.replaceAll(RegExp(r'\D'), '');
 
-    if (onlyNumbers.length > 11) { onlyNumbers = onlyNumbers.substring(0, 11); }
+    if (onlyNumbers.length > 11) {
+      onlyNumbers = onlyNumbers.substring(0, 11);
+    }
 
     String formatted = _applyMask(onlyNumbers);
 
-    return TextEditingValue(text: formatted, selection: TextSelection.collapsed(offset: formatted.length));
+    return TextEditingValue(
+        text: formatted,
+        selection: TextSelection.collapsed(offset: formatted.length));
   }
 
   String _applyMask(String input) {

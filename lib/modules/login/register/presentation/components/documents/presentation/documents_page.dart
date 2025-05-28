@@ -17,7 +17,6 @@ class DocumentsPage extends StatefulWidget {
 }
 
 class _DocumentsPageState extends State<DocumentsPage> {
-
   final String title = "Envio de documentos";
   final String subtitle = "Precisamos validar alguns dados antes de liberar "
       "seu cadastro como prestador na nossa plataforma.";
@@ -26,7 +25,8 @@ class _DocumentsPageState extends State<DocumentsPage> {
   final String subtitleDocument = "Faça o anexo da sua carteira neste campo.";
 
   final String titleOffice = "Mostre sua Oficina para os clientes";
-  final String subtitleOffice = "Faça o anexo de imagens da sua oficina abaixo. ";
+  final String subtitleOffice =
+      "Faça o anexo de imagens da sua oficina abaixo. ";
 
   @override
   Widget build(BuildContext context) {
@@ -37,24 +37,26 @@ class _DocumentsPageState extends State<DocumentsPage> {
         appBar: AppBar(backgroundColor: ColorTheme.background),
         body: Container(
           padding: const EdgeInsets.symmetric(horizontal: 15.0),
-          child: Column(
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                LoginTitleWithDescriptionWidget(title: title, subtitle: subtitle),
-                const SizedBox(height: 20.0),
-                DocumentCardWidget(
-                    onPressed: () {},
-                    image: "assets/login/svgs/documents.svg",
-                    title: titleDocument, subtitle: subtitleDocument),
-                const SizedBox(height: 20.0),
-                DocumentCardWidget(
-                    onPressed: () {},
-                    image: "assets/login/svgs/imagens.svg",
-                    title: titleOffice, subtitle: subtitleOffice),
-                const Expanded(child: SizedBox()),
-                RegisterButtonWidget(onPress: () => Modular.to.pushNamed(RouterMapper.contractIntern)),
-                SizedBox(height: MediaQuery.of(context).padding.bottom + 40.0)
-              ]),
+          child: Column(mainAxisSize: MainAxisSize.max, children: [
+            LoginTitleWithDescriptionWidget(title: title, subtitle: subtitle),
+            const SizedBox(height: 20.0),
+            DocumentCardWidget(
+                onPressed: () {},
+                image: "assets/login/svgs/documents.svg",
+                title: titleDocument,
+                subtitle: subtitleDocument),
+            const SizedBox(height: 20.0),
+            DocumentCardWidget(
+                onPressed: () {},
+                image: "assets/login/svgs/imagens.svg",
+                title: titleOffice,
+                subtitle: subtitleOffice),
+            const Expanded(child: SizedBox()),
+            RegisterButtonWidget(
+                onPress: () =>
+                    Modular.to.pushNamed(RouterMapper.contractIntern)),
+            SizedBox(height: MediaQuery.of(context).padding.bottom + 40.0)
+          ]),
         ),
       ),
     );

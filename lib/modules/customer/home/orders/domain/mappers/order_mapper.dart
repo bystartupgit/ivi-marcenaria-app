@@ -1,8 +1,4 @@
-
-
-
 class OrderMapper {
-
   static String orders = "pedidos";
   static String proposal = "propostas";
 
@@ -13,5 +9,4 @@ class OrderMapper {
   static String environments = "ambientes";
   static String description = "descricao";
   static String status = "status";
-
 }

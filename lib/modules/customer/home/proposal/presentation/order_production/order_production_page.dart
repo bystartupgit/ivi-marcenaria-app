@@ -17,7 +17,6 @@ import '../../../orders/domain/entities/order_entity.dart';
 import '../../../orders/domain/enum/order_status_enum.dart';
 
 class OrderProductionPage extends StatefulWidget {
-
   final int orderID;
 
   const OrderProductionPage({super.key, required this.orderID});
@@ -27,7 +26,6 @@ class OrderProductionPage extends StatefulWidget {
 }
 
 class _OrderProductionPageState extends State<OrderProductionPage> {
-
   final OrderProductionStore store = Modular.get<OrderProductionStore>();
 
   @override
@@ -44,60 +42,82 @@ class _OrderProductionPageState extends State<OrderProductionPage> {
           backgroundColor: ColorTheme.background,
           appBar: AppBar(
               backgroundColor: ColorTheme.background,
-              leading: IconButton(onPressed: () => Modular.to.pop(),
-                  icon: Icon(Icons.arrow_back_ios_new_rounded,color: ColorTheme.black2))
-          ),
-          body: store.loading? Center(child: CircularProgressIndicator(color: ColorTheme.orange)) : Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: SingleChildScrollView(
-              child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    DetailsCardWidget(order: store.order!,
-                      statusColor: const Color(0xFF47A9FF),
-                      status: "Em produção",),
-                    const SizedBox(height: 20.0),
-                    Text("Detalhe do Pagamento",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(fontFamily: FamilyTheme.medium,
-                            color: ColorTheme.black3, fontSize: 12)),
-                    const SizedBox(height: 5.0),
-                    ProposalPaymentCardWidget(proposal: store.proposal!),
-                    const SizedBox(height: 8.0),
-                    Text("Prestador designado",
-                        textAlign: TextAlign.start,
-                        style: TextStyle(fontFamily: FamilyTheme.medium,
-                            color: ColorTheme.black3, fontSize: 12)),
-                    const SizedBox(height: 8.0),
-                    EmployeeDetailsCardWidget(employee: EmployeeUserEntity(
-                        statusContrato: "Ativo",phone: "",email: "",userID: 0,funcoes: [],
-                        employeeID: 0,status: false,name: "Marcenaria")),
-                    const SizedBox(height: 20.0),
-                    const DetailsIndicatorStepWidget(index: 3),
-                    const SizedBox(height: 20.0),
-                    SizedBox(
-                      child: Row(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          spacing: 10,
-                          children: [
-                            Expanded(
-                              child: ChatOrderButtonWidget(
-                                  title: "Conversar com Marcenaria e suporte",
-                                  size: 12, onPressed: () =>
-                                  Modular.to.pushNamed(RouterGlobalMapper.chatSupport,
-                                      arguments: OrderEntity(
-                                          id: store.order?.id ?? 0,
-                                          title: store.order?.title ?? "",
-                                          environments: store.order?.environments ?? "", status: OrderStatus.appoval))
-                              ),
-                            ),
-                          ]),
-                    ),
-                    const SizedBox(height: 40.0),
-                  ]),
-            ),
-          )),
+              leading: IconButton(
+                  onPressed: () => Modular.to.pop(),
+                  icon: Icon(Icons.arrow_back_ios_new_rounded,
+                      color: ColorTheme.black2))),
+          body: store.loading
+              ? Center(
+                  child: CircularProgressIndicator(color: ColorTheme.orange))
+              : Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: SingleChildScrollView(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          DetailsCardWidget(
+                            order: store.order!,
+                            statusColor: const Color(0xFF47A9FF),
+                            status: "Em produção",
+                          ),
+                          const SizedBox(height: 20.0),
+                          Text("Detalhe do Pagamento",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  fontFamily: FamilyTheme.medium,
+                                  color: ColorTheme.black3,
+                                  fontSize: 12)),
+                          const SizedBox(height: 5.0),
+                          ProposalPaymentCardWidget(proposal: store.proposal!),
+                          const SizedBox(height: 8.0),
+                          Text("Prestador designado",
+                              textAlign: TextAlign.start,
+                              style: TextStyle(
+                                  fontFamily: FamilyTheme.medium,
+                                  color: ColorTheme.black3,
+                                  fontSize: 12)),
+                          const SizedBox(height: 8.0),
+                          EmployeeDetailsCardWidget(
+                              employee: EmployeeUserEntity(
+                                  statusContrato: "Ativo",
+                                  phone: "",
+                                  email: "",
+                                  userID: 0,
+                                  funcoes: [],
+                                  employeeID: 0,
+                                  status: false,
+                                  name: "Marcenaria")),
+                          const SizedBox(height: 20.0),
+                          const DetailsIndicatorStepWidget(index: 3),
+                          const SizedBox(height: 20.0),
+                          SizedBox(
+                            child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                spacing: 10,
+                                children: [
+                                  Expanded(
+                                    child: ChatOrderButtonWidget(
+                                        title:
+                                            "Conversar com Marcenaria e suporte",
+                                        size: 12,
+                                        onPressed: () => Modular.to.pushNamed(
+                                            RouterGlobalMapper.chatSupport,
+                                            arguments: OrderEntity(
+                                                id: store.order?.id ?? 0,
+                                                title: store.order?.title ?? "",
+                                                environments:
+                                                    store.order?.environments ??
+                                                        "",
+                                                status: OrderStatus.appoval))),
+                                  ),
+                                ]),
+                          ),
+                          const SizedBox(height: 40.0),
+                        ]),
+                  ),
+                )),
     );
   }
 }

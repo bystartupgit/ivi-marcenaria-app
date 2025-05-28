@@ -1,5 +1,3 @@
-
-
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/core/data/store/core_store.dart';
 import 'package:marcenaria/modules/customer/home/orders/domain/usecases/aprove_proposal_usecase.dart';
@@ -15,9 +13,9 @@ part 'payment_store.g.dart';
 class PaymentStore = PaymentStoreBase with _$PaymentStore;
 
 abstract class PaymentStoreBase with Store {
-
   final OrderStore order = Modular.get<OrderStore>();
-  final ConfirmPaymentUsecase _confirmPaymentUsecase = Modular.get<ConfirmPaymentUsecase>();
+  final ConfirmPaymentUsecase _confirmPaymentUsecase =
+      Modular.get<ConfirmPaymentUsecase>();
 
   @observable
   int? option;
@@ -41,20 +39,23 @@ abstract class PaymentStoreBase with Store {
   bool get hasOption => option != null;
 
   @action
-  confirmPayment({required context }) async {
-
-    try{
-
+  confirmPayment({required context}) async {
+    try {
       setLoading(true);
 
       bool result = await _confirmPaymentUsecase.call(proposalID: proposalID);
 
-      if(result) { Modular.to.pushNamed(CustomerRouters.paymentSuccessProposalIntern); order.removeProposalOrders(proposalID); }
-      else { ShowErrorMessageUsecase(context: context).call(message: "Não foi possível confirmar o pagamento da proposta."); }
-
-
-    } catch(e) { ShowErrorMessageUsecase(context: context).call(message: e.toString()); } finally { setLoading(false); }
-
+      if (result) {
+        Modular.to.pushNamed(CustomerRouters.paymentSuccessProposalIntern);
+        order.removeProposalOrders(proposalID);
+      } else {
+        ShowErrorMessageUsecase(context: context).call(
+            message: "Não foi possível confirmar o pagamento da proposta.");
+      }
+    } catch (e) {
+      ShowErrorMessageUsecase(context: context).call(message: e.toString());
+    } finally {
+      setLoading(false);
+    }
   }
-
 }

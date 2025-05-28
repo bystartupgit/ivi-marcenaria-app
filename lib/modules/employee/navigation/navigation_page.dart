@@ -21,7 +21,6 @@ class NavigationPage extends StatefulWidget {
 }
 
 class _NavigationPageState extends State<NavigationPage> {
-
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final NavigationStore store = Modular.get<NavigationStore>();
@@ -36,52 +35,69 @@ class _NavigationPageState extends State<NavigationPage> {
   Widget build(BuildContext context) {
     return Observer(
         builder: (_) => ModalProgressHUD(
-          inAsyncCall: store.loading,
-          child: Scaffold(
-              key: _scaffoldKey,
-              resizeToAvoidBottomInset: false,
-              endDrawer: NavigationDrawerWidget(store: store),
-              appBar: AppBar(backgroundColor: ColorTheme.background,
-                  actions: [
-                    IconButton(onPressed: () => _scaffoldKey.currentState?.openEndDrawer(),
-                      icon: Icon(Icons.menu_rounded, color: ColorTheme.black2,size: 30))]),
-              bottomNavigationBar: BottomNavigationBar(
-                  type: BottomNavigationBarType.fixed,
-                  items: [
-                    BottomNavigationBarItem(
-                        icon: NavigationButtonWidget(
-                            icon: NavigationIcons.home, title: "Inicio",
-                            selected: store.index == 0, onPress: () => store.setIndex(0)), label: ""),
-                    BottomNavigationBarItem(
-                        icon: NavigationButtonWidget(
-                            icon: NavigationIcons.calculator, title: "Orçamentos",
-                            selected: store.index == 1, onPress: () => store.setIndex(1)), label: ""),
-                    BottomNavigationBarItem(
-                        icon: NavigationButtonWidget(
-                            icon: NavigationIcons.orders, title: "Em produção",
-                            selected: store.index == 2, onPress: () => store.setIndex(2)), label: ""),
-                    BottomNavigationBarItem(
-                        icon: NavigationButtonWidget(
-                            icon: NavigationIcons.messages, title: "Mensagens",
-                            selected: store.index == 3, onPress: () => store.setIndex(3)), label: ""),
+              inAsyncCall: store.loading,
+              child: Scaffold(
+                  key: _scaffoldKey,
+                  resizeToAvoidBottomInset: false,
+                  endDrawer: NavigationDrawerWidget(store: store),
+                  appBar:
+                      AppBar(backgroundColor: ColorTheme.background, actions: [
+                    IconButton(
+                        onPressed: () =>
+                            _scaffoldKey.currentState?.openEndDrawer(),
+                        icon: Icon(Icons.menu_rounded,
+                            color: ColorTheme.black2, size: 30))
                   ]),
-              body: SizedBox(
-                height: MediaQuery.of(context).size.height - MediaQuery.of(context).padding.bottom,
-                width: MediaQuery.of(context).size.width,
-                child: Column(
-                  children: [
-                    Expanded(
-                      child: PageView(
-                        controller: store.controller,
-                        physics: const NeverScrollableScrollPhysics(),
-                        children: const [
-                          HomePage(),
-                          OrderPage(),
-                          ServicePage(),
-                          ConversationPage()
-                        ])),
-                  ],
-                ))),
-        ));
+                  bottomNavigationBar: BottomNavigationBar(
+                      type: BottomNavigationBarType.fixed,
+                      items: [
+                        BottomNavigationBarItem(
+                            icon: NavigationButtonWidget(
+                                icon: NavigationIcons.home,
+                                title: "Inicio",
+                                selected: store.index == 0,
+                                onPress: () => store.setIndex(0)),
+                            label: ""),
+                        BottomNavigationBarItem(
+                            icon: NavigationButtonWidget(
+                                icon: NavigationIcons.calculator,
+                                title: "Orçamentos",
+                                selected: store.index == 1,
+                                onPress: () => store.setIndex(1)),
+                            label: ""),
+                        BottomNavigationBarItem(
+                            icon: NavigationButtonWidget(
+                                icon: NavigationIcons.orders,
+                                title: "Em produção",
+                                selected: store.index == 2,
+                                onPress: () => store.setIndex(2)),
+                            label: ""),
+                        BottomNavigationBarItem(
+                            icon: NavigationButtonWidget(
+                                icon: NavigationIcons.messages,
+                                title: "Mensagens",
+                                selected: store.index == 3,
+                                onPress: () => store.setIndex(3)),
+                            label: ""),
+                      ]),
+                  body: SizedBox(
+                      height: MediaQuery.of(context).size.height -
+                          MediaQuery.of(context).padding.bottom,
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
+                        children: [
+                          Expanded(
+                              child: PageView(
+                                  controller: store.controller,
+                                  physics: const NeverScrollableScrollPhysics(),
+                                  children: const [
+                                HomePage(),
+                                OrderPage(),
+                                ServicePage(),
+                                ConversationPage()
+                              ])),
+                        ],
+                      ))),
+            ));
   }
 }

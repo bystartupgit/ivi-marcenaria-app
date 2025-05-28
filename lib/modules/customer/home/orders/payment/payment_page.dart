@@ -7,7 +7,6 @@ import 'package:marcenaria/modules/customer/home/orders/payment/stores/payment_s
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
 class PaymentPage extends StatefulWidget {
-
   final int orderID;
 
   const PaymentPage({super.key, required this.orderID});
@@ -17,7 +16,6 @@ class PaymentPage extends StatefulWidget {
 }
 
 class _PaymentPageState extends State<PaymentPage> {
-
   final PaymentStore store = Modular.get<PaymentStore>();
 
   @override
@@ -35,20 +33,23 @@ class _PaymentPageState extends State<PaymentPage> {
           backgroundColor: ColorTheme.background,
           appBar: AppBar(
               backgroundColor: ColorTheme.background,
-              leading: IconButton(onPressed: () => Modular.to.pop(),
-                  icon: Icon(Icons.arrow_back_ios_new_rounded,color: ColorTheme.black2))),
+              leading: IconButton(
+                  onPressed: () => Modular.to.pop(),
+                  icon: Icon(Icons.arrow_back_ios_new_rounded,
+                      color: ColorTheme.black2))),
           body: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  PaymentCardInformationWidget(option: store.option,
+                  PaymentCardInformationWidget(
+                      option: store.option,
                       onPressed: () => store.confirmPayment(context: context),
-                      setOption: store.setOption,hasOption: store.hasOption),
+                      setOption: store.setOption,
+                      hasOption: store.hasOption),
                   SizedBox(height: MediaQuery.of(context).padding.bottom)
                 ],
               )),
-
         ),
       ),
     );

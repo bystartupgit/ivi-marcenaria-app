@@ -13,10 +13,10 @@ import '../../../../../../domain/usecases/save_potential_employee_usecase.dart';
 
 part 'potential_employee_store.g.dart';
 
-class PotentialEmployeeStore = PotentialEmployeeStoreBase with _$PotentialEmployeeStore;
+class PotentialEmployeeStore = PotentialEmployeeStoreBase
+    with _$PotentialEmployeeStore;
 
 abstract class PotentialEmployeeStoreBase with Store implements Disposable {
-
   ScrollController scroll = ScrollController();
 
   final _getEmployees = Modular.get<GetEmployeesUsecase>();
@@ -29,10 +29,12 @@ abstract class PotentialEmployeeStoreBase with Store implements Disposable {
   int page = 1;
 
   @observable
-  ObservableList<EmployeeUserEntity> employees = <EmployeeUserEntity>[].asObservable();
+  ObservableList<EmployeeUserEntity> employees =
+      <EmployeeUserEntity>[].asObservable();
 
   @observable
-  ObservableList<EmployeeUserEntity> employeeSelected = <EmployeeUserEntity>[].asObservable();
+  ObservableList<EmployeeUserEntity> employeeSelected =
+      <EmployeeUserEntity>[].asObservable();
 
   @computed
   bool get hasEmployeeSelected => employeeSelected.isNotEmpty;
@@ -65,86 +67,91 @@ abstract class PotentialEmployeeStoreBase with Store implements Disposable {
     if (debounce?.isActive ?? false) debounce?.cancel();
 
     debounce = Timer(const Duration(milliseconds: 500), () async {
-
       try {
-
         setLoading(true);
 
         page = 1;
 
-        List<EmployeeUserEntity> result = await _getEmployees.call(page: page, limit: limit,name: name);
+        List<EmployeeUserEntity> result =
+            await _getEmployees.call(page: page, limit: limit, name: name);
 
         employees = result.asObservable();
-
-      } catch(e) { ShowErrorMessageUsecase(context: context).call(message: "Não foi possível pesquisar novos prestadores."); }
-      finally { setLoading(false); }
-
+      } catch (e) {
+        ShowErrorMessageUsecase(context: context)
+            .call(message: "Não foi possível pesquisar novos prestadores.");
+      } finally {
+        setLoading(false);
+      }
     });
   }
 
   @action
   init() async {
-
     scroll.addListener(() {
-
-      if(scroll.position.pixels == scroll.position.maxScrollExtent && loading == false) {
+      if (scroll.position.pixels == scroll.position.maxScrollExtent &&
+          loading == false) {
         loadingMoreOrders();
       }
-
     });
 
-    List<EmployeeUserEntity> result =  await _getEmployees.call(page: page, limit: limit);
+    List<EmployeeUserEntity> result =
+        await _getEmployees.call(page: page, limit: limit);
 
     employees = result.asObservable();
-
   }
 
   @action
   loadingMoreOrders() async {
-    if (employees.length/limit >= 10) {
-
+    if (employees.length / limit >= 10) {
       addPagination();
 
-      List<EmployeeUserEntity> result = await _getEmployees.call(page: page, limit: limit);
+      List<EmployeeUserEntity> result =
+          await _getEmployees.call(page: page, limit: limit);
 
-      if(result.isNotEmpty) {
-
-        for(EmployeeUserEntity value in result) {
-          if(employees.contains(value) == false) { employees.add(value); }
+      if (result.isNotEmpty) {
+        for (EmployeeUserEntity value in result) {
+          if (employees.contains(value) == false) {
+            employees.add(value);
+          }
         }
-
       }
     } else {
+      List<EmployeeUserEntity> result =
+          await _getEmployees.call(page: page, limit: limit);
 
-      List<EmployeeUserEntity> result = await _getEmployees.call(page: page, limit: limit);
-
-      if(result.isNotEmpty) {
-
-        for(EmployeeUserEntity value in result) {
-          if(employees.contains(value) == false) { employees.add(value); }
+      if (result.isNotEmpty) {
+        for (EmployeeUserEntity value in result) {
+          if (employees.contains(value) == false) {
+            employees.add(value);
+          }
         }
       }
     }
-
   }
 
   @action
   save({required context, required int proposalID}) async {
-
-    try{
-
+    try {
       setLoading(true);
 
-      bool result = await _savePotentialEmployee.call(employeeIDs: List<int>.from(employeeSelected.map((e) => e.employeeID)), proposalID: proposalID);
+      bool result = await _savePotentialEmployee.call(
+          employeeIDs:
+              List<int>.from(employeeSelected.map((e) => e.employeeID)),
+          proposalID: proposalID);
 
-      if(result) {
-        ShowSuccessMessageUsecase(context: context).call(message: 'Sucesso ao salvar os prestadores em potencial.');
+      if (result) {
+        ShowSuccessMessageUsecase(context: context)
+            .call(message: 'Sucesso ao salvar os prestadores em potencial.');
       } else {
-        ShowErrorMessageUsecase(context: context).call(message: 'Não foi possível salvar os prestadores em potencial.');
+        ShowErrorMessageUsecase(context: context).call(
+            message: 'Não foi possível salvar os prestadores em potencial.');
       }
-
-    } catch(e) { ShowErrorMessageUsecase(context: context).call(message:'Erro ao tentar salvar prestadores em potencial.'); } finally{ setLoading(false); }
-
+    } catch (e) {
+      ShowErrorMessageUsecase(context: context)
+          .call(message: 'Erro ao tentar salvar prestadores em potencial.');
+    } finally {
+      setLoading(false);
+    }
   }
 
   @override

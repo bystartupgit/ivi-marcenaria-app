@@ -21,22 +21,22 @@ import 'components/order_proposal_details_card_widget.dart';
 import 'components/proposal_card_review_widget.dart';
 
 class OrderProposalDetailsPage extends StatefulWidget {
-
   final ProposalEntity order;
 
-  const OrderProposalDetailsPage({ super.key, required this.order });
+  const OrderProposalDetailsPage({super.key, required this.order});
 
   @override
-  State<OrderProposalDetailsPage> createState() => _OrderProposalDetailsPageState();
+  State<OrderProposalDetailsPage> createState() =>
+      _OrderProposalDetailsPageState();
 }
 
 class _OrderProposalDetailsPageState extends State<OrderProposalDetailsPage> {
-
   late final ProposalEntity order = widget.order;
 
   final String title = "Seu orçamento esta pronto!";
 
-  final OrderProposalDetailsStore store = Modular.get<OrderProposalDetailsStore>();
+  final OrderProposalDetailsStore store =
+      Modular.get<OrderProposalDetailsStore>();
 
   @override
   void initState() {
@@ -53,9 +53,10 @@ class _OrderProposalDetailsPageState extends State<OrderProposalDetailsPage> {
             backgroundColor: ColorTheme.background,
             appBar: AppBar(
                 backgroundColor: ColorTheme.background,
-                leading: IconButton(onPressed: () => Modular.to.pop(),
-                    icon: Icon(Icons.arrow_back_ios_new_rounded,color: ColorTheme.black2))
-            ),
+                leading: IconButton(
+                    onPressed: () => Modular.to.pop(),
+                    icon: Icon(Icons.arrow_back_ios_new_rounded,
+                        color: ColorTheme.black2))),
             body: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
               child: SingleChildScrollView(
@@ -66,13 +67,25 @@ class _OrderProposalDetailsPageState extends State<OrderProposalDetailsPage> {
                           store: store,
                           order: OrderEntity(
                               id: widget.order.idPedido,
-                              title: widget.order.pedido.titulo, environments: "",
-                              status: order.status), moreDetails: store.showMore,
+                              title: widget.order.pedido.titulo,
+                              environments: "",
+                              status: order.status),
+                          moreDetails: store.showMore,
                           changeMoreDetails: store.setShowMore),
                       const SizedBox(height: 20.0),
-                      Text(title, style: TextStyle(fontFamily: FamilyTheme.medium,
-                        color: ColorTheme.black3, fontSize: 20,)),
-                      ProporsalCardReviewWidget(store: store,order: widget.order,showMore: () {},showMoreEnable: true,proposal: null,),
+                      Text(title,
+                          style: TextStyle(
+                            fontFamily: FamilyTheme.medium,
+                            color: ColorTheme.black3,
+                            fontSize: 20,
+                          )),
+                      ProporsalCardReviewWidget(
+                        store: store,
+                        order: widget.order,
+                        showMore: () {},
+                        showMoreEnable: true,
+                        proposal: null,
+                      ),
                       const SizedBox(height: 20.0),
                       const DetailsIndicatorStepWidget(index: 2),
                       const SizedBox(height: 20.0),
@@ -86,13 +99,20 @@ class _OrderProposalDetailsPageState extends State<OrderProposalDetailsPage> {
                               child: DetailsCancelButtonWidget(
                                   iconSize: 10,
                                   size: 8,
-                                  onPressed: () => showDialog(context: context,
-                                      builder: (context) => DetailsCancelPopUpWidget(
-                                          order: OrderEntity(
-                                          id: widget.order.idPedido,
-                                          title: widget.order.pedido.titulo, environments: "",
-                                          status: order.status),
-                                          cancelOrder: () => store.cancelOrder(order: order, context: context)))),
+                                  onPressed: () => showDialog(
+                                      context: context,
+                                      builder: (context) =>
+                                          DetailsCancelPopUpWidget(
+                                              order: OrderEntity(
+                                                  id: widget.order.idPedido,
+                                                  title: widget
+                                                      .order.pedido.titulo,
+                                                  environments: "",
+                                                  status: order.status),
+                                              cancelOrder: () =>
+                                                  store.cancelOrder(
+                                                      order: order,
+                                                      context: context)))),
                             ),
                             Expanded(
                               flex: 3,
@@ -100,13 +120,19 @@ class _OrderProposalDetailsPageState extends State<OrderProposalDetailsPage> {
                                 crossAxisAlignment: CrossAxisAlignment.stretch,
                                 mainAxisAlignment: MainAxisAlignment.end,
                                 children: [
-                                  DetailsSuportButtonWidget(size: 12,onPressed: () =>
-                                      Modular.to.pushNamed(RouterGlobalMapper.chatSupport,
-                                          arguments: OrderEntity(id: widget.order.idPedido,
+                                  DetailsSuportButtonWidget(
+                                      size: 12,
+                                      onPressed: () => Modular.to.pushNamed(
+                                          RouterGlobalMapper.chatSupport,
+                                          arguments: OrderEntity(
+                                              id: widget.order.idPedido,
                                               title: widget.order.pedido.titulo,
-                                              environments: "", status: widget.order.status))
-                                  ),
-                                  PaymentButtonWidget(onPressed: () => Modular.to.pushNamed(CustomerRouters.paymentProposalIntern,arguments: widget.order.idProposta))
+                                              environments: "",
+                                              status: widget.order.status))),
+                                  PaymentButtonWidget(
+                                      onPressed: () => Modular.to.pushNamed(
+                                          CustomerRouters.paymentProposalIntern,
+                                          arguments: widget.order.idProposta))
                                 ],
                               ),
                             )

@@ -11,10 +11,10 @@ part 'finish_store.g.dart';
 class FinishStore = FinishStoreBase with _$FinishStore;
 
 abstract class FinishStoreBase with Store implements Disposable {
+  final ScrollController scroll = ScrollController();
 
-  final ScrollController scroll= ScrollController();
-
-  final GetServiceFinishUsecase _getServiceFinishUsecase = Modular.get<GetServiceFinishUsecase>();
+  final GetServiceFinishUsecase _getServiceFinishUsecase =
+      Modular.get<GetServiceFinishUsecase>();
 
   @observable
   int page = 1;
@@ -42,16 +42,16 @@ abstract class FinishStoreBase with Store implements Disposable {
 
   @action
   init() async {
-
     scroll.addListener(() {
-
-      if(scroll.position.pixels == scroll.position.maxScrollExtent && loading == false) {
+      if (scroll.position.pixels == scroll.position.maxScrollExtent &&
+          loading == false) {
         loadingMoreOrders();
       }
-
     });
 
-    List<OrderEntity> result = await _getServiceFinishUsecase.call(page: page, limit: limit,
+    List<OrderEntity> result = await _getServiceFinishUsecase.call(
+        page: page,
+        limit: limit,
         employeeID: Modular.get<CoreStore>().profile?.id ?? 0);
 
     orders = result.asObservable();
@@ -59,43 +59,43 @@ abstract class FinishStoreBase with Store implements Disposable {
 
   @action
   loadingMoreOrders() async {
-
-    if (orders.length/limit >= page) {
-
+    if (orders.length / limit >= page) {
       addPagination();
 
       setPaginationLoading(true);
 
-      List<OrderEntity> result = await _getServiceFinishUsecase.call(page: page, limit: limit,
+      List<OrderEntity> result = await _getServiceFinishUsecase.call(
+          page: page,
+          limit: limit,
           employeeID: Modular.get<CoreStore>().profile?.id ?? 0);
 
-      if(result.isNotEmpty) {
-
-        for(OrderEntity value in result) {
-          if(orders.contains(value) == false) { orders.add(value); }
+      if (result.isNotEmpty) {
+        for (OrderEntity value in result) {
+          if (orders.contains(value) == false) {
+            orders.add(value);
+          }
         }
-
       }
 
       setPaginationLoading(false);
     } else {
-
       setPaginationLoading(true);
 
-      List<OrderEntity> result = await _getServiceFinishUsecase.call(page: page, limit: limit,
+      List<OrderEntity> result = await _getServiceFinishUsecase.call(
+          page: page,
+          limit: limit,
           employeeID: Modular.get<CoreStore>().profile?.id ?? 0);
 
-      if(result.isNotEmpty) {
-
-        for(OrderEntity value in result) {
-          if(orders.contains(value) == false) { orders.add(value); }
+      if (result.isNotEmpty) {
+        for (OrderEntity value in result) {
+          if (orders.contains(value) == false) {
+            orders.add(value);
+          }
         }
-
       }
 
       setPaginationLoading(false);
     }
-
   }
 
   @override

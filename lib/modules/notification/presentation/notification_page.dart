@@ -15,7 +15,6 @@ class NotificationPage extends StatefulWidget {
 }
 
 class _NotificationPageState extends State<NotificationPage> {
-
   final NotificationStore store = Modular.get<NotificationStore>();
 
   @override
@@ -27,20 +26,22 @@ class _NotificationPageState extends State<NotificationPage> {
   @override
   Widget build(BuildContext context) {
     return Observer(
-      builder: (context) => Scaffold(
-        backgroundColor: ColorTheme.background,
-        appBar: AppBar(
-            leading: IconButton(onPressed: () => Navigator.pop(context),
-                icon: Icon(Icons.arrow_back_ios_new_rounded, size: 20,color: ColorTheme.black)),
-            backgroundColor: ColorTheme.background),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: store.loading ? const NotificationLoadingWidget() :
-          NotificationListWidget(
-              store: store,
-              notifications: store.notifications,
-              loadingMoreNotifications: () => store.getMoreNotifications())
-
-        )));
+        builder: (context) => Scaffold(
+            backgroundColor: ColorTheme.background,
+            appBar: AppBar(
+                leading: IconButton(
+                    onPressed: () => Navigator.pop(context),
+                    icon: Icon(Icons.arrow_back_ios_new_rounded,
+                        size: 20, color: ColorTheme.black)),
+                backgroundColor: ColorTheme.background),
+            body: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: store.loading
+                    ? const NotificationLoadingWidget()
+                    : NotificationListWidget(
+                        store: store,
+                        notifications: store.notifications,
+                        loadingMoreNotifications: () =>
+                            store.getMoreNotifications()))));
   }
 }

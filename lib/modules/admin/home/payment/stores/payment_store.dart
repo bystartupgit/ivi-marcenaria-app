@@ -9,8 +9,8 @@ part 'payment_store.g.dart';
 class PaymentStore = PaymentStoreBase with _$PaymentStore;
 
 abstract class PaymentStoreBase with Store {
-
-  final GetOrderWithoutProposalUsecase _getOrderDetailsUsecase = Modular.get<GetOrderWithoutProposalUsecase>();
+  final GetOrderWithoutProposalUsecase _getOrderDetailsUsecase =
+      Modular.get<GetOrderWithoutProposalUsecase>();
 
   @observable
   OrderWithoutProposalEntity? order;
@@ -29,13 +29,10 @@ abstract class PaymentStoreBase with Store {
 
   @action
   init({required int orderID}) async {
-
     setLoading(true);
 
     order = await _getOrderDetailsUsecase.call(orderID: orderID);
 
     setLoading(false);
-
   }
-
 }

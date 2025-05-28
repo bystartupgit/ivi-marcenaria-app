@@ -11,6 +11,8 @@ import 'package:marcenaria/modules/login/presentation/stores/login_store.dart';
 import 'package:marcenaria/modules/login/shared/components/login_title_widget.dart';
 import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 
+import '../../../core/themes/family_theme.dart';
+
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
 
@@ -19,7 +21,6 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-
   final String title = "Login";
   final String logo = "assets/logo/logo.svg";
 
@@ -31,23 +32,36 @@ class _LoginPageState extends State<LoginPage> {
       builder: (context) => ModalProgressHUD(
         inAsyncCall: store.loading,
         child: Scaffold(
-            resizeToAvoidBottomInset: false,
-            backgroundColor: ColorTheme.background,
-            body: Container(
+          resizeToAvoidBottomInset: false,
+          backgroundColor: ColorTheme.background,
+          body: Container(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SvgPicture.asset(logo,width: MediaQuery.of(context).size.width * 0.45,),
+                    SvgPicture.asset(
+                      logo,
+                      width: MediaQuery.of(context).size.width * 0.45,
+                    ),
+                    const SizedBox(height: 10.0),
+                    Text("IVI",
+                        style: TextStyle(
+                            fontFamily: FamilyTheme.regular,
+                            fontSize: 20,
+                            color: const Color(0xFF545253))),
                     const LoginGreetingsWidget(),
                     const SizedBox(height: 30.0),
                     LoginTitleWidget(title: title),
                     const SizedBox(height: 25.0),
-                    LoginCardWidget(setEmail: store.setEmail, setPassword: store.setPassword),
+                    LoginCardWidget(
+                        setEmail: store.setEmail,
+                        setPassword: store.setPassword,
+                        isObscure: store.isObscure,
+                        changeObscure: () => store.changeObscure()),
                     const SizedBox(height: 40.0),
-                    LoginButtonWidget(onPress: () => store.login(context: context))
-                  ]
-              )),
+                    LoginButtonWidget(
+                        onPress: () => store.login(context: context))
+                  ])),
         ),
       ),
     );

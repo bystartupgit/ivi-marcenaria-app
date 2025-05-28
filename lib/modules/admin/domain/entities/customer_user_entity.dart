@@ -1,7 +1,6 @@
 import '../mappers/customer_user_mapper.dart';
 
 class CustomerUserEntity {
-
   final int customerID;
   final int userID;
 
@@ -13,15 +12,17 @@ class CustomerUserEntity {
 
   final bool status;
 
-  CustomerUserEntity({
-    required this.customerID,
-    required this.email, required this.phone,
-    required this.status,
-    required this.cpf,
-    this.image,
-    required this.userID, required this.name});
+  CustomerUserEntity(
+      {required this.customerID,
+      required this.email,
+      required this.phone,
+      required this.status,
+      required this.cpf,
+      this.image,
+      required this.userID,
+      required this.name});
 
-  factory CustomerUserEntity.fromMap(Map<String,dynamic> map) =>
+  factory CustomerUserEntity.fromMap(Map<String, dynamic> map) =>
       CustomerUserEntity(
           status: map[CustomerUserMapper.status],
           email: map[CustomerUserMapper.email] ?? "",
@@ -35,11 +36,12 @@ class CustomerUserEntity {
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
-    if (other is CustomerUserEntity) { return customerID == other.customerID; }
+    if (other is CustomerUserEntity) {
+      return customerID == other.customerID;
+    }
     return false;
   }
 
   @override
   int get hashCode => customerID.hashCode;
-
 }

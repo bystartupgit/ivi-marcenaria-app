@@ -11,7 +11,7 @@
 ///      fonts:
 ///       - asset: fonts/ServiceIcons.ttf
 ///
-/// 
+///
 ///
 import 'package:flutter/widgets.dart';
 
@@ -21,5 +21,6 @@ class ServiceIcons {
   static const _kFontFam = 'ServiceIcons';
   static const String? _kFontPkg = null;
 
-  static const IconData arrow = IconData(0xe814, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData arrow =
+      IconData(0xe814, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

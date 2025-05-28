@@ -1,8 +1,4 @@
-
-
-
 class ProposalDTOMapper {
-
   static String orderID = "id_pedido";
   static String message = "mensagem";
   static String totalValue = "valor_total";
@@ -14,5 +10,4 @@ class ProposalDTOMapper {
   static String temporal = "escassez_temporal";
   static String fromTo = "de_por";
   static String url = "url_arquivo_orcamento";
-
 }

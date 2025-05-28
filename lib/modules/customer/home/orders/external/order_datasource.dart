@@ -1,6 +1,3 @@
-
-
-
 import 'dart:convert';
 import 'dart:io';
 
@@ -19,58 +16,56 @@ import '../../../../../core/data/store/core_store.dart';
 import '../domain/entities/proposal_entity.dart';
 
 class OrderDataSource {
-
   final String enviroment = "http://92.112.177.245:5000";
   final String ftp = "92.112.177.245";
 
   Future<bool> cancelOrder({required int orderID}) async {
-
     String? token = Modular.get<CoreStore>().auth?.token;
 
     Uri url = Uri.parse("$enviroment/api/pedidos/cancelar/$orderID");
 
-    Map<String,String> headers = {
+    Map<String, String> headers = {
       "Content-Type": "application/json",
       "Authorization": "Bearer $token"
     };
 
-    Map<String,dynamic> body = {};
+    Map<String, dynamic> body = {};
 
     try {
-
-      Response response = await post(
-          url, headers: headers, body: jsonEncode(body))
-          .timeout(const Duration(seconds: 8));
+      Response response =
+          await post(url, headers: headers, body: jsonEncode(body))
+              .timeout(const Duration(seconds: 8));
 
       Map<String, dynamic> data = jsonDecode(response.body);
 
       if (response.statusCode == 200) {
         return data[OrderDTOMapper.message] == OrderDTOMapper.messageSuccess;
-
-      } else { return false; }
-
-    } catch(e) { return false; }
-
-
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
   }
 
-  Future<List<OrderEntity>> getWaitingOrders({required int customerID, required int page, required int limit }) async {
-
+  Future<List<OrderEntity>> getWaitingOrders(
+      {required int customerID, required int page, required int limit}) async {
     String? token = Modular.get<CoreStore>().auth?.token;
 
-    Uri url = Uri.parse("$enviroment/api/pedidos/cliente/$customerID/aguardando-orcamento");
+    Uri url = Uri.parse(
+        "$enviroment/api/pedidos/cliente/$customerID/aguardando-orcamento");
 
-    Map<String,String> headers = {
+    Map<String, String> headers = {
       "Content-Type": "application/json",
       "Authorization": "Bearer $token"
     };
 
-    Map<String,dynamic> body = { "page" : page, "limit" : limit };
+    Map<String, dynamic> body = {"page": page, "limit": limit};
 
     try {
-      Response response = await post(
-          url, headers: headers, body: jsonEncode(body))
-          .timeout(const Duration(seconds: 8));
+      Response response =
+          await post(url, headers: headers, body: jsonEncode(body))
+              .timeout(const Duration(seconds: 8));
 
       Map<String, dynamic> data = jsonDecode(response.body);
 
@@ -79,33 +74,35 @@ class OrderDataSource {
 
         if (orders.isNotEmpty) {
           return orders.map((e) => OrderEntity.fromMap(e)).toList();
-        }
-        else {
+        } else {
           return [];
         }
       } else {
         return [];
       }
-    } catch(e) { return []; }
-
+    } catch (e) {
+      return [];
+    }
   }
 
-  Future<List<ProposalEntity>> getWaitingApprovalOrders({required int customerID, required int page, required int limit }) async {
-
+  Future<List<ProposalEntity>> getWaitingApprovalOrders(
+      {required int customerID, required int page, required int limit}) async {
     String? token = Modular.get<CoreStore>().auth?.token;
 
-    Uri url = Uri.parse("$enviroment/api/pedidos/cliente/$customerID/aguardando-aprovacao");
+    Uri url = Uri.parse(
+        "$enviroment/api/pedidos/cliente/$customerID/aguardando-aprovacao");
 
-    Map<String,String> headers = {
+    Map<String, String> headers = {
       "Content-Type": "application/json",
       "Authorization": "Bearer $token"
     };
 
-    Map<String,dynamic> body = { "page" : page, "limit" : limit };
+    Map<String, dynamic> body = {"page": page, "limit": limit};
 
     try {
-      Response response = await post(
-          url, headers: headers, body: jsonEncode(body)).timeout(const Duration(seconds: 8));
+      Response response =
+          await post(url, headers: headers, body: jsonEncode(body))
+              .timeout(const Duration(seconds: 8));
 
       Map<String, dynamic> data = jsonDecode(response.body);
 
@@ -114,74 +111,78 @@ class OrderDataSource {
 
         if (proposal.isNotEmpty) {
           return proposal.map((e) => ProposalEntity.fromJson(e)).toList();
-        }
-        else {
+        } else {
           return [];
         }
       } else {
         return [];
       }
-    }catch(e) { return []; }
-
+    } catch (e) {
+      return [];
+    }
   }
 
-  Future<bool> aproveProposal({required int proposalID, required int customerID}) async {
-
+  Future<bool> aproveProposal(
+      {required int proposalID, required int customerID}) async {
     Uri url = Uri.parse("$enviroment/api/propostas/$proposalID/aprovar");
 
     String? token = Modular.get<CoreStore>().auth?.token;
 
-    Map<String,String> headers = {
+    Map<String, String> headers = {
       "Content-Type": "application/json",
       "Authorization": "Bearer $token"
     };
 
-    Map<String,dynamic> body = { "id_cliente": customerID };
+    Map<String, dynamic> body = {"id_cliente": customerID};
 
     try {
+      Response response =
+          await post(url, headers: headers, body: jsonEncode(body))
+              .timeout(const Duration(seconds: 8));
 
-      Response response = await post(
-          url, headers: headers, body: jsonEncode(body))
-          .timeout(const Duration(seconds: 8));
-
-      if (response.statusCode == 200) { return true; }
-      else { return false; }
-
-    } catch(e) { return false; }
+      if (response.statusCode == 200) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch (e) {
+      return false;
+    }
   }
 
   Future<MediaEntity?> getMedias({required int orderID}) async {
-
     Uri url = Uri.parse("$enviroment/api/midia/listar-midias-pedido");
 
     String? token = Modular.get<CoreStore>().auth?.token;
 
-    Map<String,String> headers = {
+    Map<String, String> headers = {
       "Content-Type": "application/json",
       "Authorization": "Bearer $token"
     };
 
-    Map<String,dynamic> body = { "idPedido": orderID, "page": 1, "limit": 10 };
+    Map<String, dynamic> body = {"idPedido": orderID, "page": 1, "limit": 10};
 
-    Response response = await post(
-        url, headers: headers, body: jsonEncode(body))
-        .timeout(const Duration(seconds: 8));
+    Response response =
+        await post(url, headers: headers, body: jsonEncode(body))
+            .timeout(const Duration(seconds: 8));
 
-    if(response.statusCode == 200) {
-
+    if (response.statusCode == 200) {
       Map<String, dynamic> data = jsonDecode(response.body);
 
       List<dynamic> list = data[MediaMapper.medias];
 
-      if(list.isNotEmpty) { return MediaEntity.fromMap(list.first); }
-      else { return null; }
-
-
-    } else { return null; }
+      if (list.isNotEmpty) {
+        return MediaEntity.fromMap(list.first);
+      } else {
+        return null;
+      }
+    } else {
+      return null;
+    }
   }
 
-  Future<File?> downloadMedia({required String path, required String name}) async {
-
+  Future<File?> downloadMedia(
+      {required String path, required String name}) async {
     try {
       final client = SSHClient(
         await SSHSocket.connect(ftp, 22),
@@ -199,9 +200,8 @@ class OrderDataSource {
       await result.writeAsBytes(content);
 
       return result;
-    } catch(e) { return null; }
-
+    } catch (e) {
+      return null;
+    }
   }
-
-
 }

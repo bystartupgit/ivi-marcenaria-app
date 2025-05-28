@@ -1,10 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:marcenaria/core/themes/color_theme.dart';
 import 'package:marcenaria/core/themes/family_theme.dart';
 
 class NameTextFieldWidget extends StatelessWidget {
-
   final String title;
   final String description = "Nome e sobrenome";
   final IconData icon;
@@ -12,25 +10,40 @@ class NameTextFieldWidget extends StatelessWidget {
   final Function(String value) onChanged;
   final TextInputType keyboard;
 
-  const NameTextFieldWidget({super.key,required this.title,
-    required this.onChanged,
-    this.icon = Icons.add, this.keyboard = TextInputType.text });
+  const NameTextFieldWidget(
+      {super.key,
+      required this.title,
+      required this.onChanged,
+      this.icon = Icons.add,
+      this.keyboard = TextInputType.text});
 
   @override
   Widget build(BuildContext context) {
     return TextField(
-      style: TextStyle(color: ColorTheme.gray,fontSize: 16,fontFamily: FamilyTheme.regular),
+      style: TextStyle(
+          color: ColorTheme.gray,
+          fontSize: 16,
+          fontFamily: FamilyTheme.regular),
       onChanged: onChanged,
       keyboardType: keyboard,
       decoration: InputDecoration(
-          suffixIcon: Icon(icon,size: 15,color: const Color.fromRGBO(59, 59, 59, 0.5)),
+          suffixIcon: Icon(icon,
+              size: 15, color: const Color.fromRGBO(59, 59, 59, 0.5)),
           floatingLabelBehavior: FloatingLabelBehavior.always,
-          enabledBorder: UnderlineInputBorder(borderSide: BorderSide(color: ColorTheme.gray)),
-          focusedBorder: UnderlineInputBorder(borderSide: BorderSide(color: ColorTheme.gray)),
+          enabledBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: ColorTheme.gray)),
+          focusedBorder: UnderlineInputBorder(
+              borderSide: BorderSide(color: ColorTheme.gray)),
           hintText: description,
-          hintStyle: TextStyle(fontFamily: FamilyTheme.regular,fontSize: 16,color: ColorTheme.description),
+          hintStyle: TextStyle(
+              fontFamily: FamilyTheme.regular,
+              fontSize: 16,
+              color: ColorTheme.description),
           labelText: title,
-          labelStyle: TextStyle(fontFamily: FamilyTheme.regular,fontSize: 14,color: ColorTheme.title)),
+          labelStyle: TextStyle(
+              fontFamily: FamilyTheme.regular,
+              fontSize: 14,
+              color: ColorTheme.title)),
     );
   }
 }

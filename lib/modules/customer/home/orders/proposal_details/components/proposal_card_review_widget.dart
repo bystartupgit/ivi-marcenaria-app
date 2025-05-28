@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -9,11 +8,7 @@ import 'package:marcenaria/modules/customer/home/orders/proposal_details/stores/
 
 import 'proporsal_incomplete_widget.dart';
 
-
-
-
 class ProporsalCardReviewWidget extends StatelessWidget {
-
   final OrderProposalDetailsStore store;
   final ProposalEntity order;
 
@@ -24,10 +19,13 @@ class ProporsalCardReviewWidget extends StatelessWidget {
 
   final String title = "Detalhes do orçamento";
 
-
-  const ProporsalCardReviewWidget({super.key,
-    required this.store, required this.order,
-    this.proposal, required this.showMoreEnable, required this.showMore});
+  const ProporsalCardReviewWidget(
+      {super.key,
+      required this.store,
+      required this.order,
+      this.proposal,
+      required this.showMoreEnable,
+      required this.showMore});
 
   @override
   Widget build(BuildContext context) {
@@ -36,12 +34,22 @@ class ProporsalCardReviewWidget extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           AnimatedContainer(
-              duration: const Duration(milliseconds: 300), // Duração da animação
+              duration:
+                  const Duration(milliseconds: 300), // Duração da animação
               curve: Curves.easeInOut,
               height: showMoreEnable ? null : null,
-              child: showMoreEnable ?
-              ProporsalCompleteWidget(lessDetails: () => showMore(), proposal: proposal, store: store, order: order) :
-              ProporsalIncompleteWidget(store: store, moreDetails: () => showMore(), proposal: proposal,order: order,)),
+              child: showMoreEnable
+                  ? ProporsalCompleteWidget(
+                      lessDetails: () => showMore(),
+                      proposal: proposal,
+                      store: store,
+                      order: order)
+                  : ProporsalIncompleteWidget(
+                      store: store,
+                      moreDetails: () => showMore(),
+                      proposal: proposal,
+                      order: order,
+                    )),
         ]);
   }
 }

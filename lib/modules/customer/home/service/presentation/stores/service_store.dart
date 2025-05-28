@@ -1,4 +1,3 @@
-
 import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
@@ -27,12 +26,13 @@ import '../utils/cover_utils.dart';
 
 part 'service_store.g.dart';
 
-class  ServiceStore = ServiceStoreBase with _$ServiceStore;
+class ServiceStore = ServiceStoreBase with _$ServiceStore;
 
 abstract class ServiceStoreBase with Store {
-
-  final CreateServiceUseCase _createServiceUseCase = Modular.get<CreateServiceUseCase>();
-  final UploadMediaServiceUseCase _uploadMediaServiceUseCase = Modular.get<UploadMediaServiceUseCase>();
+  final CreateServiceUseCase _createServiceUseCase =
+      Modular.get<CreateServiceUseCase>();
+  final UploadMediaServiceUseCase _uploadMediaServiceUseCase =
+      Modular.get<UploadMediaServiceUseCase>();
 
   final PageController controller = PageController(initialPage: 0);
 
@@ -48,7 +48,10 @@ abstract class ServiceStoreBase with Store {
   int index = 0;
 
   @action
-  setIndex(int value) { index = value; controller.jumpToPage(value); }
+  setIndex(int value) {
+    index = value;
+    controller.jumpToPage(value);
+  }
 
   @observable
   String name = "";
@@ -84,46 +87,57 @@ abstract class ServiceStoreBase with Store {
   setType(int value) => type = value;
 
   @action
-  goToDetailsPage({ required context }) async {
-
+  goToDetailsPage({required context}) async {
     (String, bool) result = ServiceUtils.validateServiceInformation(service);
 
-    if(result.$2) { setIndex(1); }
-
-    else { ShowErrorMessageUsecase(context: context).call(message: result.$1); }
-
+    if (result.$2) {
+      setIndex(1);
+    } else {
+      ShowErrorMessageUsecase(context: context).call(message: result.$1);
+    }
   }
 
   @action
   saveService({required context}) async {
-
     try {
+      (String, bool) containsFile =
+          ServiceUtils.validateServiceDetails(serviceFile);
 
-      (String, bool) containsFile = ServiceUtils.validateServiceDetails(serviceFile);
-
-      if(containsFile.$2 == false) { ShowErrorMessageUsecase(context: context).call(message: containsFile.$1); return; }
+      if (containsFile.$2 == false) {
+        ShowErrorMessageUsecase(context: context)
+            .call(message: containsFile.$1);
+        return;
+      }
 
       setLoading(true);
 
       (String, OrderEntity?) result = await _createServiceUseCase.call(service);
 
-      if(result.$2 == null) { ShowErrorMessageUsecase(context: context).call(message: result.$1); }
-      else {
+      if (result.$2 == null) {
+        ShowErrorMessageUsecase(context: context).call(message: result.$1);
+      } else {
+        ServiceAttachmentDTO documentAttachmentDTO =
+            attachmentDTO(orderID: result.$2?.id ?? 0);
 
-        ServiceAttachmentDTO documentAttachmentDTO = attachmentDTO(orderID: result.$2?.id ?? 0);
-
-        await _uploadMediaServiceUseCase.call(documentAttachmentDTO, serviceFile!);
+        await _uploadMediaServiceUseCase.call(
+            documentAttachmentDTO, serviceFile!);
 
         Modular.get<OrderStore>().addWaigintOrders(result.$2!);
-        Modular.to.pushNamed(CustomerRouters.serviceSuccessIntern,arguments: [result.$2, serviceFile, documentAttachmentDTO.description]);
-
+        Modular.to.pushNamed(CustomerRouters.serviceSuccessIntern, arguments: [
+          result.$2,
+          serviceFile,
+          documentAttachmentDTO.description
+        ]);
       }
-    } catch(e) { ShowErrorMessageUsecase(context: context).call(message: e.toString()); }
-    finally { setLoading(false); }
+    } catch (e) {
+      ShowErrorMessageUsecase(context: context).call(message: e.toString());
+    } finally {
+      setLoading(false);
+    }
   }
 
   @observable
-  (String, CoverType)  cover = (ServiceCoverMapper.cover1, CoverType.asset);
+  (String, CoverType) cover = (ServiceCoverMapper.cover1, CoverType.asset);
 
   @action
   setCover((String, CoverType) value) => cover = value;
@@ -132,32 +146,28 @@ abstract class ServiceStoreBase with Store {
   ObservableList<File> coverFiles = <File>[].asObservable();
 
   @action
-  addCoverFile({ required context }) async {
-
+  addCoverFile({required context}) async {
     setLoading(true);
 
     PermissionStatus permission = await GalleryPermission().call();
 
-    if(permission.isGranted) {
-
+    if (permission.isGranted) {
       XFile? file = await ImagePicker().pickImage(source: ImageSource.gallery);
 
       if (file != null) {
-
         final File result = File(file.path);
 
         coverFiles.add(result);
 
-        setCover((result.path,CoverType.file));
+        setCover((result.path, CoverType.file));
       }
-
-    } else { ShowErrorMessageUsecase(context: context)
-        .call(message: "Você precisa permitir que o Marcenaria APP acesse "
-        "a galeria do seu dispositivo para incluir novas covers.");
+    } else {
+      ShowErrorMessageUsecase(context: context).call(
+          message: "Você precisa permitir que o Marcenaria APP acesse "
+              "a galeria do seu dispositivo para incluir novas covers.");
     }
 
     setLoading(false);
-
   }
 
   @observable
@@ -165,13 +175,14 @@ abstract class ServiceStoreBase with Store {
 
   @action
   addServiceFile({required context}) async {
-
     setLoading(true);
 
-    FilePickerResult? result = await FilePicker.platform.pickFiles(type: FileType.custom, allowMultiple: false, allowedExtensions: ['png', 'pdf']);
+    FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowMultiple: false,
+        allowedExtensions: ['png', 'pdf']);
 
     if (result != null) {
-
       File file = File(result.files.single.path!);
 
       serviceFile = file;
@@ -181,37 +192,33 @@ abstract class ServiceStoreBase with Store {
   }
 
   @computed
-  ServiceDTO get service =>
-      ServiceDTO(
-          customerID: customerID ?? 0,
-          name: name,
-          environments: environments.isEmpty ? "" : environments.join(", "),
-          whatsapp: whatsapp,
-          description: observations);
+  ServiceDTO get service => ServiceDTO(
+      customerID: customerID ?? 0,
+      name: name,
+      environments: environments.isEmpty ? "" : environments.join(", "),
+      whatsapp: whatsapp,
+      description: observations);
 
-
-  ServiceAttachmentDTO coverDTO({required int orderID}) =>
-      ServiceAttachmentDTO(
-          name: CoverUtils.convertNameFile(cover.$1),
-          type: ServiceAttachmentType.imagem.name,
-          path: "/uploads/covers/",
-          customerID: customerID ?? 0,
-          orderID: orderID,
-          isCover: true,
-          description: "cover"
-      );
+  ServiceAttachmentDTO coverDTO({required int orderID}) => ServiceAttachmentDTO(
+      name: CoverUtils.convertNameFile(cover.$1),
+      type: ServiceAttachmentType.imagem.name,
+      path: "/uploads/covers/",
+      customerID: customerID ?? 0,
+      orderID: orderID,
+      isCover: true,
+      description: "cover");
 
   ServiceAttachmentDTO attachmentDTO({required int orderID}) =>
       ServiceAttachmentDTO(
           name: CoverUtils.convertNameFile(serviceFile!.path),
-          type: serviceFile!.path.endsWith("pdf") ? ServiceAttachmentType.pdf.name : ServiceAttachmentType.imagem.name ,
+          type: serviceFile!.path.endsWith("pdf")
+              ? ServiceAttachmentType.pdf.name
+              : ServiceAttachmentType.imagem.name,
           path: "/uploads/documents/",
           customerID: customerID ?? 0,
           orderID: orderID,
           isCover: false,
-          description: type == 1? ServiceTypeMapper.inspiration : ServiceTypeMapper.archtectonic
-      );
-
-
-
+          description: type == 1
+              ? ServiceTypeMapper.inspiration
+              : ServiceTypeMapper.archtectonic);
 }

@@ -5,7 +5,6 @@ import '../../../../../../core/themes/family_theme.dart';
 import '../../../profile/presentation/utils/profile_utils.dart';
 
 class ConversationSuportTileWidget extends StatelessWidget {
-
   final String title = "Suporte";
   final String name;
 
@@ -13,8 +12,11 @@ class ConversationSuportTileWidget extends StatelessWidget {
 
   final Function() onPressed;
 
-  const ConversationSuportTileWidget({ super.key, required this.colaborations,
-    required this.onPressed, required this.name });
+  const ConversationSuportTileWidget(
+      {super.key,
+      required this.colaborations,
+      required this.onPressed,
+      required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -41,11 +43,16 @@ class ConversationSuportTileWidget extends StatelessWidget {
                         shape: BoxShape.circle,
                         color: Colors.white),
                     child: Center(
-                      child: Text(ProfileUtils.initalLetters(name),
-                        style: TextStyle(fontSize: 10,
+                      child: Text(
+                        ProfileUtils.initalLetters(name),
+                        style: TextStyle(
+                          fontSize: 10,
                           fontFamily: FamilyTheme.regular,
-                          color: Colors.black,),),
-                    )),)
+                          color: Colors.black,
+                        ),
+                      ),
+                    )),
+              )
             ],
           ),
           minLeadingWidth: 60,
@@ -59,15 +66,18 @@ class ConversationSuportTileWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(title, maxLines: 1,
+                  Text(title,
+                      maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: TextStyle(fontFamily: FamilyTheme.medium,
+                      style: TextStyle(
+                          fontFamily: FamilyTheme.medium,
                           color: ColorTheme.black3,
                           fontSize: 16)),
-                  Text(colaborations, style: TextStyle(
-                      fontFamily: FamilyTheme.regular,
-                      color: ColorTheme.black3,
-                      fontSize: 10)),
+                  Text(colaborations,
+                      style: TextStyle(
+                          fontFamily: FamilyTheme.regular,
+                          color: ColorTheme.black3,
+                          fontSize: 10)),
                 ],
               ),
               const Padding(

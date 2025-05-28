@@ -5,7 +5,6 @@ import '../../../../core/themes/family_theme.dart';
 import '../../domain/entities/message_entity.dart';
 
 class MessageSupportBalloonWidget extends StatelessWidget {
-
   final String title = "Suporte";
   final MessageEntity message;
 
@@ -19,14 +18,21 @@ class MessageSupportBalloonWidget extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(title, style: TextStyle(fontSize: 8, fontFamily: FamilyTheme.regular,color: Colors.black)),
+          Text(title,
+              style: TextStyle(
+                  fontSize: 8,
+                  fontFamily: FamilyTheme.regular,
+                  color: Colors.black)),
           Container(
               padding: const EdgeInsets.all(8.0),
-              decoration:  BoxDecoration(
+              decoration: BoxDecoration(
                   color: ColorTheme.orange,
                   borderRadius: const BorderRadius.all(Radius.circular(5.0))),
-              child: Text(message.message,style: TextStyle(fontSize: 12,
-                  fontFamily: FamilyTheme.regular,color: Colors.black))),
+              child: Text(message.message,
+                  style: TextStyle(
+                      fontSize: 12,
+                      fontFamily: FamilyTheme.regular,
+                      color: Colors.black))),
         ],
       ),
     );

@@ -23,7 +23,6 @@ import 'domain/usecases/reset_password_usecase.dart';
 import 'presentation/login_page.dart';
 
 class LoginModule extends Module {
-
   @override
   void binds(i) {
     i.add(() => LoginStore());
@@ -47,10 +46,14 @@ class LoginModule extends Module {
     r.child(RouterMapper.register, child: (context) => const RegisterPage());
     r.child(RouterMapper.document, child: (context) => const DocumentsPage());
     r.child(RouterMapper.contract, child: (context) => const ContractPage());
-    r.child(RouterMapper.success, child: (context) => const RegisterSuccessPage());
+    r.child(RouterMapper.success,
+        child: (context) => const RegisterSuccessPage());
 
-    r.child(RouterMapper.resetPassword, child: (context) => ResetPasswordPage());
-    r.child(RouterMapper.resetPasswordCode, child: (context) =>  ResetCodePage());
-    r.child(RouterMapper.confirmPassword, child: (context) => ConfirmPasswordPage(token: r.args.data));
+    r.child(RouterMapper.resetPassword,
+        child: (context) => ResetPasswordPage());
+    r.child(RouterMapper.resetPasswordCode,
+        child: (context) => ResetCodePage());
+    r.child(RouterMapper.confirmPassword,
+        child: (context) => ConfirmPasswordPage(token: r.args.data));
   }
 }

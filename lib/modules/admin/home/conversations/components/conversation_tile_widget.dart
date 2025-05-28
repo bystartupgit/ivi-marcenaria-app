@@ -6,7 +6,6 @@ import '../../../../customer/home/profile/presentation/utils/profile_utils.dart'
 import '../../../domain/entities/order_entity.dart';
 
 class ConversationTileWidget extends StatelessWidget {
-
   final String name;
 
   final OrderEntity order;
@@ -14,8 +13,12 @@ class ConversationTileWidget extends StatelessWidget {
 
   final Function() onPressed;
 
-  const ConversationTileWidget({ super.key, required this.order, required this.colaborations,
-    required this.onPressed, required this.name });
+  const ConversationTileWidget(
+      {super.key,
+      required this.order,
+      required this.colaborations,
+      required this.onPressed,
+      required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -29,20 +32,29 @@ class ConversationTileWidget extends StatelessWidget {
           leading: Stack(
             clipBehavior: Clip.none,
             children: [
-              const CircleAvatar(backgroundImage: AssetImage("assets/logo/logo.jpg"),maxRadius: 20),
+              const CircleAvatar(
+                  backgroundImage: AssetImage("assets/logo/logo.jpg"),
+                  maxRadius: 20),
               Positioned(
                 left: 20,
                 child: Container(
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
-                        border: Border.all(color: ColorTheme.orange,width: 2),
+                        border: Border.all(color: ColorTheme.orange, width: 2),
                         shape: BoxShape.circle,
                         color: Colors.white),
                     child: Center(
-                      child: Text(ProfileUtils.initalLetters(name),
-                        style: TextStyle(fontSize: 10,fontFamily: FamilyTheme.regular,color: Colors.black,),),
-                    )),)
+                      child: Text(
+                        ProfileUtils.initalLetters(name),
+                        style: TextStyle(
+                          fontSize: 10,
+                          fontFamily: FamilyTheme.regular,
+                          color: Colors.black,
+                        ),
+                      ),
+                    )),
+              )
             ],
           ),
           minLeadingWidth: 60,
@@ -52,7 +64,11 @@ class ConversationTileWidget extends StatelessWidget {
             children: [
               Padding(
                 padding: const EdgeInsets.only(right: 10.0),
-                child: Text("Pedido Nº ${order.id}", style: TextStyle(fontFamily: FamilyTheme.regular,color: ColorTheme.black3, fontSize: 12)),
+                child: Text("Pedido Nº ${order.id}",
+                    style: TextStyle(
+                        fontFamily: FamilyTheme.regular,
+                        color: ColorTheme.black3,
+                        fontSize: 12)),
               ),
             ],
           ),
@@ -64,13 +80,23 @@ class ConversationTileWidget extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(order.title,maxLines: 1, overflow: TextOverflow.ellipsis, style: TextStyle(fontFamily: FamilyTheme.medium,color: ColorTheme.black3, fontSize: 16)),
-                  Text(colaborations, style: TextStyle(fontFamily: FamilyTheme.regular,color: ColorTheme.black3, fontSize: 10)),
+                  Text(order.title,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: TextStyle(
+                          fontFamily: FamilyTheme.medium,
+                          color: ColorTheme.black3,
+                          fontSize: 16)),
+                  Text(colaborations,
+                      style: TextStyle(
+                          fontFamily: FamilyTheme.regular,
+                          color: ColorTheme.black3,
+                          fontSize: 10)),
                 ],
               ),
               const Padding(
                 padding: EdgeInsets.only(right: 5.0),
-                child: Icon(Icons.arrow_forward_ios,size: 14),
+                child: Icon(Icons.arrow_forward_ios, size: 14),
               ),
             ],
           ),

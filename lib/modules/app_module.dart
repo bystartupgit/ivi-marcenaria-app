@@ -15,17 +15,16 @@ import 'chat_support/chat_module.dart';
 import 'login/login_module.dart';
 
 class AppModule extends Module {
-
   @override
   void binds(i) {
-
     i.addSingleton(CoreStore.new);
 
     i.add(OnboardingStore.new);
 
     i.add(() => OrderDataSource());
 
-    i.add(() => GetOrderDetailsWithoutEmployeeUsecase(datasource: i.get<OrderDataSource>()));
+    i.add(() => GetOrderDetailsWithoutEmployeeUsecase(
+        datasource: i.get<OrderDataSource>()));
   }
 
   @override
@@ -37,7 +36,7 @@ class AppModule extends Module {
     r.module(RouterGlobalMapper.admin, module: AdminModule());
     r.module(RouterGlobalMapper.notification, module: NotificationModule());
     r.module(RouterGlobalMapper.chatSupport, module: ChatSuportModule());
-    r.module(RouterGlobalMapper.chatPrivateSupport, module: ChatPrivateSuportModule());
+    r.module(RouterGlobalMapper.chatPrivateSupport,
+        module: ChatPrivateSuportModule());
   }
-
 }

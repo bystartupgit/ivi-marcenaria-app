@@ -1,8 +1,4 @@
-
-
-
 class OrderMapper {
-
   static String waitingProposal = "pedidosAguardandoOrcamento";
   static String orders = "pedidos";
   static String order = "pedido";
@@ -16,5 +12,4 @@ class OrderMapper {
   static String environments = "ambientes";
   static String description = "descricao";
   static String status = "status";
-
 }

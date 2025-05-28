@@ -13,25 +13,19 @@ class OnboardingPage extends StatefulWidget {
 }
 
 class _OnboardingPageState extends State<OnboardingPage> {
-
   final OnboardingStore store = Modular.get<OnboardingStore>();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      body: Stack(
-        children: [
-          PageView(
-            controller: store.controller,
-
-            children:
-            const [
-               OnboardingPageOneWidget(),
-               OnboardingPageTwoWidget(),
-               OnboardingPageThreeWidget()
-            ]),
-        ],
-      ));
+        body: Stack(
+      children: [
+        PageView(controller: store.controller, children: const [
+          OnboardingPageOneWidget(),
+          OnboardingPageTwoWidget(),
+          OnboardingPageThreeWidget()
+        ]),
+      ],
+    ));
   }
 }

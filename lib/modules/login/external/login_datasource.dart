@@ -1,5 +1,3 @@
-
-
 import 'dart:convert';
 import 'dart:developer';
 
@@ -10,142 +8,145 @@ import 'package:marcenaria/modules/login/domain/mappers/auth_mapper.dart';
 import '../domain/dto/register_dto.dart';
 
 class LoginDataSource {
+  final String enviroment = "http://92.112.177.245:5000";
 
-    final String enviroment = "http://92.112.177.245:5000";
+  Future<(String, bool)> registerUser({required RegisterDTO dto}) async {
+    Uri url = Uri.parse("$enviroment/api/usuarios/registrar");
 
-    Future<(String, bool)> registerUser({required RegisterDTO dto}) async {
+    Map<String, String> headers = {"Content-Type": "application/json"};
 
-      Uri url = Uri.parse("$enviroment/api/usuarios/registrar");
+    Map<String, dynamic> body = dto.toMap();
 
-      Map<String,String> headers = {"Content-Type": "application/json"};
-
-      Map<String,dynamic> body = dto.toMap();
-
-      try{
-
-      Response response = await post(url, headers: headers, body: jsonEncode(body))
-          .timeout(const Duration(seconds: 8));
+    try {
+      Response response =
+          await post(url, headers: headers, body: jsonEncode(body))
+              .timeout(const Duration(seconds: 8));
 
       final String message = jsonDecode(response.body)["message"];
 
-      if(response.statusCode == 201) {
-
+      if (response.statusCode == 201) {
         final data = jsonDecode(response.body);
 
-        if(message == AuthMapper.success) { return ("", true); }
-
-        else { return (message, false); }
-
-      } else { return (message, false); }
-
-      }catch(e) { return ("Não foi possível realizar o cadastro. Tente novamente mais tarde", false); }
+        if (message == AuthMapper.success) {
+          return ("", true);
+        } else {
+          return (message, false);
+        }
+      } else {
+        return (message, false);
+      }
+    } catch (e) {
+      return (
+        "Não foi possível realizar o cadastro. Tente novamente mais tarde",
+        false
+      );
     }
+  }
 
-    Future<(String, AuthEntity?)> login({required String email, required String password}) async {
+  Future<(String, AuthEntity?)> login(
+      {required String email, required String password}) async {
+    Uri url = Uri.parse("$enviroment/api/usuarios/login");
 
-      Uri url = Uri.parse("$enviroment/api/usuarios/login");
+    Map<String, String> headers = {"Content-Type": "application/json"};
 
-      Map<String,String> headers = {"Content-Type": "application/json"};
+    Map<String, dynamic> body = {"email": email, "senha": password};
 
-      Map<String,dynamic> body ={"email":email, "senha": password };
+    try {
+      Response response =
+          await post(url, headers: headers, body: jsonEncode(body))
+              .timeout(const Duration(seconds: 8));
 
-      try {
+      dynamic data = jsonDecode(response.body);
 
-        Response response = await post(
-            url, headers: headers, body: jsonEncode(body))
-            .timeout(const Duration(seconds: 8));
+      final String message = data[AuthMapper.message];
 
-        dynamic data = jsonDecode(response.body);
-
-        final String message = data[AuthMapper.message];
-
-
-
-        if(response.statusCode == 200) {
-          return (message, AuthEntity.fromMap(data));
-        } else { return (message, null); }
-
-      } catch(e) { print(e); return (e.toString(), null); }
-
+      if (response.statusCode == 200) {
+        return (message, AuthEntity.fromMap(data));
+      } else {
+        return (message, null);
+      }
+    } catch (e) {
+      print(e);
+      return (e.toString(), null);
     }
+  }
 
-    Future<(String, bool)> sendResetEmail({required String email}) async {
+  Future<(String, bool)> sendResetEmail({required String email}) async {
+    Uri url = Uri.parse("$enviroment/api/usuarios/recoverPassword");
 
-      Uri url = Uri.parse("$enviroment/api/usuarios/recoverPassword");
+    Map<String, String> headers = {"Content-Type": "application/json"};
 
-      Map<String,String> headers = {"Content-Type": "application/json"};
+    Map<String, dynamic> body = {"email": email};
 
-      Map<String,dynamic> body ={ "email":email };
+    try {
+      Response response =
+          await post(url, headers: headers, body: jsonEncode(body))
+              .timeout(const Duration(seconds: 8));
 
-      try {
+      dynamic data = jsonDecode(response.body);
 
-        Response response = await post(
-            url, headers: headers, body: jsonEncode(body))
-            .timeout(const Duration(seconds: 8));
+      final String message = data[AuthMapper.message];
 
-        dynamic data = jsonDecode(response.body);
-
-        final String message = data[AuthMapper.message];
-
-        if(response.statusCode == 200) {
-          return (message, true);
-        } else { return (message, false); }
-
-      } catch(e) { return (e.toString(), false); }
-
+      if (response.statusCode == 200) {
+        return (message, true);
+      } else {
+        return (message, false);
+      }
+    } catch (e) {
+      return (e.toString(), false);
     }
+  }
 
-    Future<(String, bool)> validateToken({required String code}) async {
+  Future<(String, bool)> validateToken({required String code}) async {
+    Uri url = Uri.parse("$enviroment/api/usuarios/validateToken");
 
-      Uri url = Uri.parse("$enviroment/api/usuarios/validateToken");
+    Map<String, String> headers = {"Content-Type": "application/json"};
 
-      Map<String,String> headers = {"Content-Type": "application/json"};
+    Map<String, dynamic> body = {"token": code};
 
-      Map<String,dynamic> body = { "token": code };
+    try {
+      Response response =
+          await post(url, headers: headers, body: jsonEncode(body))
+              .timeout(const Duration(seconds: 8));
 
-      try {
+      dynamic data = jsonDecode(response.body);
 
-        Response response = await post(
-            url, headers: headers, body: jsonEncode(body))
-            .timeout(const Duration(seconds: 8));
+      final String message = data[AuthMapper.message];
 
-        dynamic data = jsonDecode(response.body);
-
-        final String message = data[AuthMapper.message];
-
-        if(response.statusCode == 200) {
-          return (message, true);
-        } else { return (message, false); }
-
-      } catch(e) { return (e.toString(), false); }
-
+      if (response.statusCode == 200) {
+        return (message, true);
+      } else {
+        return (message, false);
+      }
+    } catch (e) {
+      return (e.toString(), false);
     }
+  }
 
-    Future<(String,bool)> resetPassword({required String code, required String password}) async {
+  Future<(String, bool)> resetPassword(
+      {required String code, required String password}) async {
+    Uri url = Uri.parse("$enviroment/api/usuarios/alterkeyrecovery");
 
-      Uri url = Uri.parse("$enviroment/api/usuarios/alterkeyrecovery");
+    Map<String, String> headers = {"Content-Type": "application/json"};
 
-      Map<String,String> headers = {"Content-Type": "application/json"};
+    Map<String, dynamic> body = {"token": code, "novaSenha": password};
 
-      Map<String,dynamic> body = { "token": code, "novaSenha": password };
+    try {
+      Response response =
+          await post(url, headers: headers, body: jsonEncode(body))
+              .timeout(const Duration(seconds: 8));
 
-      try {
+      dynamic data = jsonDecode(response.body);
 
-        Response response = await post(
-            url, headers: headers, body: jsonEncode(body))
-            .timeout(const Duration(seconds: 8));
+      final String message = data[AuthMapper.message];
 
-        dynamic data = jsonDecode(response.body);
-
-        final String message = data[AuthMapper.message];
-
-        if(response.statusCode == 200) {
-          return (message, true);
-        } else { return (message, false); }
-
-      } catch(e) { return (e.toString(), false); }
-
-
+      if (response.statusCode == 200) {
+        return (message, true);
+      } else {
+        return (message, false);
+      }
+    } catch (e) {
+      return (e.toString(), false);
     }
-
+  }
 }

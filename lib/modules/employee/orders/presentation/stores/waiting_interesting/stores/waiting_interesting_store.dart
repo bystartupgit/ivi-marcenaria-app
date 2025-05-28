@@ -6,14 +6,14 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../domain/usecases/get_waiting_interest_orders_usecase.dart';
 
-
 part 'waiting_interesting_store.g.dart';
 
-class WaitingInterestiongStore = WaitingInterestiongStoreBase with _$WaitingInterestiongStore;
+class WaitingInterestiongStore = WaitingInterestiongStoreBase
+    with _$WaitingInterestiongStore;
 
 abstract class WaitingInterestiongStoreBase with Store implements Disposable {
-
-  final GetWaitingInterestOrdersUsecase _getWaitingInterestOrdersUsecase = Modular.get<GetWaitingInterestOrdersUsecase>();
+  final GetWaitingInterestOrdersUsecase _getWaitingInterestOrdersUsecase =
+      Modular.get<GetWaitingInterestOrdersUsecase>();
 
   ScrollController scroll = ScrollController();
 
@@ -40,18 +40,18 @@ abstract class WaitingInterestiongStoreBase with Store implements Disposable {
 
   @action
   init() async {
-
     try {
-
       setLoading(true);
 
       List<OrderEntity> result = await _getWaitingInterestOrdersUsecase.call(
-          employeeID: Modular.get<CoreStore>().profile?.id ?? 0, page: page, limit: limit);
+          employeeID: Modular.get<CoreStore>().profile?.id ?? 0,
+          page: page,
+          limit: limit);
 
       orders = result.asObservable();
-
-    } finally { setLoading(false); }
-
+    } finally {
+      setLoading(false);
+    }
   }
 
   @override

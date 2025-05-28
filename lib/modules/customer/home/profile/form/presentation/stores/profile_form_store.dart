@@ -10,7 +10,6 @@ import 'package:mobx/mobx.dart';
 import 'package:path/path.dart' as path;
 import 'package:permission_handler/permission_handler.dart';
 
-
 import '../../../../../../../core/data/store/core_store.dart';
 import '../../../../../../../core/permissions/gallery_permission_utils.dart';
 import '../../../../../../login/domain/usecases/show_success_message_usecase.dart';
@@ -22,9 +21,10 @@ part 'profile_form_store.g.dart';
 class ProfileFormStore = ProfileFormStoreBase with _$ProfileFormStore;
 
 abstract class ProfileFormStoreBase with Store {
-
-  final UploadProfilePhotoUsecase _uploadProfilePhotoUsecase = Modular.get<UploadProfilePhotoUsecase>();
-  final UpdateProfileUsecase _updateProfileUsecase = Modular.get<UpdateProfileUsecase>();
+  final UploadProfilePhotoUsecase _uploadProfilePhotoUsecase =
+      Modular.get<UploadProfilePhotoUsecase>();
+  final UpdateProfileUsecase _updateProfileUsecase =
+      Modular.get<UpdateProfileUsecase>();
 
   final TextEditingController name = TextEditingController();
   final TextEditingController email = TextEditingController();
@@ -48,40 +48,44 @@ abstract class ProfileFormStoreBase with Store {
 
   @action
   uploadImage({required context}) async {
-    try{
-
+    try {
       setLoading(true);
 
       bool result = await getProfilePhoto(context: context);
 
-      if(result) {
-
+      if (result) {
         int customerID = Modular.get<CoreStore>().profile?.id ?? 0;
 
-        bool result = await _uploadProfilePhotoUsecase.call(customerID: customerID, name: path.basename(image!.path), photo: image!);
+        bool result = await _uploadProfilePhotoUsecase.call(
+            customerID: customerID,
+            name: path.basename(image!.path),
+            photo: image!);
 
-        if(result) {
-          ShowSuccessMessageUsecase(context: context).call(message: "Sucesso ao inserir a nova foto.");
-        } else { ShowErrorMessageUsecase(context: context).call(message: "Não foi possível inserir uma nova foto."); }
+        if (result) {
+          ShowSuccessMessageUsecase(context: context)
+              .call(message: "Sucesso ao inserir a nova foto.");
+        } else {
+          ShowErrorMessageUsecase(context: context)
+              .call(message: "Não foi possível inserir uma nova foto.");
+        }
       }
-
-    } catch(e) { ShowErrorMessageUsecase(context: context)
-        .call(message: "Não foi possível atualizar a foto de perfil. Tente novamente mais tarde."); } finally { setLoading(false); }
-
+    } catch (e) {
+      ShowErrorMessageUsecase(context: context).call(
+          message:
+              "Não foi possível atualizar a foto de perfil. Tente novamente mais tarde.");
+    } finally {
+      setLoading(false);
+    }
   }
 
-
   @action
-  Future<bool> getProfilePhoto({ required context }) async {
-
+  Future<bool> getProfilePhoto({required context}) async {
     PermissionStatus permission = await GalleryPermission().call();
 
-    if(permission.isGranted) {
-
+    if (permission.isGranted) {
       XFile? file = await ImagePicker().pickImage(source: ImageSource.gallery);
 
       if (file != null) {
-
         final File result = File(file.path);
 
         image = result;
@@ -90,23 +94,22 @@ abstract class ProfileFormStoreBase with Store {
       }
 
       return false;
+    } else {
+      ShowErrorMessageUsecase(context: context).call(
+          message: "Você precisa permitir que o Marcenaria APP acesse "
+              "a galeria do seu dispositivo para incluir uma foto de perfil.");
 
-    } else { ShowErrorMessageUsecase(context: context)
-        .call(message: "Você precisa permitir que o Marcenaria APP acesse "
-        "a galeria do seu dispositivo para incluir uma foto de perfil.");
-
-    return false;
+      return false;
     }
   }
 
   @action
   init() async {
-
     ProfileEntity? profile = Modular.get<CoreStore>().profile;
 
     pathImage = Modular.get<CoreStore>().pathImage?.split("/").last;
 
-    if(profile != null) {
+    if (profile != null) {
       name.text = profile.name;
       email.text = profile.email;
       phone.text = profile.phone;
@@ -116,37 +119,39 @@ abstract class ProfileFormStoreBase with Store {
 
   @action
   update({required context}) async {
-
     try {
-
       setLoading(true);
 
-      bool result = await _updateProfileUsecase.call(userID: Modular.get<CoreStore>().auth?.id ?? 0,
-          dto: profile);
+      bool result = await _updateProfileUsecase.call(
+          userID: Modular.get<CoreStore>().auth?.id ?? 0, dto: profile);
 
-      if(result) { ShowSuccessMessageUsecase(context: context).call(message: "Sucesso ao atualizar os dados de perfil.");
+      if (result) {
+        ShowSuccessMessageUsecase(context: context)
+            .call(message: "Sucesso ao atualizar os dados de perfil.");
 
         CoreStore core = Modular.get<CoreStore>();
 
         core.setProfile(core.profile?.copyWith(
             name: name.text,
             phone: phone.text,
-            cpf: documentNumber.text.isEmpty? "" : documentNumber.text.replaceAll(".", "").replaceAll("-", ""),
-            email: email.text
-        ));
+            cpf: documentNumber.text.isEmpty
+                ? ""
+                : documentNumber.text.replaceAll(".", "").replaceAll("-", ""),
+            email: email.text));
       } else {
-        ShowErrorMessageUsecase(context: context ).call(message: "Não foi possível atualizar os dados do perfil");
+        ShowErrorMessageUsecase(context: context)
+            .call(message: "Não foi possível atualizar os dados do perfil");
       }
-
-
-    }catch(e) { ShowErrorMessageUsecase(context: context ).call(message: e.toString()); }
-    finally{ setLoading(false); }
-
-
+    } catch (e) {
+      ShowErrorMessageUsecase(context: context).call(message: e.toString());
+    } finally {
+      setLoading(false);
+    }
   }
 
-  ProfileDTO get profile => ProfileDTO(name: name.text, email: email.text,
-      cpf: documentNumber.text, phone: phone.text);
-
-
+  ProfileDTO get profile => ProfileDTO(
+      name: name.text,
+      email: email.text,
+      cpf: documentNumber.text,
+      phone: phone.text);
 }

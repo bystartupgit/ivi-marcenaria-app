@@ -1,5 +1,3 @@
-
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -15,7 +13,6 @@ part 'customer_store.g.dart';
 class CustomerStore = CustomerStoreBase with _$CustomerStore;
 
 abstract class CustomerStoreBase with Store implements Disposable {
-
   final _getCustomers = Modular.get<GetCustomersUsecase>();
 
   ScrollController scroll = ScrollController();
@@ -33,7 +30,8 @@ abstract class CustomerStoreBase with Store implements Disposable {
   int limit = 10;
 
   @observable
-  ObservableList<CustomerUserEntity> customers = <CustomerUserEntity>[].asObservable();
+  ObservableList<CustomerUserEntity> customers =
+      <CustomerUserEntity>[].asObservable();
 
   @observable
   bool loading = false;
@@ -46,37 +44,38 @@ abstract class CustomerStoreBase with Store implements Disposable {
 
   @action
   loadingMoreCustomers() async {
-
     if (customers.length / limit == page) {
       addPagination();
 
       setLoading(true);
 
-      List<CustomerUserEntity> result = await _getCustomers.call(page: page, limit: limit,name: name);
+      List<CustomerUserEntity> result =
+          await _getCustomers.call(page: page, limit: limit, name: name);
 
-      if(result.isNotEmpty) {
-
-      for(CustomerUserEntity value in result) {
-        if(customers.contains(value) == false) { customers.add(value); }
-      }
+      if (result.isNotEmpty) {
+        for (CustomerUserEntity value in result) {
+          if (customers.contains(value) == false) {
+            customers.add(value);
+          }
+        }
       }
 
       setLoading(false);
     } else {
       setLoading(true);
 
-      List<CustomerUserEntity> result = await _getCustomers.call(page: page, limit: limit,name: name);
+      List<CustomerUserEntity> result =
+          await _getCustomers.call(page: page, limit: limit, name: name);
 
-      if(result.isNotEmpty) {
-
-      for(CustomerUserEntity value in result) {
-        if(customers.contains(value) == false) { customers.add(value); }
-      }
-
+      if (result.isNotEmpty) {
+        for (CustomerUserEntity value in result) {
+          if (customers.contains(value) == false) {
+            customers.add(value);
+          }
+        }
       }
 
       setLoading(false);
-
     }
   }
 
@@ -87,38 +86,37 @@ abstract class CustomerStoreBase with Store implements Disposable {
     if (debounce?.isActive ?? false) debounce?.cancel();
 
     debounce = Timer(const Duration(milliseconds: 500), () async {
-
       try {
-
         setLoading(true);
 
         page = 1;
 
-        List<CustomerUserEntity> result = await _getCustomers.call(page: page, limit: limit,name: name);
+        List<CustomerUserEntity> result =
+            await _getCustomers.call(page: page, limit: limit, name: name);
 
         customers = result.asObservable();
-
-      } catch(e) { ShowErrorMessageUsecase(context: context).call(message: "Não foi possível pesquisar novos clientes."); }
-      finally { setLoading(false); }
-
+      } catch (e) {
+        ShowErrorMessageUsecase(context: context)
+            .call(message: "Não foi possível pesquisar novos clientes.");
+      } finally {
+        setLoading(false);
+      }
     });
   }
 
   @action
   init() async {
-
     scroll.addListener(() {
-
-      if(scroll.position.pixels == scroll.position.maxScrollExtent && loading == false) {
+      if (scroll.position.pixels == scroll.position.maxScrollExtent &&
+          loading == false) {
         loadingMoreCustomers();
       }
-
     });
 
-     List<CustomerUserEntity> result = await _getCustomers.call(page: page, limit: limit);
+    List<CustomerUserEntity> result =
+        await _getCustomers.call(page: page, limit: limit);
 
-     customers = result.asObservable();
-
+    customers = result.asObservable();
   }
 
   @override

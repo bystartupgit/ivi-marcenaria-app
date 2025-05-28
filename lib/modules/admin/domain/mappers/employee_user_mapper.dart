@@ -1,8 +1,4 @@
-
-
-
 class EmployeeUserMapper {
-
   static String employees = "prestadores";
   static String employee = "Prestador";
 
@@ -20,5 +16,4 @@ class EmployeeUserMapper {
   static String name = "nome";
   static String email = "email";
   static String phone = "telefone";
-
 }

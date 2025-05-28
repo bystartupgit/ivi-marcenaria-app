@@ -6,36 +6,41 @@ import 'order_empty_widget.dart';
 import 'proposal_card_widget.dart';
 
 class ProposalListWidget extends StatelessWidget {
-
   final String message;
   final List<OrderEntity> orders;
 
   final ScrollController scroll;
   final Function(int value) onPressed;
 
-  const ProposalListWidget({super.key,
-    required this.scroll,
-    required this.orders, required this.message, required this.onPressed});
+  const ProposalListWidget(
+      {super.key,
+      required this.scroll,
+      required this.orders,
+      required this.message,
+      required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
-    return orders.isEmpty ? OrderEmptyWidget(title: message) : Observer(
-      builder: (context) {
-        return SingleChildScrollView(
-          controller: scroll,
-          child: Column(
-            children: [
-              ListView.separated(
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  separatorBuilder: (context, index) => const SizedBox(height: 10.0),
-                  itemCount: orders.length,
-                  itemBuilder: (context,index) => ProposalCardWidget(order: orders[index],onPressed: () => onPressed(orders[index].id))),
-              const SizedBox(height: 20.0)
-            ],
-          ),
-        );
-      }
-    );
+    return orders.isEmpty
+        ? OrderEmptyWidget(title: message)
+        : Observer(builder: (context) {
+            return SingleChildScrollView(
+              controller: scroll,
+              child: Column(
+                children: [
+                  ListView.separated(
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      separatorBuilder: (context, index) =>
+                          const SizedBox(height: 10.0),
+                      itemCount: orders.length,
+                      itemBuilder: (context, index) => ProposalCardWidget(
+                          order: orders[index],
+                          onPressed: () => onPressed(orders[index].id))),
+                  const SizedBox(height: 20.0)
+                ],
+              ),
+            );
+          });
   }
 }

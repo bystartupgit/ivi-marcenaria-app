@@ -8,15 +8,16 @@ import 'package:mobx/mobx.dart';
 
 import '../../../../../domain/usecases/get_employees_with_potential_usecase.dart';
 
-
 part 'waiting_employee_details_store.g.dart';
 
-class WaitingEmployeeDetailsStore = WaitingEmployeeDetailsStoreBase with _$WaitingEmployeeDetailsStore;
+class WaitingEmployeeDetailsStore = WaitingEmployeeDetailsStoreBase
+    with _$WaitingEmployeeDetailsStore;
 
 abstract class WaitingEmployeeDetailsStoreBase with Store {
-
-  final _getOrderDetailsWithoutEmployeeUsecase = Modular.get<GetOrderDetailsWithoutEmployeeUsecase>();
-  final _getEmployeesWithPotentialUseCase = Modular.get<GetEmployeesWithPotentialUseCase>();
+  final _getOrderDetailsWithoutEmployeeUsecase =
+      Modular.get<GetOrderDetailsWithoutEmployeeUsecase>();
+  final _getEmployeesWithPotentialUseCase =
+      Modular.get<GetEmployeesWithPotentialUseCase>();
 
   final ScrollController scroll = ScrollController();
 
@@ -36,7 +37,8 @@ abstract class WaitingEmployeeDetailsStoreBase with Store {
   addPagination() => page++;
 
   @observable
-  ObservableList<EmployeeUserEntity> employees = <EmployeeUserEntity>[].asObservable();
+  ObservableList<EmployeeUserEntity> employees =
+      <EmployeeUserEntity>[].asObservable();
 
   @observable
   bool loading = true;
@@ -46,25 +48,25 @@ abstract class WaitingEmployeeDetailsStoreBase with Store {
 
   @action
   init({required int orderID}) async {
-
     scroll.addListener(() {
-
-      if(scroll.position.pixels == scroll.position.maxScrollExtent && loading == false) {
+      if (scroll.position.pixels == scroll.position.maxScrollExtent &&
+          loading == false) {
         loadingMoreOrders();
       }
-
     });
 
     setLoading(true);
 
-    (OrderEntity?, ProposalEntity?,List<EmployeeUserEntity>) result = await _getOrderDetailsWithoutEmployeeUsecase.call(orderID: orderID);
+    (OrderEntity?, ProposalEntity?, List<EmployeeUserEntity>) result =
+        await _getOrderDetailsWithoutEmployeeUsecase.call(orderID: orderID);
 
     order = result.$1;
     proposal = result.$2;
 
-    if(proposal != null) {
+    if (proposal != null) {
       List<EmployeeUserEntity> resultEmployees =
-      await _getEmployeesWithPotentialUseCase.call(page: page, limit: limit, proposalID: proposal?.idProposta ?? 0);
+          await _getEmployeesWithPotentialUseCase.call(
+              page: page, limit: limit, proposalID: proposal?.idProposta ?? 0);
 
       employees = resultEmployees.asObservable();
     }
@@ -74,33 +76,31 @@ abstract class WaitingEmployeeDetailsStoreBase with Store {
 
   @action
   loadingMoreOrders() async {
-
-    if (employees.length/limit >= 10) {
-
+    if (employees.length / limit >= 10) {
       addPagination();
 
       List<EmployeeUserEntity> result =
-      await _getEmployeesWithPotentialUseCase.call(page: page, limit: limit,
-          proposalID: proposal?.idProposta ?? 0);
+          await _getEmployeesWithPotentialUseCase.call(
+              page: page, limit: limit, proposalID: proposal?.idProposta ?? 0);
 
-      if(result.isNotEmpty) {
-        for(EmployeeUserEntity value in result) {
-          if(employees.contains(value) == false) { employees.add(value); }
+      if (result.isNotEmpty) {
+        for (EmployeeUserEntity value in result) {
+          if (employees.contains(value) == false) {
+            employees.add(value);
+          }
         }
       }
-
     } else {
+      List<EmployeeUserEntity> result =
+          await _getEmployeesWithPotentialUseCase.call(
+              page: page, limit: limit, proposalID: proposal?.idProposta ?? 0);
 
-      List<EmployeeUserEntity> result = await _getEmployeesWithPotentialUseCase.call(
-          page: page, limit: limit,
-          proposalID: proposal?.idProposta ?? 0);
-
-      if(result.isNotEmpty) {
-
-        for(EmployeeUserEntity value in result) {
-          if(employees.contains(value) == false) { employees.add(value); }
+      if (result.isNotEmpty) {
+        for (EmployeeUserEntity value in result) {
+          if (employees.contains(value) == false) {
+            employees.add(value);
+          }
         }
-
       }
     }
   }

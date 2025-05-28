@@ -10,7 +10,6 @@ part 'core_store.g.dart';
 class CoreStore = CoreStoreBase with _$CoreStore;
 
 abstract class CoreStoreBase with Store {
-
   @observable
   AuthEntity? auth;
 
@@ -40,5 +39,4 @@ abstract class CoreStoreBase with Store {
 
   @action
   setProfile(ProfileEntity? value) => profile = value;
-
 }

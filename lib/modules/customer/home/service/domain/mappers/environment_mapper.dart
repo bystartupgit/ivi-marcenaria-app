@@ -1,6 +1,4 @@
-
 class EnvironmentMapper {
-
   static String living = "Sala";
   static String kitchen = "Cozinha";
   static String bathroom = "Banheiro";
@@ -24,6 +22,4 @@ class EnvironmentMapper {
   static String balconyImage = "assets/home/service/balcony.svg";
   static String reformImage = "assets/home/service/reform.svg";
   static String otherImage = "assets/home/service/other.svg";
-
-
 }

@@ -12,14 +12,17 @@ import '../../../../../../core/themes/color_theme.dart';
 import 'components/success_details_card_widget.dart';
 
 class ServiceSuccesPage extends StatelessWidget {
-
   final ServiceSuccessStore store = Modular.get<ServiceSuccessStore>();
 
   final OrderEntity order;
   final String type;
   final File serviceFile;
 
-  ServiceSuccesPage({ super.key, required this.order, required this.serviceFile, required this.type });
+  ServiceSuccesPage(
+      {super.key,
+      required this.order,
+      required this.serviceFile,
+      required this.type});
 
   @override
   Widget build(BuildContext context) {
@@ -29,24 +32,29 @@ class ServiceSuccesPage extends StatelessWidget {
             child: ModalProgressHUD(
               inAsyncCall: store.loading,
               child: Scaffold(
-              backgroundColor: ColorTheme.background,
-              appBar: AppBar(
-                  leading: IconButton(onPressed: () => Modular.to.popUntil(ModalRoute.withName(Modular.initialRoute)),
-                      icon: Icon(Icons.arrow_back_ios_new_rounded, size: 20,color: ColorTheme.black)),
-                  backgroundColor: ColorTheme.background),
-              body: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                          const SuccessTitleWidget(),
-                          const SizedBox(height: 10.0),
-                          SuccessDetailsCardWidget(order: order,
-                              store: store,
-                              type: type,serviceFile: serviceFile,
-                              changeMoreDetails: store.setShowMore, moreDetails: store.showMore)
-                      ]))
-                      ),
+                  backgroundColor: ColorTheme.background,
+                  appBar: AppBar(
+                      leading: IconButton(
+                          onPressed: () => Modular.to.popUntil(
+                              ModalRoute.withName(Modular.initialRoute)),
+                          icon: Icon(Icons.arrow_back_ios_new_rounded,
+                              size: 20, color: ColorTheme.black)),
+                      backgroundColor: ColorTheme.background),
+                  body: Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            const SuccessTitleWidget(),
+                            const SizedBox(height: 10.0),
+                            SuccessDetailsCardWidget(
+                                order: order,
+                                store: store,
+                                type: type,
+                                serviceFile: serviceFile,
+                                changeMoreDetails: store.setShowMore,
+                                moreDetails: store.showMore)
+                          ]))),
             )));
   }
 }

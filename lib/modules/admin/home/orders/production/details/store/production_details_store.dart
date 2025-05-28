@@ -11,12 +11,13 @@ import '../../../../../../login/domain/usecases/show_success_message_usecase.dar
 
 part 'production_details_store.g.dart';
 
-class ProductionDetailsStore = ProductionDetailsStoreBase with _$ProductionDetailsStore;
+class ProductionDetailsStore = ProductionDetailsStoreBase
+    with _$ProductionDetailsStore;
 
 abstract class ProductionDetailsStoreBase with Store {
-
   final _finishServiceUseCase = Modular.get<FinishServiceUsecase>();
-  final _getOrderDetailsWithoutEmployeeUsecase = Modular.get<GetOrderDetailsWithoutEmployeeUsecase>();
+  final _getOrderDetailsWithoutEmployeeUsecase =
+      Modular.get<GetOrderDetailsWithoutEmployeeUsecase>();
 
   @observable
   OrderEntity? order;
@@ -35,10 +36,10 @@ abstract class ProductionDetailsStoreBase with Store {
 
   @action
   init({required int orderID}) async {
-
     setLoading(true);
 
-    (OrderEntity?, ProposalEntity?,List<EmployeeUserEntity>) result = await _getOrderDetailsWithoutEmployeeUsecase.call(orderID: orderID);
+    (OrderEntity?, ProposalEntity?, List<EmployeeUserEntity>) result =
+        await _getOrderDetailsWithoutEmployeeUsecase.call(orderID: orderID);
 
     order = result.$1;
     proposal = result.$2;
@@ -49,17 +50,24 @@ abstract class ProductionDetailsStoreBase with Store {
 
   @action
   finishService({required context}) async {
-
     try {
-
       setLoading(true);
 
-      (String,bool) result = await _finishServiceUseCase.call(proposalID: proposal?.idProposta ?? 0);
+      (String, bool) result = await _finishServiceUseCase.call(
+          proposalID: proposal?.idProposta ?? 0);
 
-      if(result.$2) { ShowSuccessMessageUsecase(context: context).call(message: result.$1).then((e) => Modular.to.pop(true)); }
-      else { ShowErrorMessageUsecase(context: context).call(message: result.$1); }
-
-    } catch(e){ ShowErrorMessageUsecase(context: context).call(message: "Erro ao finalizar o serviço"); } finally{ setLoading(false); }
-
+      if (result.$2) {
+        ShowSuccessMessageUsecase(context: context)
+            .call(message: result.$1)
+            .then((e) => Modular.to.pop(true));
+      } else {
+        ShowErrorMessageUsecase(context: context).call(message: result.$1);
+      }
+    } catch (e) {
+      ShowErrorMessageUsecase(context: context)
+          .call(message: "Erro ao finalizar o serviço");
+    } finally {
+      setLoading(false);
+    }
   }
 }

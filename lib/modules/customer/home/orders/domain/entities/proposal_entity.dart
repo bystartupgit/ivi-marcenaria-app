@@ -42,7 +42,6 @@ class ProposalEntity {
   });
 
   factory ProposalEntity.fromJson(Map<String, dynamic> json) {
-
     log(json.toString());
 
     return ProposalEntity(
@@ -66,26 +65,25 @@ class ProposalEntity {
     );
   }
 
-    Map<String, dynamic> toJson() => {
-      "id_proposta": idProposta,
-      "id_pedido": idPedido,
-      "id_prestador": idPrestador,
-      "mensagem": mensagem,
-      "valor_total": valorTotal,
-      "valor_pix": valorPix,
-      "valor_desconto": valorDesconto,
-      "entrada_minima": entradaMinima,
-      "parcelas": parcelas,
-      "escassez_temporal": escassezTemporal,
-      "de_por": dePor,
-      "url_arquivo_orcamento": urlArquivoOrcamento,
-      "status": status,
-      "data_criacao": dataCriacao.toIso8601String(),
-      "data_atualizacao": dataAtualizacao.toIso8601String(),
-      "pedido": pedido.toJson(),
-    };
-  }
-
+  Map<String, dynamic> toJson() => {
+        "id_proposta": idProposta,
+        "id_pedido": idPedido,
+        "id_prestador": idPrestador,
+        "mensagem": mensagem,
+        "valor_total": valorTotal,
+        "valor_pix": valorPix,
+        "valor_desconto": valorDesconto,
+        "entrada_minima": entradaMinima,
+        "parcelas": parcelas,
+        "escassez_temporal": escassezTemporal,
+        "de_por": dePor,
+        "url_arquivo_orcamento": urlArquivoOrcamento,
+        "status": status,
+        "data_criacao": dataCriacao.toIso8601String(),
+        "data_atualizacao": dataAtualizacao.toIso8601String(),
+        "pedido": pedido.toJson(),
+      };
+}
 
 class Pedido {
   String titulo;
@@ -97,12 +95,12 @@ class Pedido {
   });
 
   factory Pedido.fromJson(Map<String, dynamic> json) => Pedido(
-    titulo: json["titulo"],
-    contato: json["contato"],
-  );
+        titulo: json["titulo"],
+        contato: json["contato"],
+      );
 
   Map<String, dynamic> toJson() => {
-    "titulo": titulo,
-    "contato": contato,
-  };
+        "titulo": titulo,
+        "contato": contato,
+      };
 }

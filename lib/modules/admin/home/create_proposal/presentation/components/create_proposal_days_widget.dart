@@ -1,20 +1,22 @@
-
-
-
 import 'package:flutter/material.dart';
 
 import '../../../../../../core/themes/color_theme.dart';
 import '../../../../../../core/themes/family_theme.dart';
 
 class CreateProposalDaysWidget extends StatelessWidget {
-
   final String value;
   final Function(String? value) onChanged;
 
   final String title = "Prazo para conclusão:";
-  final List<String> items = ['30 dias uteis', '45 dias uteis', '60 dias uteis', '90 dias uteis'];
+  final List<String> items = [
+    '30 dias uteis',
+    '45 dias uteis',
+    '60 dias uteis',
+    '90 dias uteis'
+  ];
 
-  CreateProposalDaysWidget({super.key, required this.onChanged, required this.value});
+  CreateProposalDaysWidget(
+      {super.key, required this.onChanged, required this.value});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +25,11 @@ class CreateProposalDaysWidget extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text(title,style: TextStyle(color: ColorTheme.black3,fontFamily: FamilyTheme.medium,fontSize: 10)),
+        Text(title,
+            style: TextStyle(
+                color: ColorTheme.black3,
+                fontFamily: FamilyTheme.medium,
+                fontSize: 10)),
         Container(
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10.0),
@@ -33,12 +39,18 @@ class CreateProposalDaysWidget extends StatelessWidget {
             alignment: AlignmentDirectional.center,
             iconSize: 0.0,
             icon: null,
-            hint: Text('Escolha um item', style: TextStyle(color: ColorTheme.gray,
-                fontSize: 12, fontFamily: FamilyTheme.regular)), // Texto exibido quando nada for selecionado
+            hint: Text('Escolha um item',
+                style: TextStyle(
+                    color: ColorTheme.gray,
+                    fontSize: 12,
+                    fontFamily: FamilyTheme
+                        .regular)), // Texto exibido quando nada for selecionado
             value: value,
-            style: TextStyle(color: ColorTheme.black3,
-                fontSize: 12, fontFamily: FamilyTheme.regular),
-            onChanged: onChanged ,
+            style: TextStyle(
+                color: ColorTheme.black3,
+                fontSize: 12,
+                fontFamily: FamilyTheme.regular),
+            onChanged: onChanged,
             items: items.map((item) {
               return DropdownMenuItem<String>(
                 value: item,

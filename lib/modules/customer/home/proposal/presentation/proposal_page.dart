@@ -19,8 +19,8 @@ class ProposalPage extends StatefulWidget {
   State<ProposalPage> createState() => _ProposalPageState();
 }
 
-class _ProposalPageState extends State<ProposalPage> with AutomaticKeepAliveClientMixin {
-
+class _ProposalPageState extends State<ProposalPage>
+    with AutomaticKeepAliveClientMixin {
   final ProposalStore store = Modular.get<ProposalStore>();
 
   @override
@@ -40,29 +40,38 @@ class _ProposalPageState extends State<ProposalPage> with AutomaticKeepAliveClie
         backgroundColor: ColorTheme.background,
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: store.loading ? OrderLoadingWidget() : Column(
-              children: [
-                ProposalFilterWidget(onChanged: store.setFilter, title: "${store.name},",
-                    description: "aqui estão seus pedidos em ${ store.index == 1 ? "produção" : "concluidos"}"),
-                const SizedBox(height: 20),
-                const OrderHeaderGreatingsWidget(),
-                const SizedBox(height: 20),
-                ProposalSlideWidget(store: store),
-                const SizedBox(height: 20),
-                Expanded(
-                    child: PageView(
-                        physics: const NeverScrollableScrollPhysics(),
-                        controller: store.controller,
-                        children: [
-                          ProposalListWidget(
-                            navigation: (value) => Modular.to.pushNamed(CustomerRouters.productionIntern,arguments: value),
-                              orders: store.productionOrdersFiltered,message: OrderEmptyMapper.production),
-                          ProposalListWidget(
-                              navigation: (value) => Modular.to.pushNamed(CustomerRouters.conclusionIntern,arguments: value),
-                              orders: store.finishedOrdersFiltered, message: OrderEmptyMapper.finished)
-                        ]
-                    ))
-              ]),
+          child: store.loading
+              ? OrderLoadingWidget()
+              : Column(children: [
+                  ProposalFilterWidget(
+                      onChanged: store.setFilter,
+                      title: "${store.name},",
+                      description:
+                          "aqui estão seus pedidos em ${store.index == 1 ? "produção" : "concluidos"}"),
+                  const SizedBox(height: 20),
+                  const OrderHeaderGreatingsWidget(),
+                  const SizedBox(height: 20),
+                  ProposalSlideWidget(store: store),
+                  const SizedBox(height: 20),
+                  Expanded(
+                      child: PageView(
+                          physics: const NeverScrollableScrollPhysics(),
+                          controller: store.controller,
+                          children: [
+                        ProposalListWidget(
+                            navigation: (value) => Modular.to.pushNamed(
+                                CustomerRouters.productionIntern,
+                                arguments: value),
+                            orders: store.productionOrdersFiltered,
+                            message: OrderEmptyMapper.production),
+                        ProposalListWidget(
+                            navigation: (value) => Modular.to.pushNamed(
+                                CustomerRouters.conclusionIntern,
+                                arguments: value),
+                            orders: store.finishedOrdersFiltered,
+                            message: OrderEmptyMapper.finished)
+                      ]))
+                ]),
         ),
       ),
     );

@@ -1,6 +1,3 @@
-
-
-
 import 'dart:convert';
 
 import 'package:flutter_modular/flutter_modular.dart';
@@ -13,125 +10,124 @@ import '../domain/entities/message_entity.dart';
 import '../domain/mappers/message_mapper.dart';
 
 class ChatDataSource {
-
   final String enviroment = "http://92.112.177.245:5000";
 
-  Future<List<MessageEntity>> getMessages({required int orderID, required int page, required int limit }) async {
-
+  Future<List<MessageEntity>> getMessages(
+      {required int orderID, required int page, required int limit}) async {
     String? token = Modular.get<CoreStore>().auth?.token;
 
     Uri url = Uri.parse("$enviroment/api/mensagens/$orderID/listar");
 
-    Map<String,String> headers = {
+    Map<String, String> headers = {
       "Content-Type": "application/json",
       "Authorization": "Bearer $token"
     };
 
-    Map<String,dynamic> body = { "page" : page,  "limit" : limit };
+    Map<String, dynamic> body = {"page": page, "limit": limit};
 
-    try{
+    try {
+      Response response =
+          await post(url, headers: headers, body: jsonEncode(body))
+              .timeout(const Duration(seconds: 8));
 
-      Response response = await post(
-          url, headers: headers, body: jsonEncode(body))
-          .timeout(const Duration(seconds: 8));
-
-      Map<String,dynamic> data = jsonDecode(response.body);
+      Map<String, dynamic> data = jsonDecode(response.body);
 
       print(data.toString());
 
-      if(response.statusCode == 200) {
-
+      if (response.statusCode == 200) {
         List<dynamic> messages = data[MessageMapper.messages];
 
-        if(messages.isNotEmpty) { return messages.map((e) => MessageEntity.fromMap(e)).toList(); }
-        else { return []; }
-
-      } else { return []; }
-
-    } catch(e) { print(e); return []; }
+        if (messages.isNotEmpty) {
+          return messages.map((e) => MessageEntity.fromMap(e)).toList();
+        } else {
+          return [];
+        }
+      } else {
+        return [];
+      }
+    } catch (e) {
+      print(e);
+      return [];
+    }
   }
 
-  Future<List<MessageEntity>> getMessagesSupport({required int supportID, required int page, required int limit }) async {
-
+  Future<List<MessageEntity>> getMessagesSupport(
+      {required int supportID, required int page, required int limit}) async {
     String? token = Modular.get<CoreStore>().auth?.token;
 
     Uri url = Uri.parse("$enviroment/api/mensagens/$supportID/listar");
 
-    Map<String,String> headers = {
+    Map<String, String> headers = {
       "Content-Type": "application/json",
       "Authorization": "Bearer $token"
     };
 
-    Map<String,dynamic> body = { "page" : page,  "limit" : limit };
+    Map<String, dynamic> body = {"page": page, "limit": limit};
 
+    try {
+      Response response =
+          await post(url, headers: headers, body: jsonEncode(body))
+              .timeout(const Duration(seconds: 8));
 
+      Map<String, dynamic> data = jsonDecode(response.body);
 
-    try{
-
-      Response response = await post(
-          url, headers: headers, body: jsonEncode(body))
-          .timeout(const Duration(seconds: 8));
-
-      Map<String,dynamic> data = jsonDecode(response.body);
-
-      if(response.statusCode == 200) {
-
+      if (response.statusCode == 200) {
         List<dynamic> messages = data[MessageMapper.messages];
 
-        if(messages.isNotEmpty) { return messages.map((e) => MessageEntity.fromMap(e)).toList(); }
-        else { return []; }
-
-      } else { return []; }
-
-    } catch(e) { return []; }
+        if (messages.isNotEmpty) {
+          return messages.map((e) => MessageEntity.fromMap(e)).toList();
+        } else {
+          return [];
+        }
+      } else {
+        return [];
+      }
+    } catch (e) {
+      return [];
+    }
   }
 
   Future<void> sendMessageSupport({required MessageSupportDTO dto}) async {
-
     String? token = Modular.get<CoreStore>().auth?.token;
 
     Uri url = Uri.parse("$enviroment/api/mensagens/suporte");
 
-    Map<String,String> headers = {
+    Map<String, String> headers = {
       "Content-Type": "application/json",
       "Authorization": "Bearer $token"
     };
 
-    Map<String,dynamic> body = dto.toMap();
+    Map<String, dynamic> body = dto.toMap();
 
-    try{
-
+    try {
       await post(url, headers: headers, body: jsonEncode(body));
-
-
-    } catch(e) { print(e); }
+    } catch (e) {
+      print(e);
+    }
   }
 
   Future<void> sendMessage({required MessageDTO dto}) async {
-
     String? token = Modular.get<CoreStore>().auth?.token;
 
     Uri url = Uri.parse("$enviroment/api/mensagens/");
 
-    Map<String,String> headers = {
+    Map<String, String> headers = {
       "Content-Type": "application/json",
       "Authorization": "Bearer $token"
     };
 
-    Map<String,dynamic> body = dto.toMap();
+    Map<String, dynamic> body = dto.toMap();
 
     print(body.toString());
 
-    try{
-
-      Response response = await post(url, headers: headers, body: jsonEncode(body));
+    try {
+      Response response =
+          await post(url, headers: headers, body: jsonEncode(body));
 
       print(response.body);
       print(response.statusCode);
-
-    } catch(e) { print(e); }
-
+    } catch (e) {
+      print(e);
+    }
   }
-
-
 }

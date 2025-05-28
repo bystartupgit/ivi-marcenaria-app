@@ -9,7 +9,6 @@ part 'service_store.g.dart';
 class ServiceStore = ServiceStoreBase with _$ServiceStore;
 
 abstract class ServiceStoreBase with Store {
-
   final ProductionStore production = Modular.get<ProductionStore>();
   final FinishStore finish = Modular.get<FinishStore>();
 
@@ -19,6 +18,8 @@ abstract class ServiceStoreBase with Store {
   int index = 1;
 
   @action
-  setIndex(int value) { index = value; controller.jumpToPage(index - 1); }
-
+  setIndex(int value) {
+    index = value;
+    controller.jumpToPage(index - 1);
+  }
 }

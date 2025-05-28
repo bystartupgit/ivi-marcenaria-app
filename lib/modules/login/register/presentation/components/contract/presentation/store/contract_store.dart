@@ -1,6 +1,3 @@
-
-
-
 import 'dart:io';
 
 import 'package:flutter/services.dart';
@@ -13,7 +10,6 @@ part 'contract_store.g.dart';
 class ContractStore = ContractStoreBase with _$ContractStore;
 
 abstract class ContractStoreBase with Store {
-
   @observable
   bool check = false;
 
@@ -37,9 +33,7 @@ abstract class ContractStoreBase with Store {
 
   @action
   init() async {
-
     try {
-
       setLoading(true);
 
       Directory directory = await getTemporaryDirectory();
@@ -50,25 +44,25 @@ abstract class ContractStoreBase with Store {
       await file.writeAsBytes(bytes);
 
       contract = file;
-
-    } catch (e) { throw Exception('Error parsing asset file!'); } finally { setLoading(false); }
-
+    } catch (e) {
+      throw Exception('Error parsing asset file!');
+    } finally {
+      setLoading(false);
+    }
   }
 
   @action
   download() async {
-
-    try{
-
+    try {
       setLoadingDownload(true);
 
-      if(contract != null) {
+      if (contract != null) {
         await OpenFile.open(contract!.path);
       }
-
-    } catch(e) { print(e); } finally { (setLoadingDownload(false)); }
-
+    } catch (e) {
+      print(e);
+    } finally {
+      (setLoadingDownload(false));
+    }
   }
-
-
 }

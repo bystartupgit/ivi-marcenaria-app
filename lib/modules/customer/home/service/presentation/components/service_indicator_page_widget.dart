@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import '../../../../../../core/themes/color_theme.dart';
 
 class ServiceIndicatorPageWidget extends StatelessWidget {
-
   final int index;
 
   const ServiceIndicatorPageWidget({super.key, required this.index});
@@ -17,13 +16,23 @@ class ServiceIndicatorPageWidget extends StatelessWidget {
       child: AnotherStepper(
         stepperList: [
           StepperData(
-              iconWidget: Container(padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(color: index >= 0 ? ColorTheme.darkYellow : ColorTheme.lightGray,
-                  borderRadius: const BorderRadius.all(Radius.circular(30))))),
+              iconWidget: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                      color: index >= 0
+                          ? ColorTheme.darkYellow
+                          : ColorTheme.lightGray,
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(30))))),
           StepperData(
-              iconWidget: Container(padding: const EdgeInsets.all(8), decoration: BoxDecoration(color: index >= 1 ? ColorTheme.darkYellow : ColorTheme.lightGray,
-                  borderRadius: const BorderRadius.all(Radius.circular(30))))),
-
+              iconWidget: Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                      color: index >= 1
+                          ? ColorTheme.darkYellow
+                          : ColorTheme.lightGray,
+                      borderRadius:
+                          const BorderRadius.all(Radius.circular(30))))),
         ],
         stepperDirection: Axis.horizontal,
         inActiveBarColor: ColorTheme.lightGray,

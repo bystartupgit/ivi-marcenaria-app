@@ -9,11 +9,12 @@ import '../../../../../../admin/domain/usecases/get_order_details_without_employ
 
 part 'order_production_store.g.dart';
 
-class OrderProductionStore = OrderProductionStoreBase with _$OrderProductionStore;
+class OrderProductionStore = OrderProductionStoreBase
+    with _$OrderProductionStore;
 
 abstract class OrderProductionStoreBase with Store {
-
-  final _getOrderDetailsWithoutEmployeeUsecase = Modular.get<GetOrderDetailsWithoutEmployeeUsecase>();
+  final _getOrderDetailsWithoutEmployeeUsecase =
+      Modular.get<GetOrderDetailsWithoutEmployeeUsecase>();
 
   @observable
   OrderEntity? order;
@@ -29,10 +30,10 @@ abstract class OrderProductionStoreBase with Store {
 
   @action
   init({required int orderID}) async {
-
     setLoading(true);
 
-    (OrderEntity?, ProposalEntity?,List<EmployeeUserEntity>) result = await _getOrderDetailsWithoutEmployeeUsecase.call(orderID: orderID);
+    (OrderEntity?, ProposalEntity?, List<EmployeeUserEntity>) result =
+        await _getOrderDetailsWithoutEmployeeUsecase.call(orderID: orderID);
 
     order = result.$1;
     proposal = result.$2;

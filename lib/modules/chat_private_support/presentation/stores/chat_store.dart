@@ -13,9 +13,10 @@ part 'chat_store.g.dart';
 class ChatStore = ChatStoreBase with _$ChatStore;
 
 abstract class ChatStoreBase with Store implements Disposable {
-
-  final SendMessagesSupportUseCase _sendMessagesUseCase = Modular.get<SendMessagesSupportUseCase>();
-  final GetMessagesSupportUseCase _getMessagesUseCase = Modular.get<GetMessagesSupportUseCase>();
+  final SendMessagesSupportUseCase _sendMessagesUseCase =
+      Modular.get<SendMessagesSupportUseCase>();
+  final GetMessagesSupportUseCase _getMessagesUseCase =
+      Modular.get<GetMessagesSupportUseCase>();
 
   final TextEditingController controller = TextEditingController();
   final FocusNode focus = FocusNode();
@@ -46,70 +47,68 @@ abstract class ChatStoreBase with Store implements Disposable {
 
   @action
   sendMessage(String value, int id) async {
+    if (value.trim().isEmpty) {
+      return;
+    }
 
-    if(value.trim().isEmpty) { return; }
-
-    await _sendMessagesUseCase.call(dto: MessageSupportDTO(userID: userID, message: value, suportID: id));
+    await _sendMessagesUseCase.call(
+        dto: MessageSupportDTO(userID: userID, message: value, suportID: id));
 
     await loadingMoreMessages(id: id);
 
     controller.clear();
-
   }
 
   @action
   init({required int id}) async {
-
     scroll.addListener(() {
-
-      if(scroll.position.pixels == scroll.position.maxScrollExtent && loading == false) {
+      if (scroll.position.pixels == scroll.position.maxScrollExtent &&
+          loading == false) {
         loadingMoreMessages(id: id);
       }
-
     });
 
     try {
-
       setLoading(true);
 
       List<MessageEntity> list = await _getMessagesUseCase.call(
-          supportID: id,
-          page: page, limit: limit);
+          supportID: id, page: page, limit: limit);
 
       if (list.isNotEmpty) {
         messages = list.asObservable();
       }
-    }catch(e) {} finally { setLoading(false); }
-
+    } catch (e) {
+    } finally {
+      setLoading(false);
+    }
   }
 
   @action
   loadingMoreMessages({required int id}) async {
     if (messages.length / limit == page) {
-
       setPagination();
 
-      List<MessageEntity> result = await _getMessagesUseCase.call(page: page, limit: limit,supportID: id);
+      List<MessageEntity> result = await _getMessagesUseCase.call(
+          page: page, limit: limit, supportID: id);
 
-      if(result.isNotEmpty) {
-
-        for(MessageEntity value in result) {
-          if(messages.contains(value) == false) { messages.add(value); }
+      if (result.isNotEmpty) {
+        for (MessageEntity value in result) {
+          if (messages.contains(value) == false) {
+            messages.add(value);
+          }
         }
       }
-
     } else {
+      List<MessageEntity> result = await _getMessagesUseCase.call(
+          page: page, limit: limit, supportID: id);
 
-      List<MessageEntity> result = await _getMessagesUseCase.call(page: page, limit: limit,supportID: id);
-
-      if(result.isNotEmpty) {
-
-        for(MessageEntity value in result) {
-          if(messages.contains(value) == false) { messages.add(value); }
+      if (result.isNotEmpty) {
+        for (MessageEntity value in result) {
+          if (messages.contains(value) == false) {
+            messages.add(value);
+          }
         }
-
       }
-
     }
   }
 

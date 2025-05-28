@@ -5,7 +5,6 @@ import '../../../../../../core/themes/color_theme.dart';
 import '../../../../../../core/themes/family_theme.dart';
 
 class ProporsalUploadButtonWidget extends StatelessWidget {
-
   final Function() onPressed;
 
   final String title = "Anexar orçamento";
@@ -23,9 +22,13 @@ class ProporsalUploadButtonWidget extends StatelessWidget {
             padding: const EdgeInsets.all(8.0),
             decoration: BoxDecoration(
                 color: ColorTheme.orange,
-                borderRadius: BorderRadius.circular(5.0)
-            ),
-            child: Center(child: Text(title,style: TextStyle(fontSize: 12,fontFamily: FamilyTheme.regular, color: Colors.white )))),
+                borderRadius: BorderRadius.circular(5.0)),
+            child: Center(
+                child: Text(title,
+                    style: TextStyle(
+                        fontSize: 12,
+                        fontFamily: FamilyTheme.regular,
+                        color: Colors.white)))),
       ),
     );
   }

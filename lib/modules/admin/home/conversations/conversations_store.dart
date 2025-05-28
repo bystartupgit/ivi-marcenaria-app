@@ -8,17 +8,19 @@ import '../../domain/usecases/get_order_conversation_usecase.dart';
 
 part 'conversations_store.g.dart';
 
-class  ConversationStore = ConversationStoreBase with _$ConversationStore;
+class ConversationStore = ConversationStoreBase with _$ConversationStore;
 
 abstract class ConversationStoreBase with Store {
-
-  final GetPrivateConversationUsecase _getPrivateConversationUsecase = Modular.get<GetPrivateConversationUsecase>();
-
-  @observable
-  ObservableList<ConversationOrderEntity> conversations = <ConversationOrderEntity>[].asObservable();
+  final GetPrivateConversationUsecase _getPrivateConversationUsecase =
+      Modular.get<GetPrivateConversationUsecase>();
 
   @observable
-  ObservableList<ConversationOrderEntity> conversationWithFilter = <ConversationOrderEntity>[].asObservable();
+  ObservableList<ConversationOrderEntity> conversations =
+      <ConversationOrderEntity>[].asObservable();
+
+  @observable
+  ObservableList<ConversationOrderEntity> conversationWithFilter =
+      <ConversationOrderEntity>[].asObservable();
 
   @observable
   bool loading = false;
@@ -43,10 +45,10 @@ abstract class ConversationStoreBase with Store {
 
   @action
   init() async {
-
     setloading(true);
 
-    List<ConversationOrderEntity> result = await _getPrivateConversationUsecase.call(page: page, limit: limit, title: name);
+    List<ConversationOrderEntity> result = await _getPrivateConversationUsecase
+        .call(page: page, limit: limit, title: name);
 
     conversations = result.asObservable();
 
@@ -55,10 +57,11 @@ abstract class ConversationStoreBase with Store {
 
   @computed
   List<ConversationOrderEntity> get conversationFiltered {
-
-    if(name.isEmpty) { return conversations; }
-    else { return conversationWithFilter; }
-
+    if (name.isEmpty) {
+      return conversations;
+    } else {
+      return conversationWithFilter;
+    }
   }
 
   @action
@@ -67,23 +70,25 @@ abstract class ConversationStoreBase with Store {
 
     if (debounce?.isActive ?? false) debounce?.cancel();
 
-    if(name.isEmpty) { return; }
+    if (name.isEmpty) {
+      return;
+    }
 
     debounce = Timer(const Duration(milliseconds: 500), () async {
-
       try {
-
         setloading(true);
 
         page = 1;
 
-        List<ConversationOrderEntity> result = await _getPrivateConversationUsecase.call(page: page, limit: limit, title: name);
+        List<ConversationOrderEntity> result =
+            await _getPrivateConversationUsecase.call(
+                page: page, limit: limit, title: name);
 
         conversationWithFilter = result.asObservable();
-
-      } catch(e) {}
-      finally { setloading(false); }
-
+      } catch (e) {
+      } finally {
+        setloading(false);
+      }
     });
   }
 }

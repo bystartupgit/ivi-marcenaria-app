@@ -16,7 +16,6 @@ class CustomerRegisterPage extends StatefulWidget {
 }
 
 class _CustomerRegisterPageState extends State<CustomerRegisterPage> {
-
   final CustomerRegisterStore store = Modular.get<CustomerRegisterStore>();
   final String title = "Criar conta";
 
@@ -38,8 +37,6 @@ class _CustomerRegisterPageState extends State<CustomerRegisterPage> {
                   Center(child: LoginTitleWidget(title: title)),
                   const SizedBox(height: 10.0),
                   CustomerCardPage(store: store),
-
-
                 ]),
           ),
         ),

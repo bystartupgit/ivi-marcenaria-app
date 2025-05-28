@@ -13,13 +13,16 @@ import 'package:open_file/open_file.dart';
 
 part 'order_waiting_details_store.g.dart';
 
-class OrderWaitingDetailsStore = OrderWaitingDetailsStoreBase with _$OrderWaitingDetailsStore;
+class OrderWaitingDetailsStore = OrderWaitingDetailsStoreBase
+    with _$OrderWaitingDetailsStore;
 
 abstract class OrderWaitingDetailsStoreBase with Store {
-
-  final DownloadMediaUsecase _downloadMediaUsecase = Modular.get<DownloadMediaUsecase>();
-  final GetOrderDetailsUsecase _getOrderDetailsUsecase = Modular.get<GetOrderDetailsUsecase>();
-  final CancelOrderUsecase _cancelOrderUsecase = Modular.get<CancelOrderUsecase>();
+  final DownloadMediaUsecase _downloadMediaUsecase =
+      Modular.get<DownloadMediaUsecase>();
+  final GetOrderDetailsUsecase _getOrderDetailsUsecase =
+      Modular.get<GetOrderDetailsUsecase>();
+  final CancelOrderUsecase _cancelOrderUsecase =
+      Modular.get<CancelOrderUsecase>();
 
   @observable
   bool showMore = false;
@@ -41,49 +44,50 @@ abstract class OrderWaitingDetailsStoreBase with Store {
 
   @action
   init({required int orderID}) async {
-
-    try{
-
+    try {
       setLoading(true);
 
       media = await _getOrderDetailsUsecase.call(orderID: orderID);
-      file = await _downloadMediaUsecase.call(name: media!.name, path: media!.path);
-
-    } catch(e) { print(e); } finally {(setLoading(false)); }
+      file = await _downloadMediaUsecase.call(
+          name: media!.name, path: media!.path);
+    } catch (e) {} finally {
+      (setLoading(false));
+    }
   }
 
   @action
   downloadMedia() async {
-
-    try{
-
+    try {
       setLoading(true);
 
-      if(file != null) {
+      if (file != null) {
         await OpenFile.open(file!.path);
       }
-
-    } catch(e) { print(e); } finally { (setLoading(false)); }
+    } catch (e) {} finally {
+      (setLoading(false));
+    }
   }
 
   @action
   cancelOrder({required OrderEntity order, required context}) async {
-
     try {
-
       setLoading(true);
 
       bool result = await _cancelOrderUsecase.call(orderID: order.id);
 
-      if(result) { Modular.get<OrderStore>().removeWaitingOrders(order); Modular.to.pop(); }
-      else {
+      if (result) {
+        Modular.get<OrderStore>().removeWaitingOrders(order);
+        Modular.to.pop();
+      } else {
         ShowErrorMessageUsecase(context: context)
-          .call(message: "Não foi possível cancelar a proposta"); }
-    } catch (e) { ShowErrorMessageUsecase(context: context)
-        .call(message: "Não foi possível cancelar a proposta. Tente novamente mais tarde"); }
-    finally { setLoading(false); }
-
-
+            .call(message: "Não foi possível cancelar a proposta");
+      }
+    } catch (e) {
+      ShowErrorMessageUsecase(context: context).call(
+          message:
+              "Não foi possível cancelar a proposta. Tente novamente mais tarde");
+    } finally {
+      setLoading(false);
+    }
   }
-
 }

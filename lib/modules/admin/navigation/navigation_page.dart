@@ -23,12 +23,9 @@ class NavigationPage extends StatefulWidget {
 }
 
 class _NavigationPageState extends State<NavigationPage> {
-
-
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   final NavigationStore store = Modular.get<NavigationStore>();
-
 
   @override
   void initState() {
@@ -39,21 +36,20 @@ class _NavigationPageState extends State<NavigationPage> {
   @override
   Widget build(BuildContext context) {
     return Observer(
-        builder: (_) =>
-            ModalProgressHUD(
+        builder: (_) => ModalProgressHUD(
               inAsyncCall: store.loading,
               child: Scaffold(
                   key: _scaffoldKey,
                   resizeToAvoidBottomInset: false,
                   endDrawer: NavigationDrawerWidget(store: store),
-                  appBar: AppBar(backgroundColor: ColorTheme.background,
-                      actions: [
-                        IconButton(onPressed: () =>
+                  appBar:
+                      AppBar(backgroundColor: ColorTheme.background, actions: [
+                    IconButton(
+                        onPressed: () =>
                             _scaffoldKey.currentState?.openEndDrawer(),
-                            icon: Icon(
-                                Icons.menu_rounded, color: ColorTheme.black2,
-                                size: 30))
-                      ]),
+                        icon: Icon(Icons.menu_rounded,
+                            color: ColorTheme.black2, size: 30))
+                  ]),
                   bottomNavigationBar: BottomNavigationBar(
                       type: BottomNavigationBarType.fixed,
                       items: [
@@ -62,44 +58,41 @@ class _NavigationPageState extends State<NavigationPage> {
                                 icon: AdminNavigationIcons.home,
                                 title: "Inicio",
                                 selected: store.index == 0,
-                                onPress: () => store.setIndex(0)), label: ""),
+                                onPress: () => store.setIndex(0)),
+                            label: ""),
                         BottomNavigationBarItem(
                             icon: NavigationButtonWidget(
                                 icon: AdminNavigationIcons.calculator,
                                 title: "Orçamentos",
                                 selected: store.index == 1,
-                                onPress: () => store.setIndex(1)), label: ""),
+                                onPress: () => store.setIndex(1)),
+                            label: ""),
                         BottomNavigationBarItem(
                             icon: NavigationButtonWidget(
                                 icon: AdminNavigationIcons.orders,
                                 title: "Pedidos",
                                 selected: store.index == 2,
-                                onPress: () => store.setIndex(2)), label: ""),
+                                onPress: () => store.setIndex(2)),
+                            label: ""),
                         BottomNavigationBarItem(
                             icon: NavigationButtonWidget(
                                 icon: AdminNavigationIcons.conclusion,
                                 title: "Concluídos",
                                 selected: store.index == 3,
-                                onPress: () => store.setIndex(3)), label: ""),
+                                onPress: () => store.setIndex(3)),
+                            label: ""),
                         BottomNavigationBarItem(
                             icon: NavigationButtonWidget(
                                 icon: AdminNavigationIcons.message,
                                 title: "Mensagens",
                                 selected: store.index == 4,
-                                onPress: () => store.setIndex(4)), label: ""),
+                                onPress: () => store.setIndex(4)),
+                            label: ""),
                       ]),
                   body: SizedBox(
-                      height: MediaQuery
-                          .of(context)
-                          .size
-                          .height - MediaQuery
-                          .of(context)
-                          .padding
-                          .bottom,
-                      width: MediaQuery
-                          .of(context)
-                          .size
-                          .width,
+                      height: MediaQuery.of(context).size.height -
+                          MediaQuery.of(context).padding.bottom,
+                      width: MediaQuery.of(context).size.width,
                       child: Column(
                         children: [
                           Expanded(
@@ -107,12 +100,12 @@ class _NavigationPageState extends State<NavigationPage> {
                                   controller: store.controller,
                                   physics: const NeverScrollableScrollPhysics(),
                                   children: const [
-                                    HomePage(),
-                                    ProposalPage(),
-                                    OrderPage(),
-                                    ConclusionPage(),
-                                    ConversationPage()
-                                  ])),
+                                HomePage(),
+                                ProposalPage(),
+                                OrderPage(),
+                                ConclusionPage(),
+                                ConversationPage()
+                              ])),
                         ],
                       ))),
             ));

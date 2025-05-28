@@ -38,8 +38,8 @@ class StarRating extends StatelessWidget {
     Icon chooseStar(int index) => (rating >= index + 1)
         ? full
         : (rating >= index + 0.5)
-        ? half
-        : empty;
+            ? half
+            : empty;
 
     return Row(
       mainAxisAlignment: mainAxisAlignment,

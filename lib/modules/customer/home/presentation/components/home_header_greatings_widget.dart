@@ -7,7 +7,6 @@ import '../../../../../core/themes/family_theme.dart';
 import '../../../data/routers/customer_routers.dart';
 
 class HomeHeaderGreatingsWidget extends StatelessWidget {
-
   final String title = "Novos projetos aguardam por você";
 
   const HomeHeaderGreatingsWidget({super.key});
@@ -18,7 +17,7 @@ class HomeHeaderGreatingsWidget extends StatelessWidget {
       onTap: () => Modular.to.pushNamed(CustomerRouters.serviceIntern),
       child: Container(
           width: MediaQuery.of(context).size.width,
-          padding: const EdgeInsets.symmetric(vertical: 5.0,horizontal: 5.0),
+          padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 5.0),
           decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(5.0),
               color: ColorTheme.orange),
@@ -27,10 +26,14 @@ class HomeHeaderGreatingsWidget extends StatelessWidget {
               mainAxisSize: MainAxisSize.max,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Icon(OnboardingIcons.plus, color: Colors.white,size: 20.0),
-                Text(title,style: TextStyle(color: Colors.white,fontFamily: FamilyTheme.medium,fontSize: 14))
-              ]
-          )),
+                const Icon(OnboardingIcons.plus,
+                    color: Colors.white, size: 20.0),
+                Text(title,
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontFamily: FamilyTheme.medium,
+                        fontSize: 14))
+              ])),
     );
   }
 }

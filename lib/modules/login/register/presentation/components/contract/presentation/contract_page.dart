@@ -16,7 +16,6 @@ class ContractPage extends StatefulWidget {
 }
 
 class _ContractPageState extends State<ContractPage> {
-
   final ContractStore store = Modular.get<ContractStore>();
 
   final String title = "Contrato de prestação de serviços";
@@ -40,17 +39,20 @@ class _ContractPageState extends State<ContractPage> {
           appBar: AppBar(backgroundColor: ColorTheme.background),
           body: Container(
             padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: store.loading? Center(child: CircularProgressIndicator(color: ColorTheme.orange)) :
-            Column(
-                mainAxisSize: MainAxisSize.max,
-                children: [
-                  LoginTitleWithDescriptionWidget(title: title, subtitle: subtitle),
-                  const SizedBox(height: 20.0),
-                  ContractViewWidget(contract: store.contract,
-                      download: store.download,
-                      onPressed: store.setCheck, check: store.check),
-                  SizedBox(height: MediaQuery.of(context).padding.bottom),
-                ]),
+            child: store.loading
+                ? Center(
+                    child: CircularProgressIndicator(color: ColorTheme.orange))
+                : Column(mainAxisSize: MainAxisSize.max, children: [
+                    LoginTitleWithDescriptionWidget(
+                        title: title, subtitle: subtitle),
+                    const SizedBox(height: 20.0),
+                    ContractViewWidget(
+                        contract: store.contract,
+                        download: store.download,
+                        onPressed: store.setCheck,
+                        check: store.check),
+                    SizedBox(height: MediaQuery.of(context).padding.bottom),
+                  ]),
           ),
         ),
       ),

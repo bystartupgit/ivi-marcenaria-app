@@ -1,8 +1,4 @@
-
-
 class RouterMapper {
-
-
   static String createProposal = "/CreateProposal/";
   static String paymentProposal = "/PaymentProposal/";
 
@@ -17,17 +13,15 @@ class RouterMapper {
   static String customerRegister = "/Customer/Register/";
   static String employee = "/Employee/";
 
-
   static String createProposalIntern = "CreateProposal/";
   static String paymentProposalIntern = "PaymentProposal/";
   static String choiceEmployeeDetailsIntern = "ChoiceEmployeeDetails/";
   static String waitingEmployeeDetailsIntern = "WaitingEmployeeDetails/";
   static String productionOrderDetailsIntern = "ProductionOrderDetails/";
   static String conclusionOrderDetailsIntern = "ConclusionOrderDetails/";
-  static String customerIntern  = "Customer/";
+  static String customerIntern = "Customer/";
   static String register = "Register/";
   static String employeeIntern = "Employee/";
   static String customerProfileIntern = "Profile/";
   static String customerProfileFormIntern = "Form/";
-
 }

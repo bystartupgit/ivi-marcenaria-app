@@ -11,7 +11,7 @@
 ///      fonts:
 ///       - asset: fonts/DetailsIcons.ttf
 ///
-/// 
+///
 ///
 import 'package:flutter/widgets.dart';
 
@@ -21,5 +21,6 @@ class DetailsIcons {
   static const _kFontFam = 'DetailsIcons';
   static const String? _kFontPkg = null;
 
-  static const IconData delete = IconData(0xe815, fontFamily: _kFontFam, fontPackage: _kFontPkg);
+  static const IconData delete =
+      IconData(0xe815, fontFamily: _kFontFam, fontPackage: _kFontPkg);
 }

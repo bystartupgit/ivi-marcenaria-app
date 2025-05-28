@@ -1,9 +1,6 @@
-
-
 import '../../../modules/login/domain/enums/user_type_enum.dart';
 
 abstract class ProfileEntity {
-
   final int id;
 
   final String name;
@@ -14,12 +11,16 @@ abstract class ProfileEntity {
   final String phone;
   final String? image;
 
-  ProfileEntity({required this.id,
-    required this.name, required this.email,
-    required this.type, required this.enable, required this.cpf,
-    required this.phone, required this.image });
+  ProfileEntity(
+      {required this.id,
+      required this.name,
+      required this.email,
+      required this.type,
+      required this.enable,
+      required this.cpf,
+      required this.phone,
+      required this.image});
 
-  ProfileEntity copyWith({ String? name, String? email, String? cpf, String? phone });
-
-
+  ProfileEntity copyWith(
+      {String? name, String? email, String? cpf, String? phone});
 }

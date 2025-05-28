@@ -18,8 +18,8 @@ class OrderPage extends StatefulWidget {
   State<OrderPage> createState() => _OrderPageState();
 }
 
-class _OrderPageState extends State<OrderPage> with AutomaticKeepAliveClientMixin {
-
+class _OrderPageState extends State<OrderPage>
+    with AutomaticKeepAliveClientMixin {
   final OrderStore store = Modular.get<OrderStore>();
 
   @override
@@ -35,28 +35,28 @@ class _OrderPageState extends State<OrderPage> with AutomaticKeepAliveClientMixi
   Widget build(BuildContext context) {
     super.build(context);
     return Observer(
-      builder: (context) => Scaffold(
-        backgroundColor: ColorTheme.background,
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: store.waitingEmployee.loading ? OrderLoadingWidget() : Column(
-              children: [
-                ProposalFilterWidget(onChanged: (value) {}),
-                const SizedBox(height: 20.0),
-                OrderSlideWidget(store: store),
-                const SizedBox(height: 20.0),
-                Expanded(
-                    child: PageView(
-                        physics: const NeverScrollableScrollPhysics(),
-                        controller: store.controller,
-                        children: [
-                          WaitingEmployeePage(store: store.waitingEmployee),
-                          ChoiceEmployeePage(store: store.choiceEmployee),
-                          ProductionPage(store: store.productionStore)
-                        ]
-                    ))
-              ]),
-        ),
-      ));
+        builder: (context) => Scaffold(
+              backgroundColor: ColorTheme.background,
+              body: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                child: store.waitingEmployee.loading
+                    ? OrderLoadingWidget()
+                    : Column(children: [
+                        ProposalFilterWidget(onChanged: (value) {}),
+                        const SizedBox(height: 20.0),
+                        OrderSlideWidget(store: store),
+                        const SizedBox(height: 20.0),
+                        Expanded(
+                            child: PageView(
+                                physics: const NeverScrollableScrollPhysics(),
+                                controller: store.controller,
+                                children: [
+                              WaitingEmployeePage(store: store.waitingEmployee),
+                              ChoiceEmployeePage(store: store.choiceEmployee),
+                              ProductionPage(store: store.productionStore)
+                            ]))
+                      ]),
+              ),
+            ));
   }
 }

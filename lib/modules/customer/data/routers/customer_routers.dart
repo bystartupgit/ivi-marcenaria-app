@@ -1,8 +1,4 @@
-
-
 class CustomerRouters {
-
-
   static String service = "/service/";
   static String serviceSuccess = "/service/success/";
   static String profile = "/Profile/";
@@ -11,7 +7,8 @@ class CustomerRouters {
   static String orderWaitingDetails = "/orderWaitingDetails/";
   static String orderProposalDetails = "/orderProposalDetails/";
   static String paymentProposal = "/orderProposalDetails/Payment/";
-  static String paymentSuccessProposal = "/orderProposalDetails/Payment/Success/";
+  static String paymentSuccessProposal =
+      "/orderProposalDetails/Payment/Success/";
 
   static String production = "/Production/";
   static String conclusion = "/Conclusion/";
@@ -28,6 +25,4 @@ class CustomerRouters {
 
   static String productionIntern = "Production/";
   static String conclusionIntern = "Conclusion/";
-
-
 }

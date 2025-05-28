@@ -18,9 +18,13 @@ class ProporsalIncompleteWidget extends StatelessWidget {
   final String title = "Detalhes do orçamento";
   final CreateProposalDTO dto;
 
-  const ProporsalIncompleteWidget({super.key, required this.store,
+  const ProporsalIncompleteWidget({
+    super.key,
+    required this.store,
     required this.moreDetails,
-    required this.proposal, required this.dto,});
+    required this.proposal,
+    required this.dto,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,45 +35,78 @@ class ProporsalIncompleteWidget extends StatelessWidget {
               color: ColorTheme.lightGray,
               borderRadius: const BorderRadius.all(Radius.circular(10.0))),
           padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 5.0),
-          child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Text(title,
+                style: TextStyle(
+                    color: ColorTheme.black3,
+                    fontFamily: FamilyTheme.light,
+                    fontSize: 15)),
+            const SizedBox(height: 10.0),
+            if (proposal != null)
+              ProporsalDownloadButtonWidget(
+                  onPressed: () => store.download(),
+                  title: "Download do Orçamento"),
+            Row(
+              spacing: 5.0,
               children: [
-                Text(title,style: TextStyle(color: ColorTheme.black3, fontFamily: FamilyTheme.light, fontSize: 15)),
-                const SizedBox(height: 10.0),
-                if(proposal != null) ProporsalDownloadButtonWidget(onPressed: () => store.download(),title: "Download do Orçamento"),
-                Row(
-                  spacing: 5.0,
-                  children: [
-                    Text("R\$${dto.fromTo == null? store.formatValues(dto.totalValue) : store.formatValues(dto.fromTo!)}",overflow: TextOverflow.ellipsis, style: TextStyle(fontFamily: FamilyTheme.bold, color: Colors.black, fontSize: 30)),
-                    if(dto.fromTo != null) Text("R\$${store.formatValues(dto.totalValue)}", style: TextStyle(fontFamily: FamilyTheme.regular, color: Colors.black, fontSize: 10,decoration: TextDecoration.lineThrough)),
-                  ],
-                ),
-                Row(
-                  spacing: 10.0,
+                Text(
+                    "R\$${dto.fromTo == null ? store.formatValues(dto.totalValue) : store.formatValues(dto.fromTo!)}",
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                        fontFamily: FamilyTheme.bold,
+                        color: Colors.black,
+                        fontSize: 30)),
+                if (dto.fromTo != null)
+                  Text("R\$${store.formatValues(dto.totalValue)}",
+                      style: TextStyle(
+                          fontFamily: FamilyTheme.regular,
+                          color: Colors.black,
+                          fontSize: 10,
+                          decoration: TextDecoration.lineThrough)),
+              ],
+            ),
+            Row(
+              spacing: 10.0,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Text("${dto.discountValue.toStringAsFixed(0)}% de desconto",
+                    style: TextStyle(
+                        fontFamily: FamilyTheme.bold,
+                        color: Colors.black,
+                        fontSize: 16)),
+                Text("A vista - PIX",
+                    style: TextStyle(
+                        fontFamily: FamilyTheme.regular,
+                        color: Colors.black,
+                        fontSize: 10)),
+              ],
+            ),
+            if (store.temporal == "SIM")
+              Text("Preço por tempo Limitado!",
+                  style: TextStyle(
+                      fontFamily: FamilyTheme.medium,
+                      color: Colors.red,
+                      fontSize: 12)),
+            Center(
+              child: InkWell(
+                onTap: moreDetails,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Text("${dto.discountValue.toStringAsFixed(0)}% de desconto", style: TextStyle(fontFamily: FamilyTheme.bold, color: Colors.black, fontSize: 16)),
-                    Text("A vista - PIX", style: TextStyle(fontFamily: FamilyTheme.regular, color: Colors.black, fontSize: 10)),
-                  ],
-                ),
-                if(store.temporal == "SIM") Text("Preço por tempo Limitado!", style: TextStyle(fontFamily: FamilyTheme.medium, color: Colors.red, fontSize: 12)),
-                Center(
-                  child: InkWell(
-                    onTap: moreDetails,
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text("Mais Details",style: TextStyle(
+                    Text("Mais Details",
+                        style: TextStyle(
                             color: ColorTheme.description,
                             fontSize: 10,
-                            fontFamily:FamilyTheme.medium)),
-                        Icon(Icons.keyboard_arrow_up_rounded,color: ColorTheme.description)
-                      ],
-                    ),
-                  ),
-                )
-              ])),
+                            fontFamily: FamilyTheme.medium)),
+                    Icon(Icons.keyboard_arrow_up_rounded,
+                        color: ColorTheme.description)
+                  ],
+                ),
+              ),
+            )
+          ])),
     );
   }
 }

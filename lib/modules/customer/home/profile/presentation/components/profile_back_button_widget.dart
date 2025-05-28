@@ -7,7 +7,8 @@ class ProfileBackButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return IconButton(onPressed: () => Modular.to.pop(),
+    return IconButton(
+        onPressed: () => Modular.to.pop(),
         icon: Icon(Icons.arrow_back_ios_new_rounded, color: ColorTheme.black2));
   }
 }

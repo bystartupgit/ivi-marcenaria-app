@@ -10,8 +10,8 @@ part 'order_store.g.dart';
 class OrderStore = OrderStoreBase with _$OrderStore;
 
 abstract class OrderStoreBase with Store {
-
-  final WaitingInterestiongStore waitingInteresting = Modular.get<WaitingInterestiongStore>();
+  final WaitingInterestiongStore waitingInteresting =
+      Modular.get<WaitingInterestiongStore>();
   final OrderPendingStore orderPendingStore = Modular.get<OrderPendingStore>();
 
   final PageController controller = PageController(initialPage: 0);
@@ -20,6 +20,8 @@ abstract class OrderStoreBase with Store {
   int index = 1;
 
   @action
-  setIndex(int value) { index = value; controller.jumpToPage(index - 1); }
-
+  setIndex(int value) {
+    index = value;
+    controller.jumpToPage(index - 1);
+  }
 }

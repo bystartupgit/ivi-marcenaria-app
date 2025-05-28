@@ -1,6 +1,3 @@
-
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/modules/customer/home/profile/external/profile_datasource.dart';
@@ -50,7 +47,6 @@ import 'orders/presentation/stores/waiting_interesting/stores/order_pending_stor
 import 'orders/presentation/stores/waiting_interesting/stores/waiting_interesting_store.dart';
 
 class EmployeeModule extends Module {
-
   @override
   void binds(i) {
     i.addSingleton(() => NavigationStore());
@@ -77,37 +73,50 @@ class EmployeeModule extends Module {
     i.add(() => FinishDetailsStore());
 
     i.add(() => GetUserUseCase(datasource: i.get<UserDataSource>()));
-    i.add(() => GetWaitingInterestOrdersUsecase(datasource: i.get<OrderDataSource>()));
+    i.add(() =>
+        GetWaitingInterestOrdersUsecase(datasource: i.get<OrderDataSource>()));
     i.add(() => GetOrderDetailsUsecase(datasource: i.get<OrderDataSource>()));
     i.add(() => AcceptProposalUsecase(datasource: i.get<OrderDataSource>()));
     i.add(() => DeclineProposalUsecase(datasource: i.get<OrderDataSource>()));
-    i.add(() => GetOrderNotStartedUsecase(datasource: i.get<OrderDataSource>()));
+    i.add(
+        () => GetOrderNotStartedUsecase(datasource: i.get<OrderDataSource>()));
     i.add(() => StartServiceUsecase(datasource: i.get<OrderDataSource>()));
-    i.add(() => GetServiceProductionUsecase(datasource: i.get<ServiceDataSource>()));
-    i.add(() => GetServiceFinishUsecase(datasource: i.get<ServiceDataSource>()));
+    i.add(() =>
+        GetServiceProductionUsecase(datasource: i.get<ServiceDataSource>()));
+    i.add(
+        () => GetServiceFinishUsecase(datasource: i.get<ServiceDataSource>()));
     i.add(() => FinishServiceUsecase(datasource: i.get<ServiceDataSource>()));
-    i.add(() => UploadProfilePhotoUsecase(datasource: i.get<ProfileDatasource>()));
+    i.add(() =>
+        UploadProfilePhotoUsecase(datasource: i.get<ProfileDatasource>()));
 
-    i.add(() => RegisterUserDocumentUsecase(datasource: i.get<UserDataSource>()));
+    i.add(
+        () => RegisterUserDocumentUsecase(datasource: i.get<UserDataSource>()));
     i.add(() => RegisterUserPhotoUsecase(datasource: i.get<UserDataSource>()));
-    i.add(() => UpdateProfileEmployeeUsecase(datasource: i.get<UserDataSource>()));
+    i.add(() =>
+        UpdateProfileEmployeeUsecase(datasource: i.get<UserDataSource>()));
 
     i.add(() => RegisterFcmTokenUsecase(datasource: i.get<UserDataSource>()));
-
   }
 
   @override
   void routes(r) {
     r.child(Modular.initialRoute, child: (context) => const NavigationPage());
     r.child(RouterMapper.profile, child: (context) => const ProfilePage());
-    r.child(RouterMapper.profileForm, child: (context) => const ProfileFormPage());
+    r.child(RouterMapper.profileForm,
+        child: (context) => const ProfileFormPage());
     r.child(RouterMapper.details, child: (context) => const DetailsPage());
 
-    r.child(RouterMapper.orderWaitingDetails, child: (context) => WaitingInterestingDetailsPage(orderID: r.args.data));
-    r.child(RouterMapper.orderWaitingSuccessDetails, child: (context) => const AprovalProposalSuccessPage());
-    r.child(RouterMapper.orderPendingDetails, child: (context) => OrderPedingDetailsPage(orderID: r.args.data));
+    r.child(RouterMapper.orderWaitingDetails,
+        child: (context) =>
+            WaitingInterestingDetailsPage(orderID: r.args.data));
+    r.child(RouterMapper.orderWaitingSuccessDetails,
+        child: (context) => const AprovalProposalSuccessPage());
+    r.child(RouterMapper.orderPendingDetails,
+        child: (context) => OrderPedingDetailsPage(orderID: r.args.data));
 
-    r.child(RouterMapper.productionDetails, child: (context) => ProductionDetailsPage(orderID: r.args.data));
-    r.child(RouterMapper.finishDetails, child: (context) => FinishDetailsPage(orderID: r.args.data));
+    r.child(RouterMapper.productionDetails,
+        child: (context) => ProductionDetailsPage(orderID: r.args.data));
+    r.child(RouterMapper.finishDetails,
+        child: (context) => FinishDetailsPage(orderID: r.args.data));
   }
 }

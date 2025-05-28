@@ -17,8 +17,8 @@ class ConversationPage extends StatefulWidget {
   State<ConversationPage> createState() => _ConversationPageState();
 }
 
-class _ConversationPageState extends State<ConversationPage> with AutomaticKeepAliveClientMixin {
-
+class _ConversationPageState extends State<ConversationPage>
+    with AutomaticKeepAliveClientMixin {
   final CoreStore core = Modular.get<CoreStore>();
   final ConversationStore store = Modular.get<ConversationStore>();
 
@@ -35,47 +35,59 @@ class _ConversationPageState extends State<ConversationPage> with AutomaticKeepA
   Widget build(BuildContext context) {
     super.build(context);
     return Observer(
-      builder: (context) =>
-          ModalProgressHUD(
-            inAsyncCall: store.loading,
-            child: Scaffold(
-              backgroundColor: ColorTheme.background,
-              body: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
-                child: store.conversations.isEmpty ? const ConversationEmptyWidget() : SingleChildScrollView(
-                  child: Column(
-                      children: [
-                        ConversationFilterWidget(onChanged: store.setFilter,
-                            name: core.profile?.name ?? "Olá, "),
-                        const SizedBox(height: 20),
-                        store.conversations.isEmpty ? const ConversationEmptyWidget() :
-                        Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            ListView.separated(
-                                shrinkWrap: true,
-                                physics: const NeverScrollableScrollPhysics(),
-                                itemBuilder: (context, index) =>
-                                    ConversationTileWidget(
-                                      onPressed: () =>
-                                          Modular.to.pushNamed(
-                                              "admin-suport/",
-                                              arguments:  store.conversations[index].order),
-                                      name: core.profile?.name ?? "",
-                                      order: store.conversations[index].order,
-                                      colaborations: store.conversations[index].users.length > 2 ?
-                                      "Cliente, Marcenaria e você" : "Cliente e você"),
-                                separatorBuilder: (context,
-                                    index) => const SizedBox(height: 10),
-                                itemCount: store.name.isNotEmpty ? store.conversationFiltered.length : store.conversations.length),
-                            const SizedBox(height: 10),
-                          ],
-                        )
-                      ]),
-                ),
-              ),
-            ),
+      builder: (context) => ModalProgressHUD(
+        inAsyncCall: store.loading,
+        child: Scaffold(
+          backgroundColor: ColorTheme.background,
+          body: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20.0),
+            child: store.conversations.isEmpty
+                ? const ConversationEmptyWidget()
+                : SingleChildScrollView(
+                    child: Column(children: [
+                      ConversationFilterWidget(
+                          onChanged: store.setFilter,
+                          name: core.profile?.name ?? "Olá, "),
+                      const SizedBox(height: 20),
+                      store.conversations.isEmpty
+                          ? const ConversationEmptyWidget()
+                          : Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                ListView.separated(
+                                    shrinkWrap: true,
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
+                                    itemBuilder: (context, index) =>
+                                        ConversationTileWidget(
+                                            onPressed: () => Modular.to.pushNamed(
+                                                "admin-suport/",
+                                                arguments: store
+                                                    .conversations[index]
+                                                    .order),
+                                            name: core.profile?.name ?? "",
+                                            order: store
+                                                .conversations[index].order,
+                                            colaborations: store
+                                                        .conversations[index]
+                                                        .users
+                                                        .length >
+                                                    2
+                                                ? "Cliente, Marcenaria e você"
+                                                : "Cliente e você"),
+                                    separatorBuilder: (context, index) =>
+                                        const SizedBox(height: 10),
+                                    itemCount: store.name.isNotEmpty
+                                        ? store.conversationFiltered.length
+                                        : store.conversations.length),
+                                const SizedBox(height: 10),
+                              ],
+                            )
+                    ]),
+                  ),
           ),
+        ),
+      ),
     );
   }
 }

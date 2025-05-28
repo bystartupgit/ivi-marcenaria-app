@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 import '../../../../core/themes/family_theme.dart';
 
 class ChatTextFieldWidget extends StatelessWidget {
-
   final TextEditingController controller;
   final ScrollController scroll;
   final FocusNode focus;
   final Function(String value) sendMessage;
 
-  const ChatTextFieldWidget({super.key,
-    required this.focus, required this.scroll,
-    required this.controller, required this.sendMessage});
+  const ChatTextFieldWidget(
+      {super.key,
+      required this.focus,
+      required this.scroll,
+      required this.controller,
+      required this.sendMessage});
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +23,8 @@ class ChatTextFieldWidget extends StatelessWidget {
         focusNode: focus,
         onSubmitted: sendMessage,
         controller: controller,
-        style: TextStyle(color: Colors.black,fontFamily: FamilyTheme.regular,fontSize: 12),
+        style: TextStyle(
+            color: Colors.black, fontFamily: FamilyTheme.regular, fontSize: 12),
         decoration: const InputDecoration(
             filled: true,
             fillColor: Color(0xFFF5F5F5),

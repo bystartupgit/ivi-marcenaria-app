@@ -4,13 +4,16 @@ import '../../../../../../core/themes/color_theme.dart';
 import '../../../../../../core/themes/family_theme.dart';
 
 class HomeCardWidget extends StatelessWidget {
-
   final Function() onPressed;
 
   final IconData icon;
   final String title;
 
-  const HomeCardWidget({super.key, required this.title, required this.icon, required this.onPressed});
+  const HomeCardWidget(
+      {super.key,
+      required this.title,
+      required this.icon,
+      required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +32,13 @@ class HomeCardWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(icon,size: 20),
-              Text(title,textAlign: TextAlign.center,
-                  style: TextStyle(fontFamily: FamilyTheme.medium,
-                      color: ColorTheme.black3, fontSize: 10))
+              Icon(icon, size: 20),
+              Text(title,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                      fontFamily: FamilyTheme.medium,
+                      color: ColorTheme.black3,
+                      fontSize: 10))
             ],
           ),
         ),

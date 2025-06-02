@@ -42,6 +42,9 @@ abstract class NavigationStoreBase with Store {
 
     setLoading(true);
 
+
+    print(auth);
+
     if (auth != null) {
       FirebaseMessaging messaging = FirebaseMessaging.instance;
 

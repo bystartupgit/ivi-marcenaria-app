@@ -177,7 +177,7 @@ class UserDataSource {
 
   Future<bool> registerFirebaseToken(
       {required String fcmToken, required int userID}) async {
-    Uri url = Uri.parse("$enviroment/api/usuarios/validateToken");
+    Uri url = Uri.parse("$enviroment/api/preferencias-notificacoes/registrar-token");
 
     String? token = Modular.get<CoreStore>().auth?.token;
 

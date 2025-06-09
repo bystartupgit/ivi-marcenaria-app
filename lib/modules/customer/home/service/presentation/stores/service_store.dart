@@ -180,7 +180,7 @@ abstract class ServiceStoreBase with Store {
     FilePickerResult? result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
         allowMultiple: false,
-        allowedExtensions: ['png', 'pdf']);
+        allowedExtensions: ['png', 'pdf', 'jpeg', 'jpg' ]);
 
     if (result != null) {
       File file = File(result.files.single.path!);

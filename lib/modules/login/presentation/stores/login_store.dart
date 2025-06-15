@@ -1,4 +1,7 @@
+import 'dart:convert';
+
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:marcenaria/core/data/store/core_store.dart';
 import 'package:marcenaria/modules/login/domain/entities/auth_entity.dart';
 import 'package:marcenaria/modules/login/domain/enums/user_type_enum.dart';
@@ -15,11 +18,13 @@ class LoginStore = LoginStoreBase with _$LoginStore;
 abstract class LoginStoreBase with Store {
   final LoginUseCase _loginUseCase = Modular.get<LoginUseCase>();
 
+  final String authKey = 'auth';
+
   @observable
   bool loading = false;
 
   @observable
-  bool isObscure = false;
+  bool isObscure = true;
 
   @action
   void changeObscure() => isObscure = !isObscure;
@@ -51,17 +56,14 @@ abstract class LoginStoreBase with Store {
 
       AuthEntity? auth = result.$2;
 
-      print(auth?.type);
-
       if (auth != null) {
         Modular.get<CoreStore>().setAuth(auth);
+        Modular.get<FlutterSecureStorage>().write(key: authKey, value: jsonEncode(auth.toMap()));
 
         return switch (auth.type) {
           UserType.cliente => Modular.to.navigate(RouterGlobalMapper.customer),
-          UserType.prestador =>
-            Modular.to.navigate(RouterGlobalMapper.employee),
-          UserType.administrador =>
-            Modular.to.navigate(RouterGlobalMapper.admin),
+          UserType.prestador => Modular.to.navigate(RouterGlobalMapper.employee),
+          UserType.administrador => Modular.to.navigate(RouterGlobalMapper.admin),
         };
       } else {
         ShowErrorMessageUsecase(context: context).call(message: result.$1);

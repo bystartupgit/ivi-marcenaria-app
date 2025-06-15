@@ -18,4 +18,18 @@ class AuthEntity {
       type: UserType.values.byName(map[AuthMapper.user][AuthMapper.type]),
       id: map[AuthMapper.user][AuthMapper.id],
       email: map[AuthMapper.user][AuthMapper.email]);
+
+  factory AuthEntity.fromLocal(Map<String,dynamic> map) =>
+      AuthEntity(
+          token: map[AuthMapper.token],
+          type: UserType.values.byName(map[AuthMapper.type]),
+          id: map[AuthMapper.id],
+          email: map[AuthMapper.email]);
+
+  toMap() => {
+    AuthMapper.token: token,
+    AuthMapper.id: id,
+    AuthMapper.email: email,
+    AuthMapper.type: type.name
+  };
 }

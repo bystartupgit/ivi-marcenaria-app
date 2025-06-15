@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:marcenaria/modules/admin/domain/usecases/get_user_usecase.dart';
 import 'package:marcenaria/modules/admin/domain/usecases/register_fcm_token_usecase.dart';
 import 'package:mobx/mobx.dart';
@@ -17,8 +18,8 @@ class NavigationStore = NavigationStoreBase with _$NavigationStore;
 
 abstract class NavigationStoreBase with Store {
   final GetUserUseCase _getUserUseCase = Modular.get<GetUserUseCase>();
-  final RegisterFcmTokenUsecase _registerFcmTokenUsecase =
-      Modular.get<RegisterFcmTokenUsecase>();
+  final FlutterSecureStorage storage = Modular.get<FlutterSecureStorage>();
+  final RegisterFcmTokenUsecase _registerFcmTokenUseCase = Modular.get<RegisterFcmTokenUsecase>();
 
   final PageController controller = PageController(initialPage: 0);
 
@@ -55,8 +56,19 @@ abstract class NavigationStoreBase with Store {
 
       Modular.get<CoreStore>().setProfile(profile);
 
-      _registerFcmTokenUsecase.call(userID: auth.id, fcmToken: token ?? "");
+      _registerFcmTokenUseCase.call(userID: auth.id, fcmToken: token ?? "");
     }
     setLoading(false);
+  }
+
+  @action
+  logout() {
+
+    AuthEntity? auth = Modular.get<CoreStore>().auth;
+
+    if(auth != null) {
+      _registerFcmTokenUseCase.call(userID: auth.id, fcmToken: "");
+      storage.deleteAll();
+    }
   }
 }

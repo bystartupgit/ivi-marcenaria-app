@@ -17,15 +17,18 @@ class _OnboardingPageState extends State<OnboardingPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-        body: Stack(
-      children: [
-        PageView(controller: store.controller, children: const [
-          OnboardingPageOneWidget(),
-          OnboardingPageTwoWidget(),
-          OnboardingPageThreeWidget()
-        ]),
-      ],
-    ));
+    return PopScope(
+      canPop: false,
+      child: Scaffold(
+          body: Stack(
+        children: [
+          PageView(controller: store.controller, children: const [
+            OnboardingPageOneWidget(),
+            OnboardingPageTwoWidget(),
+            OnboardingPageThreeWidget()
+          ]),
+        ],
+      )),
+    );
   }
 }

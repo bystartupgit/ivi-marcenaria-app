@@ -32,6 +32,12 @@ abstract class RegisterStoreBase with Store {
   }
 
   @observable
+  bool isObscure = true;
+
+  @action
+  void changeObscure() => isObscure = !isObscure;
+
+  @observable
   ObservableList<String> jobs = <String>[].asObservable();
 
   @action

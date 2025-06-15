@@ -41,6 +41,22 @@ mixin _$RegisterStore on RegisterStoreBase, Store {
     });
   }
 
+  late final _$isObscureAtom =
+      Atom(name: 'RegisterStoreBase.isObscure', context: context);
+
+  @override
+  bool get isObscure {
+    _$isObscureAtom.reportRead();
+    return super.isObscure;
+  }
+
+  @override
+  set isObscure(bool value) {
+    _$isObscureAtom.reportWrite(value, super.isObscure, () {
+      super.isObscure = value;
+    });
+  }
+
   late final _$jobsAtom =
       Atom(name: 'RegisterStoreBase.jobs', context: context);
 
@@ -170,6 +186,17 @@ mixin _$RegisterStore on RegisterStoreBase, Store {
   }
 
   @override
+  void changeObscure() {
+    final _$actionInfo = _$RegisterStoreBaseActionController.startAction(
+        name: 'RegisterStoreBase.changeObscure');
+    try {
+      return super.changeObscure();
+    } finally {
+      _$RegisterStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   dynamic addJob(String value) {
     final _$actionInfo = _$RegisterStoreBaseActionController.startAction(
         name: 'RegisterStoreBase.addJob');
@@ -251,6 +278,7 @@ mixin _$RegisterStore on RegisterStoreBase, Store {
     return '''
 index: ${index},
 loading: ${loading},
+isObscure: ${isObscure},
 jobs: ${jobs},
 email: ${email},
 name: ${name},

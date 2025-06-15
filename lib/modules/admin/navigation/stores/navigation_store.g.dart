@@ -75,6 +75,17 @@ mixin _$NavigationStore on NavigationStoreBase, Store {
   }
 
   @override
+  dynamic logout() {
+    final _$actionInfo = _$NavigationStoreBaseActionController.startAction(
+        name: 'NavigationStoreBase.logout');
+    try {
+      return super.logout();
+    } finally {
+      _$NavigationStoreBaseActionController.endAction(_$actionInfo);
+    }
+  }
+
+  @override
   String toString() {
     return '''
 index: ${index},

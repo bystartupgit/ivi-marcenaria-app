@@ -78,6 +78,7 @@ class NavigationDrawerWidget extends StatelessWidget {
             NavigationDrawerOptionWidget(
                 icon: DrawerIcons.exit,
                 onPressed: () {
+                  store.logout();
                   Navigator.pop(context);
                   Modular.to.pushReplacementNamed(RouterGlobalMapper.login);
                 },

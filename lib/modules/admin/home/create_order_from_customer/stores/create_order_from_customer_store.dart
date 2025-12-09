@@ -283,7 +283,7 @@ abstract class CreateOrderFromCustomerStoreBase with Store {
 
     if (orderTitle.isEmpty || orderDescription.isEmpty) {
       ShowErrorMessageUsecase(context: context)
-          .call(message: "Preencha título e descrição do pedido.");
+          .call(message: "Preencha título e descrição do Orçamento.");
       return;
     }
 
@@ -303,27 +303,17 @@ abstract class CreateOrderFromCustomerStoreBase with Store {
         whatsapp: whatsapp,
       );
 
-      print("🔵 [CREATE_ORDER_STORE] DTO criado: ${dto.toMap()}");
-      print("🔵 [CREATE_ORDER_STORE] Chamando usecase...");
+      
 
       (String, OrderEntity?) result = await _createOrderUsecase.call(dto: dto);
 
-      print("🔵 [CREATE_ORDER_STORE] Resultado recebido:");
-      print("🔵 [CREATE_ORDER_STORE] Mensagem: ${result.$1}");
-      print("🔵 [CREATE_ORDER_STORE] Pedido é null? ${result.$2 == null}");
+     
       if (result.$2 != null) {
-        print("🔵 [CREATE_ORDER_STORE] Pedido recebido - ID: ${result.$2!.id}, Título: ${result.$2!.title}");
       }
 
       if (result.$2 != null) {
         // Salva o pedido criado no store
         setCreatedOrder(result.$2);
-        print("✅ [CREATE_ORDER_STORE] Pedido salvo no store: ${result.$2!.id}");
-        
-        // Mostra mensagem de sucesso e aguarda o usuário fechar o dialog
-        await ShowSuccessMessageUsecase(context: context).call(
-          message: "Pedido criado com sucesso!",
-        );
         
         // Limpa o formulário após sucesso
         orderTitle = "";
@@ -331,12 +321,16 @@ abstract class CreateOrderFromCustomerStoreBase with Store {
         environments.clear();
         whatsapp = false;
         
-        // Após fechar o dialog, retorna para a NavigationPage sem sair do módulo
-        // Usa Modular.to.pop() para voltar à tela anterior (NavigationPage)
-        // Isso mantém o módulo admin ativo
-        if (context.mounted) {
-          Modular.to.pop();
-        }
+        // Mostra mensagem de sucesso com botão OK que navega para a tela principal
+        await ShowSuccessMessageUsecase(context: context).call(
+          message: "Orçamento criado com sucesso!",
+          onOkPressed: () {
+            // Navega para a tela principal (NavigationPage)
+            if (context.mounted) {
+              Modular.to.pop();
+            }
+          },
+        );
       } else {
         print("❌ [CREATE_ORDER_STORE] Erro ao criar pedido: ${result.$1}");
         ShowErrorMessageUsecase(context: context).call(message: result.$1);

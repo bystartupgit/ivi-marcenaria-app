@@ -42,9 +42,9 @@ class _CreateOrderFromCustomerPageState
       case 0:
         return "Selecionar Cliente";
       case 1:
-        return "Criar Pedido";
+        return "Criar Orçamento";
       default:
-        return "Criar Pedido";
+        return "Criar Orçamento";
     }
   }
 

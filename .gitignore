@@ -2,3 +2,8 @@ build/
 .dart_tool/
 *.apk
 *.zip
+
+# Arquivos de assinatura (nunca commitar!)
+android/key.properties
+*.jks
+*.keystore

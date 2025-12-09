@@ -6,7 +6,13 @@ class ShowSuccessMessageUsecase {
 
   ShowSuccessMessageUsecase({required this.context});
 
-  Future<void> call({required String message}) async => await showDialog(
+  Future<void> call({
+    required String message,
+    VoidCallback? onOkPressed,
+  }) async => await showDialog(
       context: context,
-      builder: (context) => PopUpSuccessWidget(content: message));
+      builder: (context) => PopUpSuccessWidget(
+        content: message,
+        onOkPressed: onOkPressed,
+      ));
 }

@@ -17,7 +17,7 @@ class OrderFormWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Dados do Pedido",
+              "Dados do Orçamento",
               style: TextStyle(
                 fontSize: 20,
                 fontFamily: FamilyTheme.medium,
@@ -28,7 +28,7 @@ class OrderFormWidget extends StatelessWidget {
             TextField(
               onChanged: store.setOrderTitle,
               decoration: InputDecoration(
-                labelText: "Título do Pedido *",
+                labelText: "Título do Orçamento *",
                 hintText: "Ex: Móveis para sala",
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5.0),
@@ -43,7 +43,7 @@ class OrderFormWidget extends StatelessWidget {
               maxLines: 4,
               decoration: InputDecoration(
                 labelText: "Descrição *",
-                hintText: "Descreva o pedido...",
+                hintText: "Descreva o orçamento...",
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(5.0),
                 ),
@@ -113,7 +113,7 @@ class OrderFormWidget extends StatelessWidget {
                         ),
                       )
                     : Text(
-                        "Criar Pedido e Continuar",
+                        "Criar Orçamento e Continuar",
                         style: TextStyle(
                           color: Colors.white,
                           fontSize: 16,

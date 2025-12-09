@@ -1,1 +1,0 @@
-/Users/andreysales/Marcenaria/build/app/intermediates/cxx/RelWithDebInfo/2uz621g5/obj/x86_64

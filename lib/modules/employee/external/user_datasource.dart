@@ -5,6 +5,7 @@ import 'package:dartssh2/dartssh2.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:http/http.dart';
 import 'package:marcenaria/core/data/store/core_store.dart';
+import 'package:marcenaria/modules/customer/data/exceptions/token_expiration_exception.dart';
 import 'package:marcenaria/modules/employee/domain/entities/employee_entity.dart';
 import 'package:marcenaria/modules/login/domain/enums/user_type_enum.dart';
 
@@ -34,10 +35,11 @@ class UserDataSource {
 
     Map<String, dynamic> data = jsonDecode(response.body);
 
-    print(response.body);
     if (response.statusCode == 200) {
       return EmployeeEntity.fromMap(data);
-    } else {
+    } else if(response.statusCode == 403) {
+      throw TokenExpiredException(message: 'Sessão expirada');
+    }  else {
       return null;
     }
   }

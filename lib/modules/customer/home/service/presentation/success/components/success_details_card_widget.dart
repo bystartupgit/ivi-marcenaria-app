@@ -16,7 +16,7 @@ class SuccessDetailsCardWidget extends StatelessWidget {
   final Function() changeMoreDetails;
 
   final String type;
-  final File serviceFile;
+  final File? serviceFile;
 
   final OrderEntity order;
 
@@ -79,7 +79,7 @@ class SuccessDetailsCardWidget extends StatelessWidget {
                         horizontal: 10.0, vertical: 5.0),
                     child: moreDetails
                         ? DetailsCompleteWidget(
-                            openFile: () => store.openFile(serviceFile),
+                            openFile: serviceFile == null ? null : () => store.openFile(serviceFile!),
                             file: serviceFile,
                             type: type,
                             order: order,

@@ -11,14 +11,14 @@ import 'package:modal_progress_hud_nsn/modal_progress_hud_nsn.dart';
 import '../../../../../../core/themes/color_theme.dart';
 import 'components/success_details_card_widget.dart';
 
-class ServiceSuccesPage extends StatelessWidget {
+class ServiceSuccessPage extends StatelessWidget {
   final ServiceSuccessStore store = Modular.get<ServiceSuccessStore>();
 
   final OrderEntity order;
   final String type;
-  final File serviceFile;
+  final File? serviceFile;
 
-  ServiceSuccesPage(
+  ServiceSuccessPage(
       {super.key,
       required this.order,
       required this.serviceFile,

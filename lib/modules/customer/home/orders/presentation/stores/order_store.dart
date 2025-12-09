@@ -84,10 +84,10 @@ abstract class OrderStoreBase with Store {
   }
 
   @action
-  removeWaitingOrders(OrderEntity order) => waitingOrders.remove(order);
+  removeWaitingOrders(OrderEntity order) => waitingOrders.removeWhere((e) => e.id == order.id);
 
   @action
-  addWaigintOrders(OrderEntity order) => waitingOrders.add(order);
+  addWaitingOrders(OrderEntity order) => waitingOrders.add(order);
 
   @action
   removeProposalOrders(int propostaID) =>

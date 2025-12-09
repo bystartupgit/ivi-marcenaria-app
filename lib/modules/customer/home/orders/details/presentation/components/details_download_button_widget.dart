@@ -5,7 +5,7 @@ import '../../../../../../../core/themes/color_theme.dart';
 import '../../../../../../../core/themes/family_theme.dart';
 
 class DetailsDownloadButtonWidget extends StatelessWidget {
-  final Function() download;
+  final Function()? download;
 
   final String image = "assets/login/svgs/download.svg";
   final String title = "Downloads Anexos";

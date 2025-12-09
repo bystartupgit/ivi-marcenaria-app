@@ -100,14 +100,6 @@ abstract class ServiceStoreBase with Store {
   @action
   saveService({required context}) async {
     try {
-      (String, bool) containsFile =
-          ServiceUtils.validateServiceDetails(serviceFile);
-
-      if (containsFile.$2 == false) {
-        ShowErrorMessageUsecase(context: context)
-            .call(message: containsFile.$1);
-        return;
-      }
 
       setLoading(true);
 
@@ -116,13 +108,18 @@ abstract class ServiceStoreBase with Store {
       if (result.$2 == null) {
         ShowErrorMessageUsecase(context: context).call(message: result.$1);
       } else {
-        ServiceAttachmentDTO documentAttachmentDTO =
-            attachmentDTO(orderID: result.$2?.id ?? 0);
 
-        await _uploadMediaServiceUseCase.call(
-            documentAttachmentDTO, serviceFile!);
+        (String, bool) containsFile = ServiceUtils.validateServiceDetails(serviceFile);
 
-        Modular.get<OrderStore>().addWaigintOrders(result.$2!);
+        ServiceAttachmentDTO documentAttachmentDTO = attachmentDTO(orderID: result.$2?.id ?? 0);
+
+        if(containsFile.$2) {
+          await _uploadMediaServiceUseCase.call(
+              documentAttachmentDTO, serviceFile!);
+        }
+
+
+        Modular.get<OrderStore>().addWaitingOrders(result.$2!);
         Modular.to.pushNamed(CustomerRouters.serviceSuccessIntern, arguments: [
           result.$2,
           serviceFile,

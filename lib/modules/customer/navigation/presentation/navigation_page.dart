@@ -31,7 +31,7 @@ class _NavigationPageState extends State<NavigationPage> {
 
   @override
   void initState() {
-    store.init().whenComplete(() {
+    store.init(context: context).whenComplete(() {
       order.init();
       proposal.init();
     });

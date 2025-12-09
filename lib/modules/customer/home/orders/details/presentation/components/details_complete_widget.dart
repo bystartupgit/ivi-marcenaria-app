@@ -16,7 +16,7 @@ class DetailsCompleteWidget extends StatelessWidget {
   final String type;
   final File? file;
   final Function() lessDetails;
-  final Function() openFile;
+  final Function()? openFile;
 
   const DetailsCompleteWidget(
       {super.key,

@@ -109,7 +109,7 @@ class CustomerModule extends Module {
     r.child(CustomerRouters.service, child: (context) => const ServicePage());
 
     r.child(CustomerRouters.serviceSuccess,
-        child: (context) => ServiceSuccesPage(
+        child: (context) => ServiceSuccessPage(
             order: r.args.data[0],
             serviceFile: r.args.data[1],
             type: r.args.data[2]));

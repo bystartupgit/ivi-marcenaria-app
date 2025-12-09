@@ -45,8 +45,8 @@ mixin _$NavigationStore on NavigationStoreBase, Store {
       AsyncAction('NavigationStoreBase.init', context: context);
 
   @override
-  Future init() {
-    return _$initAsyncAction.run(() => super.init());
+  Future init(dynamic context) {
+    return _$initAsyncAction.run(() => super.init(context));
   }
 
   late final _$NavigationStoreBaseActionController =

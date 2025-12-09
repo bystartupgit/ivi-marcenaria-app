@@ -7,6 +7,7 @@ import 'package:marcenaria/core/data/store/core_store.dart';
 import 'package:marcenaria/modules/customer/home/domain/entities/customer_entity.dart';
 
 import '../../../login/domain/enums/user_type_enum.dart';
+import '../../data/exceptions/token_expiration_exception.dart';
 
 class UserDataSource {
   final String enviroment = "http://92.112.177.245:5000";
@@ -32,6 +33,8 @@ class UserDataSource {
 
     if (response.statusCode == 200) {
       return CustomerEntity.fromMap(data);
+    } else if (response.statusCode == 403) {
+      throw TokenExpiredException(message: 'Sessão expirada');
     } else {
       return null;
     }

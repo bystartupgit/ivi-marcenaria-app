@@ -29,7 +29,7 @@ class _NavigationPageState extends State<NavigationPage> {
 
   @override
   void initState() {
-    store.init();
+    store.init(context);
     super.initState();
   }
 

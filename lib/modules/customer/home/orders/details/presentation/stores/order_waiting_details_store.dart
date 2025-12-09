@@ -75,6 +75,8 @@ abstract class OrderWaitingDetailsStoreBase with Store {
 
       bool result = await _cancelOrderUsecase.call(orderID: order.id);
 
+      print(result.toString());
+
       if (result) {
         Modular.get<OrderStore>().removeWaitingOrders(order);
         Modular.to.pop();

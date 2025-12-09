@@ -62,14 +62,14 @@ class _OrdersPageState extends State<OrdersPage>
                         message: OrderEmptyMapper.waitingEmployee,
                         details: (value) => Modular.to.pushNamed(
                             CustomerRouters.orderWaitingDetailsIntern,
-                            arguments: value)),
+                            arguments: value).whenComplete(() => setState(() {}))),
                     OrderProposalListWidget(
                         addNewOrders: () {},
                         orders: store.waitingApprovalOrdersFiltered,
                         message: OrderEmptyMapper.waitAproval,
                         details: (value) => Modular.to.pushNamed(
                             CustomerRouters.orderProposalDetailsIntern,
-                            arguments: value))
+                            arguments: value).whenComplete(() => setState(() {})))
                   ]))
                 ]),
         ),

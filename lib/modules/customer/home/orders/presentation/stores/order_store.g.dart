@@ -224,11 +224,11 @@ mixin _$OrderStore on OrderStoreBase, Store {
   }
 
   @override
-  dynamic addWaigintOrders(OrderEntity order) {
+  dynamic addWaitingOrders(OrderEntity order) {
     final _$actionInfo = _$OrderStoreBaseActionController.startAction(
-        name: 'OrderStoreBase.addWaigintOrders');
+        name: 'OrderStoreBase.addWaitingOrders');
     try {
-      return super.addWaigintOrders(order);
+      return super.addWaitingOrders(order);
     } finally {
       _$OrderStoreBaseActionController.endAction(_$actionInfo);
     }

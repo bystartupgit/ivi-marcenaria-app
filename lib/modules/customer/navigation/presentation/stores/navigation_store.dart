@@ -11,6 +11,9 @@ import 'package:marcenaria/modules/customer/home/domain/usecases/register_fcm_to
 import 'package:marcenaria/modules/login/domain/entities/auth_entity.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../../../../core/data/router_global_mapper.dart';
+import '../../../data/exceptions/token_expiration_exception.dart';
+
 part 'navigation_store.g.dart';
 
 class NavigationStore = NavigationStoreBase with _$NavigationStore;
@@ -38,7 +41,7 @@ abstract class NavigationStoreBase with Store {
   }
 
   @action
-  init() async {
+  init({required context}) async {
     AuthEntity? auth = Modular.get<CoreStore>().auth;
 
     setLoading(true);
@@ -50,13 +53,20 @@ abstract class NavigationStoreBase with Store {
           ? await messaging.getAPNSToken()
           : await messaging.getToken();
 
-      ProfileEntity? profile =
-          await _getUserUseCase.call(id: auth.id, type: auth.type);
+      try {
+        ProfileEntity? profile =
+        await _getUserUseCase.call(id: auth.id, type: auth.type);
 
-      Modular.get<CoreStore>().setProfile(profile);
-      Modular.get<CoreStore>().setPathImage(profile?.image);
+        Modular.get<CoreStore>().setProfile(profile);
+        Modular.get<CoreStore>().setPathImage(profile?.image);
 
-      _registerFcmTokenUseCase.call(userID: auth.id, fcmToken: token ?? "");
+        _registerFcmTokenUseCase.call(userID: auth.id, fcmToken: token ?? "");
+      } on TokenExpiredException catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message)));
+        _registerFcmTokenUseCase.call(userID: auth.id, fcmToken: "");
+        storage.deleteAll();
+        Modular.to.pushReplacementNamed(RouterGlobalMapper.login);
+      }
     }
 
     setLoading(false);

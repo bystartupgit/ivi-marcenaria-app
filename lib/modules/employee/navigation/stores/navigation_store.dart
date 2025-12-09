@@ -9,7 +9,9 @@ import 'package:marcenaria/modules/employee/domain/usecases/register_fcm_token_u
 import 'package:marcenaria/modules/login/domain/entities/auth_entity.dart';
 import 'package:mobx/mobx.dart';
 
+import '../../../../core/data/router_global_mapper.dart';
 import '../../../../core/data/store/core_store.dart';
+import '../../../customer/data/exceptions/token_expiration_exception.dart';
 import '../../domain/usecases/get_user_usecase.dart';
 
 part 'navigation_store.g.dart';
@@ -40,26 +42,34 @@ abstract class NavigationStoreBase with Store {
   }
 
   @action
-  init() async {
+  init(context) async {
     AuthEntity? auth = Modular.get<CoreStore>().auth;
 
     setLoading(true);
 
     if (auth != null) {
+
       FirebaseMessaging messaging = FirebaseMessaging.instance;
 
       String? token = Platform.isIOS
           ? await messaging.getAPNSToken()
           : await messaging.getToken();
 
-      EmployeeEntity? profile =
-          await _getUserUseCase.call(id: auth.id, type: auth.type);
+      try {
 
-      Modular.get<CoreStore>().setProfile(profile);
-      Modular.get<CoreStore>().setJobs(profile?.functions ?? []);
-      Modular.get<CoreStore>().setPathImage(profile?.image);
+        EmployeeEntity? profile = await _getUserUseCase.call(id: auth.id, type: auth.type);
 
-      _registerFcmTokenUseCase.call(userID: auth.id, fcmToken: token ?? "");
+        Modular.get<CoreStore>().setProfile(profile);
+        Modular.get<CoreStore>().setJobs(profile?.functions ?? []);
+        Modular.get<CoreStore>().setPathImage(profile?.image);
+
+        _registerFcmTokenUseCase.call(userID: auth.id, fcmToken: token ?? "");
+      } on TokenExpiredException catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.message)));
+        _registerFcmTokenUseCase.call(userID: auth.id, fcmToken: "");
+        storage.deleteAll();
+        Modular.to.pushReplacementNamed(RouterGlobalMapper.login);
+      }
     }
 
     setLoading(false);

@@ -3,10 +3,12 @@ import 'dart:developer';
 
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:http/http.dart';
+import 'package:marcenaria/modules/admin/domain/dtos/create_order_dto.dart';
 import 'package:marcenaria/modules/admin/domain/entities/order_entity.dart';
 import 'package:marcenaria/modules/admin/domain/entities/order_without_proposal_entity.dart';
 import 'package:marcenaria/modules/admin/domain/entities/proposal_entity.dart';
 import 'package:marcenaria/modules/admin/domain/mappers/order_mapper.dart';
+import 'package:marcenaria/modules/customer/home/orders/domain/mappers/order_dto_mapper.dart';
 
 import '../../../../core/data/store/core_store.dart';
 import '../domain/entities/employee_user_entity.dart';
@@ -385,6 +387,74 @@ class OrderDataSource {
       }
     } else {
       return [];
+    }
+  }
+
+  Future<(String, OrderEntity?)> createOrder(
+      {required CreateOrderDTO dto}) async {
+    Uri url = Uri.parse("$enviroment/api/pedidos/criar");
+
+    String? token = Modular.get<CoreStore>().auth?.token;
+
+    Map<String, String> headers = {
+      "Content-Type": "application/json",
+      "Authorization": "Bearer $token"
+    };
+
+    Map<String, dynamic> body = dto.toMap();
+
+    try {
+      print("🔵 [CREATE_ORDER] Criando pedido: ${jsonEncode(body)}");
+      log("Criando pedido: ${jsonEncode(body)}");
+      
+      Response response =
+          await post(url, headers: headers, body: jsonEncode(body))
+              .timeout(const Duration(seconds: 8));
+
+      print("🟢 [CREATE_ORDER] Resposta do servidor - Status: ${response.statusCode}");
+      print("🟢 [CREATE_ORDER] Resposta do servidor - Body: ${response.body}");
+      log("Resposta do servidor - Status: ${response.statusCode}");
+      log("Resposta do servidor - Body: ${response.body}");
+
+      dynamic data = jsonDecode(response.body);
+
+      String message = data[OrderDTOMapper.message] ?? "Erro desconhecido";
+
+      if (response.statusCode == 201) {
+        print("🟢 [CREATE_ORDER] Status 201 - Verificando campo 'pedido'");
+        print("🟢 [CREATE_ORDER] Dados completos da resposta: ${jsonEncode(data)}");
+        print("🟢 [CREATE_ORDER] Campo 'pedido' existe? ${data[OrderDTOMapper.order] != null}");
+        
+        if (data[OrderDTOMapper.order] != null) {
+          try {
+            print("🟢 [CREATE_ORDER] Dados do pedido recebido: ${jsonEncode(data[OrderDTOMapper.order])}");
+            OrderEntity order = OrderEntity.fromMap(data[OrderDTOMapper.order]);
+            print("✅ [CREATE_ORDER] Pedido criado com sucesso: ${order.id}");
+            print("✅ [CREATE_ORDER] Detalhes do pedido: id=${order.id}, titulo=${order.title}, status=${order.status}");
+            log("Pedido criado com sucesso: ${order.id}");
+            return (message, order);
+          } catch (e, stackTrace) {
+            print("❌ [CREATE_ORDER] Erro ao parsear pedido: $e");
+            print("❌ [CREATE_ORDER] Stack trace: $stackTrace");
+            log("Erro ao parsear pedido: $e");
+            return ("Erro ao processar resposta do servidor: $e", null);
+          }
+        } else {
+          print("❌ [CREATE_ORDER] Resposta não contém campo 'pedido'");
+          print("❌ [CREATE_ORDER] Chaves disponíveis na resposta: ${data.keys.toList()}");
+          log("Resposta não contém campo 'pedido'");
+          return ("Resposta do servidor inválida: campo 'pedido' não encontrado", null);
+        }
+      } else {
+        print("❌ [CREATE_ORDER] Erro na criação do pedido: $message");
+        print("❌ [CREATE_ORDER] Status code: ${response.statusCode}");
+        log("Erro na criação do pedido: $message");
+        return (message, null);
+      }
+    } catch (e) {
+      print("❌ [CREATE_ORDER] Exceção ao criar pedido: $e");
+      log("Exceção ao criar pedido: $e");
+      return ("Erro ao criar pedido: ${e.toString()}", null);
     }
   }
 }

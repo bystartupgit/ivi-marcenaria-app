@@ -24,4 +24,6 @@ class RouterMapper {
   static String employeeIntern = "Employee/";
   static String customerProfileIntern = "Profile/";
   static String customerProfileFormIntern = "Form/";
+  static String createOrderFromCustomer = "/CreateOrderFromCustomer/";
+  static String createOrderFromCustomerIntern = "CreateOrderFromCustomer/";
 }

@@ -37,6 +37,11 @@ class HomeProposalWidget extends StatelessWidget {
               fontFamily: FamilyTheme.medium)),
       const SizedBox(height: 5.0),
       HomeCardWidget(
+          title: "Criar Orçamento",
+          onPressed: () => Modular.to.pushNamed(RouterMapper.createOrderFromCustomerIntern),
+          icon: Icons.add_circle_outline),
+      const SizedBox(height: 10.0),
+      HomeCardWidget(
           title: waitingProporsal,
           onPressed: () {
             store.setIndex(1);

@@ -1,6 +1,7 @@
 import 'package:flutter_modular/flutter_modular.dart';
 import 'package:marcenaria/modules/admin/chat_support/chat_module.dart';
 import 'package:marcenaria/modules/admin/domain/mappers/router_mapper.dart';
+import 'package:marcenaria/modules/admin/domain/usecases/create_order_usecase.dart';
 import 'package:marcenaria/modules/admin/domain/usecases/create_proposal_usecase.dart';
 import 'package:marcenaria/modules/admin/domain/usecases/get_all_conclusion_orders_usecase.dart';
 import 'package:marcenaria/modules/admin/domain/usecases/get_all_production_orders_usecase.dart';
@@ -24,6 +25,8 @@ import 'package:marcenaria/modules/admin/external/user_datasource.dart';
 import 'package:marcenaria/modules/admin/home/conclusion/details/conclusion_details_page.dart';
 import 'package:marcenaria/modules/admin/home/conclusion/store/conclusion_store.dart';
 import 'package:marcenaria/modules/admin/home/conversations/conversations_store.dart';
+import 'package:marcenaria/modules/admin/home/create_order_from_customer/create_order_from_customer_page.dart';
+import 'package:marcenaria/modules/admin/home/create_order_from_customer/stores/create_order_from_customer_store.dart';
 import 'package:marcenaria/modules/admin/home/create_proposal/presentation/create_proposal_page.dart';
 import 'package:marcenaria/modules/admin/home/create_proposal/presentation/stores/create_proposal_store.dart';
 import 'package:marcenaria/modules/admin/home/customers/customer_page.dart';
@@ -77,6 +80,7 @@ class AdminModule extends Module {
     i.addSingleton(() => ConclusionStore());
     i.add(() => PaymentStore());
     i.add(() => CreateProposalStore());
+    i.add(() => CreateOrderFromCustomerStore());
     i.add(() => CustomerRegisterStore());
     i.add(() => ProfileStore());
 
@@ -108,6 +112,7 @@ class AdminModule extends Module {
     i.add(
         () => GetWaitingProposalUsecase(datasource: i.get<OrderDataSource>()));
     i.add(() => GetUserUseCase(datasource: i.get<UserDataSource>()));
+    i.add(() => CreateOrderUsecase(datasource: i.get<OrderDataSource>()));
     i.add(() => CreateProposalUsecase(datasource: i.get<ProposalDataSource>()));
     i.add(() =>
         GetOrderWaitingAppovalUsecase(datasource: i.get<OrderDataSource>()));
@@ -176,7 +181,9 @@ class AdminModule extends Module {
         child: (context) => ProfilePage(profile: r.args.data));
     r.child(RouterMapper.customerProfileForm,
         child: (context) => ProfileFormPage(profile: r.args.data));
-
+    r.child(RouterMapper.createOrderFromCustomer,
+        child: (context) => const CreateOrderFromCustomerPage());
+        
     r.module("/admin-suport/", module: ChatSuportModule());
   }
 }

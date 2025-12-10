@@ -13,6 +13,8 @@ import 'package:marcenaria/modules/login/domain/usecases/register_usecase.dart';
 import 'package:marcenaria/modules/login/domain/usecases/show_error_message_usecase.dart';
 import 'package:marcenaria/modules/login/domain/usecases/show_success_message_usecase.dart';
 import 'package:marcenaria/core/data/router_global_mapper.dart';
+import 'package:marcenaria/modules/admin/domain/mappers/router_mapper.dart';
+import 'package:marcenaria/modules/admin/home/create_order_from_customer/success/order_success_page.dart';
 import 'package:mobx/mobx.dart';
 
 part 'create_order_from_customer_store.g.dart';
@@ -321,24 +323,28 @@ abstract class CreateOrderFromCustomerStoreBase with Store {
         environments.clear();
         whatsapp = false;
         
-        // Mostra mensagem de sucesso com botão OK que navega para a tela principal
-        await ShowSuccessMessageUsecase(context: context).call(
-          message: "Orçamento criado com sucesso!",
-          onOkPressed: () {
-            // Navega para a tela principal (NavigationPage)
-            if (context.mounted) {
-              Modular.to.pop();
-            }
-          },
-        );
+        // Desabilita o loading antes de navegar
+        setLoading(false);
+        
+        // Aguarda um frame para garantir que a UI seja atualizada
+        await Future.delayed(const Duration(milliseconds: 100));
+        
+        // Navega para a página de sucesso usando Navigator diretamente
+        if (context.mounted) {
+          Navigator.of(context).push(
+            MaterialPageRoute(
+              builder: (context) => const OrderSuccessPage(),
+            ),
+          );
+        }
       } else {
         print("❌ [CREATE_ORDER_STORE] Erro ao criar pedido: ${result.$1}");
+        setLoading(false);
         ShowErrorMessageUsecase(context: context).call(message: result.$1);
       }
     } catch (e) {
-      ShowErrorMessageUsecase(context: context).call(message: e.toString());
-    } finally {
       setLoading(false);
+      ShowErrorMessageUsecase(context: context).call(message: e.toString());
     }
   }
 

@@ -27,6 +27,7 @@ import 'package:marcenaria/modules/admin/home/conclusion/store/conclusion_store.
 import 'package:marcenaria/modules/admin/home/conversations/conversations_store.dart';
 import 'package:marcenaria/modules/admin/home/create_order_from_customer/create_order_from_customer_page.dart';
 import 'package:marcenaria/modules/admin/home/create_order_from_customer/stores/create_order_from_customer_store.dart';
+import 'package:marcenaria/modules/admin/home/create_order_from_customer/success/order_success_page.dart';
 import 'package:marcenaria/modules/admin/home/create_proposal/presentation/create_proposal_page.dart';
 import 'package:marcenaria/modules/admin/home/create_proposal/presentation/stores/create_proposal_store.dart';
 import 'package:marcenaria/modules/admin/home/customers/customer_page.dart';
@@ -183,6 +184,8 @@ class AdminModule extends Module {
         child: (context) => ProfileFormPage(profile: r.args.data));
     r.child(RouterMapper.createOrderFromCustomer,
         child: (context) => const CreateOrderFromCustomerPage());
+    r.child(RouterMapper.orderSuccess,
+        child: (context) => const OrderSuccessPage());
         
     r.module("/admin-suport/", module: ChatSuportModule());
   }

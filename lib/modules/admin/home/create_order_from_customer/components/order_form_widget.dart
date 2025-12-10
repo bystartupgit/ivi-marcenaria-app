@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:marcenaria/core/themes/color_theme.dart';
 import 'package:marcenaria/core/themes/family_theme.dart';
+import 'package:marcenaria/modules/admin/home/create_order_from_customer/components/description_textfield_widget.dart';
+import 'package:marcenaria/modules/admin/home/create_order_from_customer/components/environment_card_widget.dart';
+import 'package:marcenaria/modules/admin/home/create_order_from_customer/components/title_textfield_widget.dart';
 import 'package:marcenaria/modules/admin/home/create_order_from_customer/stores/create_order_from_customer_store.dart';
 
 class OrderFormWidget extends StatelessWidget {
@@ -14,79 +17,67 @@ class OrderFormWidget extends StatelessWidget {
     return Observer(
       builder: (_) => SingleChildScrollView(
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             Text(
               "Dados do Orçamento",
               style: TextStyle(
-                fontSize: 20,
-                fontFamily: FamilyTheme.medium,
-                color: ColorTheme.black3,
+                fontSize: 10,
+                fontFamily: FamilyTheme.regular,
+                color: ColorTheme.title,
+              ),
+            ),
+            const SizedBox(height: 10.0),
+            Container(
+              padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+              decoration: BoxDecoration(
+                boxShadow: [
+                  BoxShadow(
+                    color: ColorTheme.gray,
+                    blurRadius: 4.0,
+                    offset: const Offset(0.0, 5.0),
+                  )
+                ],
+                color: const Color(0xFFECECEC),
+                borderRadius: BorderRadius.circular(10.0),
+              ),
+              child: Column(
+                children: [
+                  TitleTextFieldWidget(
+                    title: "Título do Orçamento *",
+                    description: "Ex: Móveis para sala",
+                    icon: Icons.title,
+                    onChanged: store.setOrderTitle,
+                  ),
+                  const SizedBox(height: 15.0),
+                  DescriptionTextFieldWidget(
+                    title: "Descrição *",
+                    description: "Descreva o orçamento...",
+                    icon: Icons.description,
+                    onChanged: store.setOrderDescription,
+                  ),
+                  const SizedBox(height: 15.0),
+                  CheckboxListTile(
+                    contentPadding: EdgeInsets.zero,
+                    title: Text(
+                      "Contato via WhatsApp",
+                      style: TextStyle(
+                        fontFamily: FamilyTheme.regular,
+                        fontSize: 14,
+                        color: ColorTheme.title,
+                      ),
+                    ),
+                    value: store.whatsapp,
+                    onChanged: store.setWhatsapp,
+                    activeColor: ColorTheme.orange,
+                  ),
+                  const SizedBox(height: 10.0),
+                ],
               ),
             ),
             const SizedBox(height: 20),
-            TextField(
-              onChanged: store.setOrderTitle,
-              decoration: InputDecoration(
-                labelText: "Título do Orçamento *",
-                hintText: "Ex: Móveis para sala",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                filled: true,
-                fillColor: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 15),
-            TextField(
-              onChanged: store.setOrderDescription,
-              maxLines: 4,
-              decoration: InputDecoration(
-                labelText: "Descrição *",
-                hintText: "Descreva o orçamento...",
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                filled: true,
-                fillColor: Colors.white,
-              ),
-            ),
-            const SizedBox(height: 15),
-            Text(
-              "Ambientes",
-              style: TextStyle(
-                fontSize: 14,
-                fontFamily: FamilyTheme.medium,
-                color: ColorTheme.black3,
-              ),
-            ),
-            const SizedBox(height: 10),
-            _EnvironmentInput(store: store),
-            const SizedBox(height: 10),
-            if (store.environments.isNotEmpty)
-              Wrap(
-                spacing: 8,
-                runSpacing: 8,
-                children: store.environments
-                    .map((env) => Chip(
-                          label: Text(env),
-                          onDeleted: () => store.removeEnvironment(env),
-                          deleteIcon: const Icon(Icons.close, size: 18),
-                        ))
-                    .toList(),
-              ),
-            const SizedBox(height: 15),
-            CheckboxListTile(
-              title: Text(
-                "Contato via WhatsApp",
-                style: TextStyle(
-                  fontFamily: FamilyTheme.regular,
-                ),
-              ),
-              value: store.whatsapp,
-              onChanged: store.setWhatsapp,
-              activeColor: ColorTheme.orange,
-            ),
+            EnvironmentCardWidget(store: store),
             const SizedBox(height: 30),
             SizedBox(
               width: double.infinity,
@@ -98,6 +89,8 @@ class OrderFormWidget extends StatelessWidget {
                     : () => store.createOrder(context),
                 style: ElevatedButton.styleFrom(
                   backgroundColor: ColorTheme.orange,
+                  elevation: 4.0,
+                  shadowColor: ColorTheme.gray,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5.0),
                   ),
@@ -125,84 +118,6 @@ class OrderFormWidget extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class _EnvironmentInput extends StatefulWidget {
-  final CreateOrderFromCustomerStore store;
-
-  const _EnvironmentInput({required this.store});
-
-  @override
-  State<_EnvironmentInput> createState() => _EnvironmentInputState();
-}
-
-class _EnvironmentInputState extends State<_EnvironmentInput> {
-  final TextEditingController _controller = TextEditingController();
-  final FocusNode _focusNode = FocusNode();
-
-  @override
-  void initState() {
-    super.initState();
-    // Adiciona listener para debug
-    _controller.addListener(() {
-    });
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    _focusNode.dispose();
-    super.dispose();
-  }
-
-  void _addEnvironment() {
-    // Força o foco a sair primeiro para garantir que o valor seja salvo
-    _focusNode.unfocus();
-    
-    // Usa um pequeno delay para garantir que o valor foi atualizado
-    Future.delayed(const Duration(milliseconds: 100), () {
-      // Captura o valor ANTES de qualquer outra operação
-      final value = _controller.text.trim();
-     
-      
-      if (value.isNotEmpty) {
-        widget.store.addEnvironment(value);
-        // Limpa o campo apenas após adicionar com sucesso
-        _controller.clear();
-      } else {
-      }
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: TextField(
-            controller: _controller,
-            focusNode: _focusNode,
-            decoration: InputDecoration(
-              hintText: "Ex: Sala, Cozinha, Quarto...",
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(5.0),
-              ),
-              filled: true,
-              fillColor: Colors.white,
-            ),
-            onSubmitted: (_) => _addEnvironment(),
-            onChanged: (value) {
-            },
-          ),
-        ),
-        const SizedBox(width: 10),
-        IconButton(
-          icon: Icon(Icons.add_circle, color: ColorTheme.orange),
-          onPressed: _addEnvironment,
-        ),
-      ],
     );
   }
 }

@@ -30,7 +30,7 @@ class DescriptionTextFieldWidget extends StatelessWidget {
       keyboardType: TextInputType.multiline,
       decoration: InputDecoration(
           suffixIcon: Icon(icon,
-              size: 15, color: const Color.fromRGBO(59, 59, 59, 0.5)),
+              size: 24, color: const Color.fromRGBO(59, 59, 59, 0.5)),
           floatingLabelBehavior: FloatingLabelBehavior.always,
           enabledBorder: UnderlineInputBorder(
               borderSide: BorderSide(color: ColorTheme.gray)),

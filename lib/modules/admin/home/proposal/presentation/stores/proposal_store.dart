@@ -33,7 +33,7 @@ abstract class ProposalStoreBase with Store {
   addPaginationWaiting() => pageWaiting++;
 
   @observable
-  int limit = 10;
+  int limit = 100;
 
   @observable
   String filter = "";

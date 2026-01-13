@@ -83,7 +83,7 @@ class CreateCustomerModalWidget extends StatelessWidget {
                       ),
                       const SizedBox(height: 15.0),
                       DocumentTextFieldWidget(
-                        title: "CPF",
+                        title: "CPF (Opcional)",
                         icon: LoginIcons.cpf,
                         onChanged: store.setCustomerCpf,
                       ),

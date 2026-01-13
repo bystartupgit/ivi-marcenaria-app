@@ -18,24 +18,34 @@ class LoginDataSource {
     Map<String, dynamic> body = dto.toMap();
 
     try {
+      print("🚀 [LoginDataSource] Enviando requisição para: $url");
+      print("📤 [LoginDataSource] Body JSON: ${jsonEncode(body)}");
+      
       Response response =
           await post(url, headers: headers, body: jsonEncode(body))
               .timeout(const Duration(seconds: 8));
 
+      print("📥 [LoginDataSource] Status Code: ${response.statusCode}");
+      print("📥 [LoginDataSource] Response Body: ${response.body}");
+      
       final String message = jsonDecode(response.body)["message"];
 
       if (response.statusCode == 201) {
         final data = jsonDecode(response.body);
 
         if (message == AuthMapper.success) {
+          print("✅ [LoginDataSource] Registro realizado com sucesso!");
           return ("", true);
         } else {
+          print("❌ [LoginDataSource] Erro na mensagem: $message");
           return (message, false);
         }
       } else {
+        print("❌ [LoginDataSource] Erro HTTP ${response.statusCode}: $message");
         return (message, false);
       }
     } catch (e) {
+      print("💥 [LoginDataSource] Exceção capturada: $e");
       return (
         "Não foi possível realizar o cadastro. Tente novamente mais tarde",
         false

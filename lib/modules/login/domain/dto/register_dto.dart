@@ -15,18 +15,28 @@ class RegisterDTO {
       {required this.name,
       required this.email,
       required this.password,
-      required this.cpf,
+      this.cpf = "",
       required this.phone,
       required this.type,
       this.functions = const []});
 
-  toMap() => {
-        RegisterParamsMapper.name: name,
-        RegisterParamsMapper.email: email,
-        RegisterParamsMapper.password: password,
-        RegisterParamsMapper.cpf: cpf.replaceAll(".", "").replaceAll("-", ""),
-        RegisterParamsMapper.phone: phone,
-        RegisterParamsMapper.type: type.name,
-        RegisterParamsMapper.functions: functions
-      };
+  toMap() {
+    //Solução temporaria para o backend aceitar CPF opcional, acerta com a gestão.
+    // Se CPF estiver vazio, envia sequência de zeros para o banco aceitar
+    // TODO: Solução temporária - ajustar backend para aceitar CPF opcional
+    String cpfValue = cpf.isEmpty 
+        ? "00000000000" 
+        : cpf.replaceAll(".", "").replaceAll("-", "");
+    
+    Map<String, dynamic> map = {
+      RegisterParamsMapper.name: name,
+      RegisterParamsMapper.email: email,
+      RegisterParamsMapper.password: password,
+      RegisterParamsMapper.cpf: cpfValue,
+      RegisterParamsMapper.phone: phone,
+      RegisterParamsMapper.type: type.name,
+      RegisterParamsMapper.functions: functions
+    };  
+    return map;
+  }
 }
